@@ -1,0 +1,87 @@
+{
+  "voice": "af_heart",
+  "lang": "en-us",
+  "scenes": [
+    {
+      "id": "intro",
+      "sentences": [
+        { "show": "People are quietly replacing their phone keyboards with their voice." },
+        { "show": "Apps like Wispr Flow turn rambling speech into clean, ready-to-send text, in any app.", "say": "Apps like Whisper Flow turn rambling speech into clean, ready-to-send text, in any app." },
+        { "show": "Here's who leads on iPhone, why people get hooked, and how a Swedish version could run entirely on the phone." }
+      ]
+    },
+    {
+      "id": "how",
+      "sentences": [
+        { "show": "First, the plumbing: iOS won't let a keyboard use the microphone.", "say": "First, the plumbing: i O S won't let a keyboard use the microphone." },
+        { "show": "So every voice keyboard is two parts: a thin keyboard, and a main app that records in the background." },
+        { "show": "Starting a session means a trip to that app, and since iOS 26.4, users must swipe back by hand.", "say": "Starting a session means a trip to that app, and since i O S twenty-six point four, users must swipe back by hand." }
+      ]
+    },
+    {
+      "id": "acclaimed",
+      "sentences": [
+        { "show": "So who's winning?" },
+        { "show": "Wispr Flow is the reference, with 4.8 stars from about seventeen thousand ratings.", "say": "Whisper Flow is the reference, with four point eight stars from about seventeen thousand ratings." },
+        { "show": "9to5Mac called Aqua Voice the best dictation app its reviewer had ever used, and Make Tech Easier called Willow the most accurate.", "say": "Nine to Five Mac called Aqua Voice the best dictation app its reviewer had ever used, and Make Tech Easier called Willow the most accurate." },
+        { "show": "Superwhisper, Typeless and Monologue round out the field, nearly all of them in the cloud." }
+      ]
+    },
+    {
+      "id": "interesting",
+      "sentences": [
+        { "show": "The most interesting ideas come from the edges." },
+        { "show": "Aqua lets you edit by voice: make this shorter, translate it, spell a name." },
+        { "show": "Typeless keeps only what you meant when you change your mind mid-sentence." },
+        { "show": "And small apps like Outspoken and KeySay already run transcription and AI cleanup entirely on the phone.", "say": "And small apps like Outspoken and Key Say already run transcription and A I cleanup entirely on the phone." }
+      ]
+    },
+    {
+      "id": "leverage",
+      "sentences": [
+        { "show": "Ranked by leverage, one feature dominates: text you don't have to edit." },
+        { "show": "Punctuation, filler words, self-corrections and lists, all handled." },
+        { "show": "Then come one-tap capture anywhere, getting names and jargon right, speed you can feel, and editing by voice." }
+      ]
+    },
+    {
+      "id": "hooked",
+      "sentences": [
+        { "show": "Why do people get hooked?" },
+        { "show": "Speaking is about three times faster than thumb-typing." },
+        { "show": "Wispr says eighty-nine percent of its messages go out without an edit, sent in about half a second.", "say": "Whisper says eighty-nine percent of its messages go out without an edit, sent in about half a second." },
+        { "show": "People stop proofreading and start thinking out loud." },
+        { "show": "Wispr reports seventy percent of users still active after a year.", "say": "Whisper reports seventy percent of users still active after a year." },
+        { "show": "Trust turns into habit." }
+      ]
+    },
+    {
+      "id": "local",
+      "sentences": [
+        { "show": "Can it all run locally? Yes, but not inside the keyboard." },
+        { "show": "iOS kills a keyboard at around seventy megabytes, so the models run in the main app.", "say": "i O S kills a keyboard at around seventy megabytes, so the models run in the main app." },
+        { "show": "There, the GPU is off limits, and from iOS 27 the Neural Engine needs a special entitlement.", "say": "There, the G P U is off limits, and from i O S twenty-seven the Neural Engine needs a special entitlement." },
+        { "show": "On the CPU, Gemma 4 E2B writes about twenty-five tokens a second, so a full rewrite takes about four seconds.", "say": "On the C P U, Gemma four E two B writes about twenty-five tokens a second, so a full rewrite takes about four seconds." },
+        { "show": "Stream it into the text field instead, and words appear in about half a second." }
+      ]
+    },
+    {
+      "id": "swedish",
+      "sentences": [
+        { "show": "And Swedish is wide open." },
+        { "show": "Apple's Swedish dictation adds no punctuation, and its new AI dictation in iOS 27 is English only.", "say": "Apple's Swedish dictation adds no punctuation, and its new A I dictation in i O S twenty-seven is English only." },
+        { "show": "Klang's Pianissimo model reaches about four and a half percent word error rate in Swedish, on the device." },
+        { "show": "Add cleanup that understands Swedish fillers, split compounds and number formats, and you have something nobody offers today." }
+      ]
+    },
+    {
+      "id": "plan",
+      "sentences": [
+        { "show": "The plan: nail edit-free Swedish text, make sessions painless, and learn each user's words." },
+        { "show": "Then add voice editing and translation." },
+        { "show": "Track one number above all: how often a message goes out untouched." },
+        { "show": "Talk, don't type. In Swedish. With nothing leaving the phone." }
+      ]
+    }
+  ]
+}

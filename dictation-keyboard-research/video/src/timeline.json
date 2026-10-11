@@ -1,0 +1,580 @@
+{
+ "fps": 30,
+ "durationInFrames": 5400,
+ "seconds": 180.0,
+ "voice": "af_heart",
+ "speed": 1.023,
+ "lastSpeechEnd": 176.531,
+ "scenes": [
+  {
+   "id": "intro",
+   "start": 0.0,
+   "sentences": [
+    {
+     "start": 1.2,
+     "end": 4.627,
+     "text": "People are quietly replacing their phone keyboards with their voice."
+    },
+    {
+     "start": 4.867,
+     "end": 10.081,
+     "text": "Apps like Wispr Flow turn rambling speech into clean, ready-to-send text, in any app."
+    },
+    {
+     "start": 10.321,
+     "end": 16.702,
+     "text": "Here's who leads on iPhone, why people get hooked, and how a Swedish version could run entirely on the phone."
+    }
+   ],
+   "end": 17.352
+  },
+  {
+   "id": "how",
+   "start": 17.352,
+   "sentences": [
+    {
+     "start": 17.352,
+     "end": 21.229,
+     "text": "First, the plumbing: iOS won't let a keyboard use the microphone."
+    },
+    {
+     "start": 21.469,
+     "end": 27.344,
+     "text": "So every voice keyboard is two parts: a thin keyboard, and a main app that records in the background."
+    },
+    {
+     "start": 27.584,
+     "end": 34.423,
+     "text": "Starting a session means a trip to that app, and since iOS 26.4, users must swipe back by hand."
+    }
+   ],
+   "end": 35.073
+  },
+  {
+   "id": "acclaimed",
+   "start": 35.073,
+   "sentences": [
+    {
+     "start": 35.073,
+     "end": 35.946,
+     "text": "So who's winning?"
+    },
+    {
+     "start": 36.186,
+     "end": 41.487,
+     "text": "Wispr Flow is the reference, with 4.8 stars from about seventeen thousand ratings."
+    },
+    {
+     "start": 41.727,
+     "end": 50.101,
+     "text": "9to5Mac called Aqua Voice the best dictation app its reviewer had ever used, and Make Tech Easier called Willow the most accurate."
+    },
+    {
+     "start": 50.341,
+     "end": 55.28,
+     "text": "Superwhisper, Typeless and Monologue round out the field, nearly all of them in the cloud."
+    }
+   ],
+   "end": 55.93
+  },
+  {
+   "id": "interesting",
+   "start": 55.93,
+   "sentences": [
+    {
+     "start": 55.93,
+     "end": 58.464,
+     "text": "The most interesting ideas come from the edges."
+    },
+    {
+     "start": 58.704,
+     "end": 62.812,
+     "text": "Aqua lets you edit by voice: make this shorter, translate it, spell a name."
+    },
+    {
+     "start": 63.052,
+     "end": 66.957,
+     "text": "Typeless keeps only what you meant when you change your mind mid-sentence."
+    },
+    {
+     "start": 67.197,
+     "end": 73.699,
+     "text": "And small apps like Outspoken and KeySay already run transcription and AI cleanup entirely on the phone."
+    }
+   ],
+   "end": 74.349
+  },
+  {
+   "id": "leverage",
+   "start": 74.349,
+   "sentences": [
+    {
+     "start": 74.349,
+     "end": 78.458,
+     "text": "Ranked by leverage, one feature dominates: text you don't have to edit."
+    },
+    {
+     "start": 78.698,
+     "end": 82.583,
+     "text": "Punctuation, filler words, self-corrections and lists, all handled."
+    },
+    {
+     "start": 82.823,
+     "end": 89.132,
+     "text": "Then come one-tap capture anywhere, getting names and jargon right, speed you can feel, and editing by voice."
+    }
+   ],
+   "end": 89.782
+  },
+  {
+   "id": "hooked",
+   "start": 89.782,
+   "sentences": [
+    {
+     "start": 89.782,
+     "end": 91.101,
+     "text": "Why do people get hooked?"
+    },
+    {
+     "start": 91.341,
+     "end": 94.172,
+     "text": "Speaking is about three times faster than thumb-typing."
+    },
+    {
+     "start": 94.412,
+     "end": 100.091,
+     "text": "Wispr says eighty-nine percent of its messages go out without an edit, sent in about half a second."
+    },
+    {
+     "start": 100.331,
+     "end": 103.05,
+     "text": "People stop proofreading and start thinking out loud."
+    },
+    {
+     "start": 103.29,
+     "end": 106.931,
+     "text": "Wispr reports seventy percent of users still active after a year."
+    },
+    {
+     "start": 107.171,
+     "end": 108.513,
+     "text": "Trust turns into habit."
+    }
+   ],
+   "end": 109.163
+  },
+  {
+   "id": "local",
+   "start": 109.163,
+   "sentences": [
+    {
+     "start": 109.163,
+     "end": 112.526,
+     "text": "Can it all run locally? Yes, but not inside the keyboard."
+    },
+    {
+     "start": 112.766,
+     "end": 117.724,
+     "text": "iOS kills a keyboard at around seventy megabytes, so the models run in the main app."
+    },
+    {
+     "start": 117.964,
+     "end": 124.899,
+     "text": "There, the GPU is off limits, and from iOS 27 the Neural Engine needs a special entitlement."
+    },
+    {
+     "start": 125.139,
+     "end": 132.624,
+     "text": "On the CPU, Gemma 4 E2B writes about twenty-five tokens a second, so a full rewrite takes about four seconds."
+    },
+    {
+     "start": 132.864,
+     "end": 136.993,
+     "text": "Stream it into the text field instead, and words appear in about half a second."
+    }
+   ],
+   "end": 137.643
+  },
+  {
+   "id": "swedish",
+   "start": 137.643,
+   "sentences": [
+    {
+     "start": 137.643,
+     "end": 139.131,
+     "text": "And Swedish is wide open."
+    },
+    {
+     "start": 139.371,
+     "end": 146.813,
+     "text": "Apple's Swedish dictation adds no punctuation, and its new AI dictation in iOS 27 is English only."
+    },
+    {
+     "start": 147.053,
+     "end": 153.268,
+     "text": "Klang's Pianissimo model reaches about four and a half percent word error rate in Swedish, on the device."
+    },
+    {
+     "start": 153.508,
+     "end": 160.576,
+     "text": "Add cleanup that understands Swedish fillers, split compounds and number formats, and you have something nobody offers today."
+    }
+   ],
+   "end": 161.226
+  },
+  {
+   "id": "plan",
+   "start": 161.226,
+   "sentences": [
+    {
+     "start": 161.226,
+     "end": 166.68,
+     "text": "The plan: nail edit-free Swedish text, make sessions painless, and learn each user's words."
+    },
+    {
+     "start": 166.92,
+     "end": 168.982,
+     "text": "Then add voice editing and translation."
+    },
+    {
+     "start": 169.222,
+     "end": 173.097,
+     "text": "Track one number above all: how often a message goes out untouched."
+    },
+    {
+     "start": 173.337,
+     "end": 176.531,
+     "text": "Talk, don't type. In Swedish. With nothing leaving the phone."
+    }
+   ],
+   "end": 180.0
+  }
+ ],
+ "captions": [
+  {
+   "start": 1.2,
+   "end": 2.96,
+   "text": "People are quietly replacing their"
+  },
+  {
+   "start": 2.96,
+   "end": 4.627,
+   "text": "phone keyboards with their voice."
+  },
+  {
+   "start": 4.867,
+   "end": 7.697,
+   "text": "Apps like Wispr Flow turn rambling speech into clean,"
+  },
+  {
+   "start": 7.697,
+   "end": 10.081,
+   "text": "ready-to-send text, in any app."
+  },
+  {
+   "start": 10.321,
+   "end": 13.191,
+   "text": "Here's who leads on iPhone, why people get hooked,"
+  },
+  {
+   "start": 13.191,
+   "end": 16.702,
+   "text": "and how a Swedish version could run entirely on the phone."
+  },
+  {
+   "start": 17.352,
+   "end": 18.562,
+   "text": "First, the plumbing:"
+  },
+  {
+   "start": 18.562,
+   "end": 21.229,
+   "text": "iOS won't let a keyboard use the microphone."
+  },
+  {
+   "start": 21.469,
+   "end": 25.039,
+   "text": "So every voice keyboard is two parts: a thin keyboard,"
+  },
+  {
+   "start": 25.039,
+   "end": 27.344,
+   "text": "and a main app that records in the background."
+  },
+  {
+   "start": 27.584,
+   "end": 30.782,
+   "text": "Starting a session means a trip to that app,"
+  },
+  {
+   "start": 30.782,
+   "end": 34.423,
+   "text": "and since iOS 26.4, users must swipe back by hand."
+  },
+  {
+   "start": 35.073,
+   "end": 35.946,
+   "text": "So who's winning?"
+  },
+  {
+   "start": 36.186,
+   "end": 37.946,
+   "text": "Wispr Flow is the reference,"
+  },
+  {
+   "start": 37.946,
+   "end": 41.487,
+   "text": "with 4.8 stars from about seventeen thousand ratings."
+  },
+  {
+   "start": 41.727,
+   "end": 44.587,
+   "text": "9to5Mac called Aqua Voice the best dictation"
+  },
+  {
+   "start": 44.587,
+   "end": 46.997,
+   "text": "app its reviewer had ever used,"
+  },
+  {
+   "start": 46.997,
+   "end": 50.101,
+   "text": "and Make Tech Easier called Willow the most accurate."
+  },
+  {
+   "start": 50.341,
+   "end": 53.591,
+   "text": "Superwhisper, Typeless and Monologue round out the field,"
+  },
+  {
+   "start": 53.591,
+   "end": 55.28,
+   "text": "nearly all of them in the cloud."
+  },
+  {
+   "start": 55.93,
+   "end": 58.464,
+   "text": "The most interesting ideas come from the edges."
+  },
+  {
+   "start": 58.704,
+   "end": 60.334,
+   "text": "Aqua lets you edit by voice:"
+  },
+  {
+   "start": 60.334,
+   "end": 62.812,
+   "text": "make this shorter, translate it, spell a name."
+  },
+  {
+   "start": 63.052,
+   "end": 65.062,
+   "text": "Typeless keeps only what you meant when"
+  },
+  {
+   "start": 65.062,
+   "end": 66.957,
+   "text": "you change your mind mid-sentence."
+  },
+  {
+   "start": 67.197,
+   "end": 70.767,
+   "text": "And small apps like Outspoken and KeySay already run"
+  },
+  {
+   "start": 70.767,
+   "end": 73.699,
+   "text": "transcription and AI cleanup entirely on the phone."
+  },
+  {
+   "start": 74.349,
+   "end": 76.989,
+   "text": "Ranked by leverage, one feature dominates:"
+  },
+  {
+   "start": 76.989,
+   "end": 78.458,
+   "text": "text you don't have to edit."
+  },
+  {
+   "start": 78.698,
+   "end": 80.398,
+   "text": "Punctuation, filler words,"
+  },
+  {
+   "start": 80.398,
+   "end": 82.583,
+   "text": "self-corrections and lists, all handled."
+  },
+  {
+   "start": 82.823,
+   "end": 86.853,
+   "text": "Then come one-tap capture anywhere, getting names and jargon right,"
+  },
+  {
+   "start": 86.853,
+   "end": 89.132,
+   "text": "speed you can feel, and editing by voice."
+  },
+  {
+   "start": 89.782,
+   "end": 91.101,
+   "text": "Why do people get hooked?"
+  },
+  {
+   "start": 91.341,
+   "end": 94.172,
+   "text": "Speaking is about three times faster than thumb-typing."
+  },
+  {
+   "start": 94.412,
+   "end": 96.992,
+   "text": "Wispr says eighty-nine percent of its messages go"
+  },
+  {
+   "start": 96.992,
+   "end": 100.091,
+   "text": "out without an edit, sent in about half a second."
+  },
+  {
+   "start": 100.331,
+   "end": 103.05,
+   "text": "People stop proofreading and start thinking out loud."
+  },
+  {
+   "start": 103.29,
+   "end": 105.48,
+   "text": "Wispr reports seventy percent of"
+  },
+  {
+   "start": 105.48,
+   "end": 106.931,
+   "text": "users still active after a year."
+  },
+  {
+   "start": 107.171,
+   "end": 108.513,
+   "text": "Trust turns into habit."
+  },
+  {
+   "start": 109.163,
+   "end": 112.526,
+   "text": "Can it all run locally? Yes, but not inside the keyboard."
+  },
+  {
+   "start": 112.766,
+   "end": 115.646,
+   "text": "iOS kills a keyboard at around seventy megabytes,"
+  },
+  {
+   "start": 115.646,
+   "end": 117.724,
+   "text": "so the models run in the main app."
+  },
+  {
+   "start": 117.964,
+   "end": 121.074,
+   "text": "There, the GPU is off limits, and from iOS 27"
+  },
+  {
+   "start": 121.074,
+   "end": 124.899,
+   "text": "the Neural Engine needs a special entitlement."
+  },
+  {
+   "start": 125.139,
+   "end": 129.809,
+   "text": "On the CPU, Gemma 4 E2B writes about twenty-five tokens a second,"
+  },
+  {
+   "start": 129.809,
+   "end": 132.624,
+   "text": "so a full rewrite takes about four seconds."
+  },
+  {
+   "start": 132.864,
+   "end": 134.924,
+   "text": "Stream it into the text field instead,"
+  },
+  {
+   "start": 134.924,
+   "end": 136.993,
+   "text": "and words appear in about half a second."
+  },
+  {
+   "start": 137.643,
+   "end": 139.131,
+   "text": "And Swedish is wide open."
+  },
+  {
+   "start": 139.371,
+   "end": 143.092,
+   "text": "Apple's Swedish dictation adds no punctuation,"
+  },
+  {
+   "start": 143.092,
+   "end": 146.813,
+   "text": "and its new AI dictation in iOS 27 is English only."
+  },
+  {
+   "start": 147.053,
+   "end": 150.183,
+   "text": "Klang's Pianissimo model reaches about four and a half"
+  },
+  {
+   "start": 150.183,
+   "end": 153.268,
+   "text": "percent word error rate in Swedish, on the device."
+  },
+  {
+   "start": 153.508,
+   "end": 156.008,
+   "text": "Add cleanup that understands Swedish fillers,"
+  },
+  {
+   "start": 156.008,
+   "end": 158.068,
+   "text": "split compounds and number formats,"
+  },
+  {
+   "start": 158.068,
+   "end": 160.576,
+   "text": "and you have something nobody offers today."
+  },
+  {
+   "start": 161.226,
+   "end": 163.466,
+   "text": "The plan: nail edit-free Swedish text,"
+  },
+  {
+   "start": 163.466,
+   "end": 166.68,
+   "text": "make sessions painless, and learn each user's words."
+  },
+  {
+   "start": 166.92,
+   "end": 168.982,
+   "text": "Then add voice editing and translation."
+  },
+  {
+   "start": 169.222,
+   "end": 170.742,
+   "text": "Track one number above all:"
+  },
+  {
+   "start": 170.742,
+   "end": 173.097,
+   "text": "how often a message goes out untouched."
+  },
+  {
+   "start": 173.337,
+   "end": 175.117,
+   "text": "Talk, don't type. In Swedish."
+  },
+  {
+   "start": 175.117,
+   "end": 176.531,
+   "text": "With nothing leaving the phone."
+  }
+ ]
+}

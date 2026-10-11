@@ -1,0 +1,1113 @@
+<title>Swedish Voice Keyboard Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: one reading column (about 46rem) with a sticky contents rail on wide screens; wide tables scroll inside their own wrappers. */
+:root {
+  --bg: #f3f5f7;
+  --surface: #ffffff;
+  --ink: #13202d;
+  --ink-2: #435466;
+  --muted: #64758a;
+  --line: #d9e1e8;
+  --line-soft: #e9eef2;
+  --accent: #b77900;
+  --accent-ink: #7a5200;
+  --link: #1d5b99;
+  --series: #2a78d6;
+  --cloud-bg: #e8eef6;
+  --cloud-ink: #284766;
+  --local-bg: #e3f1e8;
+  --local-ink: #1f5a35;
+  --mixed-bg: #f6efdf;
+  --mixed-ink: #6b4c00;
+  --key-bg: #ffffff;
+  --key-shadow: #b9c3cd;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e151c;
+    --surface: #151f29;
+    --ink: #e6ecf2;
+    --ink-2: #b3c0cc;
+    --muted: #8c9bab;
+    --line: #283643;
+    --line-soft: #1d2833;
+    --accent: #f0b429;
+    --accent-ink: #f3c14f;
+    --link: #8ec3ff;
+    --series: #3987e5;
+    --cloud-bg: #1d2b3b;
+    --cloud-ink: #a9c8ec;
+    --local-bg: #17301f;
+    --local-ink: #9fd8b0;
+    --mixed-bg: #33290f;
+    --mixed-ink: #f0cf7d;
+    --key-bg: #26323e;
+    --key-shadow: #0a1016;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e151c;
+  --surface: #151f29;
+  --ink: #e6ecf2;
+  --ink-2: #b3c0cc;
+  --muted: #8c9bab;
+  --line: #283643;
+  --line-soft: #1d2833;
+  --accent: #f0b429;
+  --accent-ink: #f3c14f;
+  --link: #8ec3ff;
+  --series: #3987e5;
+  --cloud-bg: #1d2b3b;
+  --cloud-ink: #a9c8ec;
+  --local-bg: #17301f;
+  --local-ink: #9fd8b0;
+  --mixed-bg: #33290f;
+  --mixed-ink: #f0cf7d;
+  --key-bg: #26323e;
+  --key-shadow: #0a1016;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--link); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+.page {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding-inline: 20px;
+  padding-block: 40px 72px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+}
+@media (min-width: 1100px) {
+  .page { grid-template-columns: 13rem minmax(0, 46rem); justify-content: center; gap: 56px; }
+}
+
+/* contents rail */
+.rail { display: none; }
+@media (min-width: 1100px) {
+  .rail { display: block; }
+  .rail nav { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 32px); }
+}
+.rail h2, .contents-inline h2 {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+.rail ol, .contents-inline ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.rail a, .contents-inline a { color: var(--ink-2); text-decoration: none; font-size: 0.9rem; line-height: 1.35; display: block; }
+.rail a:hover, .contents-inline a:hover { color: var(--ink); text-decoration: underline; }
+.contents-inline { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding-block: 16px; }
+.contents-inline ol { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+@media (min-width: 1100px) { .contents-inline { display: none; } }
+
+main { min-width: 0; display: grid; gap: 56px; }
+section { min-width: 0; display: grid; gap: 16px; scroll-margin-top: 24px; }
+
+/* header */
+.masthead { display: grid; gap: 18px; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 5.4vw, 3.3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+.dek { font-size: 1.12rem; color: var(--ink-2); margin: 0; max-width: 42rem; }
+.keys { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.key {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1.05rem;
+  min-width: 2.4rem;
+  height: 2.6rem;
+  padding: 0 0.6rem;
+  display: inline-grid;
+  place-items: center;
+  background: var(--key-bg);
+  color: var(--ink);
+  border-radius: 7px;
+  box-shadow: 0 1.5px 0 var(--key-shadow);
+}
+.key.mic { color: var(--accent-ink); }
+.key.mic svg { width: 1.1rem; height: 1.1rem; }
+.keys .caption { font-size: 0.85rem; color: var(--muted); margin-left: 6px; }
+.meta { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.65rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.16rem;
+  line-height: 1.25;
+  margin: 8px 0 0;
+  text-wrap: balance;
+}
+p { margin: 0; }
+.lede { color: var(--ink-2); }
+.small { font-size: 0.88rem; color: var(--muted); }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin: 0 0 -8px;
+}
+.cite {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  vertical-align: super;
+  line-height: 0;
+  text-decoration: none;
+  margin-left: 1px;
+}
+.cite::before { content: "["; }
+.cite::after { content: "]"; }
+
+/* at a glance */
+.glance { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.glance li {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr);
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.glance li:last-child { border-bottom: 0; padding-bottom: 0; }
+.glance .n { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-ink); padding-top: 2px; }
+.glance strong { font-weight: 600; }
+
+/* chips */
+.chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 1px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.chip.cloud { background: var(--cloud-bg); color: var(--cloud-ink); }
+.chip.local { background: var(--local-bg); color: var(--local-ink); }
+.chip.mixed { background: var(--mixed-bg); color: var(--mixed-ink); }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; line-height: 1.45; }
+th, td { text-align: left; vertical-align: top; padding: 11px 12px; border-bottom: 1px solid var(--line-soft); }
+tr:last-child td { border-bottom: 0; }
+th {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+td.app { font-weight: 600; white-space: nowrap; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-family: var(--font-mono); font-size: 0.82rem; }
+td .rank { font-family: var(--font-mono); color: var(--accent-ink); font-weight: 500; }
+.wide-acclaim { min-width: 54rem; }
+.wide-rank { min-width: 52rem; }
+.wide-local { min-width: 44rem; }
+.wide-constraints { min-width: 40rem; }
+.wide-sv { min-width: 36rem; }
+tr.baseline td { background: var(--line-soft); }
+
+/* diagram */
+.flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+@media (min-width: 720px) {
+  .flow { grid-template-columns: minmax(0, 1fr) 4.5rem minmax(0, 1fr) 4.5rem minmax(0, 1.2fr); }
+}
+.node {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 14px 12px;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  min-width: 0;
+}
+.node.host { border-color: var(--accent); }
+.node .node-title { font-family: var(--font-display); font-weight: 600; font-size: 1rem; line-height: 1.2; }
+.node ul { margin: 0; padding-left: 1.05rem; font-size: 0.86rem; color: var(--ink-2); display: grid; gap: 2px; }
+.node .limit { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); }
+.link-arrow {
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.3;
+  gap: 2px;
+}
+.link-arrow .glyph { font-size: 1.3rem; color: var(--ink-2); line-height: 1; }
+@media (max-width: 719px) { .link-arrow .glyph { transform: rotate(90deg); } }
+
+.steps { margin: 0; padding-left: 1.4rem; display: grid; gap: 6px; }
+.steps li::marker { font-family: var(--font-mono); color: var(--accent-ink); }
+
+.callouts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+@media (min-width: 720px) { .callouts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.callout {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.callout h3 { margin: 0; font-size: 1.02rem; }
+.callout p { font-size: 0.92rem; color: var(--ink-2); }
+
+/* cards for interesting apps */
+.cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+@media (min-width: 720px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  display: grid;
+  gap: 8px;
+  grid-template-rows: auto 1fr auto;
+  min-width: 0;
+}
+.card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.card h3 { margin: 0; }
+.card p { font-size: 0.92rem; color: var(--ink-2); }
+.card .steal { font-size: 0.88rem; color: var(--ink); border-top: 1px solid var(--line-soft); padding-top: 8px; }
+.card .steal b { font-family: var(--font-mono); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-ink); margin-right: 6px; }
+
+/* hooks */
+.hooks { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.hooks li { display: grid; gap: 4px; }
+.hooks .h { font-weight: 600; }
+.hooks p { color: var(--ink-2); }
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: 12px; }
+.figure {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+.figure .v { font-family: var(--font-body); font-weight: 600; font-size: 1.7rem; line-height: 1.1; }
+.figure .l { font-size: 0.84rem; color: var(--ink-2); line-height: 1.35; }
+.figure .s { font-size: 0.75rem; color: var(--muted); }
+
+/* chart */
+.viz {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px 16px 14px;
+  display: grid;
+  gap: 12px;
+  position: relative;
+}
+.viz-title { font-weight: 600; font-size: 0.98rem; }
+.viz-sub { font-size: 0.84rem; color: var(--muted); }
+.bars { display: grid; gap: 14px; }
+.bar-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  cursor: default;
+}
+@media (min-width: 720px) { .bar-row { grid-template-columns: 17rem minmax(0, 1fr); gap: 12px; align-items: center; } }
+.bar-label { font-size: 0.85rem; color: var(--ink-2); line-height: 1.3; }
+.bar-label em { font-style: normal; color: var(--muted); }
+.bar-track { position: relative; height: 22px; display: flex; align-items: center; gap: 8px; }
+.bar {
+  height: 18px;
+  background: var(--series);
+  border-radius: 0 4px 4px 0;
+  flex: none;
+  transition: filter 120ms ease;
+}
+.bar-row:hover .bar, .bar-row:focus-visible .bar { filter: brightness(1.12); }
+.bar-value { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.axis { display: grid; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) { .axis { grid-template-columns: 17rem minmax(0, 1fr); gap: 12px; } }
+.axis-scale { position: relative; height: 18px; border-top: 1px solid var(--line); }
+.axis-scale span {
+  position: absolute;
+  top: 3px;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.axis-scale span:first-child { transform: none; }
+.axis-scale span:last-child { transform: translateX(-100%); }
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  max-width: 17rem;
+  z-index: 3;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+}
+.tooltip strong { display: block; font-size: 0.95rem; font-family: var(--font-mono); }
+details.table-view { font-size: 0.88rem; }
+details.table-view summary { cursor: pointer; color: var(--link); }
+details.table-view .table-wrap { margin-top: 10px; }
+
+/* swedish spec */
+.example-said { font-style: italic; color: var(--ink-2); }
+.example-out { font-family: var(--font-mono); font-size: 0.82rem; }
+
+.checklist { margin: 0; padding-left: 1.4rem; display: grid; gap: 10px; }
+.checklist li::marker { font-family: var(--font-mono); color: var(--accent-ink); }
+.checklist b { font-weight: 600; }
+
+.two-col { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+@media (min-width: 720px) { .two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.sources { margin: 0; padding-left: 1.8rem; display: grid; gap: 6px; font-size: 0.86rem; color: var(--ink-2); }
+.sources li { scroll-margin-top: 24px; }
+.sources li:target { background: var(--mixed-bg); border-radius: 4px; }
+footer { font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (prefers-reduced-motion: reduce) { .bar { transition: none; } }
+</style>
+
+<div class="page">
+  <aside class="rail" aria-label="Contents">
+    <nav>
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#glance">At a glance</a></li>
+        <li><a href="#how">How a voice keyboard works on iPhone</a></li>
+        <li><a href="#acclaimed">List 1: most acclaimed</a></li>
+        <li><a href="#interesting">List 2: most interesting features</a></li>
+        <li><a href="#leverage">Features ranked by leverage</a></li>
+        <li><a href="#hooked">Why people get hooked</a></li>
+        <li><a href="#local">Can it run locally?</a></li>
+        <li><a href="#swedish">The Swedish build</a></li>
+        <li><a href="#gates">Prototype gates</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main>
+    <header class="masthead">
+      <p class="eyebrow">Research brief · 11 October 2026 · iPhone only</p>
+      <h1>Swedish Voice Keyboard Brief</h1>
+      <p class="dek">Which iPhone dictation keyboards reviewers rate highest, which ones have features worth copying, why people stick with them, and whether a Swedish version can run entirely on the phone with Klang Pianissimo for speech and Gemma&nbsp;4&nbsp;E2B for cleanup.</p>
+      <div class="keys" aria-hidden="true">
+        <span class="key">å</span><span class="key">ä</span><span class="key">ö</span>
+        <span class="key mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></span>
+        <span class="caption">The keys a Swedish voice keyboard needs</span>
+      </div>
+      <p class="meta">Scope: iOS keyboards that transcribe speech and clean it up with an LLM. Ratings were checked on the US App Store on 11 October 2026. Vendor and founder figures are labelled as such.</p>
+    </header>
+
+    <nav class="contents-inline" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#glance">At a glance</a></li>
+        <li><a href="#how">How a voice keyboard works on iPhone</a></li>
+        <li><a href="#acclaimed">List 1: most acclaimed</a></li>
+        <li><a href="#interesting">List 2: most interesting features</a></li>
+        <li><a href="#leverage">Features ranked by leverage</a></li>
+        <li><a href="#hooked">Why people get hooked</a></li>
+        <li><a href="#local">Can it run locally?</a></li>
+        <li><a href="#swedish">The Swedish build</a></li>
+        <li><a href="#gates">Prototype gates</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ol>
+    </nav>
+
+    <!-- AT A GLANCE -->
+    <section id="glance">
+      <h2>At a glance</h2>
+      <ol class="glance">
+        <li><span class="n">1</span><p><strong>Wispr Flow is the product to beat.</strong> It holds 4.8 stars from about 17,000 US App Store ratings, far more than any rival, and 9to5Mac and TechCrunch rate it highly. Among the rivals, Aqua Voice and Willow got the strongest individual reviews.<a class="cite" href="#s1">1</a><a class="cite" href="#s2">2</a><a class="cite" href="#s3">3</a><a class="cite" href="#s4">4</a><a class="cite" href="#s22">22</a></p></li>
+        <li><span class="n">2</span><p><strong>The habit comes from not having to edit.</strong> Wispr tracks how often people send dictated text without changing it. It reports about 5–10% for Apple and Google dictation and 85–89% for Flow. The median time from seeing the text to pressing send is half a second. These are company figures.<a class="cite" href="#s27">27</a><a class="cite" href="#s28">28</a></p></li>
+        <li><span class="n">3</span><p><strong>iOS keeps getting in the way.</strong> Keyboard extensions can't record audio, so every app sends you to its main app to start a session. Since iOS 26.4 that app can no longer send you back automatically, and it can't tell which app you came from.<a class="cite" href="#s6">6</a><a class="cite" href="#s7">7</a><a class="cite" href="#s13">13</a></p></li>
+        <li><span class="n">4</span><p><strong>Swedish is underserved.</strong> Apple's Swedish dictation runs on the device but has no automatic punctuation. Apple's new LLM-based Advanced Dictation in iOS 27 is English-only and needs an iPhone with 12 GB of RAM. I found no Swedish-first AI keyboard.<a class="cite" href="#s11">11</a><a class="cite" href="#s9">9</a></p></li>
+        <li><span class="n">5</span><p><strong>Fully local keyboards already exist, from small developers.</strong> Outspoken, KeySay and Yaps run speech recognition and a cleanup pass on the phone, and Outspoken and KeySay use an on-device LLM for it. None of them targets Swedish.<a class="cite" href="#s16">16</a><a class="cite" href="#s17">17</a><a class="cite" href="#s18">18</a></p></li>
+        <li><span class="n">6</span><p><strong>Your stack can work behind a keyboard, with limits.</strong> The models have to run in the main app while it is in the background. There the GPU is off limits, and from iOS 27 the Neural Engine needs a new Background Inference entitlement. Gemma 4 E2B on the CPU decodes about 25 tokens per second on an iPhone 17 Pro, so stream the text into the field or use a smaller cleanup model.<a class="cite" href="#s12">12</a><a class="cite" href="#s37">37</a></p></li>
+      </ol>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <p class="section-label">Background</p>
+      <h2>How a voice keyboard works on iPhone</h2>
+      <p>iOS doesn't let a keyboard extension use the microphone, even with Full Access and microphone permission granted. Developers who try get audio-session errors.<a class="cite" href="#s13">13</a> Every app in this report therefore has two parts: a thin keyboard and the main app (Apple calls it the containing app), which holds the microphone and does the work.<a class="cite" href="#s15">15</a><a class="cite" href="#s17">17</a></p>
+
+      <div class="flow" role="figure" aria-label="Diagram: the keyboard extension talks to the containing app through a shared App Group; the containing app records and runs the models in the background.">
+        <div class="node">
+          <div class="node-title">Keyboard extension</div>
+          <ul>
+            <li>Mic button, style switch, QWERTY</li>
+            <li>Types finished text into the field</li>
+            <li>No microphone access</li>
+          </ul>
+          <div class="limit">Killed at roughly 48–77 MB<a class="cite" href="#s14">14</a></div>
+        </div>
+        <div class="link-arrow"><span class="glyph">⇄</span>App Group + notifications</div>
+        <div class="node">
+          <div class="node-title">Shared container</div>
+          <ul>
+            <li>Start and stop commands</li>
+            <li>Session status</li>
+            <li>Text, streamed or final</li>
+          </ul>
+          <div class="limit">Needs Full Access</div>
+        </div>
+        <div class="link-arrow"><span class="glyph">⇄</span>runs in background</div>
+        <div class="node host">
+          <div class="node-title">Containing app</div>
+          <ul>
+            <li>Background audio session holds the mic</li>
+            <li>Speech recognition (Pianissimo)</li>
+            <li>LLM cleanup (Gemma or Apple's model)</li>
+            <li>Dictionary, history, settings</li>
+          </ul>
+          <div class="limit">CPU always allowed; GPU and Neural Engine restricted</div>
+        </div>
+      </div>
+
+      <h3>What the user goes through</h3>
+      <ol class="steps">
+        <li>They tap the mic in your keyboard.</li>
+        <li>If no session is running, the keyboard opens your app, which starts recording. 9to5Mac calls this "one unavoidably clunky step imposed by Apple's security."<a class="cite" href="#s3">3</a></li>
+        <li>Since iOS 26.4 the app can't return them automatically. They swipe right along the bottom edge to get back. Wispr Flow and Monologue both document this.<a class="cite" href="#s6">6</a><a class="cite" href="#s24">24</a></li>
+        <li>The session stays alive in the background. Wispr lets users end it after 5 minutes, 15 minutes, an hour, or never, so later dictations start straight from the keyboard.<a class="cite" href="#s2">2</a></li>
+        <li>Your app sends the finished text back, and the keyboard types it where the cursor is.</li>
+      </ol>
+
+      <div class="callouts">
+        <div class="callout">
+          <h3>What iOS 26.4 changed</h3>
+          <p>A developer report says the containing app can no longer find out which app the user came from, so it can't reopen it.<a class="cite" href="#s7">7</a> Wispr Flow's help page confirms both effects: you may have to swipe back by hand, and "your writing style no longer changes between apps." Wispr now uses one default style, which you can override from the keyboard.<a class="cite" href="#s6">6</a> TechCrunch describes it as Apple "restricting some of these apps."<a class="cite" href="#s8">8</a></p>
+        </div>
+        <div class="callout">
+          <h3>What iOS 27 added</h3>
+          <p>Apple built LLM-based dictation into its own keyboard. It runs on an on-device model called AFM Core Advanced and adds punctuation and capitalisation as you speak. It needs 12 GB of RAM, which in the beta meant only the iPhone 17 Pro, 17 Pro Max and iPhone Air, and it supports English only.<a class="cite" href="#s9">9</a><a class="cite" href="#s10">10</a><a class="cite" href="#s11">11</a> Tom's Guide found it faster and more accurate than iOS 26 dictation, with inconsistent punctuation in the first beta.<a class="cite" href="#s10">10</a> On Android, Google's Gboard has a similar Gemini-based feature called Rambler.<a class="cite" href="#s33">33</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIST 1 -->
+    <section id="acclaimed">
+      <p class="section-label">List 1</p>
+      <h2>The most acclaimed, according to independent reviews</h2>
+      <p class="lede">Independent coverage is thin. Most "best dictation app" lists are written by one of the competitors, so I left those out. The ranking weighs named editorial reviews (9to5Mac, TechCrunch, Make Tech Easier, Tom's Guide) together with how many App Store ratings back each score.</p>
+      <div class="table-wrap">
+        <table class="wide-acclaim">
+          <thead>
+            <tr><th>#</th><th>App</th><th>What reviewers say</th><th>App Store (US)</th><th>Where it runs</th><th>Swedish</th><th>Price</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rank">1</span></td>
+              <td class="app">Wispr Flow</td>
+              <td>9to5Mac: "the closest thing currently possible to an AI-based transcription keyboard"; the accuracy "really impressed me." TechCrunch lists it first.<a class="cite" href="#s2">2</a><a class="cite" href="#s1">1</a></td>
+              <td class="num">4.8 · 17K</td>
+              <td><span class="chip cloud">Cloud</span></td>
+              <td>100+ languages; style presets English only<a class="cite" href="#s22">22</a></td>
+              <td>Free tier; Pro from $15/mo</td>
+            </tr>
+            <tr>
+              <td><span class="rank">2</span></td>
+              <td class="app">Aqua Voice</td>
+              <td>9to5Mac (April 2026): "the best dictation app I've ever used," now on iPhone. On the Mac, Apple's dictation made 17 errors on a test passage and Aqua made 1.<a class="cite" href="#s3">3</a></td>
+              <td class="num">4.3 · 62</td>
+              <td><span class="chip cloud">Cloud</span> own model</td>
+              <td>49 languages; Swedish not confirmed<a class="cite" href="#s20">20</a></td>
+              <td>Free 1,000 words; paid tiers</td>
+            </tr>
+            <tr>
+              <td><span class="rank">3</span></td>
+              <td class="app">Willow</td>
+              <td>Make Tech Easier: "the most accurate dictation keyboard app I have used." TechCrunch points to its full keyboard as an advantage over Wispr's number pad.<a class="cite" href="#s4">4</a><a class="cite" href="#s5">5</a></td>
+              <td class="num">4.6 · 1.1K</td>
+              <td><span class="chip cloud">Cloud</span> transcripts kept on device</td>
+              <td>100+ languages<a class="cite" href="#s23">23</a></td>
+              <td>$15/mo or $143.99/yr</td>
+            </tr>
+            <tr>
+              <td><span class="rank">4</span></td>
+              <td class="app">Superwhisper</td>
+              <td>A TechCrunch pick. Lets you choose speech models, including NVIDIA Parakeet, and write your own prompts.<a class="cite" href="#s1">1</a></td>
+              <td class="num">4.4 · 841</td>
+              <td><span class="chip mixed">Mixed</span> on-device speech, cloud or own-key AI</td>
+              <td>100+ languages<a class="cite" href="#s19">19</a></td>
+              <td>$8.49/mo or $249.99 lifetime</td>
+            </tr>
+            <tr>
+              <td><span class="rank">5</span></td>
+              <td class="app">Typeless</td>
+              <td>A TechCrunch pick for its large free tier and its claim not to retain data. Independent iPhone reviews are scarce.<a class="cite" href="#s1">1</a></td>
+              <td class="num">4.5 · 743</td>
+              <td><span class="chip cloud">Cloud</span></td>
+              <td>100+, mixing languages<a class="cite" href="#s21">21</a></td>
+              <td>About $12/mo, billed yearly</td>
+            </tr>
+            <tr>
+              <td><span class="rank">6</span></td>
+              <td class="app">Monologue</td>
+              <td>A TechCrunch pick for tone that changes per app and an on-device option on the Mac.<a class="cite" href="#s1">1</a></td>
+              <td class="num">4.8 · 298</td>
+              <td><span class="chip cloud">Cloud</span> on iPhone</td>
+              <td>100+, including mid-sentence switches<a class="cite" href="#s24">24</a></td>
+              <td>$10/mo or $100/yr</td>
+            </tr>
+            <tr class="baseline">
+              <td><span class="rank">–</span></td>
+              <td class="app">Apple Dictation</td>
+              <td>The baseline. Tom's Guide on iOS 27: faster and more accurate than before, but punctuation was inconsistent in the beta.<a class="cite" href="#s10">10</a></td>
+              <td class="num">built in</td>
+              <td><span class="chip local">On device</span></td>
+              <td>Swedish yes; no Swedish auto-punctuation; Advanced Dictation English only<a class="cite" href="#s11">11</a></td>
+              <td>Free</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small">Reading the table: a 4.3 from 62 ratings says far less than a 4.8 from 17,000. Prices are US list prices from the App Store or the review and change often.</p>
+    </section>
+
+    <!-- LIST 2 -->
+    <section id="interesting">
+      <p class="section-label">List 2</p>
+      <h2>The most interesting features, in my judgment</h2>
+      <p class="lede">These are picked for what they do, not for how popular they are. Each card ends with the idea I would take from it.</p>
+      <div class="cards">
+        <article class="card">
+          <div class="card-head"><h3>Aqua Voice</h3><span class="chip cloud">Cloud</span></div>
+          <p>An edit mode lets you change the last transcript or a selection by voice: "remove filler words, this is a Slack message," "translate this to Japanese," "spell Toni, T-O-N-I." The vendor says text starts appearing in under 50 ms and is final in about 450 ms.<a class="cite" href="#s20">20</a></p>
+          <p class="steal"><b>Take</b>Editing by voice. On a phone, moving the cursor to fix one word is the slowest step there is.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>Outspoken</h3><span class="chip local">On device</span></div>
+          <p>A small indie keyboard that transcribes on the phone with Apple's engine, Parakeet v3 or Whisper Large v3 Turbo, then rewrites or translates with Apple Intelligence or Qwen3, also on the phone. Early App Store reviews report model downloads failing.<a class="cite" href="#s16">16</a></p>
+          <p class="steal"><b>Take</b>Proof that an on-device LLM pass behind a keyboard ships today. Letting users pick the engine.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>KeySay</h3><span class="chip local">On device</span></div>
+          <p>On-device Whisper, plus Apple's on-device model to fix misheard words and remove filler words. A "your own fixes" list maps words it tends to mishear to what you meant. You pay once instead of subscribing.<a class="cite" href="#s17">17</a></p>
+          <p class="steal"><b>Take</b>Correction pairs taught by the user. Pay-once pricing, which only works because inference costs nothing per word.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>Yaps</h3><span class="chip local">On device</span></div>
+          <p>Speech recognition, cleanup and read-aloud all run on the phone. A guest mode works without an account. Dictations land in a local notes vault, and audio files can be transcribed too.<a class="cite" href="#s18">18</a></p>
+          <p class="steal"><b>Take</b>Onboarding with no account. Read-aloud as a way to proofread.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>Typeless</h3><span class="chip cloud">Cloud</span></div>
+          <p>Notices when you change your mind mid-sentence and keeps only the final version, removes repeated words, turns spoken lists into lists, and adapts tone to the app. "Speak to edit" revises text you already have.<a class="cite" href="#s21">21</a></p>
+          <p class="steal"><b>Take</b>Handling self-corrections. Swedish speakers do it constantly: "nej, förresten…"</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>Willow</h3><span class="chip cloud">Cloud</span></div>
+          <p>A full QWERTY keyboard under the mic, one-tap rewrites (fix grammar, formal, friendly) and presets for work and casual messages. A session timeout and a lock-screen widget let you switch the microphone off.<a class="cite" href="#s4">4</a></p>
+          <p class="steal"><b>Take</b>Session controls that make an always-on microphone feel safe.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>Superwhisper</h3><span class="chip mixed">Mixed</span></div>
+          <p>User-defined Modes, each a custom prompt, that you can switch from the keyboard. TechCrunch notes you can see both the raw and the processed transcript. Bring your own API keys.<a class="cite" href="#s1">1</a><a class="cite" href="#s19">19</a></p>
+          <p class="steal"><b>Take</b>Modes. They are how power users make the tool their own.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>Wispr Flow</h3><span class="chip cloud">Cloud</span></div>
+          <p>Whisper mode for dictating quietly, Snippets, quick notes, 20-minute dictations, and a style you can override from the keyboard. An optional QWERTY layout sits behind the default number pad.<a class="cite" href="#s22">22</a><a class="cite" href="#s41">41</a><a class="cite" href="#s42">42</a></p>
+          <p class="steal"><b>Take</b>Recognition that still works when you whisper.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>Monologue</h3><span class="chip cloud">Cloud</span></div>
+          <p>Starts from the Action Button, Control Center or Apple Watch, with a Live Activity on the lock screen. Many quick captures never touch the keyboard, so they skip the bounce.<a class="cite" href="#s24">24</a></p>
+          <p class="steal"><b>Take</b>Ways to start that don't go through the keyboard.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>Zavi</h3><span class="chip cloud">Cloud</span></div>
+          <p>"Voice to action": the keyboard can carry out a spoken command, such as sending an email through your Gmail account. The claims come from the developer only.<a class="cite" href="#s34">34</a></p>
+          <p class="steal"><b>Take</b>Nothing yet. Worth watching.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>VocaPhone</h3><span class="chip local">On device</span></div>
+          <p>An open-source (AGPL-3.0) keyboard plus containing app. It records in the app and runs speech-to-text on the phone or on a server you host yourself. The iPhone version is in public TestFlight.<a class="cite" href="#s15">15</a></p>
+          <p class="steal"><b>Take</b>Readable reference code for the architecture. Mind the licence before copying any of it.</p>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>Gboard Rambler</h3><span class="chip mixed">Mixed</span></div>
+          <p>Android only. Google's Gemini dictation removes fillers, keeps only your corrected version ("3 p.m., actually make that 2 p.m."), and handles switching languages mid-sentence.<a class="cite" href="#s33">33</a></p>
+          <p class="steal"><b>Take</b>The bar users will expect. Platform owners are now doing cleanup themselves.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- LEVERAGE -->
+    <section id="leverage">
+      <p class="section-label">Analysis</p>
+      <h2>Features ranked by leverage</h2>
+      <p class="lede">Leverage here means how much a feature decides whether people keep talking instead of typing, set against the effort to build it. The ranking is my judgment, based on the evidence in each row.</p>
+      <div class="table-wrap">
+        <table class="wide-rank">
+          <thead>
+            <tr><th>#</th><th>Feature</th><th>Why it matters</th><th>Evidence</th><th>Swedish angle</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rank">1</span></td>
+              <td><b>Text that needs no editing</b><br>punctuation, capitals, paragraphs, lists, filler removal, self-corrections</td>
+              <td>Decides whether dictation saves time at all. Old dictation lost because ten seconds of talking cost ninety seconds of fixing.<a class="cite" href="#s31">31</a></td>
+              <td>Wispr: about 5–10% of Apple and Google dictations go out unedited, versus 85–89% for Flow (company figures).<a class="cite" href="#s27">27</a></td>
+              <td>Apple adds no punctuation in Swedish. This alone could carry a product.<a class="cite" href="#s11">11</a></td>
+            </tr>
+            <tr>
+              <td><span class="rank">2</span></td>
+              <td><b>Starting from anywhere, with almost no friction</b></td>
+              <td>A habit only forms if starting is one tap in every app. Each extra step loses people.</td>
+              <td>Reviewers single out the bounce, and iOS 26.4 made it worse.<a class="cite" href="#s3">3</a><a class="cite" href="#s6">6</a></td>
+              <td>The same for every language. Execution decides it.</td>
+            </tr>
+            <tr>
+              <td><span class="rank">3</span></td>
+              <td><b>Getting your words right</b><br>names, places, jargon; a personal dictionary that learns from your fixes</td>
+              <td>One wrong name means an edit, and edits erode trust.</td>
+              <td>Every top app ships a dictionary. Aqua sells itself on technical vocabulary.<a class="cite" href="#s20">20</a><a class="cite" href="#s22">22</a></td>
+              <td>Swedish surnames and place names, compound words, split compounds (särskrivning).</td>
+            </tr>
+            <tr>
+              <td><span class="rank">4</span></td>
+              <td><b>Speed you can feel</b></td>
+              <td>When the result appears at once, people send without reading it.</td>
+              <td>Aqua: first text in under 50 ms, final in about 450 ms (vendor).<a class="cite" href="#s20">20</a></td>
+              <td>On-device you have to hide LLM latency. See the chart below.</td>
+            </tr>
+            <tr>
+              <td><span class="rank">5</span></td>
+              <td><b>Editing by voice</b><br>"shorter," "more formal," "change X to Y"</td>
+              <td>Fixing text with your thumb is the slowest thing you do on a phone.</td>
+              <td>Aqua's edit mode, Typeless's "speak to edit," Willow's rewrites.<a class="cite" href="#s20">20</a><a class="cite" href="#s21">21</a><a class="cite" href="#s4">4</a></td>
+              <td>"Gör det kortare," "mer formellt," "översätt till engelska."</td>
+            </tr>
+            <tr>
+              <td><span class="rank">6</span></td>
+              <td><b>Mixing Swedish and English, and translating</b></td>
+              <td>Swedish work talk is full of English terms, and many people write to English-speaking colleagues.</td>
+              <td>Typeless and Monologue handle mixed languages; Rambler advertises it.<a class="cite" href="#s21">21</a><a class="cite" href="#s24">24</a><a class="cite" href="#s33">33</a></td>
+              <td>High. Few tools handle Swedish well, and fewer handle Swedish mixed with English.</td>
+            </tr>
+            <tr>
+              <td><span class="rank">7</span></td>
+              <td><b>Tone styles</b><br>formal, casual, short</td>
+              <td>Saves rewording. On iOS it is now a manual switch, because keyboards can't tell which app they are in.</td>
+              <td>Wispr dropped per-app styles after iOS 26.4.<a class="cite" href="#s6">6</a></td>
+              <td>Swedish conventions: "Hej!", "Vänliga hälsningar", informal "du".</td>
+            </tr>
+            <tr>
+              <td><span class="rank">8</span></td>
+              <td><b>A full keyboard for small fixes</b></td>
+              <td>Saves switching keyboards to change one word.</td>
+              <td>TechCrunch called Willow's full keyboard a key advantage over Wispr's number pad. Wispr has since added an optional QWERTY layout.<a class="cite" href="#s5">5</a><a class="cite" href="#s42">42</a></td>
+              <td>Has to include å, ä and ö.</td>
+            </tr>
+            <tr>
+              <td><span class="rank">9</span></td>
+              <td><b>Snippets</b><br>"my address," a signature</td>
+              <td>Small daily wins.</td>
+              <td>Aqua autofills phrases like "my address."<a class="cite" href="#s1">1</a></td>
+              <td>Addresses, company registration numbers, sign-offs.</td>
+            </tr>
+            <tr>
+              <td><span class="rank">10</span></td>
+              <td><b>Quiet dictation</b></td>
+              <td>Makes talking to your phone acceptable in offices and on trains.</td>
+              <td>Wispr's whisper mode.<a class="cite" href="#s22">22</a></td>
+              <td>Test the ASR on whispered Swedish.</td>
+            </tr>
+            <tr>
+              <td><span class="rank">11</span></td>
+              <td><b>History, notes, file transcription</b></td>
+              <td>A safety net and a second reason to open the app.</td>
+              <td>Wispr notes, Yaps vault, Superwhisper files.<a class="cite" href="#s18">18</a><a class="cite" href="#s19">19</a></td>
+              <td>Fits your existing Molnfri notes app.</td>
+            </tr>
+            <tr>
+              <td><span class="rank">12</span></td>
+              <td><b>Stats and streaks</b></td>
+              <td>Cheap reinforcement.</td>
+              <td>An investor publicised a 35-week Wispr streak.<a class="cite" href="#s31">31</a></td>
+              <td>–</td>
+            </tr>
+            <tr class="baseline">
+              <td><span class="rank">Gate</span></td>
+              <td><b>Nothing leaves the phone</b></td>
+              <td>Nobody feels it per dictation, but in regulated work it decides whether the app is allowed at all.</td>
+              <td>9to5Mac's reviewer won't give a cloud app screen access; Klang raised money on keeping conversations off US clouds.<a class="cite" href="#s3">3</a><a class="cite" href="#s36">36</a></td>
+              <td>Healthcare, public sector and law. A requirement to buy, not a feature.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- HOOKED -->
+    <section id="hooked">
+      <p class="section-label">Behaviour</p>
+      <h2>Why people get hooked</h2>
+      <div class="figures" role="list">
+        <div class="figure" role="listitem"><span class="v">3×</span><span class="l">faster text entry by speech than an iPhone keyboard, with 20.4% fewer errors (English)</span><span class="s">Stanford, Baidu, UW study<a class="cite" href="#s30">30</a></span></div>
+        <div class="figure" role="listitem"><span class="v">89%</span><span class="l">of Flow messages sent without edits, up from 45% a year earlier</span><span class="s">Founder, Dec 2025<a class="cite" href="#s27">27</a></span></div>
+        <div class="figure" role="listitem"><span class="v">0.5 s</span><span class="l">median time from seeing the text to pressing send</span><span class="s">Founder<a class="cite" href="#s27">27</a></span></div>
+        <div class="figure" role="listitem"><span class="v">70%</span><span class="l">of users still active after 12 months</span><span class="s">Founder<a class="cite" href="#s29">29</a></span></div>
+        <div class="figure" role="listitem"><span class="v">20%</span><span class="l">of free users convert to paid, against 3–4% typical for freemium</span><span class="s">Founder, Jul 2025<a class="cite" href="#s28">28</a></span></div>
+      </div>
+      <p class="small">Only the first figure is independent research. The rest are Wispr's own, unaudited numbers.</p>
+      <ol class="hooks">
+        <li><span class="h">Talking is about three times faster than thumb-typing.</span><p>The study measured it on a phone keyboard, where typing is slowest. Wispr's founder says users average about 120 words per minute with Flow, against roughly 40 for typing.<a class="cite" href="#s30">30</a><a class="cite" href="#s43">43</a></p></li>
+        <li><span class="h">Trust removes proofreading.</span><p>Once the output is right nearly every time, people stop reading it. Each message sent in half a second is a small win, and the loop repeats dozens of times a day.<a class="cite" href="#s27">27</a></p></li>
+        <li><span class="h">You can think out loud in fragments.</span><p>One long-time user describes it as "bullet points in, full messages out." Typing makes you compose as you go; talking lets you say the whole thought and have it shaped afterwards.<a class="cite" href="#s32">32</a></p></li>
+        <li><span class="h">It spreads from one app to all of them.</span><p>People start with one kind of message and drift into using it everywhere. Wispr reports that across its users, about 75% of characters now come from Flow and 25% from the keyboard.<a class="cite" href="#s27">27</a></p></li>
+        <li><span class="h">It makes AI tools better.</span><p>Spoken prompts are longer and carry more context than typed ones, so answers improve and people dictate even more. Wispr's founder contrasts "toilet broken how fix" with a 30-second spoken explanation.<a class="cite" href="#s43">43</a></p></li>
+      </ol>
+    </section>
+
+    <!-- LOCAL -->
+    <section id="local">
+      <p class="section-label">On-device</p>
+      <h2>Can it run locally?</h2>
+      <p>Yes. Local speech recognition and local LLM cleanup both ship behind iPhone keyboards today. The apps doing it are small, and none of them is built for Swedish.</p>
+
+      <h3>Keyboards that keep audio on the phone</h3>
+      <div class="table-wrap">
+        <table class="wide-local">
+          <thead><tr><th>App</th><th>Speech on device</th><th>LLM cleanup on device</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="app">Apple Dictation</td><td>Yes, including Swedish</td><td>iOS 27 Advanced Dictation, English only</td><td>No Swedish auto-punctuation<a class="cite" href="#s11">11</a></td></tr>
+            <tr><td class="app">Outspoken</td><td>Yes: Apple, Parakeet v3 (25 languages, Swedish included), Whisper</td><td>Yes: Apple Intelligence or Qwen3</td><td>Indie, July 2026; 3.0 stars from 5 ratings<a class="cite" href="#s16">16</a></td></tr>
+            <tr><td class="app">KeySay</td><td>Yes: Whisper</td><td>Yes: Apple's on-device model, on supported iPhones</td><td>Pay once<a class="cite" href="#s17">17</a></td></tr>
+            <tr><td class="app">Yaps</td><td>Yes: own model</td><td>Yes, model not disclosed</td><td>Launched August 2026<a class="cite" href="#s18">18</a></td></tr>
+            <tr><td class="app">VoiceInk</td><td>Yes: Parakeet and others</td><td>No; optional cloud with your own keys</td><td>Free; 4.2 from 36 ratings<a class="cite" href="#s25">25</a></td></tr>
+            <tr><td class="app">Superwhisper</td><td>Yes, best on iPhone 15 and newer</td><td>No; cloud or your own keys</td><td>Most-rated of the local options<a class="cite" href="#s19">19</a></td></tr>
+            <tr><td class="app">Spokenly</td><td>Optional "Local Only" mode with Parakeet</td><td>Not documented</td><td>Cloud by default<a class="cite" href="#s26">26</a></td></tr>
+            <tr><td class="app">VocaPhone</td><td>Yes, or a self-hosted server</td><td>No</td><td>Open source, TestFlight<a class="cite" href="#s15">15</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Can a local LLM sit behind the keyboard?</h3>
+      <p>Yes, but never inside the keyboard itself. Everything heavy runs in the containing app while it sits in the background. These are the constraints to design around:</p>
+      <div class="table-wrap">
+        <table class="wide-constraints">
+          <thead><tr><th>Constraint</th><th>What it means for you</th></tr></thead>
+          <tbody>
+            <tr><td>Keyboard extensions can't record audio.<a class="cite" href="#s13">13</a></td><td>Record in the containing app and pass text through an App Group.</td></tr>
+            <tr><td>iOS kills a keyboard at roughly 48–77 MB. One developer saw the kill at 77 MB on an iPhone 14 Pro.<a class="cite" href="#s14">14</a></td><td>No models in the keyboard. It is a remote control and a text inserter.</td></tr>
+            <tr><td>Starting needs a trip to the app, and since iOS 26.4 there is no automatic return and no way to tell which app the user came from.<a class="cite" href="#s6">6</a><a class="cite" href="#s7">7</a></td><td>Long-lived sessions, a clear swipe-back screen, and a manual style switch.</td></tr>
+            <tr><td>Background apps can't use the GPU except in a <code>BGContinuedProcessingTask</code> with the GPU entitlement. From iOS 27, any Neural Engine use in the background requires the Background Inference entitlement (Apple's documentation, marked beta).<a class="cite" href="#s12">12</a></td><td>The CPU is the only path that always works. Apply for the entitlement, and measure Pianissimo on the Neural Engine in the background on iOS 26 and 27.</td></tr>
+            <tr><td>Background apps are the first to be killed when memory runs low. Pianissimo's int8 Core ML encoder is about 650 MB of weights; Gemma 4 E2B on CPU uses about 607 MB according to Google.<a class="cite" href="#s38">38</a><a class="cite" href="#s37">37</a></td><td>Load the models in sequence and unload after use, or keep only the speech model warm.</td></tr>
+            <tr><td>Holding a recording session in the background affects other audio. One user reports music quality dropping and AirPods controls stopping while a dictation app held the mic.<a class="cite" href="#s16">16</a></td><td>Release the session promptly and make the timeout visible.</td></tr>
+            <tr><td>Apple's Foundation Models run on the device, need no download, and Apple Intelligence supports Swedish. Apple documents a rate limit that applies only when the app is in the background.<a class="cite" href="#s11">11</a><a class="cite" href="#s39">39</a></td><td>Test calling it from the keyboard, which is in the foreground. I found nothing confirming whether that works.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>The latency problem, measured against the cloud apps</h3>
+      <div class="viz" id="latency-viz">
+        <div>
+          <div class="viz-title">Seconds until the cleaned-up text appears, for one 50-word Swedish message</div>
+          <div class="viz-sub">Gemma rows are my estimates from Google's iPhone 17 Pro figures and exclude speech recognition. Cloud rows are vendor or founder claims.</div>
+        </div>
+        <div class="bars" role="list">
+          <button type="button" class="bar-row" role="listitem" data-value="0.45" data-note="Vendor claim for final text, including recognition.">
+            <span class="bar-label">Aqua Voice, final text <em>(vendor)</em></span>
+            <span class="bar-track"><span class="bar" style="width:9%"></span><span class="bar-value">0.45 s</span></span>
+          </button>
+          <button type="button" class="bar-row" role="listitem" data-value="0.5" data-note="Founder: text is there within half a second.">
+            <span class="bar-label">Wispr Flow, text on screen <em>(founder)</em></span>
+            <span class="bar-track"><span class="bar" style="width:10%"></span><span class="bar-value">0.5 s</span></span>
+          </button>
+          <button type="button" class="bar-row" role="listitem" data-value="0.6" data-note="Prefill of about 300 tokens at 532 tokens/s, plus the first tokens. After that, text keeps arriving at about 14 words per second.">
+            <span class="bar-label">Gemma 4 E2B on CPU, streamed: first words <em>(estimate)</em></span>
+            <span class="bar-track"><span class="bar" style="width:12%"></span><span class="bar-value">0.6 s</span></span>
+          </button>
+          <button type="button" class="bar-row" role="listitem" data-value="1.7" data-note="2,878 tokens/s prefill and 56.5 tokens/s decode. Only possible while your own app is in the foreground.">
+            <span class="bar-label">Gemma 4 E2B on GPU, whole message <em>(estimate, foreground only)</em></span>
+            <span class="bar-track"><span class="bar" style="width:34%"></span><span class="bar-value">1.7 s</span></span>
+          </button>
+          <button type="button" class="bar-row" role="listitem" data-value="4.2" data-note="532 tokens/s prefill and 25 tokens/s decode for about 90 output tokens. An iPhone 15 Pro will be slower.">
+            <span class="bar-label">Gemma 4 E2B on CPU, whole message <em>(estimate)</em></span>
+            <span class="bar-track"><span class="bar" style="width:84%"></span><span class="bar-value">4.2 s</span></span>
+          </button>
+        </div>
+        <div class="axis" aria-hidden="true">
+          <span></span>
+          <div class="axis-scale">
+            <span style="left:0%">0</span><span style="left:20%">1</span><span style="left:40%">2</span><span style="left:60%">3</span><span style="left:80%">4</span><span style="left:100%">5 s</span>
+          </div>
+        </div>
+        <div class="tooltip" id="viz-tip" hidden></div>
+        <details class="table-view">
+          <summary>Show as a table, with assumptions</summary>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Row</th><th>Seconds</th><th>Basis</th></tr></thead>
+              <tbody>
+                <tr><td>Aqua Voice, final text</td><td class="num">0.45</td><td>Vendor claim, App Store listing<a class="cite" href="#s20">20</a></td></tr>
+                <tr><td>Wispr Flow, text on screen</td><td class="num">0.5</td><td>Founder claim<a class="cite" href="#s27">27</a></td></tr>
+                <tr><td>Gemma CPU, streamed first words</td><td class="num">0.6</td><td>300 / 532 + 2 / 25</td></tr>
+                <tr><td>Gemma GPU, whole message</td><td class="num">1.7</td><td>300 / 2,878 + 90 / 56.5</td></tr>
+                <tr><td>Gemma CPU, whole message</td><td class="num">4.2</td><td>300 / 532 + 90 / 25</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="small" style="margin-top:8px">Assumptions: a prompt of about 300 tokens (instructions, dictionary, transcript) and about 90 output tokens, using an assumed 1.8 tokens per Swedish word. Check that ratio with the Gemma tokenizer on real transcripts. Speeds are Google's figures for an iPhone 17 Pro.<a class="cite" href="#s37">37</a></p>
+        </details>
+      </div>
+      <p>A full rewrite on the CPU takes about eight times longer than the cloud leaders. Streaming hides most of that. At 25 tokens per second the text arrives at about 14 words per second, faster than anyone reads, so the user sees words start about 0.6 seconds after they stop talking.</p>
+
+      <h3>The architecture I'd use for a Swedish keyboard</h3>
+      <div class="two-col">
+        <div class="callout">
+          <h3>Keyboard extension</h3>
+          <p>Swedish QWERTY with å, ä and ö, a large mic key and a style switch (Formell, Vardaglig, Kort). It inserts text as it streams in. It holds no models and no audio.</p>
+        </div>
+        <div class="callout">
+          <h3>Containing app, in the background</h3>
+          <p>Records, and runs Pianissimo in chunks while the user is still talking, so recognition is nearly done when they stop. A rules pass handles numbers and obvious fillers. The LLM pass streams tokens to the keyboard. Dictionary and history stay encrypted on the phone.</p>
+        </div>
+      </div>
+      <p><b>LLM options, in the order I'd test them:</b></p>
+      <ol class="steps">
+        <li>A small model trained only for Swedish dictation cleanup, in the 270M–1B range, distilled from a larger model. A narrow task suits a small model, and a small model is fast on the CPU.</li>
+        <li>Gemma 4 E2B on the CPU, streamed. It is already in your app and needs no new training.</li>
+        <li>Apple's Foundation Models, where Apple Intelligence is on. There is nothing to download and it handles Swedish, but check its Swedish quality and the background rate limit. From iOS 27 you can put Gemma and Apple's model behind the same <code>LanguageModelSession</code> interface and swap them.<a class="cite" href="#s40">40</a></li>
+        <li>Gemma on the GPU, only when your own app is in the foreground, for example for long notes inside Molnfri.</li>
+      </ol>
+    </section>
+
+    <!-- SWEDISH -->
+    <section id="swedish">
+      <p class="section-label">Recommendation</p>
+      <h2>The Swedish build</h2>
+      <p><b>Positioning:</b> Wispr Flow's polish, in Swedish, with nothing leaving the phone. The gap is real. Apple's Swedish dictation has no punctuation, its new AI dictation is English-only, and the apps reviewers love are US cloud services.<a class="cite" href="#s11">11</a></p>
+      <p><b>The asset:</b> Klang reports that Pianissimo averages 4.5% word error rate across five Swedish test sets. KB-Whisper scores 5.8% for small (your current model), 4.9% for medium and 3.5% for large. On Klang's dialect set Pianissimo scores 4.9%, against 5.2% for KB-Whisper small. These are Klang's own numbers. The model is licensed CC BY 4.0.<a class="cite" href="#s35">35</a><a class="cite" href="#s38">38</a></p>
+
+      <h3>What Swedish cleanup has to handle</h3>
+      <div class="table-wrap">
+        <table class="wide-sv">
+          <thead><tr><th>Problem</th><th>Spoken</th><th>Written</th></tr></thead>
+          <tbody>
+            <tr><td>Filler words</td><td class="example-said">"Öh, jag tänkte typ att vi kunde ses i morgon"</td><td class="example-out">Jag tänkte att vi kunde ses i morgon.</td></tr>
+            <tr><td>Changing your mind</td><td class="example-said">"Vi ses klockan tre, nej förresten, fyra"</td><td class="example-out">Vi ses klockan fyra.</td></tr>
+            <tr><td>Split compounds (särskrivning)</td><td class="example-said">ASR output: "ring kund tjänst"</td><td class="example-out">Ring kundtjänst.</td></tr>
+            <tr><td>Numbers, money, dates, times</td><td class="example-said">"tre tusen femhundra kronor den elfte oktober klockan fjorton och trettio"</td><td class="example-out">3 500 kr den 11 oktober kl. 14.30</td></tr>
+            <tr><td>English words in Swedish</td><td class="example-said">"kan du pinga mig innan deadline på fredag"</td><td class="example-out">Kan du pinga mig innan deadline på fredag?</td></tr>
+            <tr><td>Email shape</td><td class="example-said">"hej anna tack för mötet … vänliga hälsningar edvard"</td><td class="example-out">Hej Anna! / Tack för mötet … / Vänliga hälsningar / Edvard</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small">"Typ," "liksom" and "alltså" are fillers only some of the time. Remove them only when they carry no meaning, and build test cases for both uses. Parakeet v3 outputs punctuation and capitals; check that Pianissimo kept that ability.</p>
+
+      <h3>What to build first, in order</h3>
+      <ol class="checklist">
+        <li><b>Swedish text that needs no editing,</b> covering everything in the table above, measured on your own Swedish test set.</li>
+        <li><b>A session that survives iOS 26.4 and later:</b> start once, a long timeout, a Live Activity with a Stop button, starts from the Action Button and Control Center, and a clear swipe-back screen.</li>
+        <li><b>A personal dictionary</b> that learns from corrections made in your own keyboard.</li>
+        <li><b>A full Swedish keyboard</b> with the style switch.</li>
+        <li><b>Voice edits and translation to English.</b></li>
+      </ol>
+      <p>Later: snippets, quiet dictation, shared team dictionaries for clinics and law firms, Apple Watch capture.</p>
+
+      <div class="two-col">
+        <div class="callout">
+          <h3>Measure</h3>
+          <p>The share of Swedish dictations sent without edits. Seconds from the end of speech to text on screen. Word error rate, including dialects. The share of dictations that needed a trip to the app. Four-week retention.</p>
+        </div>
+        <div class="callout">
+          <h3>Price against</h3>
+          <p>Wispr $15/mo. Willow $15/mo or $143.99/yr. Typeless about $12/mo yearly. Monologue $10/mo. Superwhisper $8.49/mo or $249.99 lifetime. Outspoken €1.99/mo, €17.99/yr or €44.99 lifetime. With no server cost per word, a low price or a lifetime licence is viable.<a class="cite" href="#s1">1</a><a class="cite" href="#s16">16</a><a class="cite" href="#s23">23</a></p>
+        </div>
+      </div>
+
+      <h3>Risks</h3>
+      <ul class="steps">
+        <li>Apple adds Swedish to Advanced Dictation. Its language lists grow every year. Compete on the dictionary, voice editing, Swedish style and professional workflows, not on punctuation alone.</li>
+        <li>Apple restricts keyboards further, as it did in iOS 26.4.</li>
+        <li>Apple doesn't grant the Background Inference entitlement. Then recognition and cleanup both run on the CPU.</li>
+        <li>The Core ML conversion of Pianissimo is a young community build. Reproduce it before you ship.<a class="cite" href="#s38">38</a></li>
+      </ul>
+    </section>
+
+    <!-- GATES -->
+    <section id="gates">
+      <p class="section-label">Next steps</p>
+      <h2>Prototype gates for the keyboard version</h2>
+      <p>These extend the gates in your Molnfri handoff. Run them on an iPhone 15 Pro with a Release build, on both iOS 26 and iOS 27.<a class="cite" href="#s38">38</a></p>
+      <ol class="checklist">
+        <li><b>Session.</b> The keyboard-to-app trip and the swipe back work on iOS 26.4+ and 27, and background recording survives 30 minutes with the screen locked.</li>
+        <li><b>Recognition in the background.</b> Pianissimo on the Neural Engine while backgrounded, on iOS 26 and on iOS 27 with and without the entitlement. The CPU real-time factor as the fallback.</li>
+        <li><b>Cleanup.</b> Gemma 4 E2B on the CPU in the background: time to first token, tokens per second, and streaming into the keyboard. The same test with Apple's Foundation Models, called from the keyboard and from the app.</li>
+        <li><b>Memory.</b> Peak footprint with both models loaded, and whether iOS kills your app when the user opens the Camera.</li>
+        <li><b>Quality.</b> The share of 100 real Swedish dictations that need no edits: raw recognition, rules only, Gemma, and Apple's model.</li>
+      </ol>
+    </section>
+
+    <!-- SOURCES -->
+    <section id="sources">
+      <h2>Sources</h2>
+      <ol class="sources">
+        <li id="s1">TechCrunch, <a href="https://techcrunch.com/2026/05/02/the-best-ai-powered-dictation-apps-of-2025">The best AI dictation apps, tested and ranked</a>, 2 May 2026.</li>
+        <li id="s2">9to5Mac, <a href="https://9to5mac.com/?p=1008112">Wispr Flow is an AI that transcribes what you say right from the iPhone keyboard</a>, 30 June 2025.</li>
+        <li id="s3">9to5Mac, <a href="https://9to5mac.com/?p=1048162">Aqua Voice, the best dictation app I've ever used, is now available on iPhone</a>, 17 April 2026.</li>
+        <li id="s4">Make Tech Easier, <a href="https://maketecheasier.com/willow-dictation-keyboard-app/">The Willow App Is The Most Accurate Dictation Keyboard App I Have Used</a>, 6 January 2026.</li>
+        <li id="s5">TechCrunch via Yahoo Tech, <a href="https://tech.yahoo.com/ai/meta-ai/articles/willow-voice-keyboard-lets-type-072100796.html">Willow's voice keyboard lets you type across all your iOS apps</a>.</li>
+        <li id="s6">Wispr Flow Help Center, <a href="https://docs.wisprflow.ai/articles/6269634092-adapting-to-ios-26-4">Adapting to iOS 26.4</a>.</li>
+        <li id="s7">Apple Developer Forums, <a href="https://developer.apple.com/forums/thread/826851">iOS 26.4: how to return from main app to host app after a keyboard-extension dictation round-trip</a> (developer report).</li>
+        <li id="s8">TechCrunch, <a href="https://techcrunch.com/2026/06/08/apple-introduces-systemwide-dictation/">Apple introduces systemwide dictation</a>, 8 June 2026.</li>
+        <li id="s9">9to5Mac, <a href="https://9to5mac.com/2026/06/12/ai-advanced-dictation-preview-ios-27-beta/">The new dictation feature is off by default in iOS 27 beta 1</a>, 12 June 2026.</li>
+        <li id="s10">Tom's Guide, <a href="https://www.tomsguide.com/phones/iphones/ios-27-beta-has-new-and-improved-dictation-software-i-tested-it-by-writing-this-whole-article-with-my-voice">iOS 27 beta has new and improved dictation software</a>, 14 June 2026.</li>
+        <li id="s11">Apple, <a href="https://www.apple.com/ios/feature-availability/">iOS and iPadOS 27 Feature Availability</a>: "More advanced Dictation" (English only), "Dictation: Auto-Punctuation" (no Swedish), "On-Device Dictation" and "Writing Tools" (Swedish).</li>
+        <li id="s12">Apple Developer Documentation, <a href="https://developer.apple.com/documentation/bundleresources/entitlements/com.apple.developer.background-tasks.continued-processing.inference">Background Inference entitlement</a> (beta).</li>
+        <li id="s13">Apple Developer Forums, <a href="https://developer.apple.com/forums/thread/775077">Error 561145187: recording audio from keyboard extension</a>.</li>
+        <li id="s14">VocaPhone, <a href="https://github.com/VocaHQ/vocaphone/pull/340">fix(ios): keep the keyboard under its memory limit</a>; React Native, <a href="https://github.com/facebook/react-native/issues/31910">custom keyboard crashes above 48 MB</a>.</li>
+        <li id="s15">VocaPhone, <a href="https://github.com/VocaHQ/vocaphone/wiki">project wiki</a>.</li>
+        <li id="s16">iphone-ticker.de, <a href="https://www.iphone-ticker.de/outspoken-geheimtipp-bringt-lokale-diktierfunktion-in-jede-iphone-app-282532/">Outspoken bringt lokale Diktierfunktion in jede iPhone-App</a>, 31 July 2026, including reader comments; <a href="https://apps.apple.com/de/app/id6789053268">App Store listing</a>.</li>
+        <li id="s17">KeySay, <a href="https://apps.apple.com/us/app/keysay-private-dictation/id6762168533">App Store listing</a>.</li>
+        <li id="s18">Yaps, <a href="https://www.yaps.ai/blog/yaps-ios-app-launch">Yaps for iPhone and iPad is live</a>, 17 August 2026.</li>
+        <li id="s19">Superwhisper, <a href="https://superwhisper.com/ios">Superwhisper for iOS</a>; <a href="https://apps.apple.com/us/app/superwhisper-ai-dictation/id6471464415">App Store listing</a>.</li>
+        <li id="s20">Aqua Voice, <a href="https://apps.apple.com/us/app/id6759074969">App Store listing</a>.</li>
+        <li id="s21">Typeless, <a href="https://apps.apple.com/us/app/id6749257650">App Store listing</a>.</li>
+        <li id="s22">Wispr Flow, <a href="https://apps.apple.com/us/app/id6497229487">App Store listing</a>.</li>
+        <li id="s23">Willow, <a href="https://apps.apple.com/us/app/willow-dictation-ai-keyboard/id6753057525">App Store listing</a>.</li>
+        <li id="s24">Monologue, <a href="https://apps.apple.com/us/app/monologue-smart-dictation/id6755956193">App Store listing and release notes</a>.</li>
+        <li id="s25">VoiceInk, <a href="https://apps.apple.com/us/app/-/id6751431158">App Store listing</a>.</li>
+        <li id="s26">Spokenly, <a href="https://spokenly.app/dictation-for-iphone">Dictation for iPhone</a>.</li>
+        <li id="s27">Possible podcast, <a href="https://www.possible.fm/podcasts/tanay/">R.I.P. Computer Keyboard</a>, Reid Hoffman with Tanay Kothari, December 2025.</li>
+        <li id="s28">A Product Market Fit Show, <a href="https://www.pmf.show/blog/wispr-flow-tanay-kothari-product-market-fit">How Wispr Flow hit 50% MoM growth</a>, July 2025.</li>
+        <li id="s29">Peter Yang, <a href="https://creatoreconomy.so/p/full-tutorial-how-to-use-voice-ai-to-write-and-code-faster-wispr-flow-tanay">Full tutorial: how to use voice AI to work and code 10x faster</a>, November 2025.</li>
+        <li id="s30">Ruan, Wobbrock, Liou, Ng and Landay, <a href="https://arxiv.org/abs/1608.07323">Speech Is 3x Faster than Typing for English and Mandarin Text Entry on Mobile Devices</a>, 2016.</li>
+        <li id="s31">The Product Folks, <a href="https://prodfolks.substack.com/p/wispr-flow-keyboard">wispr flow &gt; keyboard</a>, March 2026.</li>
+        <li id="s32">Ben Newton, <a href="https://benenewton.com/blog/wispr-flow-voice-dictation-review">A year into Wispr Flow, I can't work without it anymore</a>, July 2026 (affiliate disclosed).</li>
+        <li id="s33">Android Headlines, <a href="https://www.androidheadlines.com/2026/05/google-gboard-rambler-ai-voice-dictation-features.html">Gboard Rambler AI voice dictation</a>, May 2026.</li>
+        <li id="s34">Zavi, <a href="https://apps.apple.com/us/app/-/id6759040802">App Store listing</a>.</li>
+        <li id="s35">Klang, <a href="https://research.klang.ai/papers/klang-pianissimo-sv">Klang Pianissimo</a>; <a href="https://huggingface.co/KlangAI/pianissimo-sv">model card</a>.</li>
+        <li id="s36">Dealroom, <a href="https://dealroom.co/news/155920-swedens-klang-raises-1-5m-seed-to-keep-ai-conversations-off-us-clouds/">Sweden's Klang raises $1.5M seed to keep AI conversations off US clouds</a>, 2026.</li>
+        <li id="s37">Google, <a href="https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm">gemma-4-E2B-it LiteRT-LM model card</a> (iPhone 17 Pro CPU and GPU figures).</li>
+        <li id="s38">Molnfri local-models handoff in this repository, <code>molnfri-local-models/CODEX_INSTRUCTION.md</code>, 25 September 2026.</li>
+        <li id="s39">Apple Developer Documentation, <a href="https://developer.apple.com/documentation/foundationmodels/languagemodelsession/generationerror/ratelimited(_:)">LanguageModelSession.GenerationError.rateLimited</a>: "only happen if your app is running in the background."</li>
+        <li id="s40">Apple, WWDC26 session 339, <a href="https://developer.apple.com/videos/play/wwdc2026/339/">Bring an LLM provider to the Foundation Models framework</a>.</li>
+        <li id="s41">Wispr Flow, <a href="https://roadmap.wisprflow.ai">What's new</a>, March 2026 release (20-minute dictations, new iOS style controls).</li>
+        <li id="s42">Wispr Flow Help Center, <a href="https://docs.wisprflow.ai/articles/3963749774-switch-between-the-123-and-abc-layouts-in-the-wispr-ios-keyboard">Switch between the 123 and ABC layouts in the Wispr iOS keyboard</a>.</li>
+        <li id="s43">Tech Optimist podcast, <a href="https://techoptimist.vc/episodes/63-meet-the-start-up-at-the-center-of-the-voice-computer-revolution/transcript">#63, Meet the start-up at the center of the voice-computer revolution</a> (transcript), October 2024.</li>
+      </ol>
+      <footer>Prepared 11 October 2026. Company-reported figures are not independently verified. App Store ratings change daily.</footer>
+    </section>
+  </main>
+</div>
+
+<script>
+(function () {
+  var viz = document.getElementById('latency-viz');
+  var tip = document.getElementById('viz-tip');
+  if (!viz || !tip) return;
+  function show(row) {
+    var label = row.querySelector('.bar-label');
+    tip.textContent = '';
+    var strong = document.createElement('strong');
+    strong.textContent = row.getAttribute('data-value') + ' s';
+    var name = document.createElement('div');
+    name.textContent = label ? label.textContent : '';
+    var note = document.createElement('div');
+    note.textContent = row.getAttribute('data-note') || '';
+    note.style.marginTop = '4px';
+    note.style.opacity = '0.85';
+    tip.appendChild(strong);
+    tip.appendChild(name);
+    tip.appendChild(note);
+    tip.hidden = false;
+    var bar = row.querySelector('.bar');
+    var vr = viz.getBoundingClientRect();
+    var br = (bar || row).getBoundingClientRect();
+    var left = br.right - vr.left + 12;
+    var maxLeft = viz.clientWidth - tip.offsetWidth - 8;
+    if (left > maxLeft) left = Math.max(8, maxLeft);
+    var top = br.top - vr.top - tip.offsetHeight - 8;
+    if (top < 4) top = br.bottom - vr.top + 8;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hide() { tip.hidden = true; }
+  viz.querySelectorAll('.bar-row').forEach(function (row) {
+    row.addEventListener('pointerenter', function () { show(row); });
+    row.addEventListener('pointerleave', hide);
+    row.addEventListener('focus', function () { show(row); });
+    row.addEventListener('blur', hide);
+  });
+})();
+</script>
