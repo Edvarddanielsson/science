@@ -99,8 +99,7 @@ export const IntroScene: React.FC<SceneProps> = ({scene}) => {
                   opacity: dropped ? 1 - 0.45 * strike : 1,
                 }}
               >
-                {visible}
-                {i < RAW.length - 1 ? ' ' : ''}
+                {visible + (i < RAW.length - 1 ? ' ' : '')}
               </span>
             );
           })}
@@ -331,9 +330,9 @@ export const InterestingScene: React.FC<SceneProps> = ({scene}) => {
         </div>
         <div style={what}>Keeps what you meant</div>
         <div style={{fontSize: 34, lineHeight: 1.45, color: C.ink2}}>
-          “Let’s meet at{' '}
-          <span style={{color: strike > 0 ? C.removed : C.ink2, textDecoration: strike > 0 ? 'line-through' : 'none'}}>three, no wait,</span>{' '}
-          four”
+          {'“Let’s meet at '}
+          <span style={{color: strike > 0 ? C.removed : C.ink2, textDecoration: strike > 0 ? 'line-through' : 'none'}}>three, no wait,</span>
+          {' four”'}
         </div>
         <div style={{margin: '24px 0', ...fadeUp(frame, fps, change + 0.3, 0.4)}}>
           <Arrow width={90} color={C.accent} />
