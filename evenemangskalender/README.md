@@ -1,47 +1,49 @@
-# Evenemangskalender v3
+# Evenemangskalender v3 – Microsoft Copilot
 
-| Fil | Vad |
-|---|---|
-| `PROMPT_v3.md` | Prompten. Ändra bara avsnitt 0 (regioner, period, år, tidigare körning). |
-| `bygg_kalender.py` | Byggskriptet som prompten kör. Bifoga det tillsammans med prompten. |
+`INSTRUKTION_v3_copilot.txt` är hela instruktionen: först själva instruktionen (7 885 tecken), sedan BILAGA A med HTML-mallen (5 849 tecken). Ändra bara avsnitt 0.
 
 ## Användning
 
-- **Chatt med kodkörning (claude.ai m.fl.):** bifoga `bygg_kalender.py`, och förra körningens `…_data.json` om du har den, och klistra in prompten.
-- **Claude Code i det här repot:** skriptet finns redan här. Be Claude köra `evenemangskalender/PROMPT_v3.md`.
-- **Testa miljön:** `python bygg_kalender.py test` bygger en fiktiv kalender och kör alla kontroller (tar cirka 15 sekunder).
+1. **Klistra in hela filen i Copilot.** Om Copilot säger att meddelandet är för långt (gränsen är ofta 8 000 tecken): skicka först allt före raden "BILAGA A", och sedan bilagan i ett nytt meddelande. Copilot svarar "Väntar på BILAGA A" i mellantiden.
+2. **Skriv FORTSÄTT** när Copilot ber om det. Den gör ett steg per svar: research och tabeller för region 1, HTML för region 1, samma sak för region 2 och sist Excel och slutrapport. Uppdelningen gör att långa svar inte kortas av.
+3. **Spara HTML-filen.** Kopiera kodblocket till Anteckningar och spara som till exempel `V42_2026_Kalmar_Evenemang.html`. Öppna filen i Edge. En röd ruta överst betyder att något inte får plats; be då Copilot att korta beskrivningen för det kort som nämns.
+4. **Skapa PDF:en i Edge.** Tryck Ctrl+P och välj Spara som PDF. Under fler inställningar: pappersstorlek A4, marginaler Inga, skala 100, bakgrundsgrafik på, sidhuvud och sidfot av.
+5. **Excel** skapas i sista steget. Om Copilot inte kan skapa filen exporterar du tabellerna från steg 1 och 3 till Excel.
+6. **Välj den högsta resonemangsnivån** om Copilot låter dig göra det. Researchen och regelbedömningen blir då mer genomarbetade.
 
-Skriptet behöver Python 3.9+, `playwright` med Chromium, `openpyxl` och `pypdf`. `pypdfium2` och `pillow` (eller `pdftoppm`) behövs för rastreringen.
+## Ändringar jämfört med v2
 
-## Varför resultaten blir jämnare än med v2
+- **Inga steg som Copilot inte kan utföra.** v2 krävde Playwright, Chromium, pypdf och rastrering. Copilot har inget av detta, så mätning, PDF-export och de mätbara kontrollerna fick gissas. I v3 sköter HTML-filen själv det som kräver en webbläsare:
+  - Sidindelningen följer v2:s regler: korthöjderna mäts i webbläsaren, en dagsrubrik placeras bara om minst ett kort ryms efter den, dagsrubriken upprepas på nästa sida och 0,8 mm lämnas i marginal.
+  - Kontrollerna (synliga bara på skärmen): beskrivningen högst 2 rader, tiden bryts inte, kolumnerna har proportionen 2:1 och huvudrubriken står på en rad.
+  - PDF:en skapas i Edge.
+- **Kortare.** v2 var cirka 12 000 tecken. v3 kan delas i två meddelanden som vart och ett ryms inom 8 000 tecken.
+- **Ett steg per svar** i stället för allt i ett svar.
+- **Fasta researchsteg:** samma källordning och samma fem sökningar per region varje gång. Kommuner som inte hinner kontrolleras redovisas som researchluckor. Listan "Kontrollerade källor" kan klistras in som TIDIGARE KÄLLOR nästa vecka.
+- **Kolumnen Belägg** i källunderlaget: ett ordagrant citat med år, datum och starttid. Det gör det svårare för modellen att hitta på uppgifter.
+- **Regler och exempel:**
+  - Uteslutningsreglerna prövas före verifieringen.
+  - Nya regler: R2 (fel ämne) och R8 (inställt).
+  - Exempel visar hur gränsfall ska bedömas.
+- **Beslut du kan vilja ändra:**
+  - Har anmälningsfristen passerat visar kortet "Anmälan krävs" i stället för ett passerat datum. Excel behåller fristen med "(passerad)".
+  - Året får också styrkas av sidans webbadress.
+  - Nya taggar: "Även digitalt" och "Pågår 13–15 oktober".
+  - "Endast medlemmar" är borttagen eftersom den krockar med R4.
+  - Kolumnen "PDF-sidor" i slutrapporten är borttagen, eftersom sidindelningen nu görs i webbläsaren.
+- **Mallen:** CSS:en är oförändrad. Ikonerna läggs in av skriptet, så att Copilot har mindre kod att skriva av, och skriptet ligger sist i filen.
 
-1. **Det mekaniska är kod, inte prosa.** Datum, kommunlistor (SCB 2026, alla 290 kommuner), sortering, ID, taggar, Excel, HTML, mätning, paginering, PDF, kvalitetskontroller och slutrapport görs av skriptet. Tidigare skrev modellen om allt detta varje gång, på lite olika sätt. Nu lägger den tiden på research och bedömning.
-2. **En enda datakälla.** Excel, HTML och PDF byggs från samma `data.json`. Antalen kan inte glida isär.
-3. **Valideringen stoppar vanliga modellfel:** felstavade fält (med förslag), kvarlämnade platshållare, taggar utanför vokabulären, datum utanför perioden, kommuner utanför länet, beskrivningar med fel längd eller med tid, pris eller titel, dubbletter och kopierad exempeldata.
-4. **Fast researchprotokoll med logg.** Samma källtyper och samma 14 sökfrågor per region varje gång. Varje kontrollerad källa loggas, och täckningen räknas per kommun. Luckorna hamnar automatiskt i Excel och rapport. Förra körningens källor kan återanvändas (`--tidigare`).
-5. **Belägg krävs.** Varje verifierat evenemang har ett ordagrant citat med år, datum och starttid. Det gör det svårare för modellen att hitta på och lätt för dig att kontrollera.
-6. **Kalibreringsexempel** för regelbedömning och beskrivningar, och ett fiktivt exempel på en hel post.
+## Testat (Chromium 141, Liberation Sans)
 
-## Beslut som skiljer sig från v2 (ändra om du vill)
+- Mallen ger exakt samma sidindelning som en mätning med Playwright och v2:s algoritm:
+  - 11 kort på 4 sidor
+  - 30 kort på 10 sidor, där en dag fortsätter över tre sidor
+- PDF:erna är A4 och har en länk på 190 mm per kort. Sista kortet slutar minst 10 mm ovanför underkanten. Vid 390 px bredd blir sidindelningen densamma, utan horisontell scroll.
+- Den röda kontrollrutan visas för en beskrivning på tre rader och för ett för långt ord, men inte i PDF:en.
+- Mallen klarar vanliga avvikelser från Copilot:
+  - Om ikonerna redan finns med eller korten ligger på flera `sheet` blir resultatet ändå detsamma.
+  - Om skriptet går sönder syns ändå alla kort.
 
-- **Regelordningen:** uteslutningsreglerna prövas före verifieringen, så tid läggs inte på att verifiera sådant som ändå utesluts. Två regler har tillkommit, R2 (fel ämne) och R8 (inställt), och numreringen har därför ändrats.
-- **Passerad anmälningsfrist:** kortet visar "Anmälan krävs" i stället för ett datum som redan har passerat. Excel behåller fristen med "(passerad)". Det styrs i `harled_kort()` i skriptet.
-- **Året kan styrkas** av sidans adress eller dess maskinläsbara data (JSON-LD, ICS), inte bara av synlig text.
-- **Taggar:** "Även digitalt" (hybrid), "Pågår 13–15 oktober" (flera dagar) och "Anmälan krävs" har tillkommit. "Endast medlemmar" är borttagen eftersom den krockar med R4.
-- **"Tid meddelas"** är borttagen. Starttid krävs för att ett evenemang ska räknas som verifierat, så fallet kan inte uppstå.
-- **Rättningar:** Excel-filnamnet följer samma mönster överallt (v2 hade två olika). Sökorden följer perioden (v2 hade "oktober 2026" hårdkodat). ID-prefixen anges i inställningarna, så att till exempel Västra Götaland och Västerbotten inte krockar. "ÅR: auto" klarar vecka 1 när prompten körs i december.
-- **Ny kontroll:** kortets kolumner ska ha proportionen 2:1. Ett mycket långt ord i en lokal eller titel trycker annars isär kolumnerna utan att något flyter över.
+Instruktionen har inte provkörts i Copilot. Researchdelen är alltså otestad.
 
-## Mallen
-
-BILAGA A från v2 är oförändrad och finns i skriptet (`CSS`, `SVG_*`, `ZOOM_JS`). En egenhet: `.sheet:last-child` matchar aldrig, eftersom `<script>` är det sista barnet i `body`. Chromium lägger ändå inte till någon tom sista sida, så regeln har lämnats som den är.
-
-## Testat
-
-Med Chromium 141 och Liberation Sans (Arial saknades):
-
-- `test`: 11 fiktiva kort på 4 sidor, plus en region med bara uteslutna evenemang. Alla kontroller passerar.
-- Månadsläge med 30 kort på 10 sidor, där en dag med 9 kort sträcker sig över tre sidor med upprepad dagsrubrik.
-- Felfall som stoppas eller underkänns: en beskrivning på tre rader, ett långt ord i en lokal (löses med ett mjukt bindestreck), felstavade fält, kvarlämnade platshållare, dubbletter, datum utanför perioden och en kommun utanför länet.
-- Prompten själv: dess fiktiva exempelpost är giltig enligt skriptet, men stoppas om den kopieras ordagrant.
-- `init` för vecka 53 över årsskiftet (28 december 2026–3 januari 2027), krockande ID-prefix och ett landskap som inte är ett län.
+Den tidigare versionen med ett byggskript i Python finns i commit `854d9b7`.

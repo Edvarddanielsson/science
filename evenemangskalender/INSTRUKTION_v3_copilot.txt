@@ -1,0 +1,156 @@
+EVENEMANGSKALENDER – INSTRUKTION v3 (Microsoft Copilot)
+
+0. INSTÄLLNINGAR (ändra bara här)
+REGIONER: Kalmar län (K), Skåne län (S)
+PERIOD: vecka 42 (alternativ: månad oktober)
+ÅR: innevarande år enligt svensk tid; har perioden redan passerat: nästa år
+TIDIGARE KÄLLOR: inga (eller förra körningens källista)
+
+Arbeta självständigt och ställ inga frågor. Vid oklarhet: välj standardvärdet här och redovisa valet i slutrapporten. Hitta aldrig på uppgifter; det källan inte anger blir "ej angivet". Hellre ett evenemang för lite än ett felaktigt.
+Saknas BILAGA A (HTML-mallen) i meddelandet: svara bara "Väntar på BILAGA A".
+
+1. ARBETSGÅNG – ett steg per svar
+Steg 1: Skriv periodens datum (ISO-vecka, måndag–söndag; vecka 42 år 2026 = 12–18 oktober). Gör research (2) och bedömning (3) för första regionen och visa dess källunderlag (4).
+Steg 2: HTML-kalendern för samma region (5–6).
+Steg 3 och 4: samma för nästa region, och så vidare.
+Sista steget: Excel-filen och slutrapporten (7).
+Avsluta varje svar utom det sista med: Skriv FORTSÄTT för [nästa steg].
+
+2. RESEARCH
+Region = län ("Västergötland" = landskapet). Sök på svenska i denna ordning (börja med TIDIGARE KÄLLOR):
+a) Arbetsförmedlingens evenemang i länet, regionen (Region …) och länsstyrelsen
+b) Almi, NyföretagarCentrum, Företagarna, handelskammaren, Svenskt Näringsliv, science parks, inkubatorer, energikontor, IUC och branschorganisationer
+c) universitet och högskolor (bara evenemang öppna för allmänheten)
+d) varje kommuns evenemangs- eller näringslivssida och komvux, största kommunen först
+e) regionala kalendrar och aggregatorer – bara för att hitta kandidater, aldrig som verifiering
+Sök också, med regionens namn och periodens månad och år:
+1 jobbmässa, yrkesmässa, rekryteringsträff, arbetsgivarträff
+2 komvuxmässa, öppet hus vuxenutbildning
+3 näringslivsfrukost, företagsfrukost, nätverksträff företagare
+4 starta eget, entreprenörskväll
+5 seminarium kompetensförsörjning, branschdag, HR-nätverk
+Kommuner du inte hinner med redovisas som researchluckor.
+
+3. BEDÖMNING
+VERIFIERAD = arrangörens egen sida, eller en anmälningssida som arrangören länkar till, anger uttryckligen år, datum inom perioden, starttid samt plats eller "digitalt". Året får också framgå av sidans webbadress.
+Pröva reglerna i tur och ordning; första regel som träffar avgör:
+R1 Datum utanför perioden eller plats utanför regionen → Utesluten
+R2 Handlar inte om jobb, utbildningsvägledning, arbetsgivarkontakter, företagande eller kompetensförsörjning → Utesluten
+R3 Stängd målgrupp (bara studenter vid ett visst lärosäte, bara elever, interna deltagare, stängd kurs) → Utesluten
+R4 Slutet medlemsevenemang, eller slutsålt utan väntelista → Utesluten. Öppet för alla men med medlemspris: gå vidare.
+R5 Betald kurs eller kursserie, kongress för en enda snäv yrkesgrupp eller ren regelinformation → Utesluten
+R6 Digitalt utan koppling till regionen (arrangör, målgrupp eller finansiering) → Utesluten
+R7 Inte VERIFIERAD → Obekräftad
+R8 Inställt av arrangören → Inställt
+Annars → Verifierad; fullbokat med väntelista → Fullbokat – väntelista. Blandad publik och väntelista hindrar inte.
+Arrangörens uppgifter gäller före aggregatorns. Inga dubbletter inom en region. Flerdagarsevenemang: ett kort, under första dagen inom perioden, med hela intervallet. Återkommande tillfällen (t.ex. drop-in tisdag och torsdag): ett kort per tillfälle. En passerad anmälningsfrist betyder inte stängd anmälan.
+Exempel: karriärdag för ett universitets studenter → R3. "Endast för medlemmar" → R4. Bara i aggregator, fjolårets datum hos arrangören eller "tisdag 13 oktober kl. 17.30" utan år → Obekräftad.
+
+4. KÄLLUNDERLAG (steg 1 och 3)
+Tabell A "VERIFIERADE EVENEMANG – ingår i kalendern (n st)" och tabell B "OBEKRÄFTADE KANDIDATER OCH UTESLUTNA – ingår EJ i kalendern (n st)", med kolumnerna:
+Internt ID | Namn | Arrangör | Kort beskrivning | Datum | Tider | Ort | Lokal | Adress eller digitalt format | Målgrupp | Deltagarkrav | Pris | Anmälningskrav | Tidsfrist | Status | Verifierad direktlänk | Källa | Belägg | Kontrolldatum | Osäkerheter
+- ID i kalenderordning: K1, K2 … i A och KU1, KU2 … i B (prefix från inställningarna).
+- Datum ÅÅÅÅ-MM-DD, tider HH:MM–HH:MM, kontrolldatum = dagens datum.
+- Status: "Planerat (verifierat ÅÅÅÅ-MM-DD)", "Fullbokat – väntelista", "Inställt", "Obekräftad" eller "Utesluten: R[n] – [skäl]".
+- Tidsfrist ÅÅÅÅ-MM-DD, med tillägget " (passerad)" om den har passerat.
+- Belägg: ordagrant citat från arrangörens sida som visar år, datum och starttid.
+Under tabellerna: "Kontrollerade källor" (domäner) och "Researchluckor" (oläsbara källor, kommuner som inte hanns med, kommuner utan träffar).
+
+5. KORTEN
+- titel: arrangörens titel ordagrant, utan emojier
+- arrangör: högst 90 tecken; "i samarbete med" skrivs "med". Utelämna raden om arrangören inte är verifierad.
+- tid: "HH:MM–HH:MM" med kort tankstreck, eller "HH:MM" om bara starttiden anges
+- plats: "Lokal, Gatuadress, Ort" utan postnummer, eller "Digitalt". Preliminär lokal: lägg till " (preliminärt)".
+- beskrivning: en mening på 60–115 tecken: "[Typ] om/för [innehåll eller målgrupp][, med X]." Upprepa inte titel, tid eller pris. Saklig ton, inga utropstecken. Exempel: "Rekryteringsträff där arbetsgivare inom vård och omsorg möter arbetssökande."
+- taggar, i denna ordning:
+1 typ, exakt en: Mässa | Seminarium | Konferens | Nätverksträff | Frukostmöte | Lunchträff | Workshop | Rekryteringsträff | Öppet hus
+2 format: Digitalt | Även digitalt (hybrid) | Drop-in HH:MM–HH:MM | Pågår [d–d månad]
+3 pris: Gratis | Fri entré (bara mässor) | "150 kr" | "150 kr medlem / 250 kr övriga ex moms". Okänt pris ger ingen tagg.
+4 villkor: Endast [grupp] | Från [ålder] år | För [målgrupp] | Begränsat antal platser | Väntelista | Bindande anmälan | Uteblivande [belopp] kr ex moms
+5 övrigt: högst en tagg, t.ex. "Del 2: workshop 23 okt"
+6 anmälan, alltid sist och med class="tag dl": "Anmäl senast [d månad]". Krävs anmälan men fristen saknas eller har passerat: "Anmälan krävs". Ingen anmälan: ingen tagg.
+- dagsrubrik: "Tisdag 13 oktober". Sortering: datum, starttid, titel A–Ö.
+
+6. HTML (steg 2 och 4)
+Kopiera BILAGA A ordagrant; ändra aldrig CSS, skript eller kortens uppbyggnad. Fyll i hakparenteserna och lägg en <div class="day"> per dag, med dagens kort, i den enda <section class="sheet" style="height:auto">. Skriptet sköter ikoner, sidindelning och kontroll; dela inte upp korten själv.
+- Datumintervall t.ex. "12–18 oktober 2026" eller "28 september–4 oktober 2026". Vid månadsurval: "EVENEMANG · OKTOBER".
+- Hela filen i ett enda kodblock. Filnamn: V[nr]_[år]_[Region]_Evenemang.html (månad: Oktober_2026_[Region]_Evenemang.html).
+- Saknas verifierade evenemang för regionen: skapa ingen HTML, skriv det i stället.
+Kontrollera före svaret: korten motsvarar tabell A (antal och ID), alla datum ligger inom perioden, beskrivningarna har 60–115 tecken, taggarna står i rätt ordning och kommer från listorna, och varje kort har direktlänk.
+
+7. SISTA STEGET
+Excel-filen V[nr]_[år]_Evenemang_Källunderlag.xlsx: en flik per region (kort namn, t.ex. Kalmar), Arial 10. Rad 1: "Källunderlag – [Region] – [period], [år] ([datumintervall])". Rad 2: "Kontrolldatum ÅÅÅÅ-MM-DD. 'ej angivet' = uppgiften saknas hos källan. Endast avsnitt A ingår i kalendern." Därefter tabell A, tabell B och raden "Researchluckor: …". Datum som datumceller och klickbara länkar. Kan du inte skapa filen: skriv det, så exporterar användaren tabellerna från steg 1 och 3.
+Slutrapport, exakt denna struktur:
+Region | Verifierade evenemang | Obekräftade/uteslutna
+– Osäkerheter: en punkt per evenemang med passerad frist, väntelista, preliminär lokal, länk till samlingssida eller saknat pris
+– Avvikelser från specifikationen: val enligt standardvärden och sådant du inte kunde göra
+– Researchluckor: per region
+Skapa ingen PDF och inga bilder; användaren skriver ut HTML-filen till PDF.
+
+BILAGA A – HTML-MALL (kopiera ordagrant; ersätt bara [hakparenteserna])
+<!doctype html><html lang="sv"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EVENEMANG · VECKA [nr] · [Region] · [datumintervall år]</title>
+<style>
+:root{--navy:#143460;--orange:#C25700;--card:#f7fbfc;--line:#d7e0e7;--tag:#e8edf1}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Arial,"Liberation Sans",Helvetica,sans-serif;color:var(--navy);background:#477780;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sheet{width:210mm;height:297mm;padding:10mm;margin:0 auto 4mm;background:linear-gradient(135deg,#517fa6,#477780);position:relative;overflow:hidden;break-after:page;page-break-after:always}
+.sheet:last-child{break-after:auto;page-break-after:auto;margin-bottom:0}
+h1{font-size:32.5pt;font-weight:700;color:#fff;text-align:center;line-height:1.15;white-space:nowrap}
+.sub{font-size:22.5pt;font-weight:400;color:#fff;text-align:center;line-height:1.2;margin-top:4mm;margin-bottom:7mm}
+.sub b{font-weight:900}
+.day{margin-top:8mm}
+.day.first{margin-top:0}
+.dh{margin-bottom:2mm;break-after:avoid}
+.dh span{display:inline-block;background:var(--orange);color:#fff;font-size:16pt;font-weight:700;line-height:1.2;padding:1.4mm 3mm;border-radius:2mm}
+a.card{display:block;background:var(--card);border-radius:4mm;padding:6mm;color:var(--navy);text-decoration:none;margin-bottom:2mm;break-inside:avoid}
+a.card:last-child{margin-bottom:0}
+a.card:hover,a.card:focus-visible{background:#e9f2f7}
+a.card:active{background:#d9e8f0}
+a.card:focus-visible{outline:3px solid var(--orange);outline-offset:1px}
+.top{display:grid;grid-template-columns:2fr 1fr;column-gap:4mm}
+.t{font-size:20pt;font-weight:700;line-height:1.15}
+.o{font-size:12.5pt;margin-top:1.2mm;line-height:1.25}
+.r{border-left:1px solid var(--line);padding-left:4mm}
+.tm,.pl{display:flex;align-items:flex-start;gap:1.6mm}
+.tm{font-size:15pt;font-weight:700;line-height:1.2;white-space:nowrap}
+.pl{font-size:12.5pt;line-height:1.25;margin-top:1.6mm}
+.tm svg{width:16.5pt;height:16.5pt;flex:none;margin-top:.2mm}
+.pl svg{width:13.75pt;height:13.75pt;flex:none;margin-top:.2mm}
+svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.d{font-size:14pt;line-height:1.4;margin-top:3mm}
+.tags{display:flex;flex-wrap:wrap;gap:1.6mm;border-top:1px solid var(--line);margin-top:3mm;padding-top:3mm}
+.tag{font-size:12.5pt;line-height:1.2;padding:1mm 2.8mm;border-radius:999px;background:var(--tag);color:var(--navy)}
+.tag.dl{background:#fff;color:var(--orange);border:1px solid var(--orange);padding:calc(1mm - 1px) calc(2.8mm - 1px)}
+@page{size:A4;margin:0}
+@media print{body{background:none}.sheet{margin:0}a.card{background:var(--card)!important}}
+</style></head><body>
+<section class="sheet" style="height:auto">
+<h1>EVENEMANG · VECKA [nr]</h1>
+<div class="sub"><b>[REGION]</b> · [datumintervall år]</div>
+<div class="day"><div class="dh"><span>[Veckodag d månad]</span></div>
+<a class="card" href="[direktlänk]" data-id="[ID]"><div class="top"><div class="l"><div class="t">[titel]</div><div class="o">[arrangör]</div></div><div class="r"><div class="tm"><span>[tid]</span></div><div class="pl"><span>[plats]</span></div></div></div><p class="d">[beskrivning]</p><div class="tags"><span class="tag">[tagg]</span><span class="tag dl">[anmälningstagg]</span></div></a>
+</div>
+</section>
+<script>(function(){
+var I=['<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>','<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg>'];
+function A(q,r){return [].slice.call((r||document).querySelectorAll(q))}
+A('.tm,.pl').forEach(function(e){if(!e.querySelector('svg'))e.insertAdjacentHTML('afterbegin',I[e.className=='tm'?0:1])});
+var S=A('.sheet'),s=S[0],D=A('.day'),B,F=[];
+D.forEach(function(d){d.remove()});S.slice(1).forEach(function(x){x.remove()});s.style.height='';
+function blk(h){B=document.createElement('div');B.className=s.querySelector('.day')?'day':'day first';B.appendChild(h.cloneNode(true));s.appendChild(B)}
+function ut(c){var r=s.getBoundingClientRect();return c.getBoundingClientRect().bottom-r.top>r.height*286.2/297}
+D.forEach(function(d){var h=d.querySelector('.dh');B=null;A('a.card',d).forEach(function(c){
+if(!B)blk(h);B.appendChild(c);
+if(ut(c)&&A('a.card',s).length>1){c.remove();if(!B.querySelector('a.card'))B.remove();var n=document.createElement('section');n.className='sheet';s.after(n);s=n;blk(h);B.appendChild(c)}})});
+A('a.card').forEach(function(c){var id=c.getAttribute('data-id'),R=document.createRange(),t=c.querySelector('.tm');R.selectNodeContents(c.querySelector('.d'));
+if(R.getClientRects().length>2)F.push(id+': beskrivningen har fler än 2 rader');
+if(t.scrollWidth>t.clientWidth)F.push(id+': tiden bryts');
+if(Math.abs(c.querySelector('.l').offsetWidth/c.querySelector('.r').offsetWidth-2)>.05)F.push(id+': för långt ord i titel eller plats')});
+var h=document.querySelector('h1');if(h&&h.scrollWidth>h.clientWidth)F.push('huvudrubriken bryts');
+if(F.length){document.head.insertAdjacentHTML('beforeend','<style>@media print{#kontroll{display:none}}</style>');document.body.insertAdjacentHTML('beforeend','<div id="kontroll" style="position:fixed;top:0;left:0;right:0;z-index:9;padding:8px;background:#b00;color:#fff;font:14px Arial"></div>');document.getElementById('kontroll').textContent='KONTROLL: '+F.join(' · ')}
+})();</script>
+<script>(function(){var w=210/25.4*96;function f(){var s=Math.min(1,document.documentElement.clientWidth/w);document.body.style.zoom=s<1?s:""}if(!matchMedia("print").matches){f();addEventListener("resize",f)}})();</script>
+</body></html>
