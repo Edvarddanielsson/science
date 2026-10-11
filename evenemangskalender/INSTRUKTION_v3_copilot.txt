@@ -6,54 +6,58 @@ PERIOD: vecka 42 (alternativ: månad oktober)
 ÅR: innevarande år enligt svensk tid; har perioden redan passerat: nästa år
 TIDIGARE KÄLLOR: inga (eller förra körningens källista)
 
-Arbeta självständigt och ställ inga frågor. Vid oklarhet: välj standardvärdet här och redovisa valet i slutrapporten. Hitta aldrig på uppgifter; det källan inte anger blir "ej angivet". Hellre ett evenemang för lite än ett felaktigt.
+Arbeta självständigt, ställ inga frågor. Vid oklarhet: välj standardvärdet här och redovisa valet i slutrapporten. Hitta aldrig på; det källan inte anger blir "ej angivet". Hellre ett evenemang för lite än ett felaktigt.
 Saknas BILAGA A (HTML-mallen) i meddelandet: svara bara "Väntar på BILAGA A".
 
 1. ARBETSGÅNG – ett steg per svar
 Steg 1: Skriv periodens datum (ISO-vecka, måndag–söndag; vecka 42 år 2026 = 12–18 oktober). Gör research (2) och bedömning (3) för första regionen och visa dess källunderlag (4).
-Steg 2: HTML-kalendern för samma region (5–6).
+Steg 2: HTML och PDF för samma region (5–6).
 Steg 3 och 4: samma för nästa region, och så vidare.
 Sista steget: Excel-filen och slutrapporten (7).
 Avsluta varje svar utom det sista med: Skriv FORTSÄTT för [nästa steg].
 
 2. RESEARCH
-Region = län ("Västergötland" = landskapet). Sök på svenska i denna ordning (börja med TIDIGARE KÄLLOR):
+Region = län. Sök på svenska i denna ordning (börja med TIDIGARE KÄLLOR):
 a) Arbetsförmedlingens evenemang i länet, regionen (Region …) och länsstyrelsen
-b) Almi, NyföretagarCentrum, Företagarna, handelskammaren, Svenskt Näringsliv, science parks, inkubatorer, energikontor, IUC och branschorganisationer
+b) varje kommuns evenemangssida, arbetsmarknadsenhet och komvux, största kommunen först
 c) universitet och högskolor (bara evenemang öppna för allmänheten)
-d) varje kommuns evenemangs- eller näringslivssida och komvux, största kommunen först
-e) regionala kalendrar och aggregatorer – bara för att hitta kandidater, aldrig som verifiering
+d) Almi, NyföretagarCentrum, Företagarna, handelskammaren, science parks, IUC och branschorganisationer
+e) aggregatorer – bara för att hitta kandidater, aldrig som verifiering
 Sök också, med regionens namn och periodens månad och år:
-1 jobbmässa, yrkesmässa, rekryteringsträff, arbetsgivarträff
-2 komvuxmässa, öppet hus vuxenutbildning
-3 näringslivsfrukost, företagsfrukost, nätverksträff företagare
-4 starta eget, entreprenörskväll
-5 seminarium kompetensförsörjning, branschdag, HR-nätverk
+1 jobbmässa, yrkesmässa, rekryteringsträff
+2 arbetsgivarträff, rekryteringsdag, jobbspår
+3 komvux öppet hus, vuxenutbildning, yrkesutbildning
+4 kostnadsfri kompetensutveckling, gratis utbildning, branschdag
+5 näringslivsfrukost, nätverksträff företagare, starta eget
 Kommuner du inte hinner med redovisas som researchluckor.
 
 3. BEDÖMNING
 VERIFIERAD = arrangörens egen sida, eller en anmälningssida som arrangören länkar till, anger uttryckligen år, datum inom perioden, starttid samt plats eller "digitalt". Året får också framgå av sidans webbadress.
 Pröva reglerna i tur och ordning; första regel som träffar avgör:
 R1 Datum utanför perioden eller plats utanför regionen → Utesluten
-R2 Handlar inte om jobb, utbildningsvägledning, arbetsgivarkontakter, företagande eller kompetensförsörjning → Utesluten
+R2 Inte arbetsmarknad, kompetensutveckling eller företagande → Utesluten
 R3 Stängd målgrupp (bara studenter vid ett visst lärosäte, bara elever, interna deltagare, stängd kurs) → Utesluten
 R4 Slutet medlemsevenemang, eller slutsålt utan väntelista → Utesluten. Öppet för alla men med medlemspris: gå vidare.
-R5 Betald kurs eller kursserie, kongress för en enda snäv yrkesgrupp eller ren regelinformation → Utesluten
+R5 Kompetensutveckling som kostar, betald kurs, kongress för en snäv yrkesgrupp eller ren regelinformation → Utesluten
 R6 Digitalt utan koppling till regionen (arrangör, målgrupp eller finansiering) → Utesluten
 R7 Inte VERIFIERAD → Obekräftad
 R8 Inställt av arrangören → Inställt
 Annars → Verifierad; fullbokat med väntelista → Fullbokat – väntelista. Blandad publik och väntelista hindrar inte.
-Arrangörens uppgifter gäller före aggregatorns. Inga dubbletter inom en region. Flerdagarsevenemang: ett kort, under första dagen inom perioden, med hela intervallet. Återkommande tillfällen (t.ex. drop-in tisdag och torsdag): ett kort per tillfälle. En passerad anmälningsfrist betyder inte stängd anmälan.
-Exempel: karriärdag för ett universitets studenter → R3. "Endast för medlemmar" → R4. Bara i aggregator, fjolårets datum hos arrangören eller "tisdag 13 oktober kl. 17.30" utan år → Obekräftad.
+KATEGORI, en per evenemang:
+- Arbetsmarknad (prioriterad): jobb- och yrkesmässor, rekryterings- och arbetsgivarträffar, studie- och yrkesvägledning, öppet hus på komvux
+- Kompetensutveckling: kostnadsfria seminarier och kurstillfällen
+- Företagande: nätverk, frukostmöten, starta eget
+Kompetensutveckling + Företagande: högst 40 % av kalendern per region, dvs. högst 2 per 3 arbetsmarknadskort (avrunda nedåt). Överskott flyttas till tabell B som "Utesluten: R9 – kvot 40 %": Företagande först, därefter det senaste i perioden.
+Arrangörens uppgifter gäller före aggregatorns. Inga dubbletter inom en region. Flerdagarsevenemang: ett kort, första dagen inom perioden, med hela intervallet. Återkommande tillfällen: ett kort per tillfälle. En passerad anmälningsfrist betyder inte stängd anmälan. Exempel: "tisdag 13 oktober kl. 17.30" utan år → Obekräftad.
 
 4. KÄLLUNDERLAG (steg 1 och 3)
 Tabell A "VERIFIERADE EVENEMANG – ingår i kalendern (n st)" och tabell B "OBEKRÄFTADE KANDIDATER OCH UTESLUTNA – ingår EJ i kalendern (n st)", med kolumnerna:
-Internt ID | Namn | Arrangör | Kort beskrivning | Datum | Tider | Ort | Lokal | Adress eller digitalt format | Målgrupp | Deltagarkrav | Pris | Anmälningskrav | Tidsfrist | Status | Verifierad direktlänk | Källa | Belägg | Kontrolldatum | Osäkerheter
+Internt ID | Namn | Kategori | Arrangör | Kort beskrivning | Datum | Tider | Ort | Lokal | Adress eller digitalt format | Målgrupp | Deltagarkrav | Pris | Anmälningskrav | Tidsfrist | Status | Verifierad direktlänk | Källa | Belägg | Kontrolldatum | Osäkerheter
 - ID i kalenderordning: K1, K2 … i A och KU1, KU2 … i B (prefix från inställningarna).
 - Datum ÅÅÅÅ-MM-DD, tider HH:MM–HH:MM, kontrolldatum = dagens datum.
 - Status: "Planerat (verifierat ÅÅÅÅ-MM-DD)", "Fullbokat – väntelista", "Inställt", "Obekräftad" eller "Utesluten: R[n] – [skäl]".
-- Tidsfrist ÅÅÅÅ-MM-DD, med tillägget " (passerad)" om den har passerat.
-- Belägg: ordagrant citat från arrangörens sida som visar år, datum och starttid.
+- Tidsfrist ÅÅÅÅ-MM-DD, med " (passerad)" om den har passerat.
+- Belägg: ordagrant citat från arrangören med år, datum och starttid.
 Under tabellerna: "Kontrollerade källor" (domäner) och "Researchluckor" (oläsbara källor, kommuner som inte hanns med, kommuner utan träffar).
 
 5. KORTEN
@@ -61,31 +65,29 @@ Under tabellerna: "Kontrollerade källor" (domäner) och "Researchluckor" (oläs
 - arrangör: högst 90 tecken; "i samarbete med" skrivs "med". Utelämna raden om arrangören inte är verifierad.
 - tid: "HH:MM–HH:MM" med kort tankstreck, eller "HH:MM" om bara starttiden anges
 - plats: "Lokal, Gatuadress, Ort" utan postnummer, eller "Digitalt". Preliminär lokal: lägg till " (preliminärt)".
-- beskrivning: en mening på 60–115 tecken: "[Typ] om/för [innehåll eller målgrupp][, med X]." Upprepa inte titel, tid eller pris. Saklig ton, inga utropstecken. Exempel: "Rekryteringsträff där arbetsgivare inom vård och omsorg möter arbetssökande."
+- beskrivning: en mening på 60–115 tecken: "[Typ] om/för [innehåll eller målgrupp][, med X]." Upprepa inte titel, tid eller pris. Exempel: "Rekryteringsträff där arbetsgivare inom vård och omsorg möter arbetssökande."
 - taggar, i denna ordning:
 1 typ, exakt en: Mässa | Seminarium | Konferens | Nätverksträff | Frukostmöte | Lunchträff | Workshop | Rekryteringsträff | Öppet hus
 2 format: Digitalt | Även digitalt (hybrid) | Drop-in HH:MM–HH:MM | Pågår [d–d månad]
 3 pris: Gratis | Fri entré (bara mässor) | "150 kr" | "150 kr medlem / 250 kr övriga ex moms". Okänt pris ger ingen tagg.
 4 villkor: Endast [grupp] | Från [ålder] år | För [målgrupp] | Begränsat antal platser | Väntelista | Bindande anmälan | Uteblivande [belopp] kr ex moms
-5 övrigt: högst en tagg, t.ex. "Del 2: workshop 23 okt"
+5 övrigt: högst en tagg
 6 anmälan, alltid sist och med class="tag dl": "Anmäl senast [d månad]". Krävs anmälan men fristen saknas eller har passerat: "Anmälan krävs". Ingen anmälan: ingen tagg.
 - dagsrubrik: "Tisdag 13 oktober". Sortering: datum, starttid, titel A–Ö.
 
-6. HTML (steg 2 och 4)
-Kopiera BILAGA A ordagrant; ändra aldrig CSS, skript eller kortens uppbyggnad. Fyll i hakparenteserna och lägg en <div class="day"> per dag, med dagens kort, i den enda <section class="sheet" style="height:auto">. Skriptet sköter ikoner, sidindelning och kontroll; dela inte upp korten själv.
-- Datumintervall t.ex. "12–18 oktober 2026" eller "28 september–4 oktober 2026". Vid månadsurval: "EVENEMANG · OKTOBER".
-- Hela filen i ett enda kodblock. Filnamn: V[nr]_[år]_[Region]_Evenemang.html (månad: Oktober_2026_[Region]_Evenemang.html).
-- Saknas verifierade evenemang för regionen: skapa ingen HTML, skriv det i stället.
-Kontrollera före svaret: korten motsvarar tabell A (antal och ID), alla datum ligger inom perioden, beskrivningarna har 60–115 tecken, taggarna står i rätt ordning och kommer från listorna, och varje kort har direktlänk.
+6. HTML OCH PDF (steg 2 och 4)
+HTML: kopiera BILAGA A ordagrant; ändra aldrig CSS, skript eller kortens uppbyggnad. Fyll i hakparenteserna och lägg en <div class="day"> per dag, med dagens kort, i den enda <section class="sheet" style="height:auto">. Skriptet sköter ikoner, sidindelning och kontroll. Datumintervall t.ex. "28 september–4 oktober 2026". Hela filen i ett kodblock: V[nr]_[år]_[Region]_Evenemang.html.
+PDF: skapa V[nr]_[år]_[Region]_Evenemang.pdf med HTML-filens utseende (A4, bakgrund, färger, kort). Kort delas aldrig mellan sidor; dagsrubriken står bara där minst ett kort ryms och upprepas överst om dagen fortsätter; minst 10 mm marginal nedtill. Hela kortet är en klickbar länk till direktlänken.
+Saknas verifierade evenemang för regionen: skapa varken HTML eller PDF, skriv det i stället.
+Kontrollera före svaret: korten = tabell A (antal och ID), datum inom perioden, 40 %-kvoten, beskrivningar 60–115 tecken, taggordning, en länk per kort.
 
 7. SISTA STEGET
-Excel-filen V[nr]_[år]_Evenemang_Källunderlag.xlsx: en flik per region (kort namn, t.ex. Kalmar), Arial 10. Rad 1: "Källunderlag – [Region] – [period], [år] ([datumintervall])". Rad 2: "Kontrolldatum ÅÅÅÅ-MM-DD. 'ej angivet' = uppgiften saknas hos källan. Endast avsnitt A ingår i kalendern." Därefter tabell A, tabell B och raden "Researchluckor: …". Datum som datumceller och klickbara länkar. Kan du inte skapa filen: skriv det, så exporterar användaren tabellerna från steg 1 och 3.
+Excel-filen V[nr]_[år]_Evenemang_Källunderlag.xlsx: en flik per region (kort namn, t.ex. Kalmar), Arial 10. Rad 1: "Källunderlag – [Region] – [period], [år] ([datumintervall])". Rad 2: "Kontrolldatum ÅÅÅÅ-MM-DD. Endast avsnitt A ingår i kalendern." Sedan tabell A, tabell B och "Researchluckor: …". Datumceller, klickbara länkar.
 Slutrapport, exakt denna struktur:
-Region | Verifierade evenemang | Obekräftade/uteslutna
+Region | Verifierade evenemang | varav kompetensutveckling/företagande | PDF-sidor | Obekräftade/uteslutna
 – Osäkerheter: en punkt per evenemang med passerad frist, väntelista, preliminär lokal, länk till samlingssida eller saknat pris
-– Avvikelser från specifikationen: val enligt standardvärden och sådant du inte kunde göra
+– Avvikelser från specifikationen: val enligt standardvärden och sådant du inte kunde göra (t.ex. en fil som inte kunde skapas)
 – Researchluckor: per region
-Skapa ingen PDF och inga bilder; användaren skriver ut HTML-filen till PDF.
 
 BILAGA A – HTML-MALL (kopiera ordagrant; ersätt bara [hakparenteserna])
 <!doctype html><html lang="sv"><head><meta charset="utf-8">
