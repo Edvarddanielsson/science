@@ -1,12 +1,29 @@
 # Evenemangskalender v3 – Microsoft Copilot
 
-`INSTRUKTION_v3_copilot.txt` är hela instruktionen (under 7 800 tecken, ett meddelande). Ändra bara avsnitt 0.
+`INSTRUKTION_v3_copilot.txt` är hela instruktionen (7 621 tecken). `STARTPROMPT.txt` är det enda du fyller i inför varje körning. Instruktionen gör ingenting förrän den får en startprompt som börjar med `KÖR EVENEMANGSKALENDER v3`.
 
 ## Användning
 
-1. Klistra in instruktionen i Copilot. Välj den högsta resonemangsnivån om det går.
-2. Skriv FORTSÄTT när Copilot ber om det. Ordningen är: research och arbetslista för region 1, PDF för region 1, sedan samma sak för region 2.
-3. Ladda ned PDF:erna. Varje kort är en klickbar länk.
+Två sätt, båda under 7 800 tecken per meddelande:
+
+- **Ett meddelande:** klistra in instruktionen och, längst ned, startprompten.
+- **Två meddelanden:** klistra in instruktionen. Copilot svarar "Instruktionen är inläst. Skicka startprompten." Skicka sedan startprompten.
+
+Startprompten:
+
+```
+KÖR EVENEMANGSKALENDER v3
+REGIONER: Skåne län (S)
+PERIOD: månad november
+ÅR: 2026
+TIDIGARE KÄLLOR:
+```
+
+- PERIOD kan vara `vecka 47`, `månad november` eller `2026-11-02–2026-11-15`.
+- Flera regioner skrivs med komma emellan, till exempel `Skåne län (S), Kalmar län (K)`.
+- ÅR och TIDIGARE KÄLLOR kan lämnas tomma.
+
+Copilot börjar med en rad "Inställningar: …" så att du kan se att den har läst rätt. Skriv sedan FORTSÄTT när den ber om det. Välj den högsta resonemangsnivån om det går.
 
 ## Det som styr resultatet
 

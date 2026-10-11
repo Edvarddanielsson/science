@@ -1,16 +1,18 @@
 EVENEMANGSKALENDER – INSTRUKTION v3 (Microsoft Copilot)
 
-0. INSTÄLLNINGAR (ändra bara här)
-REGIONER: Kalmar län (K), Skåne län (S)
-PERIOD: vecka 42 (alternativ: månad oktober)
-ÅR: innevarande år enligt svensk tid; har perioden redan passerat: nästa år
-TIDIGARE KÄLLOR: inga (eller förra körningens källista)
+0. START OCH INSTÄLLNINGAR
+Instruktionen körs bara av en STARTPROMPT som börjar med raden "KÖR EVENEMANGSKALENDER v3". Startpromptens värden gäller:
+REGIONER: ett eller flera län, t.ex. "Skåne län (S)"; ID-prefix inom parentes, annars första bokstaven
+PERIOD: "vecka N", "månad [namn]" eller "ÅÅÅÅ-MM-DD–ÅÅÅÅ-MM-DD"
+ÅR: tomt = innevarande år enligt svensk tid; har perioden redan passerat: nästa år
+TIDIGARE KÄLLOR: tomt, eller förra körningens källista
+Saknas startprompten: svara bara "Instruktionen är inläst. Skicka startprompten." Saknas REGIONER eller PERIOD i den: fråga efter just det.
 
 1. MÅL OCH ARBETSGÅNG
-Målet är en klickbar PDF-kalender per region. Arbeta självständigt, ställ inga frågor; vid oklarhet väljer du standardvärdet här. Hitta aldrig på uppgifter. Hellre ett evenemang för lite än ett felaktigt.
+Målet är en klickbar PDF-kalender per region. Arbeta självständigt, ställ inga frågor utöver avsnitt 0; vid oklarhet väljer du standardvärdet här. Hitta aldrig på uppgifter. Hellre ett evenemang för lite än ett felaktigt.
 Detta är en grundlig researchuppgift: ta den tid som behövs och nöj dig inte med de första träffarna.
 Ett steg per svar:
-Steg 1: Skriv periodens datum (ISO-vecka, måndag–söndag; vecka 42 år 2026 = 12–18 oktober). Gör research (2) och bedömning (3) för första regionen och visa arbetslistan (4).
+Steg 1: Börja med raden "Inställningar: [regioner med prefix] · [period] = [första–sista datum]" (ISO-vecka = måndag–söndag; vecka 42 år 2026 = 12–18 oktober). Gör research (2) och bedömning (3) för första regionen och visa arbetslistan (4).
 Steg 2: PDF:en för samma region (5–6).
 Steg 3 och 4: samma för nästa region, och så vidare.
 Avsluta varje svar utom det sista med: Skriv FORTSÄTT för [nästa steg].
@@ -66,9 +68,9 @@ ID i kalenderordning: K1, K2 … (prefix från inställningarna). Under listan e
 - dagsrubrik: "Tisdag 13 oktober". Sortering: datum, starttid, titel A–Ö.
 
 6. PDF (steg 2 och 4)
-Filnamn: V[nr]_[år]_[Region]_Evenemang.pdf. A4 stående, Arial (annars Helvetica).
+Filnamn: Evenemang_[Region]_[period].pdf, t.ex. Evenemang_Skåne_V47_2026.pdf eller Evenemang_Skåne_November_2026.pdf. A4 stående, Arial (annars Helvetica).
 - Bakgrund på hela sidan, utfallande: linjär gradient 135° från #517fa6 till #477780. Innehåll inom 10 mm marginal.
-- Sida 1 överst, centrerat i vitt: "EVENEMANG · VECKA [nr]" 32,5 pt fet; 4 mm under: "[REGION I VERSALER]" fet + " · [datumintervall år]" 22,5 pt, t.ex. "KALMAR LÄN · 12–18 oktober 2026"; 7 mm luft.
+- Sida 1 överst, centrerat i vitt: "EVENEMANG · VECKA [nr]" (eller "· [MÅNAD]"; för datumintervall bara "EVENEMANG") 32,5 pt fet; 4 mm under: "[REGION I VERSALER]" fet + " · [datumintervall år]" 22,5 pt, t.ex. "KALMAR LÄN · 12–18 oktober 2026"; 7 mm luft.
 - Dagsrubrik: orange etikett #C25700, vit fet text 16 pt, inre marginal 1,4 × 3 mm, hörnradie 2 mm. 2 mm till första kortet, 8 mm luft före nästa dag.
 - Kort: 190 mm brett, bakgrund #f7fbfc, hörnradie 4 mm, inre marginal 6 mm, text #143460, 2 mm mellan korten. Överdel i två kolumner 2:1 med 4 mm mellanrum: vänster titel 20 pt fet och arrangör 12,5 pt; höger, efter en tunn linje #d7e0e7, klockikon + tid 15 pt fet (bryts aldrig) och platsikon + plats 12,5 pt. Under: beskrivningen 14 pt. Sist, under en tunn linje: taggar som rundade etiketter 12,5 pt på #e8edf1; anmälningstaggen vit med orange kant och orange text.
 - Hela kortet är en klickbar länk till evenemangets direktlänk.
