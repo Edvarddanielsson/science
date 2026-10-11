@@ -4,6 +4,7 @@
 |---|---|
 | `INSTRUKTION_codex.md` | Instruktionen som Codex följer |
 | `STARTPROMPT.txt` | Det enda du fyller i inför varje körning: regioner, period och år |
+| `INSTRUKTION_codex_text.md` | **Endast text:** allt i en fil (startprompt, regler och HTML-mall), inget skript behövs |
 | `bygg_kalender.py` | Byggskriptet: datum, kommuner (SCB 2026), validering, 40 %-kvot, paginering, klickbar PDF och kontroller |
 
 ## Inställningar i Codex (en gång)
