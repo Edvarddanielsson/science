@@ -1,0 +1,6 @@
+KÖR EVENEMANGSKALENDER v3
+REGIONER: Skåne län (S)
+PERIOD: månad november
+ÅR: 2026
+TIDIGARE:
+Följ evenemangskalender/codex/INSTRUKTION_codex.md. Arbeta i evenemangskalender/codex/. Starta underagenter enligt avsnitt 3.

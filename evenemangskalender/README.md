@@ -34,3 +34,7 @@ Copilot börjar med en rad "Inställningar: …" så att du kan se att den har l
 - **Design:** samma utseende som i v2:s mall, beskrivet i mm, pt och färgkoder, med fasta regler för sidindelning.
 
 Tidigare versioner med HTML-mall och byggskript finns i git-historiken (commit `5fd0087` och `854d9b7`).
+
+## Codex-versionen
+
+`codex/` innehåller en version för Codex (GPT-6.1 Sol) med underagenter, live-sökning och byggskript. Se `codex/README.md`.
