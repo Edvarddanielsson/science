@@ -6,30 +6,31 @@ PERIOD: vecka 42 (alternativ: månad oktober)
 ÅR: innevarande år enligt svensk tid; har perioden redan passerat: nästa år
 TIDIGARE KÄLLOR: inga (eller förra körningens källista)
 
-Arbeta självständigt, ställ inga frågor. Vid oklarhet: välj standardvärdet här och redovisa valet i slutrapporten. Hitta aldrig på; det källan inte anger blir "ej angivet". Hellre ett evenemang för lite än ett felaktigt.
-Saknas BILAGA A (HTML-mallen) i meddelandet: svara bara "Väntar på BILAGA A".
-
-1. ARBETSGÅNG – ett steg per svar
-Steg 1: Skriv periodens datum (ISO-vecka, måndag–söndag; vecka 42 år 2026 = 12–18 oktober). Gör research (2) och bedömning (3) för första regionen och visa dess källunderlag (4).
-Steg 2: HTML och PDF för samma region (5–6).
+1. MÅL OCH ARBETSGÅNG
+Målet är en klickbar PDF-kalender per region. Arbeta självständigt, ställ inga frågor; vid oklarhet väljer du standardvärdet här. Hitta aldrig på uppgifter. Hellre ett evenemang för lite än ett felaktigt.
+Detta är en grundlig researchuppgift: ta den tid som behövs och nöj dig inte med de första träffarna.
+Ett steg per svar:
+Steg 1: Skriv periodens datum (ISO-vecka, måndag–söndag; vecka 42 år 2026 = 12–18 oktober). Gör research (2) och bedömning (3) för första regionen och visa arbetslistan (4).
+Steg 2: PDF:en för samma region (5–6).
 Steg 3 och 4: samma för nästa region, och så vidare.
-Sista steget: Excel-filen och slutrapporten (7).
 Avsluta varje svar utom det sista med: Skriv FORTSÄTT för [nästa steg].
 
-2. RESEARCH
-Region = län. Sök på svenska i denna ordning (börja med TIDIGARE KÄLLOR):
-a) Arbetsförmedlingens evenemang i länet, regionen (Region …) och länsstyrelsen
+2. RESEARCH (per region)
+Sök i två varv. Varv 1, brett: hitta så många kandidater som möjligt; utgå från att det finns fler än de första träffarna visar. Varv 2: verifiera varje kandidat på arrangörens egen sida.
+Källor, i denna ordning (börja med TIDIGARE KÄLLOR):
+a) Arbetsförmedlingens evenemang i länet, regionen och länsstyrelsen
 b) varje kommuns evenemangssida, arbetsmarknadsenhet och komvux, största kommunen först
 c) universitet och högskolor (bara evenemang öppna för allmänheten)
-d) Almi, NyföretagarCentrum, Företagarna, handelskammaren, science parks, IUC och branschorganisationer
-e) aggregatorer – bara för att hitta kandidater, aldrig som verifiering
-Sök också, med regionens namn och periodens månad och år:
+d) Almi, NyföretagarCentrum, Företagarna, handelskammaren, science parks, IUC
+e) aggregatorer och regionala kalendrar – bara för att hitta kandidater, aldrig som verifiering
+Sökningar, var och en med regionens namn och periodens månad och år:
 1 jobbmässa, yrkesmässa, rekryteringsträff
 2 arbetsgivarträff, rekryteringsdag, jobbspår
 3 komvux öppet hus, vuxenutbildning, yrkesutbildning
 4 kostnadsfri kompetensutveckling, gratis utbildning, branschdag
 5 näringslivsfrukost, nätverksträff företagare, starta eget
-Kommuner du inte hinner med redovisas som researchluckor.
+Variera: sök även med "vecka [nr]" och enskilda datum ("13 oktober"), med de största kommunernas namn i stället för regionens, och med site:-sökningar, t.ex. site:arbetsformedlingen.se, site:[kommun].se evenemang.
+Minst per region: 20 sökningar, alla källtyper a–d och de 10 största kommunerna. Räkna dem. Har du inte nått målet: fortsätt söka innan du svarar.
 
 3. BEDÖMNING
 VERIFIERAD = arrangörens egen sida, eller en anmälningssida som arrangören länkar till, anger uttryckligen år, datum inom perioden, starttid samt plats eller "digitalt". Året får också framgå av sidans webbadress.
@@ -39,120 +40,38 @@ R2 Inte arbetsmarknad, kompetensutveckling eller företagande → Utesluten
 R3 Stängd målgrupp (bara studenter vid ett visst lärosäte, bara elever, interna deltagare, stängd kurs) → Utesluten
 R4 Slutet medlemsevenemang, eller slutsålt utan väntelista → Utesluten. Öppet för alla men med medlemspris: gå vidare.
 R5 Kompetensutveckling som kostar, betald kurs, kongress för en snäv yrkesgrupp eller ren regelinformation → Utesluten
-R6 Digitalt utan koppling till regionen (arrangör, målgrupp eller finansiering) → Utesluten
+R6 Digitalt utan koppling till regionen → Utesluten
 R7 Inte VERIFIERAD → Obekräftad
-R8 Inställt av arrangören → Inställt
-Annars → Verifierad; fullbokat med väntelista → Fullbokat – väntelista. Blandad publik och väntelista hindrar inte.
-KATEGORI, en per evenemang:
-- Arbetsmarknad (prioriterad): jobb- och yrkesmässor, rekryterings- och arbetsgivarträffar, studie- och yrkesvägledning, öppet hus på komvux
-- Kompetensutveckling: kostnadsfria seminarier och kurstillfällen
-- Företagande: nätverk, frukostmöten, starta eget
-Kompetensutveckling + Företagande: högst 40 % av kalendern per region, dvs. högst 2 per 3 arbetsmarknadskort (avrunda nedåt). Överskott flyttas till tabell B som "Utesluten: R9 – kvot 40 %": Företagande först, därefter det senaste i perioden.
-Arrangörens uppgifter gäller före aggregatorns. Inga dubbletter inom en region. Flerdagarsevenemang: ett kort, första dagen inom perioden, med hela intervallet. Återkommande tillfällen: ett kort per tillfälle. En passerad anmälningsfrist betyder inte stängd anmälan. Exempel: "tisdag 13 oktober kl. 17.30" utan år → Obekräftad.
+R8 Inställt → Inställt
+Annars → med i kalendern. Blandad publik och väntelista hindrar inte.
+Kategori: Arbetsmarknad (prioriterad: jobb- och yrkesmässor, rekryterings- och arbetsgivarträffar, studie- och yrkesvägledning, öppet hus på komvux), Kompetensutveckling (kostnadsfri) eller Företagande. Kompetensutveckling + Företagande: högst 40 % av kalendern, dvs. högst 2 per 3 arbetsmarknadskort (avrunda nedåt). Överskott stryks: Företagande först, därefter det senaste i perioden.
+Arrangörens uppgifter gäller före aggregatorns. Inga dubbletter. Flerdagarsevenemang: ett kort, första dagen inom perioden, med hela intervallet. Återkommande tillfällen: ett kort per tillfälle. En passerad anmälningsfrist betyder inte stängd anmälan.
 
-4. KÄLLUNDERLAG (steg 1 och 3)
-Tabell A "VERIFIERADE EVENEMANG – ingår i kalendern (n st)" och tabell B "OBEKRÄFTADE KANDIDATER OCH UTESLUTNA – ingår EJ i kalendern (n st)", med kolumnerna:
-Internt ID | Namn | Kategori | Arrangör | Kort beskrivning | Datum | Tider | Ort | Lokal | Adress eller digitalt format | Målgrupp | Deltagarkrav | Pris | Anmälningskrav | Tidsfrist | Status | Verifierad direktlänk | Källa | Belägg | Kontrolldatum | Osäkerheter
-- ID i kalenderordning: K1, K2 … i A och KU1, KU2 … i B (prefix från inställningarna).
-- Datum ÅÅÅÅ-MM-DD, tider HH:MM–HH:MM, kontrolldatum = dagens datum.
-- Status: "Planerat (verifierat ÅÅÅÅ-MM-DD)", "Fullbokat – väntelista", "Inställt", "Obekräftad" eller "Utesluten: R[n] – [skäl]".
-- Tidsfrist ÅÅÅÅ-MM-DD, med " (passerad)" om den har passerat.
-- Belägg: ordagrant citat från arrangören med år, datum och starttid.
-Under tabellerna: "Kontrollerade källor" (domäner) och "Researchluckor" (oläsbara källor, kommuner som inte hanns med, kommuner utan träffar).
+4. ARBETSLISTA (steg 1 och 3, kort)
+En rad per kandidat: ID | Status (med regel) | Kategori | Datum | Tid | Titel | Ort | Länk | Belägg (ordagrant citat med år, datum och starttid).
+ID i kalenderordning: K1, K2 … (prefix från inställningarna). Under listan en rad: Sökningar: [antal] · Källor: [domäner] · Ej hunnet: [kommuner].
 
 5. KORTEN
 - titel: arrangörens titel ordagrant, utan emojier
-- arrangör: högst 90 tecken; "i samarbete med" skrivs "med". Utelämna raden om arrangören inte är verifierad.
-- tid: "HH:MM–HH:MM" med kort tankstreck, eller "HH:MM" om bara starttiden anges
-- plats: "Lokal, Gatuadress, Ort" utan postnummer, eller "Digitalt". Preliminär lokal: lägg till " (preliminärt)".
-- beskrivning: en mening på 60–115 tecken: "[Typ] om/för [innehåll eller målgrupp][, med X]." Upprepa inte titel, tid eller pris. Exempel: "Rekryteringsträff där arbetsgivare inom vård och omsorg möter arbetssökande."
+- arrangör: högst 90 tecken; "i samarbete med" skrivs "med"
+- tid: "HH:MM–HH:MM", eller "HH:MM" om bara starttiden anges
+- plats: "Lokal, Gatuadress, Ort" utan postnummer, eller "Digitalt"; preliminär lokal: " (preliminärt)"
+- beskrivning: en mening, 60–115 tecken, högst två rader: "[Typ] om/för [innehåll eller målgrupp][, med X]." Upprepa inte titel, tid eller pris. Exempel: "Rekryteringsträff där arbetsgivare inom vård och omsorg möter arbetssökande."
 - taggar, i denna ordning:
 1 typ, exakt en: Mässa | Seminarium | Konferens | Nätverksträff | Frukostmöte | Lunchträff | Workshop | Rekryteringsträff | Öppet hus
-2 format: Digitalt | Även digitalt (hybrid) | Drop-in HH:MM–HH:MM | Pågår [d–d månad]
-3 pris: Gratis | Fri entré (bara mässor) | "150 kr" | "150 kr medlem / 250 kr övriga ex moms". Okänt pris ger ingen tagg.
-4 villkor: Endast [grupp] | Från [ålder] år | För [målgrupp] | Begränsat antal platser | Väntelista | Bindande anmälan | Uteblivande [belopp] kr ex moms
-5 övrigt: högst en tagg
-6 anmälan, alltid sist och med class="tag dl": "Anmäl senast [d månad]". Krävs anmälan men fristen saknas eller har passerat: "Anmälan krävs". Ingen anmälan: ingen tagg.
+2 format: Digitalt | Även digitalt | Drop-in HH:MM–HH:MM | Pågår [d–d månad]
+3 pris: Gratis | Fri entré (bara mässor) | "150 kr" | "150 kr medlem / 250 kr övriga ex moms"; okänt pris ger ingen tagg
+4 villkor: Endast [grupp] | Från [ålder] år | För [målgrupp] | Begränsat antal platser | Väntelista | Bindande anmälan
+5 anmälan, alltid sist: "Anmäl senast [d månad]"; fristen saknas eller har passerat: "Anmälan krävs"; ingen anmälan: ingen tagg
 - dagsrubrik: "Tisdag 13 oktober". Sortering: datum, starttid, titel A–Ö.
 
-6. HTML OCH PDF (steg 2 och 4)
-HTML: kopiera BILAGA A ordagrant; ändra aldrig CSS, skript eller kortens uppbyggnad. Fyll i hakparenteserna och lägg en <div class="day"> per dag, med dagens kort, i den enda <section class="sheet" style="height:auto">. Skriptet sköter ikoner, sidindelning och kontroll. Datumintervall t.ex. "28 september–4 oktober 2026". Hela filen i ett kodblock: V[nr]_[år]_[Region]_Evenemang.html.
-PDF: skapa V[nr]_[år]_[Region]_Evenemang.pdf med HTML-filens utseende (A4, bakgrund, färger, kort). Kort delas aldrig mellan sidor; dagsrubriken står bara där minst ett kort ryms och upprepas överst om dagen fortsätter; minst 10 mm marginal nedtill. Hela kortet är en klickbar länk till direktlänken.
-Saknas verifierade evenemang för regionen: skapa varken HTML eller PDF, skriv det i stället.
-Kontrollera före svaret: korten = tabell A (antal och ID), datum inom perioden, 40 %-kvoten, beskrivningar 60–115 tecken, taggordning, en länk per kort.
-
-7. SISTA STEGET
-Excel-filen V[nr]_[år]_Evenemang_Källunderlag.xlsx: en flik per region (kort namn, t.ex. Kalmar), Arial 10. Rad 1: "Källunderlag – [Region] – [period], [år] ([datumintervall])". Rad 2: "Kontrolldatum ÅÅÅÅ-MM-DD. Endast avsnitt A ingår i kalendern." Sedan tabell A, tabell B och "Researchluckor: …". Datumceller, klickbara länkar.
-Slutrapport, exakt denna struktur:
-Region | Verifierade evenemang | varav kompetensutveckling/företagande | PDF-sidor | Obekräftade/uteslutna
-– Osäkerheter: en punkt per evenemang med passerad frist, väntelista, preliminär lokal, länk till samlingssida eller saknat pris
-– Avvikelser från specifikationen: val enligt standardvärden och sådant du inte kunde göra (t.ex. en fil som inte kunde skapas)
-– Researchluckor: per region
-
-BILAGA A – HTML-MALL (kopiera ordagrant; ersätt bara [hakparenteserna])
-<!doctype html><html lang="sv"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EVENEMANG · VECKA [nr] · [Region] · [datumintervall år]</title>
-<style>
-:root{--navy:#143460;--orange:#C25700;--card:#f7fbfc;--line:#d7e0e7;--tag:#e8edf1}
-*{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{font-family:Arial,"Liberation Sans",Helvetica,sans-serif;color:var(--navy);background:#477780;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.sheet{width:210mm;height:297mm;padding:10mm;margin:0 auto 4mm;background:linear-gradient(135deg,#517fa6,#477780);position:relative;overflow:hidden;break-after:page;page-break-after:always}
-.sheet:last-child{break-after:auto;page-break-after:auto;margin-bottom:0}
-h1{font-size:32.5pt;font-weight:700;color:#fff;text-align:center;line-height:1.15;white-space:nowrap}
-.sub{font-size:22.5pt;font-weight:400;color:#fff;text-align:center;line-height:1.2;margin-top:4mm;margin-bottom:7mm}
-.sub b{font-weight:900}
-.day{margin-top:8mm}
-.day.first{margin-top:0}
-.dh{margin-bottom:2mm;break-after:avoid}
-.dh span{display:inline-block;background:var(--orange);color:#fff;font-size:16pt;font-weight:700;line-height:1.2;padding:1.4mm 3mm;border-radius:2mm}
-a.card{display:block;background:var(--card);border-radius:4mm;padding:6mm;color:var(--navy);text-decoration:none;margin-bottom:2mm;break-inside:avoid}
-a.card:last-child{margin-bottom:0}
-a.card:hover,a.card:focus-visible{background:#e9f2f7}
-a.card:active{background:#d9e8f0}
-a.card:focus-visible{outline:3px solid var(--orange);outline-offset:1px}
-.top{display:grid;grid-template-columns:2fr 1fr;column-gap:4mm}
-.t{font-size:20pt;font-weight:700;line-height:1.15}
-.o{font-size:12.5pt;margin-top:1.2mm;line-height:1.25}
-.r{border-left:1px solid var(--line);padding-left:4mm}
-.tm,.pl{display:flex;align-items:flex-start;gap:1.6mm}
-.tm{font-size:15pt;font-weight:700;line-height:1.2;white-space:nowrap}
-.pl{font-size:12.5pt;line-height:1.25;margin-top:1.6mm}
-.tm svg{width:16.5pt;height:16.5pt;flex:none;margin-top:.2mm}
-.pl svg{width:13.75pt;height:13.75pt;flex:none;margin-top:.2mm}
-svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.d{font-size:14pt;line-height:1.4;margin-top:3mm}
-.tags{display:flex;flex-wrap:wrap;gap:1.6mm;border-top:1px solid var(--line);margin-top:3mm;padding-top:3mm}
-.tag{font-size:12.5pt;line-height:1.2;padding:1mm 2.8mm;border-radius:999px;background:var(--tag);color:var(--navy)}
-.tag.dl{background:#fff;color:var(--orange);border:1px solid var(--orange);padding:calc(1mm - 1px) calc(2.8mm - 1px)}
-@page{size:A4;margin:0}
-@media print{body{background:none}.sheet{margin:0}a.card{background:var(--card)!important}}
-</style></head><body>
-<section class="sheet" style="height:auto">
-<h1>EVENEMANG · VECKA [nr]</h1>
-<div class="sub"><b>[REGION]</b> · [datumintervall år]</div>
-<div class="day"><div class="dh"><span>[Veckodag d månad]</span></div>
-<a class="card" href="[direktlänk]" data-id="[ID]"><div class="top"><div class="l"><div class="t">[titel]</div><div class="o">[arrangör]</div></div><div class="r"><div class="tm"><span>[tid]</span></div><div class="pl"><span>[plats]</span></div></div></div><p class="d">[beskrivning]</p><div class="tags"><span class="tag">[tagg]</span><span class="tag dl">[anmälningstagg]</span></div></a>
-</div>
-</section>
-<script>(function(){
-var I=['<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>','<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg>'];
-function A(q,r){return [].slice.call((r||document).querySelectorAll(q))}
-A('.tm,.pl').forEach(function(e){if(!e.querySelector('svg'))e.insertAdjacentHTML('afterbegin',I[e.className=='tm'?0:1])});
-var S=A('.sheet'),s=S[0],D=A('.day'),B,F=[];
-D.forEach(function(d){d.remove()});S.slice(1).forEach(function(x){x.remove()});s.style.height='';
-function blk(h){B=document.createElement('div');B.className=s.querySelector('.day')?'day':'day first';B.appendChild(h.cloneNode(true));s.appendChild(B)}
-function ut(c){var r=s.getBoundingClientRect();return c.getBoundingClientRect().bottom-r.top>r.height*286.2/297}
-D.forEach(function(d){var h=d.querySelector('.dh');B=null;A('a.card',d).forEach(function(c){
-if(!B)blk(h);B.appendChild(c);
-if(ut(c)&&A('a.card',s).length>1){c.remove();if(!B.querySelector('a.card'))B.remove();var n=document.createElement('section');n.className='sheet';s.after(n);s=n;blk(h);B.appendChild(c)}})});
-A('a.card').forEach(function(c){var id=c.getAttribute('data-id'),R=document.createRange(),t=c.querySelector('.tm');R.selectNodeContents(c.querySelector('.d'));
-if(R.getClientRects().length>2)F.push(id+': beskrivningen har fler än 2 rader');
-if(t.scrollWidth>t.clientWidth)F.push(id+': tiden bryts');
-if(Math.abs(c.querySelector('.l').offsetWidth/c.querySelector('.r').offsetWidth-2)>.05)F.push(id+': för långt ord i titel eller plats')});
-var h=document.querySelector('h1');if(h&&h.scrollWidth>h.clientWidth)F.push('huvudrubriken bryts');
-if(F.length){document.head.insertAdjacentHTML('beforeend','<style>@media print{#kontroll{display:none}}</style>');document.body.insertAdjacentHTML('beforeend','<div id="kontroll" style="position:fixed;top:0;left:0;right:0;z-index:9;padding:8px;background:#b00;color:#fff;font:14px Arial"></div>');document.getElementById('kontroll').textContent='KONTROLL: '+F.join(' · ')}
-})();</script>
-<script>(function(){var w=210/25.4*96;function f(){var s=Math.min(1,document.documentElement.clientWidth/w);document.body.style.zoom=s<1?s:""}if(!matchMedia("print").matches){f();addEventListener("resize",f)}})();</script>
-</body></html>
+6. PDF (steg 2 och 4)
+Filnamn: V[nr]_[år]_[Region]_Evenemang.pdf. A4 stående, Arial (annars Helvetica).
+- Bakgrund på hela sidan, utfallande: linjär gradient 135° från #517fa6 till #477780. Innehåll inom 10 mm marginal.
+- Sida 1 överst, centrerat i vitt: "EVENEMANG · VECKA [nr]" 32,5 pt fet; 4 mm under: "[REGION I VERSALER]" fet + " · [datumintervall år]" 22,5 pt, t.ex. "KALMAR LÄN · 12–18 oktober 2026"; 7 mm luft.
+- Dagsrubrik: orange etikett #C25700, vit fet text 16 pt, inre marginal 1,4 × 3 mm, hörnradie 2 mm. 2 mm till första kortet, 8 mm luft före nästa dag.
+- Kort: 190 mm brett, bakgrund #f7fbfc, hörnradie 4 mm, inre marginal 6 mm, text #143460, 2 mm mellan korten. Överdel i två kolumner 2:1 med 4 mm mellanrum: vänster titel 20 pt fet och arrangör 12,5 pt; höger, efter en tunn linje #d7e0e7, klockikon + tid 15 pt fet (bryts aldrig) och platsikon + plats 12,5 pt. Under: beskrivningen 14 pt. Sist, under en tunn linje: taggar som rundade etiketter 12,5 pt på #e8edf1; anmälningstaggen vit med orange kant och orange text.
+- Hela kortet är en klickbar länk till evenemangets direktlänk.
+- Sidindelning: ett kort delas aldrig; en dagsrubrik står bara där minst ett kort ryms efter den och upprepas överst om dagen fortsätter på nästa sida; minst 10 mm luft nedtill.
+Kontrollera innan du lämnar PDF:en: samma kort som arbetslistans kalenderrader, alla datum inom perioden, 40 %-kvoten hålls, ingen text klipps eller överlappar, och antalet länkar är lika med antalet kort.
+Saknas verifierade evenemang för regionen: skapa ingen PDF, skriv det i stället.
