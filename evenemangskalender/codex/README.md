@@ -40,3 +40,23 @@ I CLI:n gör `codex --search` samma sak för en enstaka körning.
 - **Klart-kriterier enligt Codex best practices:** mål, kontext, begränsningar och "klart när". Planen förs i plan-verktyget, och resonemangsnivån är Extra High.
 
 Testat: självtestet passerar med kategorier, och ett fall med överskriden kvot stoppas med rätt poster att stryka.
+
+## Samma regler som Copilot-versionen
+
+Båda Codex-instruktionerna och skriptet följer Copilot-instruktionens regler från oktober 2026. Codex har ingen teckengräns, så här står också de exempel som Copilot-versionen fick korta bort.
+
+- **Jobbmässor först:** sökorden bygger på en webbsökning av vad arrangörerna faktiskt skriver. Se tabellen i `../README.md`. Mässlistorna allamassor.se och syvarna.com/jobbmassor är egna källor.
+- **R3 stänger ute:**
+  - evenemang bara för inbjudna, elever, pensionärer, ett lärosätes studenter, deltagare i en insats eller ett visst företags anställda
+  - evenemang som uttalat riktar sig till yrkesverksamma, till exempel HR, chefer, en yrkesgrupp eller fackmässor. Jobbmässor för en yrkesgrupp är ändå med.
+- **Med i kalendern:**
+  - mässor av alla slag
+  - evenemang för arbetssökande, unga 16–29 år, nyanlända och utrikes födda samt personer med funktionsnedsättning.
+- **Inlägg:** arrangörens egna inlägg på LinkedIn och Facebook räknas som bekräftelse.
+  - Publiceringsåret räcker om veckodagen stämmer med datumet.
+  - Bara inlägg som kan läsas utan inloggning räknas.
+- **Digitalt:** nationella digitala jobbmässor och rekryteringsträffar behöver ingen regional koppling.
+- **Skriptet:**
+  - `sokfragor` har de nya sökorden plus två sökningar utan regionnamn.
+  - Mässlistor (`massor`) och inlägg (`sociala`) är källtyper som täckningskontrollen kräver.
+  - Digitala mässor och rekryteringsträffar godkänns utan `regional_koppling`.

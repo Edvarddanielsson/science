@@ -30,7 +30,7 @@ Instruktionen körs bara när meddelandet innehåller en startprompt som börjar
 
 ## 1. Mål, gränser och klart när
 
-**Mål:** en klickbar PDF-kalender per region i `leverans/`, i A4 och med designen i BILAGA A. Varje kort ska vara en länk till arrangörens sida. Arbetsmarknad prioriteras.
+**Mål:** en klickbar PDF-kalender per region i `leverans/`, i A4 och med designen i BILAGA A. Varje kort ska vara en länk till arrangörens sida eller inlägg. Arbetsmarknad prioriteras, och jobbmässor och rekryteringsträffar är viktigast.
 
 **Klart när:**
 1. alla kontroller i avsnitt 8 är OK för varje region,
@@ -73,16 +73,18 @@ Uppgiften är lång. Håll planen aktuell och sluta inte förrän kriterierna un
 
 Underagenter startas bara om du uttryckligen ber om dem, så gör det. Gör i första hand så här, med `spawn_agents_on_csv`:
 
-1. Skapa `arbete/uppdrag.csv` med kolumnerna `id,region,uppgift,kallor`. Varje region får dessa rader:
-   - **En rad per kommun:** kommunens evenemangskalender, arbetsmarknadsenhet, komvux/vuxenutbildning, näringslivssida och lokala företagarföreningar, samt TIDIGARE-källor för kommunen.
-   - **Arbetsförmedlingen:** evenemang och mässor i länet.
+1. Skapa `arbete/uppdrag.csv` med kolumnerna `id,region,uppgift,kallor`. Varje region får dessa rader, i denna ordning så att jobbmässorna startar först:
+   - **Sökningar, jobbmässor A:** jobbmässa, jobb- och utbildningsmässa, rekryteringsmässa, rekryteringsträff, rekryteringsdag, rekryteringsevent.
+   - **Sökningar, jobbmässor B:** framtidsmässa, kompetensmässa, sommarjobbsmässa, jobbdag, samt fraserna "träffa arbetsgivare", "ta med ditt CV" och snabbintervjuer, som hittar mässor med egna namn. Sök också "digital jobbmässa" och "digital rekryteringsträff" utan regionnamn.
+   - **Mässlistor:** allamassor.se/jobbmassor och syvarna.com/jobbmassor (länets sida). Arbetsförmedlingen hänvisar själv till allamassor.se.
+   - **Arbetsförmedlingen:** evenemang, jobbmässor och rekryteringsträffar i länet.
+   - **Sociala medier:** arrangörers egna inlägg på LinkedIn och Facebook, till exempel `site:linkedin.com jobbmässa [region]`. Bara inlägg som går att läsa utan inloggning.
+   - **En rad per kommun:** kommunens evenemangskalender, arbetsmarknadsenhet, komvux/vuxenutbildning och näringslivssida, `site:[kommun].se jobbmässa`, samt TIDIGARE-källor för kommunen.
    - **Regionen och länsstyrelsen.**
-   - **Näringslivsorganisationer:** Almi, NyföretagarCentrum, Företagarna, handelskammaren, Svenskt Näringsliv.
-   - **Innovation:** science parks, inkubatorer, IUC, energikontor, branschorganisationer.
-   - **Lärosäten:** bara evenemang som är öppna för allmänheten.
-   - **Sökningar, arbetsmarknad:** jobbmässa, yrkesmässa, rekryteringsträff, arbetsgivarträff, rekryteringsdag, komvuxmässa, öppet hus vuxenutbildning, studie- och yrkesvägledning.
-   - **Sökningar, övrigt:** kostnadsfri kompetensutveckling, gratis utbildning, branschdag, seminarium kompetensförsörjning, HR-nätverk, näringslivsfrukost, nätverksträff företagare, starta eget, entreprenörskväll.
-   - **Aggregatorer och anmälningssidor:** allamassor.se, jobbklick.se, syvarna.com, simplesignup.se, confetti.events, trippus.net, eventbrite.se, somo.social. Dessa ger bara kandidater, och varje kandidat verifieras hos arrangören.
+   - **Lärosäten:** bara evenemang som är öppna för allmänheten, till exempel öppet hus och utbildningsmässor.
+   - **Sökningar, utbildning och övrigt:** utbildningsmässa, komvuxmässa, komvux öppet hus, yrkesutbildning, studie- och yrkesvägledning, kostnadsfri kompetensutveckling, starta eget, företagarmässa.
+   - **Starta eget:** Almi och NyföretagarCentrum.
+   - **Aggregatorer och anmälningssidor:** jobbklick.se, simplesignup.se, confetti.events, trippus.net, eventbrite.se. Dessa och mässlistorna ger bara kandidater, och varje kandidat verifieras hos arrangören.
 2. Anropa `spawn_agents_on_csv` med:
    - `csv_path: arbete/uppdrag.csv`, `id_column: id`, `max_concurrency: 6`, `output_csv_path: arbete/uppdrag_resultat.csv`
    - `output_schema: {"type":"object","required":["kallor","evenemang"],"properties":{"kallor":{"type":"array","items":{"type":"object"}},"evenemang":{"type":"array","items":{"type":"object"}}}}`
@@ -98,13 +100,18 @@ Underagenter startas bara om du uttryckligen ber om dem, så gör det. Gör i f�
   - Playwright för kalendrar som renderas med JavaScript: scrolla, klicka "visa fler" och filtrera på perioden.
   - Läs JSON-LD (`"@type":"Event"`, `startDate`) och ICS. Där står ofta året även när det saknas i texten.
   - Följ länkar till anmälningssidor.
-- **Varianter.** Sök på `[sökord] [kommun eller region] [månad år]`, på `vecka N`, på enskilda datum ("13 november") och med `site:` mot kommunens domän.
+- **Varianter.** Sök på `[sökord] [kommun eller region] [månad år]`, på `vecka N`, på enskilda datum ("13 november"), med `site:` mot kommunens domän (`site:[kommun].se jobbmässa`) och med `site:linkedin.com`.
+- **Om sökorden.** Orden för jobbmässor bygger på en webbsökning i oktober 2026 av vad arrangörerna faktiskt skriver. "Jobb- och utbildningsmässa" är kommunernas vanligaste namn. Många mässor har egna namn, som Jobbchansen, Jobbmatchen och Opportunity Day, och hittas bäst via fraserna "träffa arbetsgivare" och "ta med ditt CV". Kör varje sökord i din rad minst en gång.
+- **Inlägg.** Läs bara inlägg som är öppna utan inloggning. Notera inläggets publiceringsdatum i `kalla`.
 - **Logga** varje källa du har öppnat i `kallor` som `{typ, kommun, url eller fraga, resultat}`. `resultat` är `kandidater`, `inga` eller `ej_lasbar`. Logga aldrig något du inte har öppnat.
 - **Returnera** alla kandidater du har bedömt, även uteslutna (med regel och skäl).
 
 ## 4. Bedömning
 
-**VERIFIERAD** betyder att arrangörens egen sida, eller en anmälningssida som arrangören länkar till, anger år, datum inom perioden, starttid och plats eller "digitalt". Uppgifterna får stå i text, i adressen eller i JSON-LD/ICS. Kopiera det som visar detta ordagrant till `belagg`.
+**VERIFIERAD** betyder att arrangörens egen sida, ett eget inlägg från arrangören (LinkedIn, Facebook) eller en anmälningssida som arrangören länkar till anger år, datum inom perioden, starttid och plats eller "digitalt".
+- Uppgifterna får stå i text, i adressen eller i JSON-LD/ICS.
+- I ett inlägg räcker publiceringsåret som år, om veckodagen stämmer med datumet det året. Det stoppar gamla inlägg.
+- Kopiera det som visar detta ordagrant till `belagg`. För inlägg anges även publiceringsdatumet.
 
 Pröva reglerna i ordning. Första regel som träffar avgör.
 
@@ -112,18 +119,23 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 |---|---|---|
 | R1 | datum utanför perioden eller plats utanför regionen | `utesluten` |
 | R2 | inte arbetsmarknad, kompetensutveckling eller företagande | `utesluten` |
-| R3 | stängd målgrupp: bara studenter vid ett visst lärosäte, bara elever, interna deltagare, stängd kurs | `utesluten` |
+| R3 | stängd målgrupp: bara inbjudna, elever, pensionärer, studenter vid ett visst lärosäte, deltagare i en insats eller ett visst företags anställda; evenemang som uttalat riktar sig till yrkesverksamma i sin yrkesroll (till exempel HR, chefer, en viss yrkesgrupp, fackmässor); stängd kurs | `utesluten` |
 | R4 | slutet medlemsevenemang, eller slutsålt utan väntelista. Öppet för alla men med medlemspris: gå vidare | `utesluten` |
-| R5 | kompetensutveckling som kostar, betald kurs, kongress för en snäv yrkesgrupp, ren regelinformation | `utesluten` |
-| R6 | digitalt utan koppling till regionen | `utesluten` |
+| R5 | kompetensutveckling som kostar, betald kurs, ren regelinformation | `utesluten` |
+| R6 | digitalt utan koppling till regionen. Undantag: digitala jobbmässor och rekryteringsträffar | `utesluten` |
 | R7 | inte VERIFIERAD | `obekraftad` |
 | R8 | inställt | `installt` |
 | – | ingen regel träffar | `verifierad`, eller `vantelista` om fullbokat med väntelista |
 
+**Med i kalendern** när ingen regel träffar:
+- Mässor av alla slag: jobb-, rekryterings-, utbildnings-, komvux-, framtids-, sommarjobbs- och företagarmässor.
+- Evenemang för arbetssökande, unga 16–29 år, nyanlända och utrikes födda eller personer med funktionsnedsättning. Målgruppen visas med villkorstaggen `För [målgrupp]`.
+- Blandad publik och väntelista hindrar inte. Har eleverna och allmänheten olika tider gäller allmänhetens tid.
+
 **Kategori:**
-- **Arbetsmarknad** (prioriterad): jobb- och yrkesmässor, rekryterings- och arbetsgivarträffar, studie- och yrkesvägledning, öppet hus på komvux.
+- **Arbetsmarknad** (prioriterad): jobbmässor och rekryteringsträffar, utbildningsmässor, studie- och yrkesvägledning, öppet hus på komvux.
 - **Kompetensutveckling**: bara kostnadsfri.
-- **Företagande**: nätverk, frukostmöten, starta eget.
+- **Företagande**: starta eget, företagarmässor, nätverk för företagare.
 
 **Kvot:** Kompetensutveckling och Företagande får tillsammans vara högst 40 % per region.
 - Taket är golv(2 × antal arbetsmarknadskort / 3).
@@ -137,9 +149,18 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 - En passerad anmälningsfrist betyder inte att anmälan är stängd.
 
 **Kalibrering:**
-- Karriärdag för ett universitets studenter → R3.
+- Gymnasiemässa, och yrkesmässa för högstadiet → R3.
+- Karriärmässa eller arbetsmarknadsdag för ett lärosätes studenter, till exempel ARKAD → R3.
+- Rekryteringsevent där man bara kan delta efter inbjudan → R3.
+- Jobbmässa för en yrkesgrupp, till exempel vården eller ingenjörer → med, eftersom den riktar sig till jobbsökande.
+- HR-konferens, chefsnätverk eller fackmässa → R3.
+- Träff "för dig som är pensionär" → R3.
+- Mässa för elever på förmiddagen och för alla på eftermiddagen → med, med eftermiddagens tid.
 - "Endast för medlemmar" → R4.
 - "12 november kl. 16.30" utan år i text, adress och JSON-LD → `obekraftad`.
+- Inlägg publicerat 7 september 2026 om "onsdag 16 september kl. 13" → 2026, eftersom 16 september 2026 är en onsdag.
+- Fjolårets sida → R1, men sök efter årets upplaga.
+- Spel- eller hobbymässa → R2.
 
 ## 5. Datafält (ett objekt per evenemang i data.json)
 
@@ -156,15 +177,16 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 | `format` | `plats`, `digitalt` eller `hybrid` |
 | `kommun`, `ort`, `lokal`, `adress` | adressen utan postnummer |
 | `preliminar_lokal` | true/false |
-| `regional_koppling` | krävs om `format` är digitalt |
+| `regional_koppling` | krävs om `format` är digitalt, utom för jobbmässor och rekryteringsträffar |
+| `malgrupp` | målgruppen enligt källan, eller `null` |
 | `dropin` | HH:MM–HH:MM |
 | `pris_tagg` | `Gratis`, `Fri entré` (bara mässor), `150 kr`, `150 kr medlem / 250 kr övriga ex moms` eller `null` |
 | `villkor` | lista ur: `Endast [grupp]`, `Från [ålder] år`, `För [målgrupp]`, `Begränsat antal platser`, `Bindande anmälan`, `Uteblivande [belopp] kr ex moms` |
 | `ovrigt` | högst en tagg på högst 40 tecken |
 | `anmalan` | `kravs`, `ingen` eller `okand` |
 | `tidsfrist` | ÅÅÅÅ-MM-DD |
-| `lank`, `samlingssida` | direktlänk; `samlingssida` är true om länken bara går till en samlingssida |
-| `kalla` | var kandidaten hittades och var den verifierades |
+| `lank`, `samlingssida` | direktlänk till arrangörens sida eller inlägg; `samlingssida` är true om länken bara går till en samlingssida |
+| `kalla` | var kandidaten hittades och var den verifierades, med publiceringsdatum för inlägg |
 | `belagg` | ordagrant citat med år, datum och starttid |
 | `osakerheter` | avvikelser och tveksamheter |
 
@@ -219,7 +241,7 @@ Skriv `arbete/kontroll.py` en gång och kör den efter varje bygge. Allt ska var
   - Beskrivningarna har 60–115 tecken, utan tid, pris eller titel.
   - Taggarna kommer från vokabulären och står i rätt ordning.
   - Inga tomma fält visas.
-- **Belägg:** hämta varje kalenderlänk på nytt (text och JSON-LD). Datum och starttid ska finnas där. Annars blir posten `obekraftad`.
+- **Belägg:** hämta varje kalenderlänk på nytt (text och JSON-LD). Datum och starttid ska finnas där. Annars blir posten `obekraftad`. Det gäller också ett inlägg som inte längre går att läsa utan inloggning.
 - **Webbläsare, efter laddning:**
   - Elementet `#kontroll` får inte finnas. Det skapas av mallens egen kontroll och betyder att en beskrivning har fler än 2 rader, att tiden bryts, att kolumnerna inte har proportionen 2:1 eller att huvudrubriken bryts.
   - Antalet `a.card` är lika med antalet kalenderposter, och varje `href` är lika med `lank`.
@@ -238,7 +260,7 @@ Om ett fel inte går att rätta via data: leverera ändå och nämn felet.
 ## 9. Slutsvar
 
 - PDF:erna i `leverans/` som klickbara filer.
-- En rad per region: antal kort, varav kompetensutveckling eller företagande.
+- En rad per region: antal kort, varav jobbmässor och rekryteringsträffar, och varav kompetensutveckling eller företagande.
 - De viktigaste luckorna, högst fem rader: ej läsbara källor, kommuner som inte hanns med och obekräftade evenemang som är värda att följa upp.
 - Sökvägen till `arbete/data.json`, att ange som TIDIGARE nästa gång.
 

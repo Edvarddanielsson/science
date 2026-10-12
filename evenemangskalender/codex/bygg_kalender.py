@@ -76,19 +76,26 @@ ANMALAN = ("kravs", "ingen", "okand")
 REGLER = ("R1", "R2", "R3", "R4", "R5", "R6", "R9")
 KATEGORIER = ("Arbetsmarknad", "Kompetensutveckling", "Företagande")
 KALLTYPER = ("kommun", "komvux", "region", "lansstyrelse", "af", "naringsliv",
-             "innovation", "larosate", "aggregator", "sokning")
+             "innovation", "larosate", "massor", "sociala", "aggregator", "sokning")
 REGIONALA_KALLTYPER = {
     "region": "regionen", "lansstyrelse": "länsstyrelsen", "af": "Arbetsförmedlingen",
-    "naringsliv": "näringslivsorganisationer", "innovation": "science parks/inkubatorer/IUC",
-    "larosate": "universitet/högskolor",
+    "naringsliv": "Almi/NyföretagarCentrum", "larosate": "universitet/högskolor",
+    "massor": "mässlistor (allamassor.se, syvarna.com/jobbmassor)",
+    "sociala": "arrangörers inlägg (LinkedIn, Facebook)",
 }
 RESULTAT = ("kandidater", "inga", "ej_lasbar")
 
-# v2:s sökord, ett per sökfråga, kombinerade med regionen och periodens månad(er).
-SOKORD = ["jobbmässa", "rekryteringsträff", "arbetsgivarträff", "yrkesmässa", "komvuxmässa",
-          "öppet hus vuxenutbildning", "näringslivsfrukost", "företagsfrukost",
-          "nätverksträff företagare", "starta eget", "entreprenörskväll",
-          "seminarium kompetensförsörjning", "branschdag", "HR-nätverk"]
+# Sökord, ett per sökfråga, kombinerade med regionen och periodens månad(er). Orden för
+# jobbmässor bygger på en webbsökning i oktober 2026 av vad arrangörerna faktiskt skriver.
+SOKORD = ["jobbmässa", "jobb- och utbildningsmässa", "rekryteringsmässa",
+          "rekryteringsträff", "rekryteringsdag", "rekryteringsevent",
+          "framtidsmässa", "kompetensmässa", "sommarjobbsmässa", "jobbdag",
+          "\"träffa arbetsgivare\"", "\"ta med ditt CV\"", "snabbintervjuer",
+          "utbildningsmässa", "komvuxmässa", "komvux öppet hus", "yrkesutbildning",
+          "kostnadsfri kompetensutveckling", "starta eget", "företagarmässa"]
+# Digitala jobbmässor och rekryteringsträffar tas med även utan regional koppling (R6).
+SOKORD_NATIONELLT = ["digital jobbmässa", "digital rekryteringsträff"]
+DIGITALT_UTAN_KOPPLING = ("Mässa", "Rekryteringsträff")
 
 MALL_EVENEMANG = {
     "status": "verifierad | vantelista | obekraftad | utesluten | installt",
@@ -111,7 +118,7 @@ MALL_EVENEMANG = {
     "adress": "gatuadress utan postnummer, eller null",
     "preliminar_lokal": "true om arrangören kallar lokalen preliminär, annars false",
     "digital_plattform": "t.ex. Teams eller Zoom, eller null",
-    "regional_koppling": "krävs om digitalt: arrangör, målgrupp eller finansiering i regionen",
+    "regional_koppling": "krävs om digitalt (utom jobbmässor och rekryteringsträffar): arrangör, målgrupp eller finansiering i regionen",
     "dropin": "HH:MM–HH:MM eller null",
     "malgrupp": "målgrupp eller null",
     "deltagarkrav": "deltagarkrav eller null",
@@ -743,8 +750,8 @@ def validera_evenemang(e, i, reg, m, c):
             F("kommun saknas")
         if ev["adress"] and re.search(r"\b\d{3} ?\d{2}\b", ev["adress"]):
             F("adress ska anges utan postnummer")
-    if fmt == "digitalt" and not ev["regional_koppling"]:
-        F("digitalt evenemang kräver regional_koppling (annars R6)")
+    if fmt == "digitalt" and not ev["regional_koppling"] and ev["typ"] not in DIGITALT_UTAN_KOPPLING:
+        F("digitalt evenemang kräver regional_koppling (annars R6), utom jobbmässor och rekryteringsträffar")
     if not anm:
         F("anmalan saknas (kravs, ingen eller okand)")
     if tf and d0 and tf > (d1 or d0):
@@ -1633,7 +1640,8 @@ def skapa_data(regioner: list, typ: str, nr: int, ar: int, idag: dt.date, tidiga
                                       "resultat_forra": k.get("resultat")})
         data["regioner"].append({
             "namn": r["namn"], "kort": r["kort"], "kod": r["kod"], "kommuner": r["kommuner"],
-            "sokfragor": [f"{o} {r['kort']} {tid}" for o in SOKORD],
+            "sokfragor": [f"{o} {r['kort']} {tid}" for o in SOKORD]
+                         + [f"{o} {tid}" for o in SOKORD_NATIONELLT],
             "tidigare_kallor": gamla, "kallor": [], "researchluckor": [], "evenemang": []})
     return data
 
