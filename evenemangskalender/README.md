@@ -1,6 +1,6 @@
 # Evenemangskalender v3 – Microsoft Copilot
 
-`INSTRUKTION_v3_copilot.txt` är hela instruktionen (7 772 tecken, under gränsen på 7 800). `STARTPROMPT.txt` är det enda du fyller i inför varje körning. Instruktionen gör ingenting förrän den får en startprompt som börjar med `KÖR EVENEMANGSKALENDER v3`.
+`INSTRUKTION_v3_copilot.txt` är hela instruktionen (7 775 tecken, under gränsen på 7 800). `STARTPROMPT.txt` är det enda du fyller i inför varje körning. Instruktionen gör ingenting förrän den får en startprompt som börjar med `KÖR EVENEMANGSKALENDER v3`.
 
 ## Användning
 
@@ -28,16 +28,20 @@ Copilot börjar med en rad "Inställningar: …" så att du kan se att den har l
 ## Det som styr resultatet
 
 - **Jobbmässor först:** fyra av sex sökgrupper gäller jobbmässor och rekryteringsträffar. Minst 10 av de minst 20 sökningarna per region ska göras där, och arbetslistan redovisar antalet. Mässlistorna allamassor.se och syvarna.com/jobbmassor används för att hitta mässor, men aldrig som verifiering.
-- **Bred och noggrann research:** två varv (först brett, sedan verifiering hos arrangören), sökningar på vecka och datum, på kommunnamn och med `site:` (till exempel `site:[kommun].se jobbmässa` och anmälningssajten simplesignup.se), samt de 10 största kommunerna.
+- **Bred och noggrann research:** två varv (först brett, sedan verifiering hos arrangören), sökningar på vecka och datum, på kommunnamn och med `site:` (till exempel `site:[kommun].se jobbmässa` anmälningssajten simplesignup.se och `site:linkedin.com`), samt de 10 största kommunerna.
 - **Verifiering:** år, datum, starttid och plats hos arrangören, med ett ordagrant citat (belägg) i arbetslistan.
-- **Regler R1–R8** prövas i fast ordning. R3 stänger ute evenemang som bara är för inbjudna, elever, ett lärosätes studenter, deltagare i en insats eller ett företags anställda, och evenemang som uttalat är för yrkesverksamma, till exempel HR, chefer eller en viss yrkesgrupp. Kalibreringsexempel avgör vanliga gränsfall:
+  - Arrangörens egna inlägg på LinkedIn eller Facebook räknas också, eftersom många mindre rekryteringsträffar bara annonseras där.
+  - I ett inlägg räcker publiceringsåret om veckodagen stämmer med datumet. Kontrollen stoppar gamla inlägg.
+- **Regler R1–R8** prövas i fast ordning. R3 stänger ute evenemang som bara är för inbjudna, elever, pensionärer, ett lärosätes studenter, deltagare i en insats eller ett företags anställda, och evenemang som uttalat är för yrkesverksamma, till exempel HR, chefer eller en viss yrkesgrupp. Kalibreringsexempel avgör vanliga gränsfall:
   - gymnasie- och yrkesmässor för högstadiet (R3)
   - jobbmässor för en viss yrkesgrupp, till exempel vård (med, eftersom de riktar sig till jobbsökande)
   - HR-konferenser och fackmässor (R3)
-  - mässor med elevtid på förmiddagen och öppet för alla på eftermiddagen
+  - mässor med blandad publik (kortet får allmänhetens tid)
   - datum utan år
   - fjolårets sidor (då söker Copilot efter årets upplaga).
 - **Mässor av alla slag** är med om de klarar reglerna: jobb-, utbildnings-, komvux-, framtids- och företagarmässor. Sökningarna omfattar också utbildnings-, komvux- och företagarmässor.
+- **Målgrupper som är med:** evenemang för arbetssökande, unga 16–29 år, nyanlända och utrikes födda samt personer med funktionsnedsättning. De får en tagg som "För [målgrupp]".
+- **Digitalt:** nationella digitala jobbmässor och rekryteringsträffar är med och söks även utan regionnamn. Andra digitala evenemang kräver koppling till regionen.
 - **Prioritering:** arbetsmarknad går först, och utbildningsmässor räknas dit. Kostnadsfri kompetensutveckling och företagande får tillsammans vara högst 40 % av korten.
 - **Design:** samma utseende som i v2:s mall, beskrivet i mm, pt och färgkoder, med fasta regler för sidindelning. PDF:en skapas med kod, med riktig text och en klickbar länk per kort.
 
