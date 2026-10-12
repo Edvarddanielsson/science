@@ -142,7 +142,14 @@ def main():
                 bounds.append(min(near, key=lambda q: abs(q - b)) if near else b)
             bounds.append(dur)
             for p, a, b in zip(parts, bounds[:-1], bounds[1:]):
-                captions.append({"start": round(start + a, 3), "end": round(start + b, 3), "text": p})
+                # estimate when each word starts: proportional to characters within the chunk
+                ws = p.split(" ")
+                wlen = [len(w) + 1 for w in ws]
+                acc_w, words = 0, []
+                for w, l in zip(ws, wlen):
+                    words.append({"w": w, "t": round(start + a + (b - a) * acc_w / sum(wlen), 3)})
+                    acc_w += l
+                captions.append({"start": round(start + a, 3), "end": round(start + b, 3), "text": p, "words": words})
             t = start + dur + SENTENCE_GAP
         scenes.append({"id": scene["id"], "start": round(scene_start, 3), "sentences": sentences})
 
@@ -153,6 +160,14 @@ def main():
 
     peak = np.max(np.abs(out))
     out = out / peak * 0.89 if peak > 0 else out
+
+    # voice envelope at 30 fps (0..1), lightly smoothed, for the mic halo
+    hop = sr // 30
+    frames = len(out) // hop
+    rms = np.sqrt(np.mean(out[: frames * hop].reshape(frames, hop) ** 2, axis=1))
+    rms = np.convolve(rms, np.ones(3) / 3, mode="same")
+    env = np.clip(rms / (np.percentile(rms, 98) + 1e-9), 0, 1)
+    envelope = [round(float(v), 2) for v in env]
     os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True)
     sf.write(os.path.join(ROOT, "assets", "narration.wav"), out, sr, subtype="PCM_16")
 
@@ -166,14 +181,17 @@ def main():
         min(c["end"] + 0.08, captions[i + 1]["start"]) if i + 1 < len(captions) else c["end"] + 0.08
         for i, c in enumerate(captions)
     ]
-    cap_html = "\n".join(
-        f'      <div id="cap-{i}" class="clip cap" data-start="{c["start"]:.3f}" data-duration="{h - c["start"]:.3f}" data-track-index="9">'
-        f'<span>{html.escape(c["text"])}</span></div>'
-        for i, (c, h) in enumerate(zip(captions, holds))
-    )
+    def caption_div(i, c, hold):
+        words = " ".join(f'<span class="cw">{html.escape(w["w"])}</span>' for w in c["words"])
+        return (
+            f'      <div id="cap-{i}" class="clip cap" data-start="{c["start"]:.3f}" '
+            f'data-duration="{hold - c["start"]:.3f}" data-track-index="9"><span class="cl">{words}</span></div>'
+        )
+
+    cap_html = "\n".join(caption_div(i, c, h) for i, (c, h) in enumerate(zip(captions, holds)))
     page = page.replace("{{CAPTIONS}}", cap_html)
     page = page.replace("{{DURATION}}", f"{args.seconds:.0f}")
-    page = page.replace("{{DATA}}", json.dumps({"scenes": scenes, "captions": captions}, ensure_ascii=False))
+    page = page.replace("{{DATA}}", json.dumps({"scenes": scenes, "captions": captions, "envelope": envelope}, ensure_ascii=False, separators=(",", ":")))
     leftover = re.findall(r"\{\{[^}]+\}\}", page)
     if leftover:
         raise SystemExit(f"unfilled placeholders: {leftover}")

@@ -39,291 +39,381 @@
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
       #root { position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink); font-family: var(--sans); }
-      #bg { position: absolute; inset: 0; background: radial-gradient(1200px 700px at 12% 8%, #172331 0%, var(--bg) 60%); }
 
-      /* chapter progress */
-      #progress { position: absolute; top: 40px; left: 120px; right: 120px; height: 6px; display: flex; gap: 8px; }
-      .seg { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+      /* ambient layer */
+      #bg { position: absolute; inset: 0; background: radial-gradient(1400px 900px at 50% 40%, #121c26 0%, var(--bg) 70%); }
+      .blob { position: absolute; width: 1300px; height: 1300px; border-radius: 50%; }
+      #blob-a { left: -420px; top: -560px; background: radial-gradient(closest-side, rgba(57, 135, 229, 0.16), rgba(57, 135, 229, 0)); }
+      #blob-b { right: -460px; bottom: -640px; background: radial-gradient(closest-side, rgba(240, 180, 41, 0.10), rgba(240, 180, 41, 0)); }
+      #vignette { position: absolute; inset: 0; background: radial-gradient(1500px 1000px at 50% 50%, rgba(14, 21, 28, 0) 55%, rgba(6, 10, 14, 0.55) 100%); }
+      #stage { position: absolute; inset: 0; }
+
+      /* chrome */
+      #progress { position: absolute; top: 44px; left: 120px; width: 1420px; height: 4px; display: flex; gap: 8px; z-index: 6; }
+      .seg { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
       .seg i { display: block; width: 100%; height: 100%; background: var(--accent); transform-origin: left center; }
+      #mic-badge { position: absolute; top: 24px; right: 120px; height: 46px; display: flex; align-items: center; gap: 12px; padding: 0 18px 0 8px; border-radius: 999px; background: rgba(21, 31, 41, 0.9); border: 1px solid var(--line); z-index: 6; }
+      #mic-dot { position: relative; width: 32px; height: 32px; display: grid; place-items: center; }
+      #mic-halo { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(240, 180, 41, 0.75), rgba(240, 180, 41, 0)); opacity: 0.15; }
+      #mic-dot svg { position: relative; width: 20px; height: 20px; color: var(--accent); }
+      #mic-badge span { font-family: var(--mono); font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
 
-      /* scenes */
-      .scene { position: absolute; inset: 0; padding: 110px 120px 210px; }
-      .inner { width: 100%; height: 100%; display: flex; flex-direction: column; gap: 34px; }
+      /* scenes: GSAP owns their visibility and the transitions between them */
+      .scene { position: absolute; inset: 0; padding: 120px 120px 214px; overflow: hidden; }
+      #s-leaders, #s-habit, #s-local, #s-swedish, #s-close { opacity: 0; }
+      .content { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; gap: 34px; }
+      .ghost { position: absolute; font-family: var(--display); font-weight: 700; font-size: 520px; line-height: 1; letter-spacing: -0.04em; color: rgba(230, 236, 242, 0.035); white-space: nowrap; }
       .eyebrow { font-family: var(--mono); font-size: 24px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
-      .title { font-family: var(--display); font-weight: 700; font-size: 80px; line-height: 1.04; letter-spacing: -0.015em; max-width: 1500px; }
-      .head { display: flex; flex-direction: column; gap: 12px; }
-      .card { background: var(--panel); border: 2px solid var(--line); border-radius: 22px; padding: 26px 32px; }
-      .card.hi { border-color: var(--accent); }
+      .title { font-family: var(--display); font-weight: 700; font-size: 82px; line-height: 1.06; letter-spacing: -0.015em; }
+      .ml { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+      .ml > span { display: block; }
+      .head { display: flex; flex-direction: column; gap: 14px; }
+      .card { position: relative; background: var(--panel); border: 2px solid var(--line); border-radius: 22px; padding: 26px 32px; overflow: hidden; }
+      .card.hi { border-color: rgba(240, 180, 41, 0.85); }
       .chip { display: inline-block; font-family: var(--mono); font-size: 24px; font-weight: 500; padding: 5px 16px; border-radius: 999px; white-space: nowrap; }
       .chip.cloud { background: var(--cloud-bg); color: var(--cloud-ink); }
-      .chip.local { background: var(--local-bg); color: var(--local-ink); }
       .label { font-family: var(--mono); font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-      .src { font-family: var(--mono); font-size: 22px; color: var(--muted); }
+      .src { font-family: var(--mono); font-size: 21px; color: var(--muted); }
+      .arrow { width: 96px; height: 28px; flex: none; }
+      .arrow path { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 
-      /* hook */
-      #s-hook .inner { flex-direction: row; align-items: center; gap: 90px; }
-      .hero { width: 820px; flex: none; display: flex; flex-direction: column; gap: 30px; }
-      .hero h1 { font-family: var(--display); font-weight: 700; font-size: 140px; line-height: 0.98; letter-spacing: -0.025em; }
-      .hero h1 .ln { display: block; white-space: nowrap; }
-      .hero p { font-size: 38px; line-height: 1.3; color: var(--ink-2); }
+      /* 1 · hook */
+      #s-hook .content { flex-direction: row; align-items: center; gap: 80px; }
+      #hook-ghost { left: -40px; bottom: 60px; }
+      #hero-push { width: 830px; flex: none; display: flex; flex-direction: column; gap: 30px; transform-origin: left center; }
+      .hero-title { font-family: var(--display); font-weight: 700; font-size: 142px; line-height: 0.98; letter-spacing: -0.025em; }
+      .hero-sub { font-size: 38px; line-height: 1.3; color: var(--ink-2); max-width: 760px; }
       .keys { display: flex; gap: 18px; }
-      .key { width: 92px; height: 100px; border-radius: 16px; background: #26323e; box-shadow: 0 5px 0 #0a1016; display: grid; place-items: center; font-size: 50px; font-weight: 500; }
-      .key.mic { width: 120px; color: var(--accent); }
+      .key { position: relative; width: 92px; height: 100px; }
+      .key-in { width: 100%; height: 100%; border-radius: 16px; background: #26323e; box-shadow: 0 5px 0 #0a1016; display: grid; place-items: center; font-size: 50px; font-weight: 500; color: var(--ink); }
+      .key.mic { width: 120px; }
+      .key.mic .key-in { color: var(--accent); }
       .key svg { width: 46px; height: 46px; }
-      .demo { flex: 1; display: flex; flex-direction: column; gap: 18px; }
-      .said { font-size: 40px; line-height: 1.45; }
-      .w { display: inline-block; margin-right: 0.26em; }
-      .drop { position: relative; display: inline-block; margin-right: 0.26em; }
-      .strike { position: absolute; left: -2px; right: -2px; top: 54%; height: 4px; border-radius: 2px; background: var(--removed); transform-origin: left center; }
+      .ripple { position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; border: 3px solid var(--accent); opacity: 0; }
+      #demo { flex: 1; display: flex; flex-direction: column; gap: 18px; }
+      #said { font-size: 40px; line-height: 1.5; }
+      .tok { display: inline-block; margin-right: 0.26em; }
+      .drop { position: relative; }
+      .strike { position: absolute; left: -3px; right: -3px; top: 55%; height: 4px; border-radius: 2px; background: var(--removed); transform-origin: left center; }
       .rule { height: 2px; background: var(--line); }
-      .sent { font-size: 46px; font-weight: 600; }
+      #sent { font-size: 46px; font-weight: 600; line-height: 1.25; }
 
-      /* leaders */
+      /* 2 · leaders */
+      #leaders-ghost { right: -70px; top: 150px; }
       .rows { display: flex; flex-direction: column; gap: 18px; }
-      .row { display: grid; grid-template-columns: 340px 1fr 170px; align-items: center; gap: 28px; padding: 22px 32px; }
+      .row { display: grid; grid-template-columns: 340px 1fr 160px; align-items: center; gap: 28px; padding: 24px 32px; }
       .row .name { font-family: var(--display); font-weight: 600; font-size: 46px; }
-      .row .what { font-size: 32px; color: var(--ink-2); line-height: 1.3; }
-      .row .what b { font-family: var(--mono); font-weight: 500; color: var(--accent); font-size: 40px; margin-right: 10px; }
+      .row .what { font-size: 31px; color: var(--ink-2); line-height: 1.3; display: flex; align-items: center; gap: 18px; }
       .row .what em { font-style: italic; }
-      .row .what .src { margin-left: 12px; }
       .row .chip { justify-self: end; }
+      .rating b { font-family: var(--mono); font-weight: 500; font-size: 42px; color: var(--accent); width: 80px; }
+      .stars { position: relative; display: inline-block; width: 190px; height: 38px; flex: none; }
+      .stars svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .sheen { position: absolute; top: 0; bottom: 0; left: 0; width: 360px; background: linear-gradient(100deg, rgba(240, 180, 41, 0), rgba(240, 180, 41, 0.10), rgba(240, 180, 41, 0)); opacity: 0; }
 
-      /* habit */
-      .stats { display: grid; grid-template-columns: 1.35fr 1fr; gap: 28px; }
-      .stat { display: flex; flex-direction: column; gap: 14px; padding: 34px 40px; }
-      .big { font-family: var(--display); font-weight: 700; font-size: 200px; line-height: 0.9; }
-      .big.pct { --pct: 0; }
-      .big.pct::before { counter-reset: pct var(--pct); content: counter(pct) "%"; }
+      /* 3 · habit */
+      #habit-ghost { right: -40px; bottom: 40px; }
+      .stats { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; }
+      .stat { display: flex; align-items: center; gap: 40px; padding: 30px 40px; }
+      .ringbox { position: relative; width: 250px; height: 250px; flex: none; }
+      .ringbox svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .ringbox .track { fill: none; stroke: #24313e; stroke-width: 16; }
+      .ringbox .prog { fill: none; stroke: var(--accent); stroke-width: 16; stroke-linecap: round; }
+      .ringnum { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 92px; }
+      .ringnum small { font-size: 50px; margin-left: 2px; display: inline-block; }
       .stat .l { font-size: 36px; line-height: 1.3; color: var(--ink-2); }
-      .tag-line { display: flex; align-items: center; gap: 26px; font-size: 44px; color: var(--ink-2); }
-      .arrow { width: 96px; height: 28px; }
+      .stopwatch { position: relative; width: 130px; height: 130px; flex: none; }
+      .stopwatch svg { width: 100%; height: 100%; }
+      .stopwatch .track { fill: none; stroke: #24313e; stroke-width: 10; }
+      .stopwatch .prog { fill: none; stroke: var(--blue); stroke-width: 10; stroke-linecap: round; }
+      .bigtime { font-family: var(--display); font-weight: 700; font-size: 104px; line-height: 1; }
+      #glow-89 { position: absolute; left: -200px; top: -240px; width: 900px; height: 900px; border-radius: 50%; background: radial-gradient(closest-side, rgba(240, 180, 41, 0.22), rgba(240, 180, 41, 0)); opacity: 0; }
+      .tag-line { display: flex; align-items: center; gap: 26px; font-size: 46px; color: var(--ink); }
 
-      /* local */
-      .diagram { display: grid; grid-template-columns: 1fr 120px 1.15fr; align-items: stretch; }
+      /* 4 · local */
+      #local-ghost { right: -60px; top: 120px; }
+      .diagram { display: grid; grid-template-columns: 1fr 140px 1.2fr; align-items: stretch; }
       .node { display: flex; flex-direction: column; gap: 10px; }
-      .node h3 { font-family: var(--display); font-weight: 600; font-size: 44px; }
-      .node .it { font-size: 31px; color: var(--ink-2); }
-      .node .bad { font-size: 31px; color: var(--removed); font-weight: 600; display: flex; align-items: center; gap: 12px; }
-      .node .good { font-size: 31px; color: var(--local-ink); font-weight: 600; display: flex; align-items: center; gap: 12px; }
+      .node h3 { font-family: var(--display); font-weight: 600; font-size: 42px; }
+      .node .it { font-size: 30px; color: var(--ink-2); }
+      .node .bad, .node .good { font-size: 30px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+      .node .bad { color: var(--removed); }
+      .node .good { color: var(--local-ink); }
       .node svg { width: 40px; height: 40px; flex: none; }
-      .link { display: grid; place-items: center; }
-      .race { display: flex; flex-direction: column; gap: 16px; }
-      .bar-row { display: grid; grid-template-columns: 430px 1fr; align-items: center; gap: 24px; }
-      .bar-row .n { font-size: 30px; color: var(--ink-2); }
-      .bar-row .n small { font-size: 22px; color: var(--muted); }
-      .track { position: relative; height: 34px; }
-      .fill { height: 34px; border-radius: 0 7px 7px 0; background: var(--blue); transform-origin: left center; }
+      #slash { stroke: var(--removed); stroke-width: 2.4; stroke-linecap: round; }
+      .link { position: relative; display: flex; align-items: center; justify-content: center; }
+      .link svg { width: 140px; height: 20px; }
+      #link-line { fill: none; stroke: var(--ink-2); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 6 10; }
+      #pulse { position: absolute; left: 10px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: var(--local-ink); box-shadow: 0 0 16px rgba(159, 216, 176, 0.9); opacity: 0; }
+      #race { display: flex; flex-direction: column; gap: 18px; }
+      .race-head { display: flex; justify-content: space-between; align-items: baseline; }
+      .race-row { display: grid; grid-template-columns: 360px 1fr; align-items: center; gap: 24px; }
+      .race-row .n { display: flex; flex-direction: column; gap: 2px; font-size: 29px; color: var(--ink-2); }
+      .race-row .t { font-family: var(--mono); font-size: 26px; color: var(--ink); }
+      .lane { position: relative; height: 40px; }
+      .fill { position: absolute; left: 0; top: 3px; height: 34px; border-radius: 0 8px 8px 0; background: var(--blue); transform-origin: left center; }
       .fill.hi { background: var(--accent); }
-      .val { position: absolute; top: 0; font-family: var(--mono); font-size: 28px; line-height: 34px; }
+      #stream-text { position: absolute; left: 150px; top: 0; line-height: 40px; font-size: 30px; white-space: nowrap; }
+      #stream-text span { display: inline-block; margin-right: 0.26em; }
+      #full-text { position: absolute; left: 870px; top: 0; line-height: 40px; font-size: 30px; white-space: nowrap; color: var(--ink-2); }
 
-      /* swedish */
-      .gaps { display: flex; flex-direction: column; gap: 18px; }
-      .gap { display: flex; justify-content: space-between; align-items: center; padding: 24px 32px; font-size: 38px; }
-      .gap span:last-child { color: var(--removed); font-weight: 600; }
+      /* 5 · swedish */
+      #sv-ghost { right: -40px; bottom: 30px; }
+      .sweep { background: linear-gradient(90deg, #e6ecf2 0%, #e6ecf2 42%, #f0b429 50%, #e6ecf2 58%, #e6ecf2 100%); background-size: 300% 100%; background-position: 100% 0; -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .gaps { display: flex; flex-direction: column; gap: 16px; }
+      .gap { display: flex; justify-content: space-between; align-items: center; padding: 22px 32px; font-size: 36px; }
+      .gap .st { color: var(--removed); font-weight: 600; }
       .sv { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
       .sv .card { display: flex; flex-direction: column; gap: 10px; }
-      .sv .said-sv { font-size: 32px; font-style: italic; color: var(--ink-2); }
-      .sv .out { font-size: 38px; font-weight: 600; display: flex; align-items: center; gap: 16px; }
-      .sv .pian { font-family: var(--display); font-weight: 700; font-size: 72px; color: var(--accent); line-height: 1; }
+      .wer { display: flex; align-items: baseline; gap: 18px; }
+      .wer b { font-family: var(--display); font-weight: 700; font-size: 84px; line-height: 1; color: var(--accent); }
+      .wer span { font-size: 32px; font-weight: 600; }
+      .said-sv { font-size: 32px; font-style: italic; color: var(--ink-2); }
+      .compound { display: flex; align-items: center; gap: 18px; font-size: 44px; font-weight: 600; }
+      .word { position: relative; display: inline-flex; align-items: baseline; }
+      #tj, #dot { display: inline-block; }
+      #cmp-line { position: absolute; left: 0; right: 0; bottom: -8px; height: 3px; border-radius: 2px; background: var(--accent); transform-origin: left center; }
 
-      /* close */
-      #s-close .inner { align-items: center; justify-content: center; text-align: center; gap: 40px; }
-      .steps { display: flex; gap: 20px; justify-content: center; }
-      .step { font-size: 36px; padding: 14px 30px; border-radius: 999px; border: 2px solid var(--accent); }
-      .final { display: flex; flex-direction: column; align-items: center; gap: 28px; }
-      .final h2 { font-family: var(--display); font-weight: 700; font-size: 150px; letter-spacing: -0.025em; line-height: 1; }
-      .final p { font-size: 40px; color: var(--ink-2); }
+      /* 6 · close */
+      #close-ghost { left: 50%; margin-left: -880px; top: 300px; }
+      #s-close .content { align-items: center; justify-content: center; text-align: center; gap: 38px; }
+      .steps { position: relative; display: flex; gap: 22px; justify-content: center; }
+      #steps-line { position: absolute; left: 30px; right: 30px; top: 50%; height: 2px; background: rgba(240, 180, 41, 0.5); transform-origin: left center; }
+      .step { position: relative; font-size: 34px; padding: 14px 30px; border-radius: 999px; border: 2px solid var(--accent); background: var(--bg); }
+      .final { display: flex; flex-direction: column; align-items: center; gap: 26px; }
+      .final-title { font-family: var(--display); font-weight: 700; font-size: 150px; letter-spacing: -0.025em; line-height: 1.02; display: flex; overflow: hidden; padding-bottom: 0.06em; }
+      .ch { display: inline-block; }
+      .final-sub { font-size: 40px; color: var(--ink-2); }
 
-      /* captions */
+      /* captions: the spoken word lights up */
       .cap { position: absolute; left: 0; right: 0; bottom: 56px; display: flex; justify-content: center; z-index: 5; }
-      .cap span { display: block; max-width: 1480px; padding: 14px 30px; border-radius: 16px; background: rgba(6, 10, 14, 0.88); border: 1px solid var(--line); font-weight: 500; font-size: 46px; line-height: 1.28; color: #ffffff; text-align: center; }
+      .cl { display: block; max-width: 1480px; padding: 14px 30px; border-radius: 16px; background: rgba(6, 10, 14, 0.86); border: 1px solid var(--line); font-weight: 500; font-size: 46px; line-height: 1.28; text-align: center; }
+      .cw { color: rgba(255, 255, 255, 0.42); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="{{DURATION}}" data-width="1920" data-height="1080">
       <div id="bg"></div>
+      <div id="blob-a" class="blob"></div>
+      <div id="blob-b" class="blob"></div>
+      <div id="vignette"></div>
 
       <audio id="narration" src="assets/narration.wav" data-start="0" data-duration="{{DURATION}}" data-track-index="8" data-volume="1"></audio>
 
-      <div id="progress">
-        <div class="seg" style="flex: {{hook.dur}}"><i id="p-hook"></i></div>
-        <div class="seg" style="flex: {{leaders.dur}}"><i id="p-leaders"></i></div>
-        <div class="seg" style="flex: {{habit.dur}}"><i id="p-habit"></i></div>
-        <div class="seg" style="flex: {{local.dur}}"><i id="p-local"></i></div>
-        <div class="seg" style="flex: {{swedish.dur}}"><i id="p-swedish"></i></div>
-        <div class="seg" style="flex: {{close.dur}}"><i id="p-close"></i></div>
-      </div>
+      <div id="stage">
+        <div id="progress">
+          <div class="seg" style="flex: {{hook.dur}}"><i id="p-hook"></i></div>
+          <div class="seg" style="flex: {{leaders.dur}}"><i id="p-leaders"></i></div>
+          <div class="seg" style="flex: {{habit.dur}}"><i id="p-habit"></i></div>
+          <div class="seg" style="flex: {{local.dur}}"><i id="p-local"></i></div>
+          <div class="seg" style="flex: {{swedish.dur}}"><i id="p-swedish"></i></div>
+          <div class="seg" style="flex: {{close.dur}}"><i id="p-close"></i></div>
+        </div>
+        <div id="mic-badge">
+          <div id="mic-dot">
+            <div id="mic-halo"></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+          </div>
+          <span>Listening</span>
+        </div>
 
-      <!-- 1 · hook -->
-      <section id="s-hook" class="clip scene" data-start="{{hook.start}}" data-duration="{{hook.dur}}" data-track-index="0">
-        <div class="inner" id="hook-inner">
-          <div class="hero">
-            <div class="eyebrow" id="hook-eyebrow">Research brief · in 60 seconds</div>
-            <h1 id="hook-title"><span class="ln">Talk,</span><span class="ln">don't type.</span></h1>
-            <p id="hook-sub">AI voice keyboards on iPhone, and a Swedish on-device opportunity</p>
-            <div class="keys">
-              <div class="key" id="k1">å</div>
-              <div class="key" id="k2">ä</div>
-              <div class="key" id="k3">ö</div>
-              <div class="key mic" id="k4">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+        <!-- 1 · hook -->
+        <section id="s-hook" class="scene">
+          <div id="hook-ghost" class="ghost" data-layout-ignore aria-hidden="true">Tala</div>
+          <div class="content">
+            <div id="hero-push">
+              <div class="eyebrow" id="hook-eyebrow">Research brief · in 60 seconds</div>
+              <div class="hero-title">
+                <span class="ml"><span id="hl-1">Talk,</span></span>
+                <span class="ml"><span id="hl-2">don't type.</span></span>
+              </div>
+              <div class="hero-sub" id="hook-sub">AI voice keyboards on iPhone, and a Swedish on-device opportunity</div>
+              <div class="keys">
+                <div class="key" id="k1"><div class="key-in">å</div></div>
+                <div class="key" id="k2"><div class="key-in">ä</div></div>
+                <div class="key" id="k3"><div class="key-in">ö</div></div>
+                <div class="key mic" id="k4">
+                  <div class="ripple" id="k4-ripple"></div>
+                  <div class="key-in" id="k4-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></div>
+                </div>
+              </div>
+            </div>
+            <div class="card" id="demo">
+              <div class="label">You say</div>
+              <div id="said"><span class="tok drop"><span class="txt">um, so</span><i class="strike"></i></span><span class="tok">I</span><span class="tok">was</span><span class="tok">thinking</span><span class="tok">we</span><span class="tok">could,</span><span class="tok drop"><span class="txt">uh,</span><i class="strike"></i></span><span class="tok">meet</span><span class="tok">tomorrow</span><span class="tok">at</span><span class="tok drop"><span class="txt">three, no wait,</span><i class="strike"></i></span><span class="tok">four</span></div>
+              <div class="rule"></div>
+              <div class="label" id="sends-label">It sends</div>
+              <div id="sent">Could we meet tomorrow at four?</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 · leaders -->
+        <section id="s-leaders" class="scene">
+          <div id="leaders-ghost" class="ghost" data-layout-ignore aria-hidden="true">4.8</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="leaders-eyebrow">Most acclaimed</div>
+              <div class="title"><span class="ml"><span id="leaders-title">Who reviewers rate highest</span></span></div>
+            </div>
+            <div class="rows">
+              <div class="card row hi" id="r-wispr">
+                <div class="sheen"></div>
+                <div class="name">Wispr Flow</div>
+                <div class="what rating"><b id="wispr-num">0.0</b><span class="stars"><svg class="s-base" viewBox="0 0 120 24"><g fill="#2c3a47"><path transform="translate(0 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/><path transform="translate(24 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/><path transform="translate(48 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/><path transform="translate(72 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/><path transform="translate(96 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/></g></svg><svg class="s-fill" id="stars-fill" viewBox="0 0 120 24"><g fill="#f0b429"><path transform="translate(0 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/><path transform="translate(24 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/><path transform="translate(48 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/><path transform="translate(72 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/><path transform="translate(96 0)" d="M12 2l2.9 6.26 6.9.74-5.1 4.73 1.4 6.77L12 17.1 5.9 20.5l1.4-6.77L2.2 9l6.9-.74z"/></g></svg></span><span>17,000 App Store ratings</span></div>
+                <span class="chip cloud c-chip">Cloud</span>
+              </div>
+              <div class="card row" id="r-aqua">
+                <div class="sheen"></div>
+                <div class="name">Aqua Voice</div>
+                <div class="what" id="q-aqua"><em>“the best dictation app I've ever used”</em><span class="src">9to5Mac</span></div>
+                <span class="chip cloud c-chip">Cloud</span>
+              </div>
+              <div class="card row" id="r-willow">
+                <div class="sheen"></div>
+                <div class="name">Willow</div>
+                <div class="what" id="q-willow"><em>“the most accurate dictation keyboard app I have used”</em><span class="src">Make Tech Easier</span></div>
+                <span class="chip cloud c-chip">Cloud</span>
               </div>
             </div>
           </div>
-          <div class="card demo" id="demo">
-            <div class="label">You say</div>
-            <div class="said" id="said">
-              <span class="drop"><span class="w-t">um, so</span><i class="strike"></i></span><span class="w">I</span><span class="w">was</span><span class="w">thinking</span><span class="w">we</span><span class="w">could,</span><span class="drop"><span class="w-t">uh,</span><i class="strike"></i></span><span class="w">meet</span><span class="w">tomorrow</span><span class="w">at</span><span class="drop"><span class="w-t">three, no wait,</span><i class="strike"></i></span><span class="w">four</span>
-            </div>
-            <div class="rule"></div>
-            <div class="label" id="sends-label">It sends</div>
-            <div class="sent" id="sent">Could we meet tomorrow at four?</div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- 2 · leaders -->
-      <section id="s-leaders" class="clip scene" data-start="{{leaders.start}}" data-duration="{{leaders.dur}}" data-track-index="0">
-        <div class="inner" id="leaders-inner">
-          <div class="head">
-            <div class="eyebrow">Most acclaimed</div>
-            <div class="title" id="leaders-title">Who reviewers rate highest</div>
-          </div>
-          <div class="rows">
-            <div class="card row hi" id="r-wispr">
-              <div class="name">Wispr Flow</div>
-              <div class="what"><b>4.8★</b>from 17,000 App Store ratings</div>
-              <span class="chip cloud" id="c-wispr">Cloud</span>
+        <!-- 3 · habit -->
+        <section id="s-habit" class="scene">
+          <div id="habit-ghost" class="ghost" data-layout-ignore aria-hidden="true">89%</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="habit-eyebrow">Why it sticks</div>
+              <div class="title"><span class="ml"><span id="habit-title">The habit comes from not editing</span></span></div>
             </div>
-            <div class="card row" id="r-aqua">
-              <div class="name">Aqua Voice</div>
-              <div class="what"><em>“the best dictation app I've ever used”</em><span class="src">9to5Mac</span></div>
-              <span class="chip cloud" id="c-aqua">Cloud</span>
-            </div>
-            <div class="card row" id="r-willow">
-              <div class="name">Willow</div>
-              <div class="what"><em>“the most accurate dictation keyboard app I have used”</em><span class="src">Make Tech Easier</span></div>
-              <span class="chip cloud" id="c-willow">Cloud</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 3 · habit -->
-      <section id="s-habit" class="clip scene" data-start="{{habit.start}}" data-duration="{{habit.dur}}" data-track-index="0">
-        <div class="inner" id="habit-inner">
-          <div class="head">
-            <div class="eyebrow">Why it sticks</div>
-            <div class="title" id="habit-title">The habit comes from not editing</div>
-          </div>
-          <div class="stats">
-            <div class="card stat hi" id="st-1">
-              <div class="big pct" id="pct"></div>
-              <div class="l">of Wispr messages go out with no edits</div>
-            </div>
-            <div class="card stat" id="st-2">
-              <div class="big">0.5 s</div>
-              <div class="l">median time to hit send</div>
-            </div>
-          </div>
-          <div class="src" id="habit-src">Company-reported figures (Wispr)</div>
-          <div class="tag-line" id="habit-line"><span>Stop proofreading</span><svg class="arrow" viewBox="0 0 96 28"><path d="M2 14 H84" stroke="#f0b429" stroke-width="3" stroke-linecap="round"/><path d="M76 5 L90 14 L76 23" stroke="#f0b429" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>think out loud</span></div>
-        </div>
-      </section>
-
-      <!-- 4 · local -->
-      <section id="s-local" class="clip scene" data-start="{{local.start}}" data-duration="{{local.dur}}" data-track-index="0">
-        <div class="inner" id="local-inner">
-          <div class="head">
-            <div class="eyebrow">On-device</div>
-            <div class="title" id="local-title">Yes, but not inside the keyboard</div>
-          </div>
-          <div class="diagram">
-            <div class="card node" id="n-kb">
-              <h3>Keyboard</h3>
-              <div class="bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path d="M3 3l18 18"/></svg>No microphone</div>
-              <div class="it">Killed at ~70 MB</div>
-            </div>
-            <div class="link" id="n-link">
-              <svg class="arrow" viewBox="0 0 96 28"><path d="M2 14 H84" stroke="#b3c0cc" stroke-width="3" stroke-linecap="round"/><path d="M76 5 L90 14 L76 23" stroke="#b3c0cc" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="card node hi" id="n-app">
-              <h3>Main app, in the background</h3>
-              <div class="good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>Holds the mic</div>
-              <div class="it">Pianissimo for speech · Gemma 4 E2B for cleanup</div>
-            </div>
-          </div>
-          <div class="race" id="race">
-            <div class="bar-row">
-              <div class="n">Full rewrite on CPU <small>(estimate)</small></div>
-              <div class="track"><div class="fill" id="f-full" style="width: 840px"></div><div class="val" id="v-full" style="left: 856px">4.2 s</div></div>
-            </div>
-            <div class="bar-row">
-              <div class="n">Streamed, first words <small>(estimate)</small></div>
-              <div class="track"><div class="fill hi" id="f-stream" style="width: 120px"></div><div class="val" id="v-stream" style="left: 136px">0.6 s</div></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5 · swedish -->
-      <section id="s-swedish" class="clip scene" data-start="{{swedish.start}}" data-duration="{{swedish.dur}}" data-track-index="0">
-        <div class="inner" id="swedish-inner">
-          <div class="head">
-            <div class="eyebrow">Swedish</div>
-            <div class="title" id="sv-title">Swedish is wide open</div>
-          </div>
-          <div class="gaps">
-            <div class="card gap" id="g-1"><span>Apple Dictation in Swedish</span><span>no automatic punctuation</span></div>
-            <div class="card gap" id="g-2"><span>iOS 27 AI dictation</span><span>English only</span></div>
-          </div>
-          <div class="sv" id="sv-examples">
-            <div class="card hi" id="ex-1">
-              <div class="label">Klang Pianissimo, on device</div>
-              <div class="out"><span class="pian">4.5%</span>word error rate in Swedish</div>
-              <div class="src">Klang's figures · mean of five test sets</div>
-            </div>
-            <div class="card" id="ex-2">
-              <div class="said-sv">“ring kund tjänst”</div>
-              <div class="out"><svg class="arrow" viewBox="0 0 96 28"><path d="M2 14 H84" stroke="#f0b429" stroke-width="3" stroke-linecap="round"/><path d="M76 5 L90 14 L76 23" stroke="#f0b429" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Ring kundtjänst.</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 6 · close -->
-      <section id="s-close" class="clip scene" data-start="{{close.start}}" data-duration="{{close.dur}}" data-track-index="0">
-        <div class="inner" id="close-inner">
-          <div class="eyebrow" id="close-eyebrow">The plan</div>
-          <div class="steps" id="steps">
-            <div class="step" id="st-a">Edit-free Swedish text</div>
-            <div class="step" id="st-b">On the device</div>
-            <div class="step" id="st-c">Pianissimo + Gemma 4 E2B</div>
-          </div>
-          <div class="final" id="final">
-            <div class="keys">
-              <div class="key" id="fk1">å</div>
-              <div class="key" id="fk2">ä</div>
-              <div class="key" id="fk3">ö</div>
-              <div class="key mic" id="fk4">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+            <div class="stats">
+              <div class="card stat hi" id="st-1">
+                <div id="glow-89"></div>
+                <div class="ringbox">
+                  <svg viewBox="0 0 250 250"><circle class="track" cx="125" cy="125" r="110"/><circle class="prog" id="ring" cx="125" cy="125" r="110" transform="rotate(-90 125 125)" stroke-dasharray="691.15" stroke-dashoffset="691.15"/></svg>
+                  <div class="ringnum"><span id="pct-num">0</span><small id="pct-suffix">%</small></div>
+                </div>
+                <div class="l">of Wispr messages go out with no edits</div>
+              </div>
+              <div class="card stat" id="st-2">
+                <div class="stopwatch">
+                  <svg viewBox="0 0 130 130"><circle class="track" cx="65" cy="65" r="46"/><circle class="prog" id="watch" cx="65" cy="65" r="46" transform="rotate(-90 65 65)" stroke-dasharray="289.03" stroke-dashoffset="289.03"/></svg>
+                </div>
+                <div>
+                  <div class="bigtime" id="half-num">0.5 s</div>
+                  <div class="l">median time to hit send</div>
+                </div>
               </div>
             </div>
-            <h2 id="final-title">Talk, don't type.</h2>
-            <p id="final-sub">In Swedish. With nothing leaving the phone.</p>
+            <div class="tag-line" id="habit-line">
+              <span id="hl-a">Stop proofreading</span>
+              <svg class="arrow" viewBox="0 0 96 28"><path id="hl-arrow" d="M2 14 H84 M76 5 L90 14 L76 23" stroke-dasharray="120" stroke-dashoffset="120"/></svg>
+              <span id="hl-b">think out loud</span>
+            </div>
+            <div class="src" id="habit-src">Company-reported figures (Wispr)</div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- captions, timed to the narration by script/build.py -->
+        <!-- 4 · local -->
+        <section id="s-local" class="scene">
+          <div id="local-ghost" class="ghost" data-layout-ignore aria-hidden="true">70 MB</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="local-eyebrow">On-device</div>
+              <div class="title"><span class="ml"><span id="local-title">Yes, but not inside the keyboard</span></span></div>
+            </div>
+            <div class="diagram">
+              <div class="card node" id="n-kb">
+                <h3>Keyboard</h3>
+                <div class="bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path id="slash" d="M3 3l18 18" stroke-dasharray="26" stroke-dashoffset="26"/></svg>No microphone</div>
+                <div class="it">Killed at ~70 MB</div>
+              </div>
+              <div class="link" id="n-link">
+                <svg viewBox="0 0 140 20"><path id="link-line" d="M8 10 H132"/></svg>
+                <div id="pulse"></div>
+              </div>
+              <div class="card node hi" id="n-app">
+                <h3>Main app, in the background</h3>
+                <div class="good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>Holds the mic</div>
+                <div class="it">Pianissimo for speech · Gemma 4 E2B for cleanup</div>
+              </div>
+            </div>
+            <div id="race">
+              <div class="race-head"><span class="label">Same message, real time</span><span class="src">Estimates from Google's iPhone 17 Pro figures</span></div>
+              <div class="race-row">
+                <div class="n">Full rewrite on CPU<span class="t" id="t-full">0.0 s</span></div>
+                <div class="lane"><div class="fill" id="f-full" style="width: 840px"></div><div id="full-text">Done.</div></div>
+              </div>
+              <div class="race-row">
+                <div class="n">Streamed into the field<span class="t" id="t-stream">0.0 s</span></div>
+                <div class="lane"><div class="fill hi" id="f-stream" style="width: 120px"></div><div id="stream-text"><span>Hej</span><span>Anna!</span><span>Vi</span><span>ses</span><span>i</span><span>morgon</span><span>kl.</span><span>16.</span></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 · swedish -->
+        <section id="s-swedish" class="scene">
+          <div id="sv-ghost" class="ghost" data-layout-ignore aria-hidden="true">åäö</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="sv-eyebrow">Swedish</div>
+              <div class="title"><span class="ml"><span id="sv-title">Swedish is <span class="sweep" id="sweep">wide open</span></span></span></div>
+            </div>
+            <div class="gaps">
+              <div class="card gap" id="g-1"><span>Apple Dictation in Swedish</span><span class="st" id="g-1s">no automatic punctuation</span></div>
+              <div class="card gap" id="g-2"><span>iOS 27 AI dictation</span><span class="st" id="g-2s">English only</span></div>
+            </div>
+            <div class="sv">
+              <div class="card hi" id="ex-1">
+                <div class="label">Klang Pianissimo, on device</div>
+                <div class="wer"><b id="wer-num">0.0%</b><span>word error rate in Swedish</span></div>
+                <div class="src">Klang's figures · mean of five test sets</div>
+              </div>
+              <div class="card" id="ex-2">
+                <div class="said-sv">“ring kund tjänst”</div>
+                <div class="compound"><svg class="arrow" viewBox="0 0 96 28"><path d="M2 14 H84 M76 5 L90 14 L76 23"/></svg><span class="word"><span>Ring kund</span><span id="tj">tjänst</span><span id="dot">.</span><i id="cmp-line"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 · close -->
+        <section id="s-close" class="scene">
+          <div id="close-ghost" class="ghost" data-layout-ignore aria-hidden="true">molnfri</div>
+          <div class="content">
+            <div class="eyebrow" id="close-eyebrow">The plan</div>
+            <div class="steps">
+              <div id="steps-line"></div>
+              <div class="step" id="st-a">Edit-free Swedish text</div>
+              <div class="step" id="st-b">On the device</div>
+              <div class="step" id="st-c">Pianissimo + Gemma 4 E2B</div>
+            </div>
+            <div class="final">
+              <div class="keys">
+                <div class="key" id="fk1"><div class="key-in">å</div></div>
+                <div class="key" id="fk2"><div class="key-in">ä</div></div>
+                <div class="key" id="fk3"><div class="key-in">ö</div></div>
+                <div class="key mic" id="fk4"><div class="key-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></div></div>
+              </div>
+              <div class="final-title" id="final-title" data-layout-allow-overflow><span class="ch">T</span><span class="ch">a</span><span class="ch">l</span><span class="ch">k</span><span class="ch">,</span><span class="ch">&nbsp;</span><span class="ch">d</span><span class="ch">o</span><span class="ch">n</span><span class="ch">'</span><span class="ch">t</span><span class="ch">&nbsp;</span><span class="ch">t</span><span class="ch">y</span><span class="ch">p</span><span class="ch">e</span><span class="ch">.</span></div>
+              <div class="final-sub" id="final-sub">In Swedish. With nothing leaving the phone.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- captions, timed to the narration by script/build.py -->
 {{CAPTIONS}}
+      </div>
     </div>
 
     <script>
       const DATA = {{DATA}};
+      const DUR = {{DURATION}};
       const scene = (id) => DATA.scenes.find((s) => s.id === id);
-
-      // Absolute time a word is spoken: found in this scene's caption chunks, interpolated by character position.
+      const sent = (id, i) => scene(id).sentences[i].start;
+      // When a word is spoken: found in this scene's caption chunks, interpolated by character position.
       function wordAt(id, word) {
         const sc = scene(id);
         const needle = word.toLowerCase();
@@ -332,93 +422,199 @@
           const idx = c.text.toLowerCase().indexOf(needle);
           if (idx >= 0) return c.start + (idx / Math.max(1, c.text.length)) * (c.end - c.start);
         }
-        throw new Error(`"${word}" not found in scene ${id}`);
+        throw new Error('"' + word + '" not found in scene ' + id);
       }
-      const sent = (id, i) => scene(id).sentences[i].start;
-
+      const $ = (s) => document.querySelector(s);
       const tl = gsap.timeline({ paused: true });
-      const rise = (target, at, dur = 0.55, y = 28) =>
-        tl.fromTo(target, { opacity: 0, y }, { opacity: 1, y: 0, duration: dur, ease: "power3.out" }, at);
-      const pop = (target, at) =>
-        tl.fromTo(target, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, at);
-      // fade each scene's content out just before its clip ends (the runtime owns the clip itself)
-      const exit = (id) => tl.to(`#${id}-inner`, { opacity: 0, duration: 0.3, ease: "power1.in" }, scene(id).end - 0.32);
 
-      // chapter progress
+      // ---------- shared moves (eases and directions vary on purpose) ----------
+      const maskRise = (sel, at, stagger = 0.1) =>
+        tl.fromTo(sel, { yPercent: 108 }, { yPercent: 0, duration: 1.05, ease: "expo.out", stagger }, at);
+      // eyebrow labels wipe on from the left while easing into place
+      const trackIn = (sel, at) =>
+        tl.fromTo(sel, { opacity: 0, x: -18, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, x: 0, clipPath: "inset(0 0% 0 0)", duration: 1.0, ease: "power3.out" }, at);
+      const focusIn = (sel, at, dur = 0.8) =>
+        tl.fromTo(sel, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: dur, ease: "power2.out" }, at);
+      const slideIn = (sel, at, x, dur = 0.9) =>
+        tl.fromTo(sel, { opacity: 0, x }, { opacity: 1, x: 0, duration: dur, ease: "expo.out" }, at);
+      const riseIn = (sel, at, dur = 0.85) =>
+        tl.fromTo(sel, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: dur, ease: "power4.out" }, at);
+      const wipeIn = (sel, at, dur = 0.8) =>
+        tl.fromTo(sel, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: dur, ease: "power3.inOut" }, at);
+      const count = (sel, from, to, at, dur, dec, suffix = "", ease = "power3.out") => {
+        const el = $(sel);
+        const st = { v: from };
+        tl.fromTo(st, { v: from }, { v: to, duration: dur, ease, onUpdate: () => { el.textContent = st.v.toFixed(dec) + suffix; } }, at);
+      };
+      const drift = (sel, from, to, at, dur) =>
+        tl.fromTo(sel, from, { ...to, duration: dur, ease: "sine.inOut" }, at);
+
+      // ---------- ambient: slow glows for the whole film ----------
+      drift("#blob-a", { x: -80, y: -40 }, { x: 260, y: 140 }, 0, DUR);
+      drift("#blob-b", { x: 120, y: 60 }, { x: -220, y: -120 }, 0, DUR);
+
+      // ---------- chapter progress ----------
       for (const s of DATA.scenes) {
-        tl.fromTo(`#p-${s.id}`, { scaleX: 0 }, { scaleX: 1, duration: s.end - s.start, ease: "none" }, s.start);
+        tl.fromTo("#p-" + s.id, { scaleX: 0 }, { scaleX: 1, duration: s.end - s.start, ease: "none" }, s.start);
       }
 
-      // captions fade in
-      DATA.captions.forEach((c, i) => tl.fromTo(`#cap-${i} span`, { opacity: 0 }, { opacity: 1, duration: 0.1 }, c.start));
+      // ---------- the mic badge breathes with the voice ----------
+      const halo = $("#mic-halo");
+      const vp = { t: 0 };
+      tl.fromTo(vp, { t: 0 }, {
+        t: DUR, duration: DUR, ease: "none",
+        onUpdate: () => {
+          const v = DATA.envelope[Math.min(DATA.envelope.length - 1, Math.floor(vp.t * 30))] || 0;
+          halo.style.transform = "scale(" + (1 + v * 0.9).toFixed(3) + ")";
+          halo.style.opacity = (0.12 + v * 0.7).toFixed(3);
+        },
+      }, 0);
 
-      // 1 · hook
-      rise("#hook-eyebrow", 0.1, 0.5, 12);
-      rise("#hook-title", 0.25, 0.8, 40);
-      rise("#hook-sub", 0.8);
-      ["#k1", "#k2", "#k3", "#k4"].forEach((k, i) => pop(k, 1.3 + i * 0.12));
+      // ---------- captions: line rises in, each word lights up as it's spoken ----------
+      DATA.captions.forEach((c, i) => {
+        tl.fromTo("#cap-" + i + " .cl", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.28, ease: "power2.out" }, c.start);
+        const words = document.getElementById("cap-" + i).getElementsByClassName("cw");
+        c.words.forEach((w, j) => {
+          tl.fromTo(words[j], { color: "rgba(255,255,255,0.42)" }, { color: "rgba(255,255,255,1)", duration: 0.14, ease: "none" }, w.t);
+        });
+      });
+
+      // ---------- transitions: the outgoing and incoming scene move together ----------
+      const blurCross = (from, to, T) => {
+        tl.fromTo(from, { opacity: 1, scale: 1, filter: "blur(0px)" }, { opacity: 0, scale: 1.05, filter: "blur(16px)", duration: 0.55, ease: "power2.in", immediateRender: false }, T);
+        tl.fromTo(to, { opacity: 0, scale: 0.965, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.85, ease: "power2.out" }, T + 0.2);
+      };
+      const verticalPush = (from, to, T) => {
+        tl.fromTo(from, { yPercent: 0 }, { yPercent: -100, duration: 0.85, ease: "power3.inOut", immediateRender: false }, T);
+        tl.fromTo(to, { yPercent: 100, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.85, ease: "power3.inOut" }, T);
+      };
+      const zoomThrough = (from, to, T) => {
+        tl.fromTo(from, { opacity: 1, scale: 1, filter: "blur(0px)" }, { opacity: 0, scale: 1.4, filter: "blur(12px)", duration: 0.6, ease: "power3.in", immediateRender: false }, T);
+        tl.fromTo(to, { opacity: 0, scale: 0.84, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.0, ease: "expo.out" }, T + 0.32);
+      };
+      const T = (id) => scene(id).start - 0.4;
+      blurCross("#s-hook", "#s-leaders", T("leaders"));
+      blurCross("#s-leaders", "#s-habit", T("habit"));
+      verticalPush("#s-habit", "#s-local", T("local") - 0.1);
+      tl.set("#s-habit", { opacity: 0 }, T("local") + 0.8);
+      blurCross("#s-local", "#s-swedish", T("swedish"));
+      zoomThrough("#s-swedish", "#s-close", T("close"));
+
+      // ---------- 1 · hook ----------
+      const sceneDrift = (id, sel, from, to) => drift(sel, from, to, scene(id).start, scene(id).end - scene(id).start);
+      sceneDrift("hook", "#hook-ghost", { x: 0 }, { x: -120 });
+      trackIn("#hook-eyebrow", 0.25);
+      maskRise(["#hl-1", "#hl-2"], 0.4, 0.13);
+      focusIn("#hook-sub", 1.15, 0.9);
+      tl.fromTo(["#k1", "#k2", "#k3", "#k4"], { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.7, ease: "back.out(1.7)", stagger: 0.08 }, 1.6);
+      tl.fromTo("#hero-push", { scale: 1 }, { scale: 1.025, duration: scene("hook").end - 0.4, ease: "none" }, 0.4);
       const demoAt = sent("hook", 1);
-      rise("#demo", demoAt - 0.2);
-      tl.fromTo("#said > span", { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.1 }, demoAt + 0.1);
-      const strikeAt = demoAt + 1.7;
-      tl.fromTo("#said .strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, stagger: 0.12, ease: "power2.out" }, strikeAt);
-      tl.to("#said .w-t", { color: "#e8795a", opacity: 0.6, duration: 0.3, stagger: 0.12 }, strikeAt);
-      rise("#sends-label", strikeAt + 0.6, 0.4, 10);
-      rise("#sent", strikeAt + 0.75);
-      exit("hook");
+      // the mic key gets pressed, a ripple goes out, and dictation streams in
+      tl.fromTo("#k4-in", { scale: 1 }, { scale: 0.86, duration: 0.09, ease: "power2.in" }, demoAt - 0.5);
+      tl.fromTo("#k4-in", { scale: 0.86 }, { scale: 1, duration: 0.7, ease: "elastic.out(1, 0.45)", immediateRender: false }, demoAt - 0.41);
+      tl.fromTo("#k4-ripple", { scale: 0.6, opacity: 0.7 }, { scale: 2.6, opacity: 0, duration: 1.1, ease: "power2.out" }, demoAt - 0.41);
+      slideIn("#demo", demoAt - 0.4, 80, 1.0);
+      tl.fromTo("#said .tok", { opacity: 0, y: 12, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.42, ease: "power2.out", stagger: 0.12 }, demoAt + 0.1);
+      const strikeAt = demoAt + 1.85;
+      tl.fromTo("#said .strike", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.inOut", stagger: 0.14 }, strikeAt);
+      tl.fromTo("#said .txt", { color: "#e6ecf2", opacity: 1 }, { color: "#e8795a", opacity: 0.55, duration: 0.4, stagger: 0.14 }, strikeAt + 0.05);
+      tl.fromTo("#sends-label", { opacity: 0 }, { opacity: 1, duration: 0.4 }, strikeAt + 0.55);
+      wipeIn("#sent", strikeAt + 0.65, 1.1);
 
-      // 2 · leaders
+      // ---------- 2 · leaders ----------
       const L = scene("leaders").start;
-      rise("#leaders-title", L + 0.1);
-      rise("#r-wispr", wordAt("leaders", "Wispr"));
-      rise("#r-aqua", wordAt("leaders", "Aqua"));
-      rise("#r-willow", wordAt("leaders", "Willow"));
-      ["#c-wispr", "#c-aqua", "#c-willow"].forEach((c, i) => pop(c, wordAt("leaders", "cloud") - 0.2 + i * 0.12));
-      exit("leaders");
+      sceneDrift("leaders", "#leaders-ghost", { y: 30 }, { y: -50 });
+      trackIn("#leaders-eyebrow", L);
+      maskRise("#leaders-title", L + 0.12);
+      [["#r-wispr", "Wispr"], ["#r-aqua", "Aqua"], ["#r-willow", "Willow"]].forEach(([sel, cue]) =>
+        slideIn(sel, wordAt("leaders", cue) - 0.25, -64, 0.95));
+      const wAt = wordAt("leaders", "Wispr") + 0.1;
+      tl.fromTo("#stars-fill", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 4% 0 0)", duration: 1.2, ease: "power2.out" }, wAt);
+      count("#wispr-num", 0, 4.8, wAt, 1.2, 1);
+      focusIn("#q-aqua", wordAt("leaders", "Aqua"), 0.7);
+      focusIn("#q-willow", wordAt("leaders", "Willow"), 0.7);
+      const cloudAt = wordAt("leaders", "cloud") - 0.25;
+      tl.fromTo(".c-chip", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(2.4)", stagger: 0.09 }, cloudAt);
+      tl.fromTo("#s-leaders .sheen", { x: -380, opacity: 1 }, { x: 1700, opacity: 1, duration: 1.3, ease: "power2.inOut", stagger: 0.09 }, cloudAt + 0.05);
 
-      // 3 · habit
+      // ---------- 3 · habit ----------
       const H = scene("habit").start;
-      rise("#habit-title", H + 0.1);
+      sceneDrift("habit", "#habit-ghost", { x: 40 }, { x: -60 });
+      trackIn("#habit-eyebrow", H);
+      maskRise("#habit-title", H + 0.12);
       const pctAt = wordAt("habit", "eighty-nine");
-      rise("#st-1", pctAt - 0.35);
-      tl.fromTo("#pct", { "--pct": 0 }, { "--pct": 89, duration: 1.1, ease: "power2.out", snap: { "--pct": 1 } }, pctAt - 0.2);
-      rise("#st-2", wordAt("habit", "half"));
-      rise("#habit-src", wordAt("habit", "half") + 0.3, 0.4, 10);
-      rise("#habit-line", sent("habit", 2) - 0.1);
-      exit("habit");
+      riseIn("#st-1", pctAt - 0.6, 0.9);
+      tl.fromTo("#ring", { attr: { "stroke-dashoffset": 691.15 } }, { attr: { "stroke-dashoffset": 76.03 }, duration: 1.6, ease: "power3.out" }, pctAt - 0.15);
+      count("#pct-num", 0, 89, pctAt - 0.15, 1.6, 0);
+      tl.fromTo("#pct-suffix", { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, pctAt + 1.35);
+      tl.fromTo("#glow-89", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.8, ease: "sine.out" }, pctAt);
+      tl.fromTo("#glow-89", { scale: 1 }, { scale: 1.08, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, pctAt + 1.8);
+      const halfAt = wordAt("habit", "half");
+      slideIn("#st-2", halfAt - 0.55, 70, 0.9);
+      // the stopwatch sweeps a full turn in exactly half a second
+      tl.fromTo("#watch", { attr: { "stroke-dashoffset": 289.03 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.5, ease: "none" }, halfAt);
+      focusIn("#half-num", halfAt - 0.1, 0.6);
+      const lineAt = sent("habit", 2);
+      focusIn("#hl-a", lineAt - 0.05, 0.7);
+      tl.fromTo("#hl-arrow", { attr: { "stroke-dashoffset": 120 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.6, ease: "power2.inOut" }, lineAt + 0.55);
+      tl.fromTo("#hl-b", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.8, ease: "expo.out" }, wordAt("habit", "thinking"));
+      tl.fromTo("#habit-src", { opacity: 0 }, { opacity: 1, duration: 0.6 }, halfAt + 0.6);
 
-      // 4 · local
+      // ---------- 4 · local ----------
+      sceneDrift("local", "#local-ghost", { x: 60 }, { x: -60 });
       const LO = scene("local").start;
-      rise("#local-title", wordAt("local", "Yes"));
-      rise("#n-kb", wordAt("local", "kills"));
-      tl.fromTo("#n-link", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4 }, wordAt("local", "models") - 0.1);
-      rise("#n-app", wordAt("local", "main app") - 0.2);
-      const streamAt = sent("local", 2);
-      tl.fromTo("#race", { opacity: 0 }, { opacity: 1, duration: 0.3 }, streamAt - 0.2);
-      tl.fromTo("#f-full", { scaleX: 0 }, { scaleX: 1, duration: 1.6, ease: "none" }, streamAt);
-      tl.fromTo("#v-full", { opacity: 0 }, { opacity: 1, duration: 0.2 }, streamAt + 1.6);
-      tl.fromTo("#f-stream", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "none" }, streamAt);
-      tl.fromTo("#v-stream", { opacity: 0 }, { opacity: 1, duration: 0.2 }, streamAt + 0.25);
-      exit("local");
+      trackIn("#local-eyebrow", LO + 0.2);
+      maskRise("#local-title", wordAt("local", "Yes") - 0.15);
+      slideIn("#n-kb", wordAt("local", "kills") - 0.3, -70, 0.9);
+      tl.fromTo("#slash", { attr: { "stroke-dashoffset": 26 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.45, ease: "power2.inOut" }, wordAt("local", "kills") + 0.35);
+      const linkAt = wordAt("local", "models") - 0.15;
+      tl.fromTo("#n-link", { opacity: 0 }, { opacity: 1, duration: 0.4 }, linkAt);
+      tl.fromTo("#link-line", { attr: { "stroke-dashoffset": 64 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.8, ease: "none", repeat: 5 }, linkAt);
+      slideIn("#n-app", wordAt("local", "main app") - 0.35, 70, 0.9);
+      tl.fromTo("#pulse", { x: 0, opacity: 0 }, { x: 108, opacity: 1, duration: 0.9, ease: "power1.inOut", repeat: 3, repeatDelay: 0.25 }, linkAt + 0.3);
+      // a real-time race: a full rewrite on the CPU against text streamed into the field
+      const raceAt = scene("local").sentences[1].end - 0.55;
+      riseIn("#race", raceAt - 0.35, 0.7);
+      tl.fromTo("#f-full", { scaleX: 0 }, { scaleX: 1, duration: 4.2, ease: "none" }, raceAt);
+      count("#t-full", 0, 4.2, raceAt, 4.2, 1, " s", "none");
+      tl.fromTo("#full-text", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3 }, raceAt + 4.2);
+      tl.fromTo("#f-stream", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "none" }, raceAt);
+      count("#t-stream", 0, 0.6, raceAt, 0.6, 1, " s", "none");
+      tl.fromTo("#stream-text span", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out", stagger: 0.07 }, raceAt + 0.6);
 
-      // 5 · swedish
+      // ---------- 5 · swedish ----------
       const SV = scene("swedish").start;
-      rise("#sv-title", SV + 0.05);
-      rise("#g-1", wordAt("swedish", "punctuation") - 0.3);
-      rise("#g-2", wordAt("swedish", "English") - 0.3);
-      rise("#ex-1", wordAt("swedish", "Pianissimo") - 0.2);
-      rise("#ex-2", wordAt("swedish", "rate in") + 0.2);
-      exit("swedish");
+      sceneDrift("swedish", "#sv-ghost", { x: 50 }, { x: -70 });
+      trackIn("#sv-eyebrow", SV - 0.05);
+      maskRise("#sv-title", SV + 0.05);
+      tl.fromTo("#sweep", { backgroundPosition: "100% 0%" }, { backgroundPosition: "0% 0%", duration: 1.6, ease: "power2.inOut" }, SV + 0.75);
+      slideIn("#g-1", wordAt("swedish", "punctuation") - 0.6, 70, 0.9);
+      wipeIn("#g-1s", wordAt("swedish", "punctuation") - 0.15, 0.6);
+      slideIn("#g-2", wordAt("swedish", "English") - 0.6, 70, 0.9);
+      wipeIn("#g-2s", wordAt("swedish", "English") - 0.15, 0.6);
+      riseIn("#ex-1", wordAt("swedish", "Pianissimo") - 0.4, 0.9);
+      count("#wer-num", 0, 4.5, wordAt("swedish", "four and a half") - 0.2, 1.4, 1, "%");
+      const cAt = wordAt("swedish", "rate in");
+      riseIn("#ex-2", cAt - 0.3, 0.9);
+      // "kund tjänst" closes into one compound word
+      tl.fromTo("#tj", { x: 18 }, { x: 0, duration: 0.7, ease: "power3.inOut" }, cAt + 0.9);
+      tl.fromTo("#dot", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, cAt + 1.5);
+      tl.fromTo("#cmp-line", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.out" }, cAt + 1.55);
 
-      // 6 · close
+      // ---------- 6 · close ----------
       const C = scene("close").start;
-      rise("#close-eyebrow", C + 0.05, 0.4, 10);
-      rise("#st-a", wordAt("close", "edit-free"));
-      rise("#st-b", wordAt("close", "device"));
-      rise("#st-c", wordAt("close", "Pianissimo"));
-      const finalAt = sent("close", 1) - 0.25;
-      tl.fromTo("#final", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, finalAt);
-      ["#fk1", "#fk2", "#fk3", "#fk4"].forEach((k, i) => pop(k, finalAt + 0.15 + i * 0.1));
+      sceneDrift("close", "#close-ghost", { x: 40 }, { x: -40 });
+      trackIn("#close-eyebrow", C + 0.05);
+      tl.fromTo("#steps-line", { scaleX: 0 }, { scaleX: 1, duration: 1.4, ease: "power2.inOut" }, C + 0.2);
+      [["#st-a", "edit-free"], ["#st-b", "device"], ["#st-c", "Pianissimo"]].forEach(([sel, cue]) =>
+        tl.fromTo(sel, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.8)" }, wordAt("close", cue) - 0.15));
+      const finalAt = sent("close", 1) - 0.75;
+      tl.fromTo(["#fk1", "#fk2", "#fk3", "#fk4"], { opacity: 0, y: -26 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(2)", stagger: 0.07 }, finalAt);
+      tl.fromTo("#s-close .final .key-in", { y: 0 }, { y: 5, duration: 0.08, ease: "power1.in", stagger: 0.11, yoyo: true, repeat: 1 }, finalAt + 0.55);
+      tl.fromTo("#final-title .ch", { yPercent: 105, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.9, ease: "expo.out", stagger: 0.028 }, finalAt + 0.2);
+      focusIn("#final-sub", finalAt + 0.9, 1.0);
+      // the last scene may leave: settle to the dark ground
+      tl.to("#stage", { opacity: 0, duration: 0.9, ease: "power1.in" }, DUR - 1.0);
 
       window.__timelines["main"] = tl;
     </script>
