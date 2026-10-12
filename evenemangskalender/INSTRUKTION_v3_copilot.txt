@@ -31,7 +31,7 @@ Sökningar, var och en med regionens namn och periodens månad och år:
 3 komvux öppet hus, vuxenutbildning, yrkesutbildning
 4 kostnadsfri kompetensutveckling, gratis utbildning, branschdag
 5 näringslivsfrukost, nätverksträff företagare, starta eget
-Variera: sök även med "vecka [nr]" och enskilda datum ("13 oktober"), med de största kommunernas namn i stället för regionens, och med site:-sökningar, t.ex. site:arbetsformedlingen.se, site:[kommun].se evenemang.
+Variera: sök även med "vecka [nr]" och enskilda datum ("13 oktober"), med de största kommunernas namn i stället för regionens, och med site:-sökningar, t.ex. site:arbetsformedlingen.se, site:[kommun].se evenemang, site:simplesignup.se, site:confetti.events.
 Minst per region: 20 sökningar, alla källtyper a–d och de 10 största kommunerna. Räkna dem. Har du inte nått målet: fortsätt söka innan du svarar.
 
 3. BEDÖMNING
@@ -46,6 +46,7 @@ R6 Digitalt utan koppling till regionen → Utesluten
 R7 Inte VERIFIERAD → Obekräftad
 R8 Inställt → Inställt
 Annars → med i kalendern. Blandad publik och väntelista hindrar inte.
+Kalibrering: gymnasiemässa för elever → R3. Betald HR-konferens → R5. Nationell webbsändning → R6. Datum utan år → Obekräftad. Fjolårets sida → R1, men sök årets upplaga.
 Kategori: Arbetsmarknad (prioriterad: jobb- och yrkesmässor, rekryterings- och arbetsgivarträffar, studie- och yrkesvägledning, öppet hus på komvux), Kompetensutveckling (kostnadsfri) eller Företagande. Kompetensutveckling + Företagande: högst 40 % av kalendern, dvs. högst 2 per 3 arbetsmarknadskort (avrunda nedåt). Överskott stryks: Företagande först, därefter det senaste i perioden.
 Arrangörens uppgifter gäller före aggregatorns. Inga dubbletter. Flerdagarsevenemang: ett kort, första dagen inom perioden, med hela intervallet. Återkommande tillfällen: ett kort per tillfälle. En passerad anmälningsfrist betyder inte stängd anmälan.
 
@@ -68,6 +69,7 @@ ID i kalenderordning: K1, K2 … (prefix från inställningarna). Under listan e
 - dagsrubrik: "Tisdag 13 oktober". Sortering: datum, starttid, titel A–Ö.
 
 6. PDF (steg 2 och 4)
+Kör kod (t.ex. reportlab) och lämna PDF:en som nedladdningsbar fil, med riktig text, inte bild.
 Filnamn: Evenemang_[Region]_[period].pdf, t.ex. Evenemang_Skåne_V47_2026.pdf eller Evenemang_Skåne_November_2026.pdf. A4 stående, Arial (annars Helvetica).
 - Bakgrund på hela sidan, utfallande: linjär gradient 135° från #517fa6 till #477780. Innehåll inom 10 mm marginal.
 - Sida 1 överst, centrerat i vitt: "EVENEMANG · VECKA [nr]" (eller "· [MÅNAD]"; för datumintervall bara "EVENEMANG") 32,5 pt fet; 4 mm under: "[REGION I VERSALER]" fet + " · [datumintervall år]" 22,5 pt, t.ex. "KALMAR LÄN · 12–18 oktober 2026"; 7 mm luft.
@@ -75,5 +77,5 @@ Filnamn: Evenemang_[Region]_[period].pdf, t.ex. Evenemang_Skåne_V47_2026.pdf el
 - Kort: 190 mm brett, bakgrund #f7fbfc, hörnradie 4 mm, inre marginal 6 mm, text #143460, 2 mm mellan korten. Överdel i två kolumner 2:1 med 4 mm mellanrum: vänster titel 20 pt fet och arrangör 12,5 pt; höger, efter en tunn linje #d7e0e7, klockikon + tid 15 pt fet (bryts aldrig) och platsikon + plats 12,5 pt. Under: beskrivningen 14 pt. Sist, under en tunn linje: taggar som rundade etiketter 12,5 pt på #e8edf1; anmälningstaggen vit med orange kant och orange text.
 - Hela kortet är en klickbar länk till evenemangets direktlänk.
 - Sidindelning: ett kort delas aldrig; en dagsrubrik står bara där minst ett kort ryms efter den och upprepas överst om dagen fortsätter på nästa sida; minst 10 mm luft nedtill.
-Kontrollera innan du lämnar PDF:en: samma kort som arbetslistans kalenderrader, alla datum inom perioden, 40 %-kvoten hålls, ingen text klipps eller överlappar, och antalet länkar är lika med antalet kort.
+Kontrollera innan du lämnar PDF:en: samma kort som arbetslistans kalenderrader, alla datum inom perioden, 40 %-kvoten hålls, ingen text klipps eller överlappar, och en länk per kort.
 Saknas verifierade evenemang för regionen: skapa ingen PDF, skriv det i stället.
