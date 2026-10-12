@@ -109,7 +109,7 @@ MALL_EVENEMANG = {
     "beskrivning": "en mening, 60–115 tecken",
     "datum": "ÅÅÅÅ-MM-DD (första dagen)",
     "datum_slut": "ÅÅÅÅ-MM-DD om flera dagar, annars null",
-    "tid_start": "HH:MM",
+    "tid_start": "HH:MM, eller null om arrangören inte anger starttid (kortet visar 'Tid ej angiven')",
     "tid_slut": "HH:MM eller null",
     "format": "plats | digitalt | hybrid",
     "kommun": "kommunen där evenemanget äger rum (null om digitalt)",
@@ -132,7 +132,8 @@ MALL_EVENEMANG = {
     "lank": "https://… direktlänk till evenemangssidan",
     "samlingssida": "true om länken går till en samlingssida, annars false",
     "kalla": "var kandidaten hittades och var den verifierades",
-    "belagg": "ordagrant citat från arrangörens sida med år, datum och starttid",
+    "belagg": "ordagrant citat från arrangörens sida eller inlägg med datum, år och starttid (det som anges)",
+    "uppdaterad": "null, eller ÅÅÅÅ-MM-DD då sidan eller inlägget publicerades eller uppdaterades (krävs om året inte står i belagg)",
     "osakerheter": "avvikelser och tveksamheter, eller null",
     "kontrolldatum": "null (= det globala) eller ÅÅÅÅ-MM-DD",
 }
@@ -631,6 +632,11 @@ def validera_evenemang(e, i, reg, m, c):
     if kd_e is False:
         F("kontrolldatum ska vara ÅÅÅÅ-MM-DD")
     ev["kd"] = kd_e or m["kd"]
+    upd = las_datum(e.get("uppdaterad"))
+    if upd is False:
+        F("uppdaterad ska vara ÅÅÅÅ-MM-DD")
+        upd = None
+    ev["uppdaterad"] = upd
     for f in ("arrangor", "malgrupp", "deltagarkrav", "pris", "anmalan_text", "kalla",
               "osakerheter", "skal", "ort", "lokal", "adress", "digital_plattform",
               "regional_koppling", "belagg", "beskrivning"):
@@ -742,7 +748,7 @@ def validera_evenemang(e, i, reg, m, c):
         F(f"datum {d0}{('–' + str(d1)) if d1 else ''} ligger utanför perioden "
           f"{per['start']}–{per['slut']} (R1)")
     if not ts:
-        F("tid_start saknas – utan starttid är evenemanget inte verifierat (R7)")
+        W("tid_start saknas – kortet visar 'Tid ej angiven'; kontrollera att arrangören inte anger någon tid")
     if fmt in ("plats", "hybrid"):
         if not ev["ort"]:
             F("ort saknas")
@@ -759,13 +765,24 @@ def validera_evenemang(e, i, reg, m, c):
     if not lank:
         F("lank saknas")
     if not ev["belagg"] or len(ev["belagg"]) < 15:
-        F("belagg saknas – citera arrangörens sida ordagrant (år, datum och starttid)")
-    elif d0 and ts:
-        b = ev["belagg"]
-        if str(d0.day) not in b or str(int(ts[:2])) not in b:
+        F("belagg saknas – citera arrangörens sida ordagrant (datum, år och starttid)")
+    elif d0:
+        b, bl = ev["belagg"], ev["belagg"].casefold()
+        if str(d0.day) not in b or (ts and str(int(ts[:2])) not in b):
             W("belagg verkar inte innehålla datum och starttid – kontrollera")
-        if str(d0.year) not in b:
-            W("belagg saknar årtal – kontrollera att året verkligen anges hos arrangören")
+        # Året får räknas fram om sidan är uppdaterad under periodens år eller halvåret före.
+        ar_framraknat = str(d0.year) not in b
+        if ar_framraknat:
+            if not upd:
+                F("året står inte i belagg – ange uppdaterad (sidans publicerings- eller "
+                  "uppdateringsdatum), annars är evenemanget obekraftad")
+            elif upd > ev["kd"] or (upd.year not in (per["start"].year, per["slut"].year)
+                                    and upd < per["start"] - dt.timedelta(days=183)):
+                F(f"sidan uppdaterades {upd} – för gammal för att året ska få räknas fram (obekraftad)")
+        # En angiven veckodag måste stämma med datumet; annars är sidan troligen gammal.
+        dagar = {VECKODAGAR[(d0 + dt.timedelta(n)).weekday()] for n in range(min(((d1 or d0) - d0).days + 1, 7))}
+        if any(v in bl for v in VECKODAGAR) and not any(v in bl for v in dagar):
+            (F if ar_framraknat else W)("veckodagen i belagg stämmer inte med datumet – gammal sida?")
 
     pt = txt(e.get("pris_tagg"))
     if pt:
@@ -831,7 +848,7 @@ def harled_kort(ev: dict, per: dict):
     d0, d1 = ev["datum"], ev["datum_slut"]
     ev["visning"] = max(d0, per["start"]) if d0 else None
     ev["tid_text"] = (ev["tid_start"] + (f"–{ev['tid_slut']}" if ev["tid_slut"] else "")) \
-        if ev["tid_start"] else "Tid meddelas"
+        if ev["tid_start"] else "Tid ej angiven"
     if ev["format"] == "digitalt":
         ev["plats_text"] = "Digitalt"
     else:

@@ -1,6 +1,6 @@
 # Evenemangskalender v3 – Microsoft Copilot
 
-`INSTRUKTION_v3_copilot.txt` är hela instruktionen (7 775 tecken, under gränsen på 7 800). `STARTPROMPT.txt` är det enda du fyller i inför varje körning. Instruktionen gör ingenting förrän den får en startprompt som börjar med `KÖR EVENEMANGSKALENDER v3`.
+`INSTRUKTION_v3_copilot.txt` är hela instruktionen (7 785 tecken, under gränsen på 7 800). `STARTPROMPT.txt` är det enda du fyller i inför varje körning. Instruktionen gör ingenting förrän den får en startprompt som börjar med `KÖR EVENEMANGSKALENDER v3`.
 
 ## Användning
 
@@ -28,10 +28,11 @@ Copilot börjar med en rad "Inställningar: …" så att du kan se att den har l
 ## Det som styr resultatet
 
 - **Jobbmässor först:** fyra av sex sökgrupper gäller jobbmässor och rekryteringsträffar. Minst 10 av de minst 20 sökningarna per region ska göras där, och arbetslistan redovisar antalet. Mässlistorna allamassor.se och syvarna.com/jobbmassor används för att hitta mässor, men aldrig som verifiering.
-- **Bred och noggrann research:** två varv (först brett, sedan verifiering hos arrangören), sökningar på vecka och datum, på kommunnamn och med `site:` (till exempel `site:[kommun].se jobbmässa` anmälningssajten simplesignup.se och `site:linkedin.com`), samt de 10 största kommunerna.
-- **Verifiering:** år, datum, starttid och plats hos arrangören, med ett ordagrant citat (belägg) i arbetslistan.
+- **Bred och noggrann research:** två varv (först brett, sedan verifiering hos arrangören), sökningar på vecka och datum, på kommunnamn och med `site:` (till exempel `site:[kommun].se jobbmässa`, anmälningssajten simplesignup.se och `site:linkedin.com`), samt de 10 största kommunerna.
+- **Verifiering:** datum, ort och år hos arrangören, med ett ordagrant citat (belägg) i arbetslistan. Att missa ett evenemang räknas som värre än att visa ett med ofullständig tid, men allt på kortet ska komma från arrangören, eftersom arbetssökande läser kalendern direkt.
+  - Saknas året räcker det att sidan eller inlägget är publicerat eller uppdaterat under periodens år eller halvåret före. Står det en veckodag måste den stämma med datumet.
+  - Starttid krävs inte. Saknas den visar kortet "Tid ej angiven".
   - Arrangörens egna inlägg på LinkedIn eller Facebook räknas också, eftersom många mindre rekryteringsträffar bara annonseras där.
-  - I ett inlägg räcker publiceringsåret om veckodagen stämmer med datumet. Kontrollen stoppar gamla inlägg.
 - **Regler R1–R8** prövas i fast ordning. R3 stänger ute evenemang som bara är för inbjudna, elever, pensionärer, ett lärosätes studenter, deltagare i en insats eller ett företags anställda, och evenemang som uttalat är för yrkesverksamma, till exempel HR, chefer eller en viss yrkesgrupp. Kalibreringsexempel avgör vanliga gränsfall:
   - gymnasie- och yrkesmässor för högstadiet (R3)
   - jobbmässor för en viss yrkesgrupp, till exempel vård (med, eftersom de riktar sig till jobbsökande)

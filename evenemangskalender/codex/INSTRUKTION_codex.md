@@ -25,7 +25,7 @@ Excel, HTML och rapport skapas av skriptet som bifiler. De ska inte presenteras 
 
 **Principer:**
 
-- Korrekt före fullständigt. Hitta aldrig på något. Det som källan inte anger blir `null`.
+- Missa inga evenemang, men hitta aldrig på något. Det som källan inte anger blir `null`. Uppgifterna på korten måste stämma, eftersom arbetssökande läser kalendern direkt.
 - Allt mekaniskt sköts av `bygg_kalender.py`: datum, kommuner, sökfrågor, validering, taggar, sortering, paginering, PDF och kontroller. Ändra aldrig skriptet. Allt du skriver hamnar i `arbete/data.json`.
 - Detta är en lång, grundlig uppgift. Kör med högsta resonemangsnivån. Stanna inte förrän kriterierna under "Klart när" är uppfyllda.
 
@@ -64,10 +64,13 @@ Du slår ihop underagenternas JSON i data.json, tar bort dubbletter (arrangören
 
 ## 4. Bedömning
 
-**VERIFIERAD** betyder att arrangörens egen sida, ett eget inlägg från arrangören (LinkedIn, Facebook) eller en anmälningssida som arrangören länkar till anger år, datum inom perioden, starttid och plats eller "digitalt".
-- Uppgifterna får stå i text, i sidans adress eller i JSON-LD/ICS.
-- I ett inlägg räcker publiceringsåret som år, om veckodagen stämmer med datumet det året. Det stoppar gamla inlägg.
-- Kopiera det som visar detta ordagrant till `belagg`. För inlägg anges publiceringsdatumet i `kalla`.
+**VERIFIERAD** betyder att arrangörens egen sida, ett eget inlägg från arrangören (LinkedIn, Facebook) eller en anmälningssida som arrangören länkar till anger datum inom perioden, ort eller "digitalt", och år.
+- Uppgifterna får stå i text, i adressen eller i JSON-LD/ICS.
+- **Saknas året** får det räknas fram, om sidan eller inlägget är publicerat eller uppdaterat under periodens år eller halvåret före och en angiven veckodag stämmer med datumet det året. Skriv publicerings- eller uppdateringsdatumet i `uppdaterad`. En veckodag som inte stämmer tyder på en gammal sida, och då blir posten `obekraftad`.
+- **Starttid krävs inte.** Leta efter den, även på anmälningssidan. Saknas den blir `tid_start` `null`, och kortet visar "Tid ej angiven".
+- Kopiera det som visar detta ordagrant till `belagg`.
+
+Att missa ett evenemang är värre än att visa ett med "Tid ej angiven". Men allt på kortet ska komma från arrangören, eftersom arbetssökande läser kalendern direkt.
 
 Pröva reglerna i ordning. Första regel som träffar avgör.
 
@@ -113,7 +116,9 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 - Träff "för dig som är pensionär" → R3.
 - Mässa för elever på förmiddagen och för alla på eftermiddagen → med, med eftermiddagens tid.
 - "Endast för medlemmar" → R4.
-- Sidan anger "12 november kl. 16.30" men inget år, varken i text, adress eller JSON-LD → `obekraftad`.
+- "Torsdag 12 november kl. 16.30" utan år, på en kommunsida uppdaterad 26 augusti 2026 → 2026, eftersom 12 november 2026 är en torsdag.
+- Samma text på en sida som senast uppdaterades 2024, eller utan synligt uppdateringsdatum → `obekraftad`.
+- Datum och ort hos arrangören, men inget klockslag → med, och kortet visar "Tid ej angiven".
 - Inlägg publicerat 7 september 2026 om "onsdag 16 september kl. 13" → 2026, eftersom 16 september 2026 är en onsdag.
 - Fjolårets sida → R1, men sök efter årets upplaga.
 - Spel- eller hobbymässa → R2.
@@ -128,6 +133,8 @@ Använd `_mall_evenemang` i data.json. Ersätt varje platshållare med ett värd
 - **pris_tagg:** `Gratis`, `Fri entré` (bara mässor), `150 kr` eller `150 kr medlem / 250 kr övriga ex moms`. Okänt pris eller pris som inte passar mönstret: `null`.
 - **villkor:** bara `Endast [grupp]`, `Från [ålder] år`, `För [målgrupp]`, `Begränsat antal platser`, `Bindande anmälan` och `Uteblivande [belopp] kr ex moms`.
 - **adress:** utan postnummer.
+- **tid_start:** `null` om arrangören inte anger någon tid. Kortet visar då "Tid ej angiven".
+- **uppdaterad:** sidans eller inläggets publicerings- eller uppdateringsdatum. Krävs när året inte står i `belagg`; skriptet kontrollerar datumet och veckodagen.
 - **lank:** direktlänk till arrangörens sida eller inlägg. Finns bara en samlingssida: sätt `samlingssida` till true.
 - **regional_koppling:** krävs för digitala evenemang, utom jobbmässor och rekryteringsträffar.
 
@@ -140,6 +147,8 @@ Kör `python bygg_kalender.py bygg arbete/data.json`. Rätta data.json, aldrig s
 | beskrivningen är för lång eller har fler än 2 rader | skriv om den kortare |
 | kolumnerna har inte proportionen 2:1 | sätt ett mjukt bindestreck (U+00AD) i det långa ordet |
 | kvoten överskrids | sätt R9 på de poster skriptet räknar upp |
+| året står inte i belägget, eller sidan är för gammal | ange `uppdaterad`, eller sätt `obekraftad` |
+| veckodagen stämmer inte med datumet | sätt `obekraftad`: sidan gäller troligen ett tidigare år |
 
 Om ett fel inte går att rätta via data, till exempel för att något saknas i miljön: leverera ändå och nämn felet.
 

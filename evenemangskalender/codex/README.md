@@ -53,10 +53,13 @@ Båda Codex-instruktionerna och skriptet följer Copilot-instruktionens regler f
   - mässor av alla slag
   - evenemang för arbetssökande, unga 16–29 år, nyanlända och utrikes födda samt personer med funktionsnedsättning.
 - **Inlägg:** arrangörens egna inlägg på LinkedIn och Facebook räknas som bekräftelse.
-  - Publiceringsåret räcker om veckodagen stämmer med datumet.
+  - Året räknas fram enligt regeln under Årtal och tid.
   - Bara inlägg som kan läsas utan inloggning räknas.
 - **Digitalt:** nationella digitala jobbmässor och rekryteringsträffar behöver ingen regional koppling.
+- **Årtal och tid:** saknas året räcker det att sidan eller inlägget är uppdaterat under periodens år eller halvåret före. Står det en veckodag måste den stämma med datumet. Starttid krävs inte; kortet visar då "Tid ej angiven".
 - **Skriptet:**
   - `sokfragor` har de nya sökorden plus två sökningar utan regionnamn.
   - Mässlistor (`massor`) och inlägg (`sociala`) är källtyper som täckningskontrollen kräver.
   - Digitala mässor och rekryteringsträffar godkänns utan `regional_koppling`.
+  - Det nya fältet `uppdaterad` krävs när året inte står i `belagg`. Skriptet stoppar för gamla sidor och fel veckodagar.
+  - Saknad `tid_start` ger bara en varning.

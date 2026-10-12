@@ -102,16 +102,19 @@ Underagenter startas bara om du uttryckligen ber om dem, så gör det. Gör i f�
   - Följ länkar till anmälningssidor.
 - **Varianter.** Sök på `[sökord] [kommun eller region] [månad år]`, på `vecka N`, på enskilda datum ("13 november"), med `site:` mot kommunens domän (`site:[kommun].se jobbmässa`) och med `site:linkedin.com`.
 - **Om sökorden.** Orden för jobbmässor bygger på en webbsökning i oktober 2026 av vad arrangörerna faktiskt skriver. "Jobb- och utbildningsmässa" är kommunernas vanligaste namn. Många mässor har egna namn, som Jobbchansen, Jobbmatchen och Opportunity Day, och hittas bäst via fraserna "träffa arbetsgivare" och "ta med ditt CV". Kör varje sökord i din rad minst en gång.
-- **Inlägg.** Läs bara inlägg som är öppna utan inloggning. Notera inläggets publiceringsdatum i `kalla`.
+- **Inlägg.** Läs bara inlägg som är öppna utan inloggning. Skriv inläggets publiceringsdatum i `uppdaterad`.
 - **Logga** varje källa du har öppnat i `kallor` som `{typ, kommun, url eller fraga, resultat}`. `resultat` är `kandidater`, `inga` eller `ej_lasbar`. Logga aldrig något du inte har öppnat.
 - **Returnera** alla kandidater du har bedömt, även uteslutna (med regel och skäl).
 
 ## 4. Bedömning
 
-**VERIFIERAD** betyder att arrangörens egen sida, ett eget inlägg från arrangören (LinkedIn, Facebook) eller en anmälningssida som arrangören länkar till anger år, datum inom perioden, starttid och plats eller "digitalt".
+**VERIFIERAD** betyder att arrangörens egen sida, ett eget inlägg från arrangören (LinkedIn, Facebook) eller en anmälningssida som arrangören länkar till anger datum inom perioden, ort eller "digitalt", och år.
 - Uppgifterna får stå i text, i adressen eller i JSON-LD/ICS.
-- I ett inlägg räcker publiceringsåret som år, om veckodagen stämmer med datumet det året. Det stoppar gamla inlägg.
-- Kopiera det som visar detta ordagrant till `belagg`. För inlägg anges även publiceringsdatumet.
+- **Saknas året** får det räknas fram, om sidan eller inlägget är publicerat eller uppdaterat under periodens år eller halvåret före och en angiven veckodag stämmer med datumet det året. Skriv publicerings- eller uppdateringsdatumet i `uppdaterad`. En veckodag som inte stämmer tyder på en gammal sida, och då blir posten `obekraftad`.
+- **Starttid krävs inte.** Leta efter den, även på anmälningssidan. Saknas den blir `tid_start` `null`, och kortet visar "Tid ej angiven".
+- Kopiera det som visar detta ordagrant till `belagg`.
+
+Att missa ett evenemang är värre än att visa ett med "Tid ej angiven". Men allt på kortet ska komma från arrangören, eftersom arbetssökande läser kalendern direkt.
 
 Pröva reglerna i ordning. Första regel som träffar avgör.
 
@@ -157,7 +160,9 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 - Träff "för dig som är pensionär" → R3.
 - Mässa för elever på förmiddagen och för alla på eftermiddagen → med, med eftermiddagens tid.
 - "Endast för medlemmar" → R4.
-- "12 november kl. 16.30" utan år i text, adress och JSON-LD → `obekraftad`.
+- "Torsdag 12 november kl. 16.30" utan år, på en kommunsida uppdaterad 26 augusti 2026 → 2026, eftersom 12 november 2026 är en torsdag.
+- Samma text på en sida som senast uppdaterades 2024, eller utan synligt uppdateringsdatum → `obekraftad`.
+- Datum och ort hos arrangören, men inget klockslag → med, och kortet visar "Tid ej angiven".
 - Inlägg publicerat 7 september 2026 om "onsdag 16 september kl. 13" → 2026, eftersom 16 september 2026 är en onsdag.
 - Fjolårets sida → R1, men sök efter årets upplaga.
 - Spel- eller hobbymässa → R2.
@@ -173,7 +178,7 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 | `typ` | `Mässa`, `Seminarium`, `Konferens`, `Nätverksträff`, `Frukostmöte`, `Lunchträff`, `Workshop`, `Rekryteringsträff` eller `Öppet hus`. Jobbmässa räknas som Mässa och webbinarium som Seminarium. |
 | `beskrivning` | se avsnitt 6 |
 | `datum`, `datum_slut` | ÅÅÅÅ-MM-DD |
-| `tid_start`, `tid_slut` | HH:MM |
+| `tid_start`, `tid_slut` | HH:MM, eller `null` om arrangören inte anger någon tid |
 | `format` | `plats`, `digitalt` eller `hybrid` |
 | `kommun`, `ort`, `lokal`, `adress` | adressen utan postnummer |
 | `preliminar_lokal` | true/false |
@@ -186,8 +191,9 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 | `anmalan` | `kravs`, `ingen` eller `okand` |
 | `tidsfrist` | ÅÅÅÅ-MM-DD |
 | `lank`, `samlingssida` | direktlänk till arrangörens sida eller inlägg; `samlingssida` är true om länken bara går till en samlingssida |
-| `kalla` | var kandidaten hittades och var den verifierades, med publiceringsdatum för inlägg |
-| `belagg` | ordagrant citat med år, datum och starttid |
+| `kalla` | var kandidaten hittades och var den verifierades |
+| `belagg` | ordagrant citat med datum, år och starttid (det som anges) |
+| `uppdaterad` | ÅÅÅÅ-MM-DD då sidan eller inlägget publicerades eller uppdaterades; krävs om året inte står i `belagg` |
 | `osakerheter` | avvikelser och tveksamheter |
 
 Efter sorteringen får kalenderposterna ID `[prefix]1, [prefix]2 …`, och övriga poster `[prefix]U1 …`.
@@ -196,7 +202,7 @@ Efter sorteringen får kalenderposterna ID `[prefix]1, [prefix]2 …`, och övri
 
 **Fält på kortet:**
 - **Arrangörsrad:** högst 90 tecken. "i samarbete med" skrivs "med". Raden utelämnas om arrangören inte är verifierad.
-- **Tid:** "HH:MM–HH:MM" med kort tankstreck, eller "HH:MM" om bara starttiden anges.
+- **Tid:** "HH:MM–HH:MM" med kort tankstreck, "HH:MM" om bara starttiden anges, eller "Tid ej angiven" om arrangören inte anger någon tid.
 - **Plats:** "Lokal, Gatuadress, Ort", eller "Digitalt". Vid preliminär lokal läggs " (preliminärt)" till.
 - **Beskrivning:** en mening på 60–115 tecken, högst två rader. Mönster: "[Typ] om/för [innehåll eller målgrupp][, med X]." Upprepa inte titel, tid eller pris. Saklig ton. Exempel: "Rekryteringsträff där arbetsgivare inom vård och omsorg möter arbetssökande."
 
@@ -213,7 +219,7 @@ Efter sorteringen får kalenderposterna ID `[prefix]1, [prefix]2 …`, och övri
 
 **Dagar och ordning:**
 - Dagsrubrik: "Tisdag 3 november". Ett flerdagarsevenemang visas under sin första dag inom perioden.
-- Sortering: datum, starttid, titel A–Ö.
+- Sortering: datum, starttid (utan tid sist), titel A–Ö.
 
 ## 7. HTML och PDF
 
@@ -241,7 +247,7 @@ Skriv `arbete/kontroll.py` en gång och kör den efter varje bygge. Allt ska var
   - Beskrivningarna har 60–115 tecken, utan tid, pris eller titel.
   - Taggarna kommer från vokabulären och står i rätt ordning.
   - Inga tomma fält visas.
-- **Belägg:** hämta varje kalenderlänk på nytt (text och JSON-LD). Datum och starttid ska finnas där. Annars blir posten `obekraftad`. Det gäller också ett inlägg som inte längre går att läsa utan inloggning.
+- **Belägg:** hämta varje kalenderlänk på nytt (text och JSON-LD). Datumet, och starttiden om den anges, ska finnas där. Har året räknats fram ska `uppdaterad` ligga i periodens år eller halvåret före, och en veckodag i belägget ska stämma. Annars blir posten `obekraftad`. Det gäller också ett inlägg som inte längre går att läsa utan inloggning.
 - **Webbläsare, efter laddning:**
   - Elementet `#kontroll` får inte finnas. Det skapas av mallens egen kontroll och betyder att en beskrivning har fler än 2 rader, att tiden bryts, att kolumnerna inte har proportionen 2:1 eller att huvudrubriken bryts.
   - Antalet `a.card` är lika med antalet kalenderposter, och varje `href` är lika med `lank`.
