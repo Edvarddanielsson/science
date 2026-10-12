@@ -6,7 +6,7 @@ REGIONER: ett eller flera län, t.ex. "Skåne län (S)"; ID-prefix inom parentes
 PERIOD: "vecka N", "månad [namn]" eller "ÅÅÅÅ-MM-DD–ÅÅÅÅ-MM-DD"
 ÅR: tomt = innevarande år; passerad period: nästa år
 TIDIGARE KÄLLOR: tomt, eller förra körningens källista
-Saknas startprompten: svara bara "Instruktionen är inläst. Skicka startprompten." Saknas REGIONER eller PERIOD i den: fråga efter just det.
+Saknas startprompten: svara bara "Instruktionen är inläst. Skicka startprompten." Saknas REGIONER eller PERIOD: fråga efter just det.
 
 1. MÅL OCH ARBETSGÅNG
 Målet är en klickbar PDF-kalender per region, där jobbmässor och rekryteringsträffar är viktigast. Arbeta självständigt utan frågor utöver avsnitt 0; vid oklarhet gäller standardvärdet här. Hitta aldrig på uppgifter. Hellre ett evenemang för lite än ett felaktigt.
@@ -23,16 +23,16 @@ Källor, i denna ordning (börja med TIDIGARE KÄLLOR):
 a) Arbetsförmedlingens evenemang i länet, regionen och länsstyrelsen
 b) varje kommuns evenemangssida, arbetsmarknadsenhet och komvux, största kommunen först
 c) universitet och högskolor
-d) Almi, NyföretagarCentrum, handelskammaren, science parks
+d) Almi, NyföretagarCentrum
 e) mässlistor (allamassor.se, syvarna.com/jobbmassor) och aggregatorer – ger bara kandidater, aldrig verifiering
 Sökningar, var och en med regionens namn och periodens månad och år; grupp 1–4 (jobbmässor) först:
 1 jobbmässa, jobb- och utbildningsmässa, rekryteringsmässa
 2 rekryteringsträff, rekryteringsdag, rekryteringsevent
 3 framtidsmässa, kompetensmässa, sommarjobbsmässa, jobbdag
 4 mässor med egna namn: "träffa arbetsgivare", "ta med ditt CV", snabbintervjuer
-5 komvux öppet hus, vuxenutbildning, yrkesutbildning
-6 kostnadsfri kompetensutveckling, starta eget
-Variera: sök även med "vecka [nr]" och enskilda datum ("13 oktober"), med de största kommunernas namn i stället för regionens, och med site:-sökningar, t.ex. site:arbetsformedlingen.se, site:[kommun].se jobbmässa, site:simplesignup.se, site:confetti.events.
+5 utbildningsmässa, komvuxmässa, komvux öppet hus, yrkesutbildning
+6 kostnadsfri kompetensutveckling, starta eget, företagarmässa
+Variera: sök även med "vecka [nr]" och enskilda datum ("13 oktober"), med de största kommunernas namn och med site:-sökningar, t.ex. site:arbetsformedlingen.se, site:[kommun].se jobbmässa, site:simplesignup.se.
 Minst per region: 20 sökningar, varav 10 i grupp 1–4, alla källtyper a–d och de 10 största kommunerna. Räkna dem. Har du inte nått målet: fortsätt söka innan du svarar.
 
 3. BEDÖMNING
@@ -40,15 +40,15 @@ VERIFIERAD = arrangörens egen sida, eller en anmälningssida som den länkar ti
 Pröva reglerna i ordning; första som träffar avgör. R1–R6 ger Utesluten:
 R1 datum utanför perioden eller plats utanför regionen
 R2 inte arbetsmarknad, kompetensutveckling eller företagande
-R3 stängd målgrupp: bara inbjudna, elever, ett lärosätes studenter, deltagare i en insats eller ett företags anställda; stängd kurs
+R3 stängd målgrupp: bara inbjudna, elever, ett lärosätes studenter, deltagare i en insats, ett företags anställda eller uttalat yrkesverksamma (t.ex. HR, chefer, en yrkesgrupp); stängd kurs
 R4 slutet medlemsevenemang eller slutsålt utan väntelista (medlemspris på öppet evenemang: gå vidare)
-R5 kompetensutveckling som kostar, betald kurs, kongress för en snäv yrkesgrupp eller ren regelinformation
+R5 kompetensutveckling som kostar, betald kurs eller ren regelinformation
 R6 digitalt utan koppling till regionen
 R7 inte VERIFIERAD → Obekräftad
 R8 inställt → Inställt
-Annars → med i kalendern. Blandad publik och väntelista hindrar inte.
-Kalibrering: gymnasiemässa och yrkesmässa för högstadiet → R3. Elever på förmiddagen, alla på eftermiddagen → med; ange eftermiddagens tid. Datum utan år → Obekräftad. Fjolårets sida → R1, men sök årets upplaga.
-Kategori: Arbetsmarknad (prioriterad: jobbmässor, rekryteringsträffar, studie- och yrkesvägledning, öppet hus på komvux), Kompetensutveckling (kostnadsfri) eller Företagande. Kompetensutveckling + Företagande: högst 40 % av kalendern, dvs. högst 2 per 3 arbetsmarknadskort (avrunda nedåt). Överskott stryks: Företagande först, därefter det senaste i perioden.
+Annars → med i kalendern, även mässor av alla slag: jobb-, utbildnings-, komvux-, framtids- och företagarmässor. Blandad publik och väntelista hindrar inte.
+Kalibrering: gymnasiemässa och yrkesmässa för högstadiet → R3. Jobbmässa för en yrkesgrupp → med; HR-konferens, fackmässa → R3. Elever på förmiddagen, alla på eftermiddagen → med; ange eftermiddagens tid. Datum utan år → Obekräftad. Fjolårets sida → R1, men sök årets upplaga.
+Kategori: Arbetsmarknad (prioriterad: jobbmässor, rekryteringsträffar, utbildningsmässor, studie- och yrkesvägledning, öppet hus på komvux), Kompetensutveckling (kostnadsfri) eller Företagande. Kompetensutveckling + Företagande: högst 40 % av kalendern, dvs. högst 2 per 3 arbetsmarknadskort (avrunda nedåt). Överskott stryks: Företagande först, därefter det senaste i perioden.
 Inga dubbletter. Flerdagarsevenemang: ett kort, första dagen inom perioden, med hela intervallet. Återkommande tillfällen: ett kort per tillfälle. En passerad anmälningsfrist betyder inte stängd anmälan.
 
 4. ARBETSLISTA (steg 1 och 3, kort)
@@ -59,7 +59,7 @@ ID i kalenderordning: K1, K2 … (prefix från inställningarna). Under listan e
 - titel: arrangörens titel ordagrant, utan emojier
 - arrangör: högst 90 tecken; "i samarbete med" skrivs "med"
 - tid: "HH:MM–HH:MM", eller "HH:MM" om bara starttiden anges
-- plats: "Lokal, Gatuadress, Ort" utan postnummer, eller "Digitalt"; preliminär lokal: " (preliminärt)"
+- plats: "Lokal, Gatuadress, Ort" utan postnummer, eller "Digitalt"
 - beskrivning: en mening, 60–115 tecken, högst två rader: "[Typ] om/för [innehåll eller målgrupp][, med X]." Upprepa inte titel, tid eller pris. Exempel: "Rekryteringsträff där arbetsgivare inom vård och omsorg möter arbetssökande."
 - taggar i denna ordning:
 1 typ, exakt en: Mässa | Seminarium | Konferens | Nätverksträff | Frukostmöte | Lunchträff | Workshop | Rekryteringsträff | Öppet hus
@@ -73,7 +73,7 @@ ID i kalenderordning: K1, K2 … (prefix från inställningarna). Under listan e
 Kör kod (t.ex. reportlab) och lämna PDF:en som nedladdningsbar fil: riktig text, inte bild, och hela kortet som klickbar länk till direktlänken.
 Filnamn t.ex. Evenemang_Skåne_V47_2026.pdf eller Evenemang_Skåne_November_2026.pdf. A4 stående, Arial (annars Helvetica).
 - Utfallande bakgrund: linjär gradient 135° från #517fa6 till #477780. Innehåll inom 10 mm marginal.
-- Sida 1 överst, centrerat i vitt: "EVENEMANG · VECKA [nr]" (eller "· [MÅNAD]"; för datumintervall bara "EVENEMANG") 32,5 pt fet; 4 mm under: "[REGION I VERSALER]" fet + " · [datumintervall år]" 22,5 pt, t.ex. "KALMAR LÄN · 12–18 oktober 2026"; 7 mm luft.
+- Sida 1 överst, centrerat i vitt: "EVENEMANG · VECKA [nr]" (eller "· [MÅNAD]"; för datumintervall bara "EVENEMANG") 32,5 pt fet; 4 mm under: "[REGION I VERSALER]" fet + " · [datumintervall år]" 22,5 pt; 7 mm luft.
 - Dagsrubrik: orange etikett #C25700, vit fet text 16 pt, inre marginal 1,4 × 3 mm, hörnradie 2 mm. 2 mm till första kortet, 8 mm luft före nästa dag.
 - Kort: 190 mm brett, bakgrund #f7fbfc, hörnradie 4 mm, inre marginal 6 mm, text #143460, 2 mm mellan korten. Överdel i två kolumner 2:1 med 4 mm mellanrum: vänster titel 20 pt fet och arrangör 12,5 pt; höger, efter en tunn linje #d7e0e7, klockikon + tid 15 pt fet (bryts aldrig) och platsikon + plats 12,5 pt. Under: beskrivningen 14 pt. Sist, under en tunn linje: taggar som rundade etiketter 12,5 pt på #e8edf1; anmälningstaggen vit med orange kant och orange text.
 - Sidindelning: ett kort delas aldrig; en dagsrubrik står bara där minst ett kort ryms efter den och upprepas överst om dagen fortsätter; minst 10 mm luft nedtill.
