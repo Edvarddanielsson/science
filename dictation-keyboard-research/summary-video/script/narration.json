@@ -1,0 +1,86 @@
+{
+  "voice": "af_heart",
+  "lang": "en-us",
+  "scenes": [
+    {
+      "id": "hook",
+      "sentences": [
+        {
+          "show": "People are swapping their phone keyboards for their voice."
+        },
+        {
+          "show": "Apps like Wispr Flow turn rambling speech into text that's ready to send.",
+          "say": "Apps like Whisper Flow turn rambling speech into text that's ready to send."
+        }
+      ]
+    },
+    {
+      "id": "leaders",
+      "sentences": [
+        {
+          "show": "Reviewers rank Wispr Flow first, with Aqua Voice and Willow close behind.",
+          "say": "Reviewers rank Whisper Flow first, with Aqua Voice and Willow close behind."
+        },
+        {
+          "show": "Almost all of them send your voice to the cloud."
+        }
+      ]
+    },
+    {
+      "id": "habit",
+      "sentences": [
+        {
+          "show": "The habit comes from not editing."
+        },
+        {
+          "show": "Wispr says eighty-nine percent of messages go out untouched, sent in half a second.",
+          "say": "Whisper says eighty-nine percent of messages go out untouched, sent in half a second."
+        },
+        {
+          "show": "People stop proofreading and start thinking out loud."
+        }
+      ]
+    },
+    {
+      "id": "local",
+      "sentences": [
+        {
+          "show": "Can it run on the phone? Yes, but not inside the keyboard."
+        },
+        {
+          "show": "iOS kills a keyboard at around seventy megabytes, so the models live in the main app.",
+          "say": "i O S kills a keyboard at around seventy megabytes, so the models live in the main app."
+        },
+        {
+          "show": "Stream the cleaned-up text, and words appear in about half a second."
+        }
+      ]
+    },
+    {
+      "id": "swedish",
+      "sentences": [
+        {
+          "show": "And Swedish is wide open."
+        },
+        {
+          "show": "Apple adds no Swedish punctuation, and its new AI dictation is English only.",
+          "say": "Apple adds no Swedish punctuation, and its new A I dictation is English only."
+        },
+        {
+          "show": "Klang's Pianissimo model already gets about four and a half percent word error rate in Swedish, right on the phone."
+        }
+      ]
+    },
+    {
+      "id": "close",
+      "sentences": [
+        {
+          "show": "The plan: edit-free Swedish text, on the device, with Pianissimo and Gemma."
+        },
+        {
+          "show": "Talk, don't type."
+        }
+      ]
+    }
+  ]
+}

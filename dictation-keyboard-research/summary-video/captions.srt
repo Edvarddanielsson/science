@@ -1,0 +1,107 @@
+1
+00:00:00,700 --> 00:00:01,800
+People are swapping their phone
+
+2
+00:00:01,800 --> 00:00:03,371
+keyboards for their voice.
+
+3
+00:00:03,591 --> 00:00:05,271
+Apps like Wispr Flow turn rambling
+
+4
+00:00:05,271 --> 00:00:07,908
+speech into text that's ready to send.
+
+5
+00:00:08,408 --> 00:00:10,358
+Reviewers rank Wispr Flow first,
+
+6
+00:00:10,358 --> 00:00:12,633
+with Aqua Voice and Willow close behind.
+
+7
+00:00:12,853 --> 00:00:15,300
+Almost all of them send your voice to the cloud.
+
+8
+00:00:15,800 --> 00:00:17,413
+The habit comes from not editing.
+
+9
+00:00:17,633 --> 00:00:20,132
+Wispr says eighty-nine percent of messages
+
+10
+00:00:20,132 --> 00:00:22,362
+go out untouched, sent in half a second.
+
+11
+00:00:22,582 --> 00:00:23,922
+People stop proofreading and
+
+12
+00:00:23,922 --> 00:00:25,300
+start thinking out loud.
+
+13
+00:00:25,800 --> 00:00:27,130
+Can it run on the phone? Yes,
+
+14
+00:00:27,130 --> 00:00:29,114
+but not inside the keyboard.
+
+15
+00:00:29,334 --> 00:00:32,214
+iOS kills a keyboard at around seventy megabytes,
+
+16
+00:00:32,214 --> 00:00:34,267
+so the models live in the main app.
+
+17
+00:00:34,487 --> 00:00:36,017
+Stream the cleaned-up text,
+
+18
+00:00:36,017 --> 00:00:37,988
+and words appear in about half a second.
+
+19
+00:00:38,488 --> 00:00:39,998
+And Swedish is wide open.
+
+20
+00:00:40,218 --> 00:00:42,448
+Apple adds no Swedish punctuation,
+
+21
+00:00:42,448 --> 00:00:44,792
+and its new AI dictation is English only.
+
+22
+00:00:45,012 --> 00:00:47,602
+Klang's Pianissimo model already gets
+
+23
+00:00:47,602 --> 00:00:49,412
+about four and a half percent word error
+
+24
+00:00:49,412 --> 00:00:51,420
+rate in Swedish, right on the phone.
+
+25
+00:00:51,920 --> 00:00:53,970
+The plan: edit-free Swedish text,
+
+26
+00:00:53,970 --> 00:00:56,386
+on the device, with Pianissimo and Gemma.
+
+27
+00:00:56,606 --> 00:00:57,650
+Talk, don't type.

@@ -8,6 +8,8 @@ Market and feasibility research for an on-device Swedish dictation keyboard for 
 | `swedish-voice-keyboards.mp4` | A 3-minute narrated summary with burned-in captions (1920×1080, 30 fps). |
 | `swedish-voice-keyboards.srt` | The same captions as a subtitle file. |
 | `video/` | Remotion source for the video. |
+| `swedish-voice-keyboards-60s.mp4` | A 60-second narrated summary with captions, built with [HyperFrames](https://github.com/heygen-com/hyperframes). |
+| `summary-video/` | HyperFrames project for the 60-second cut (see below). |
 
 ## Re-rendering the video
 
@@ -34,3 +36,18 @@ The narration is already in `video/public/narration.wav` and its timing in `vide
    ```
 
    Scene animations are keyed to the moment specific words are spoken (`wordAt()` in `src/timeline.ts`), so they stay in sync if the narration is regenerated. `npx remotion studio` opens a live preview.
+
+## The 60-second HyperFrames cut
+
+`summary-video/` is a HyperFrames 0.8.149 project: one HTML composition (`index.html`) with six scene clips, timed caption clips and a single paused GSAP timeline. Fonts and GSAP are vendored under `assets/`, so rendering needs no network.
+
+`index.html` is generated. Edit `script/narration.json` (the words) or `script/index.template.html` (the visuals), then rebuild:
+
+```sh
+cd summary-video
+../.venv/bin/python script/build.py <dir with the Kokoro model files> --seconds 60   # voice, caption timing, index.html
+npx --yes hyperframes@0.8.149 check
+npx --yes hyperframes@0.8.149 render -o renders/swedish-voice-keyboards-60s.mp4 -q high
+```
+
+If HyperFrames can't download its own Chrome, point it at an installed one with `HYPERFRAMES_BROWSER_PATH`.
