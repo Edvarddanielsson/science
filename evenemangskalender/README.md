@@ -1,10 +1,10 @@
 # Evenemangskalender v3 – Microsoft Copilot
 
-`INSTRUKTION_v3_copilot.txt` är hela instruktionen (7 909 tecken, under gränsen på 8 000 även om radbrytningarna räknas som två tecken). `STARTPROMPT.txt` är det enda du fyller i inför varje körning. Instruktionen gör ingenting förrän den får en startprompt som börjar med `KÖR EVENEMANGSKALENDER v3`.
+`INSTRUKTION_v3_copilot.txt` är hela instruktionen (7 708 tecken, under 7 800 även om radbrytningarna räknas som två tecken). `STARTPROMPT.txt` är det enda du fyller i inför varje körning. Instruktionen gör ingenting förrän den får en startprompt som börjar med `KÖR EVENEMANGSKALENDER v3`.
 
 ## Användning
 
-Instruktionen fyller nästan hela gränsen på 8 000 tecken, så startprompten skickas alltid för sig. Två sätt:
+Instruktionen är nästan 7 800 tecken, så startprompten skickas alltid för sig. Två sätt:
 
 - **Som agent (smidigast om du kör ofta):** skapa en agent i Microsoft 365 Copilot och klistra in instruktionen i fältet Instructions, som rymmer 8 000 tecken. Slå på Search all websites under Knowledge och Create documents, charts, and code under Capabilities; det är kodtolken som skapar PDF:en. Välj Think deeper under Model. Lägg gärna startprompten som starter prompt. Sedan skickar du bara startprompten.
 - **I chatten:** klistra in instruktionen som ett eget meddelande. Copilot svarar "Instruktionen är inläst. Skicka startprompten." Skicka sedan startprompten.
@@ -27,11 +27,46 @@ Copilot börjar med en rad "Inställningar: …" så att du kan se att den har l
 
 ## Det som styr resultatet
 
-- **Bred och noggrann research:** två varv (först brett, sedan verifiering hos arrangören), minst 20 sökningar per region med räkning, sökningar på vecka och datum, på kommunnamn och med `site:` (även anmälningssajterna simplesignup.se och confetti.events), samt de 10 största kommunerna.
+- **Jobbmässor först:** fyra av sex sökgrupper gäller jobbmässor och rekryteringsträffar. Minst 10 av de minst 20 sökningarna per region ska göras där, och arbetslistan redovisar antalet. Mässlistorna allamassor.se och syvarna.com/jobbmassor används för att hitta mässor, men aldrig som verifiering.
+- **Bred och noggrann research:** två varv (först brett, sedan verifiering hos arrangören), sökningar på vecka och datum, på kommunnamn och med `site:` (till exempel `site:[kommun].se jobbmässa` och anmälningssajterna simplesignup.se och confetti.events), samt de 10 största kommunerna.
 - **Verifiering:** år, datum, starttid och plats hos arrangören, med ett ordagrant citat (belägg) i arbetslistan.
-- **Regler R1–R8** prövas i fast ordning. Kalibreringsexempel avgör vanliga gränsfall: gymnasiemässor, betalda konferenser, nationella webbsändningar, datum utan år och fjolårets sidor (då söker Copilot efter årets upplaga).
+- **Regler R1–R8** prövas i fast ordning. R3 stänger ute evenemang som bara är för inbjudna, elever, ett lärosätes studenter, deltagare i en insats eller ett företags anställda. Kalibreringsexempel avgör vanliga gränsfall:
+  - gymnasie- och yrkesmässor för högstadiet
+  - mässor med elevtid på förmiddagen och öppet för alla på eftermiddagen
+  - datum utan år
+  - fjolårets sidor (då söker Copilot efter årets upplaga).
 - **Prioritering:** arbetsmarknad går först. Kostnadsfri kompetensutveckling och företagande får tillsammans vara högst 40 % av korten.
 - **Design:** samma utseende som i v2:s mall, beskrivet i mm, pt och färgkoder, med fasta regler för sidindelning. PDF:en skapas med kod, med riktig text och en klickbar länk per kort.
+
+## Ord för jobbmässor
+
+Sökorden i grupp 1–4 bygger på en webbsökning i oktober 2026 om vilka ord arrangörerna faktiskt använder.
+
+| Sökord | Använt av (2026) |
+|---|---|
+| jobbmässa | Nacka (Fisksätra), Ale, Båstad (Jobbåstad26), Arbetsförmedlingen i Malmö |
+| jobb- och utbildningsmässa | Osby, Klippan, Kävlinge, Burlöv, Växjö, Ronneby och Västervik. Ordet är vanligast hos kommunerna |
+| rekryteringsmässa | Enköping, Arena Varberg, Jobbmatchen i Helsingborg |
+| rekryteringsträff | Arbetsförmedlingen, CareerConnect i Botkyrka, Eductus i Hammarkullen |
+| rekryteringsdag | Göteborg Landvetter Airport, Filipstad, Stockholms stad (vård och omsorg) |
+| rekryteringsevent | Connecting Jobs i Malmö. Ofta bara för inbjudna, vilket betyder R3 |
+| framtidsmässa | Laholm, Kristianstad, Grästorp |
+| kompetensmässa | Rättvik |
+| sommarjobbsmässa | Uppsala, Västervik, Sollentuna, Hällefors (januari–mars) |
+| jobbdag | Sollefteå (Jobbdagen) |
+| "träffa arbetsgivare", "ta med ditt CV", snabbintervjuer | Fraserna står på sidorna för mässor med egna namn, till exempel Jobbchansen (Örebro, Luleå), Opportunity Day och CareerConnect |
+
+Bortvalda ord:
+- **arbetsgivarträff:** används mest om träffar för deltagare i en insats, eller mellan arbetsgivare.
+- **jobbspår:** är ett program, inget evenemang.
+- **karriärmässa och arbetsmarknadsdag:** gäller oftast studentmässor, som R3 stänger ute.
+
+Test på Skåne i november 2026:
+- De nya sökorden hittade samma öppna jobbmässa som exempelkörningen, i Osby den 3 november. Syvarnas lista för Skåne har ingen annan.
+- Bland de övriga träffarna fanns:
+  - studentmässor som R3 stänger ute
+  - gamla sidor utan år som reglerna fångar
+  - ett spelevent som R2 stänger ute.
 
 Tidigare versioner med HTML-mall och byggskript finns i git-historiken (commit `5fd0087` och `854d9b7`).
 
