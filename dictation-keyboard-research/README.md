@@ -10,6 +10,10 @@ Market and feasibility research for an on-device Swedish dictation keyboard for 
 | `video/` | Remotion source for the video. |
 | `swedish-voice-keyboards-60s.mp4` | A 60-second narrated summary with captions, built with [HyperFrames](https://github.com/heygen-com/hyperframes). |
 | `summary-video/` | HyperFrames project for the 60-second cut (see below). |
+| `ios-feasibility-notes.md` | Follow-up: can the Pianissimo + Gemma stack sit behind an iPhone keyboard, and how do local competitors (Sayboard, KeySay, Yaps, Diction, Muesli, Wave, Outspoken, Vozzy) do it? Verdict, constraint-by-constraint reasoning, competitor matrix, recommended architecture, prototype gates, sources. |
+| `swedish-voice-keyboards-feasibility-120s.mp4` | A 2-minute narrated follow-up video on the same question, with captions (HyperFrames). |
+| `swedish-voice-keyboards-feasibility-120s.srt` | Its captions as a subtitle file. |
+| `feasibility-video/` | HyperFrames project for the 2-minute follow-up (see below). |
 
 ## Re-rendering the video
 
@@ -51,3 +55,16 @@ npx --yes hyperframes@0.8.149 render -o renders/swedish-voice-keyboards-60s.mp4 
 ```
 
 If HyperFrames can't download its own Chrome, point it at an installed one with `HYPERFRAMES_BROWSER_PATH`.
+
+## The 2-minute feasibility follow-up
+
+`feasibility-video/` is built the same way as `summary-video/`: eight scenes covering the verdict, the keyboard/app split, the three prices (the bounce, no GPU in the background, memory and time), how rivals do it locally, the Swedish gap, and the prototype gates. Its script follows `ios-feasibility-notes.md`.
+
+```sh
+cd feasibility-video
+../.venv/bin/python script/build.py <dir with the Kokoro model files> --seconds 120
+npx --yes hyperframes@0.8.149 check
+npx --yes hyperframes@0.8.149 render -o renders/swedish-voice-keyboards-feasibility-120s.mp4 -q high
+```
+
+`build.py` re-fits the speaking rate (capped at 1.2×) until the narration fits, and stops with an error if the script is still too long.

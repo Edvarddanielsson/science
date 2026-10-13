@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Can It Run on iPhone?</title>
+    <!-- GENERATED from script/index.template.html by script/build.py. Edit the template, not this file. -->
+    <script src="assets/vendor/gsap-3.14.2.min.js"></script>
+    <style>
+      @font-face { font-family: "Bricolage Grotesque"; font-weight: 600; src: url("assets/fonts/bricolage-grotesque-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Bricolage Grotesque"; font-weight: 700; src: url("assets/fonts/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Sans"; font-weight: 400; src: url("assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Sans"; font-weight: 400; font-style: italic; src: url("assets/fonts/ibm-plex-sans-latin-400-italic.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Sans"; font-weight: 500; src: url("assets/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Sans"; font-weight: 600; src: url("assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Mono"; font-weight: 400; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Mono"; font-weight: 500; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+
+      /* Same identity as the brief and the earlier cuts: fjord-dark ground, saffron accent, signal blue. */
+      :root {
+        --bg: #0e151c;
+        --panel: #151f29;
+        --panel-2: #1b2733;
+        --line: #283643;
+        --ink: #e6ecf2;
+        --ink-2: #b3c0cc;
+        --muted: #8c9bab;
+        --accent: #f0b429;
+        --blue: #3987e5;
+        --removed: #e8795a;
+        --ok: #9fd8b0;
+        --ok-bg: #17301f;
+        --cloud-bg: #1d2b3b;
+        --cloud-ink: #a9c8ec;
+        --display: "Bricolage Grotesque", sans-serif;
+        --sans: "IBM Plex Sans", sans-serif;
+        --mono: "IBM Plex Mono", monospace;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink); font-family: var(--sans); }
+
+      /* ambient layer */
+      #bg { position: absolute; inset: 0; background: radial-gradient(1400px 900px at 50% 40%, #121c26 0%, var(--bg) 70%); }
+      .blob { position: absolute; width: 1300px; height: 1300px; border-radius: 50%; }
+      #blob-a { left: -420px; top: -560px; background: radial-gradient(closest-side, rgba(57, 135, 229, 0.16), rgba(57, 135, 229, 0)); }
+      #blob-b { right: -460px; bottom: -640px; background: radial-gradient(closest-side, rgba(240, 180, 41, 0.10), rgba(240, 180, 41, 0)); }
+      #vignette { position: absolute; inset: 0; background: radial-gradient(1500px 1000px at 50% 50%, rgba(14, 21, 28, 0) 55%, rgba(6, 10, 14, 0.55) 100%); }
+      #stage { position: absolute; inset: 0; }
+
+      /* chrome */
+      #progress { position: absolute; top: 44px; left: 120px; width: 1420px; height: 4px; display: flex; gap: 8px; z-index: 6; }
+      .seg { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+      .seg i { display: block; width: 100%; height: 100%; background: var(--accent); transform-origin: left center; }
+      #mic-badge { position: absolute; top: 24px; right: 120px; height: 46px; display: flex; align-items: center; gap: 12px; padding: 0 18px 0 8px; border-radius: 999px; background: rgba(21, 31, 41, 0.9); border: 1px solid var(--line); z-index: 6; }
+      #mic-dot { position: relative; width: 32px; height: 32px; display: grid; place-items: center; }
+      #mic-halo { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(240, 180, 41, 0.75), rgba(240, 180, 41, 0)); opacity: 0.15; }
+      #mic-dot svg { position: relative; width: 20px; height: 20px; color: var(--accent); }
+      #mic-badge span { font-family: var(--mono); font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+
+      /* scenes: GSAP owns their visibility and the transitions between them */
+      .scene { position: absolute; inset: 0; padding: 120px 120px 214px; overflow: hidden; }
+      #s-split, #s-bounce, #s-compute, #s-memory, #s-rivals, #s-swedish, #s-plan { opacity: 0; }
+      .content { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; gap: 34px; }
+      .ghost { position: absolute; font-family: var(--display); font-weight: 700; font-size: 520px; line-height: 1; letter-spacing: -0.04em; color: rgba(230, 236, 242, 0.035); white-space: nowrap; }
+      .eyebrow { font-family: var(--mono); font-size: 24px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+      .title { font-family: var(--display); font-weight: 700; font-size: 80px; line-height: 1.06; letter-spacing: -0.015em; }
+      .ml { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+      .ml > span { display: block; }
+      .head { display: flex; flex-direction: column; gap: 14px; }
+      .card { position: relative; background: var(--panel); border: 2px solid var(--line); border-radius: 22px; padding: 26px 32px; overflow: hidden; }
+      .card.hi { border-color: rgba(240, 180, 41, 0.85); }
+      .label { font-family: var(--mono); font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+      .src { font-family: var(--mono); font-size: 21px; color: var(--muted); }
+      .eng { display: inline-block; font-family: var(--mono); font-size: 23px; font-weight: 500; padding: 5px 14px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); white-space: nowrap; }
+      .bad, .good, .warn { display: flex; align-items: center; gap: 12px; font-size: 30px; font-weight: 600; }
+      .bad { color: var(--removed); }
+      .good { color: var(--ok); }
+      .warn { color: var(--accent); }
+      .bad svg, .good svg, .warn svg { width: 38px; height: 38px; flex: none; }
+      .it { font-size: 29px; color: var(--ink-2); }
+
+      /* 1 · verdict */
+      #verdict-ghost { right: -60px; top: 110px; }
+      #s-verdict .content { justify-content: center; }
+      #v-mid { display: flex; align-items: center; gap: 64px; }
+      #v-yes-box { width: 520px; flex: none; display: flex; flex-direction: column; gap: 10px; }
+      #v-yes { font-family: var(--display); font-weight: 700; font-size: 210px; line-height: 0.95; letter-spacing: -0.03em; color: var(--accent); transform-origin: left center; }
+      #v-yes-line { height: 6px; width: 420px; border-radius: 3px; background: var(--accent); transform-origin: left center; }
+      #v-yes-sub { font-size: 32px; line-height: 1.3; color: var(--ink-2); }
+      #v-count { font-family: var(--display); font-weight: 700; color: var(--ink); }
+      #v-apps { display: grid; grid-template-columns: repeat(4, 250px); gap: 18px; }
+      .app { display: flex; flex-direction: column; gap: 6px; padding: 20px 22px; border-radius: 18px; background: var(--panel); border: 2px solid var(--line); }
+      .app b { font-family: var(--display); font-weight: 600; font-size: 34px; }
+      .app span { font-family: var(--mono); font-size: 19px; color: var(--muted); }
+      #v-prices { display: flex; gap: 22px; }
+      .price { flex: 1; display: flex; align-items: center; gap: 20px; padding: 20px 26px; font-size: 32px; font-weight: 600; }
+      .pn { width: 52px; height: 52px; flex: none; border-radius: 50%; border: 2px solid var(--accent); display: grid; place-items: center; font-family: var(--mono); font-size: 26px; color: var(--accent); }
+
+      /* 2 · split */
+      #split-ghost { right: -30px; bottom: 20px; }
+      .diagram { display: grid; grid-template-columns: 1fr 300px 1.25fr; align-items: stretch; }
+      .node { display: flex; flex-direction: column; gap: 16px; }
+      .node h3 { font-family: var(--display); font-weight: 600; font-size: 42px; line-height: 1.1; }
+      #sp-slash { stroke: var(--removed); stroke-width: 2.4; stroke-linecap: round; }
+      .meter { display: flex; flex-direction: column; gap: 8px; }
+      .meter-track { position: relative; height: 22px; border-radius: 11px; background: #22303c; }
+      #sp-meter-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 11px; background: linear-gradient(90deg, #3987e5, #e8795a); transform-origin: left center; }
+      #sp-limit { position: absolute; right: -2px; top: -8px; bottom: -8px; width: 4px; border-radius: 2px; background: var(--removed); }
+      .meter-cap { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 21px; color: var(--muted); }
+      #sp-link { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 30px; padding: 0 22px; }
+      .lane2 { position: relative; display: flex; flex-direction: column; gap: 6px; }
+      .lane2 svg { width: 256px; height: 26px; }
+      .lane2 path { fill: none; stroke: var(--ink-2); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .lane2 .lk { font-family: var(--mono); font-size: 21px; color: var(--ink-2); }
+      .lane2.back .lk { text-align: right; color: var(--ok); }
+      .lane2.back path { stroke: var(--ok); }
+      .dot { position: absolute; top: 6px; width: 14px; height: 14px; border-radius: 50%; }
+      #sp-dot-a { left: 6px; background: var(--ink-2); box-shadow: 0 0 14px rgba(230, 236, 242, 0.7); }
+      #sp-dot-b { right: 6px; background: var(--ok); box-shadow: 0 0 16px rgba(159, 216, 176, 0.9); }
+      #sp-bridge { font-family: var(--mono); font-size: 19px; color: var(--muted); text-align: center; }
+      #sp-chip { align-self: flex-start; font-family: var(--mono); font-size: 22px; padding: 6px 14px; border-radius: 10px; background: var(--ok-bg); color: var(--ok); }
+
+      /* 3 · bounce */
+      #bounce-ghost { right: -40px; top: 120px; }
+      #b-row { display: flex; align-items: center; justify-content: center; gap: 18px; }
+      .phone { position: relative; width: 250px; height: 360px; flex: none; border-radius: 34px; border: 3px solid #33424f; background: #111a22; padding: 16px 14px; display: flex; flex-direction: column; gap: 12px; }
+      .ph-top { display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 19px; color: var(--muted); height: 28px; }
+      .bub { align-self: flex-start; max-width: 200px; padding: 9px 14px; border-radius: 16px; background: #26323e; font-size: 21px; line-height: 1.25; }
+      .bub.me { align-self: flex-end; background: var(--blue); color: #fff; }
+      .ph-kb { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+      .kr { display: flex; gap: 5px; justify-content: center; }
+      .kr i { display: block; width: 17px; height: 24px; border-radius: 4px; background: #2a3743; }
+      .kr .sp { width: 96px; }
+      .kr .mk { width: 40px; display: grid; place-items: center; background: #33281a; }
+      .kr .mk svg { width: 18px; height: 18px; color: var(--accent); }
+      #b-mic { position: relative; margin: 30px auto 0; width: 132px; height: 132px; border-radius: 50%; display: grid; place-items: center; background: rgba(240, 180, 41, 0.12); border: 2px solid rgba(240, 180, 41, 0.6); }
+      #b-mic svg { width: 58px; height: 58px; color: var(--accent); }
+      .ring { position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--accent); opacity: 0; }
+      #b-listen { text-align: center; font-size: 25px; color: var(--ink-2); }
+      #b-odot { width: 12px; height: 12px; border-radius: 50%; background: #ff9f0a; box-shadow: 0 0 10px rgba(255, 159, 10, 0.8); }
+      #b-back { font-family: var(--mono); font-size: 18px; color: var(--accent); padding: 2px 8px; border-radius: 8px; border: 1px solid rgba(240, 180, 41, 0.7); }
+      .barrow { position: relative; width: 190px; flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      .barrow svg { width: 180px; height: 70px; }
+      .barrow path { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .barrow .bl { font-family: var(--mono); font-size: 20px; color: var(--ink-2); text-align: center; line-height: 1.3; }
+      #b-auto { position: relative; font-family: var(--mono); font-size: 20px; color: var(--muted); }
+      #b-auto-strike { position: absolute; left: -4px; right: -4px; top: 52%; height: 3px; border-radius: 2px; background: var(--removed); transform-origin: left center; }
+      #b-session { display: flex; align-items: center; gap: 34px; padding: 20px 32px; }
+      #b-session .label { width: 300px; flex: none; line-height: 1.3; }
+      .sess { position: relative; flex: 1; height: 56px; }
+      .sess-track { position: absolute; left: 0; right: 0; top: 25px; height: 6px; border-radius: 3px; background: #22303c; }
+      #b-sess-fill { position: absolute; left: 0; right: 0; top: 25px; height: 6px; border-radius: 3px; background: rgba(240, 180, 41, 0.55); transform-origin: left center; }
+      .mark { position: absolute; top: 16px; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: var(--blue); border: 3px solid var(--panel); }
+      .mark.first { background: var(--accent); }
+      .mark-l { position: absolute; top: -14px; font-family: var(--mono); font-size: 19px; color: var(--muted); white-space: nowrap; }
+
+      /* 4 · compute */
+      #compute-ghost { right: -60px; bottom: 30px; }
+      #c-units { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+      .unit { display: flex; flex-direction: column; gap: 14px; }
+      .unit-top { display: flex; align-items: center; gap: 20px; }
+      .chipico { position: relative; width: 74px; height: 74px; flex: none; }
+      .chipico svg { width: 74px; height: 74px; }
+      .chipico .body { fill: #1f2b37; stroke: var(--ink-2); stroke-width: 2; }
+      .chipico .pin { stroke: var(--ink-2); stroke-width: 2; stroke-linecap: round; }
+      .chipico .x { stroke: var(--removed); stroke-width: 4; stroke-linecap: round; fill: none; }
+      .unit h3 { font-family: var(--display); font-weight: 600; font-size: 46px; }
+      .unit .st { font-size: 28px; font-weight: 600; line-height: 1.25; }
+      #c-gpu-st { color: var(--removed); }
+      #c-cpu-st { color: var(--ok); }
+      #c-ane-st { color: var(--accent); }
+      #c-code { padding: 26px 34px; font-family: var(--mono); font-size: 30px; line-height: 1.55; background: #0b1117; }
+      #c-code .cm { color: var(--muted); }
+      #c-code .kw { color: var(--ink); }
+      #c-code .num { color: var(--accent); }
+      #c-code .ok { color: var(--ok); }
+      .codeline { display: block; white-space: nowrap; }
+
+      /* 5 · memory */
+      #memory-ghost { right: -40px; top: 120px; }
+      #m-mem { display: flex; flex-direction: column; gap: 18px; }
+      .mem-head { display: flex; justify-content: space-between; align-items: baseline; }
+      #m-gb { font-family: var(--display); font-weight: 700; font-size: 64px; line-height: 1; color: var(--accent); }
+      .mem-bar { position: relative; height: 64px; border-radius: 14px; background: #1c2833; display: flex; overflow: visible; }
+      .mseg { height: 100%; display: flex; align-items: center; padding-left: 20px; font-size: 25px; font-weight: 600; white-space: nowrap; transform-origin: left center; }
+      #m-asr { width: 607px; padding-left: 96px; background: var(--blue); border-radius: 14px 0 0 14px; color: #fff; }
+      #m-llm { width: 566px; background: var(--accent); border-radius: 0 14px 14px 0; color: #1a1406; }
+      #m-kb { position: absolute; left: 65px; top: -12px; bottom: -12px; width: 4px; border-radius: 2px; background: var(--removed); }
+      #m-kb-l { position: absolute; left: 0; top: 74px; font-family: var(--mono); font-size: 20px; color: var(--removed); white-space: nowrap; }
+      .mem-scale { position: relative; height: 26px; margin-top: 14px; }
+      #m-lat { display: flex; flex-direction: column; gap: 16px; }
+      .race-row { display: grid; grid-template-columns: 400px 1fr 120px; align-items: center; gap: 24px; }
+      .race-row .n { font-size: 29px; color: var(--ink-2); }
+      .race-row .t { font-family: var(--mono); font-size: 28px; color: var(--ink); text-align: right; }
+      .lane { position: relative; height: 38px; border-radius: 0 8px 8px 0; }
+      .fill { position: absolute; left: 0; top: 2px; height: 34px; border-radius: 0 8px 8px 0; background: var(--blue); transform-origin: left center; }
+      .fill.hi { background: var(--accent); }
+      #m-f-slow { width: 945px; }
+      #m-f-fast { width: 182px; }
+
+      /* 6 · rivals */
+      #rivals-ghost { right: -30px; bottom: 10px; }
+      .tbl { display: flex; flex-direction: column; gap: 14px; }
+      .tr { display: grid; grid-template-columns: 260px 1fr 1fr; align-items: center; gap: 26px; padding: 18px 28px; }
+      .th { padding: 0 30px; }
+      .tr .who { font-family: var(--display); font-weight: 600; font-size: 40px; }
+      .cell { display: flex; flex-wrap: wrap; gap: 10px; }
+      .eng.pk { position: relative; overflow: hidden; }
+      .eng.pk i { position: absolute; inset: 0; background: rgba(240, 180, 41, 0.22); border-radius: 10px; transform-origin: left center; transform: scaleX(0); }
+
+      /* 7 · swedish */
+      #swedish-ghost { right: -40px; top: 110px; }
+      #sw-bars { display: flex; flex-direction: column; gap: 22px; }
+      .wrow { display: grid; grid-template-columns: 360px 1fr 160px; align-items: center; gap: 24px; }
+      .wrow .n { display: flex; flex-direction: column; gap: 2px; }
+      .wrow .n b { font-family: var(--display); font-weight: 600; font-size: 38px; }
+      .wrow .n span { font-family: var(--mono); font-size: 20px; color: var(--muted); }
+      .wlane { position: relative; height: 52px; }
+      .wfill { position: absolute; left: 0; top: 0; height: 52px; border-radius: 0 10px 10px 0; transform-origin: left center; }
+      #sw-f-pk { width: 848px; background: #5b7a99; }
+      #sw-f-pi { width: 253px; background: var(--accent); }
+      .wv { font-family: var(--display); font-weight: 700; font-size: 58px; text-align: right; }
+      #sw-v-pi { color: var(--accent); }
+      #sw-gaps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+      .gap { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 30px; font-size: 32px; }
+      .gap .st { color: var(--removed); font-weight: 600; white-space: nowrap; }
+
+      /* 8 · plan */
+      #plan-ghost { right: -40px; top: 90px; }
+      #p-gates { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+      .gate { display: flex; align-items: center; gap: 24px; padding: 22px 30px; font-size: 33px; font-weight: 500; }
+      .gate svg { width: 50px; height: 50px; flex: none; }
+      .gate .box { fill: none; stroke: #4a5a69; stroke-width: 2.5; }
+      .gate .tick { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      #p-final { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+      .final-title { font-family: var(--display); font-weight: 700; font-size: 104px; letter-spacing: -0.02em; line-height: 1.02; display: flex; overflow: hidden; padding-bottom: 0.06em; }
+      .ch { display: inline-block; }
+      .final-title .acc { color: var(--accent); }
+      #p-sub { font-size: 36px; color: var(--ink-2); }
+
+      /* captions: the spoken word lights up */
+      .cap { position: absolute; left: 0; right: 0; bottom: 56px; display: flex; justify-content: center; z-index: 5; }
+      .cl { display: block; max-width: 1480px; padding: 14px 30px; border-radius: 16px; background: rgba(6, 10, 14, 0.86); border: 1px solid var(--line); font-weight: 500; font-size: 46px; line-height: 1.28; text-align: center; }
+      .cw { color: rgba(255, 255, 255, 0.42); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{DURATION}}" data-width="1920" data-height="1080">
+      <div id="bg"></div>
+      <div id="blob-a" class="blob"></div>
+      <div id="blob-b" class="blob"></div>
+      <div id="vignette"></div>
+
+      <audio id="narration" src="assets/narration.wav" data-start="0" data-duration="{{DURATION}}" data-track-index="8" data-volume="1"></audio>
+
+      <div id="stage">
+        <div id="progress">
+          <div class="seg" style="flex: {{verdict.dur}}"><i id="p-verdict"></i></div>
+          <div class="seg" style="flex: {{split.dur}}"><i id="p-split"></i></div>
+          <div class="seg" style="flex: {{bounce.dur}}"><i id="p-bounce"></i></div>
+          <div class="seg" style="flex: {{compute.dur}}"><i id="p-compute"></i></div>
+          <div class="seg" style="flex: {{memory.dur}}"><i id="p-memory"></i></div>
+          <div class="seg" style="flex: {{rivals.dur}}"><i id="p-rivals"></i></div>
+          <div class="seg" style="flex: {{swedish.dur}}"><i id="p-swedish"></i></div>
+          <div class="seg" style="flex: {{plan.dur}}"><i id="p-plan"></i></div>
+        </div>
+        <div id="mic-badge">
+          <div id="mic-dot">
+            <div id="mic-halo"></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+          </div>
+          <span>Listening</span>
+        </div>
+
+        <!-- 1 · verdict -->
+        <section id="s-verdict" class="scene">
+          <div id="verdict-ghost" class="ghost" data-layout-ignore aria-hidden="true">Ja.</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="v-eyebrow">Follow-up · Is it possible?</div>
+              <div class="title"><span class="ml"><span id="v-q">Fully local, in Swedish, on iPhone?</span></span></div>
+            </div>
+            <div id="v-mid">
+              <div id="v-yes-box">
+                <div id="v-yes">Yes.</div>
+                <div id="v-yes-line"></div>
+                <div id="v-yes-sub"><b id="v-count">0</b> keyboards already transcribe on the phone</div>
+              </div>
+              <div id="v-apps">
+                <div class="app"><b>Sayboard</b><span>open source</span></div>
+                <div class="app"><b>KeySay</b><span>Whisper</span></div>
+                <div class="app"><b>Yaps</b><span>Parakeet</span></div>
+                <div class="app"><b>Diction</b><span>Whisper · Parakeet</span></div>
+                <div class="app"><b>Muesli</b><span>open source</span></div>
+                <div class="app"><b>Wave</b><span>WhisperKit</span></div>
+                <div class="app"><b>Outspoken</b><span>Parakeet · Whisper</span></div>
+                <div class="app"><b>Vozzy</b><span>Apple Speech</span></div>
+              </div>
+            </div>
+            <div id="v-prices">
+              <div class="card price" id="pr-1"><span class="pn">1</span>The bounce</div>
+              <div class="card price" id="pr-2"><span class="pn">2</span>No GPU in the background</div>
+              <div class="card price" id="pr-3"><span class="pn">3</span>Memory and time</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 · split -->
+        <section id="s-split" class="scene">
+          <div id="split-ghost" class="ghost" data-layout-ignore aria-hidden="true">÷2</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="sp-eyebrow">How every local app is built</div>
+              <div class="title"><span class="ml"><span id="sp-title">The keyboard is only a remote</span></span></div>
+            </div>
+            <div class="diagram">
+              <div class="card node" id="sp-kb">
+                <h3>Keyboard extension</h3>
+                <div class="bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path id="sp-slash" d="M3 3l18 18" stroke-dasharray="26" stroke-dashoffset="26"/></svg>No microphone</div>
+                <div class="meter" id="sp-meter">
+                  <div class="meter-track"><div id="sp-meter-fill"></div><div id="sp-limit"></div></div>
+                  <div class="meter-cap"><span>memory</span><span>killed at ~70 MB</span></div>
+                </div>
+                <div class="it" id="sp-types">Types the text it gets back</div>
+              </div>
+              <div id="sp-link">
+                <div class="lane2"><span class="lk">start ▸</span><svg viewBox="0 0 256 26"><path d="M4 13 H246 M236 5 L248 13 L236 21"/></svg><div class="dot" id="sp-dot-a"></div></div>
+                <div class="lane2 back"><svg viewBox="0 0 256 26"><path d="M252 13 H10 M20 5 L8 13 L20 21"/></svg><div class="dot" id="sp-dot-b"></div><span class="lk">◂ clean text</span></div>
+                <div id="sp-bridge">App Group + Darwin notifications</div>
+              </div>
+              <div class="card node hi" id="sp-app">
+                <h3>Main app, in the background</h3>
+                <div class="good" id="sp-a1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>Records the audio</div>
+                <div class="it" id="sp-a2">Pianissimo → Swedish text</div>
+                <div class="it" id="sp-a3">Gemma 4 E2B → clean, ready to send</div>
+                <div id="sp-chip">UIBackgroundModes: audio</div>
+              </div>
+            </div>
+            <div class="src" id="sp-src">Same split in Sayboard, KeySay, Yaps, Muesli, Wave and the KeyboardKit SDK</div>
+          </div>
+        </section>
+
+        <!-- 3 · bounce -->
+        <section id="s-bounce" class="scene">
+          <div id="bounce-ghost" class="ghost" data-layout-ignore aria-hidden="true">26.4</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="b-eyebrow">Price 1 · The bounce</div>
+              <div class="title"><span class="ml"><span id="b-title">One bounce per session</span></span></div>
+            </div>
+            <div id="b-row">
+              <div class="phone" id="b-ph1">
+                <div class="ph-top"><span>Messages</span></div>
+                <div class="bub">Ses vi kl. 16?</div>
+                <div class="ph-kb">
+                  <div class="kr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="kr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="kr"><i class="sp"></i><i class="mk" id="b-mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></i></div>
+                </div>
+              </div>
+              <div class="barrow" id="b-ar1">
+                <svg viewBox="0 0 180 70"><path id="b-path1" d="M8 56 C 50 6, 130 6, 168 50 M154 46 L168 50 L166 36" stroke-dasharray="230" stroke-dashoffset="230"/></svg>
+                <div class="bl">opens its app</div>
+              </div>
+              <div class="phone" id="b-ph2">
+                <div class="ph-top"><span>Your app</span><span id="b-odot"></span></div>
+                <div id="b-mic"><div class="ring" id="b-ring1"></div><div class="ring" id="b-ring2"></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></div>
+                <div id="b-listen">Lyssnar…</div>
+              </div>
+              <div class="barrow" id="b-ar2">
+                <div id="b-auto">auto-return<i id="b-auto-strike"></i></div>
+                <svg viewBox="0 0 180 70"><path id="b-path2" d="M8 56 C 50 6, 130 6, 168 50 M154 46 L168 50 L166 36" stroke-dasharray="230" stroke-dashoffset="230"/></svg>
+                <div class="bl" id="b-swipe">swipe back by hand</div>
+              </div>
+              <div class="phone" id="b-ph3">
+                <div class="ph-top"><span id="b-back">◀ Messages</span></div>
+                <div class="bub">Ses vi kl. 16?</div>
+                <div class="bub me" id="b-reply">Ja, vi ses kl. 16!</div>
+                <div class="ph-kb">
+                  <div class="kr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="kr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="kr"><i class="sp"></i><i class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="card" id="b-session">
+              <div class="label">Session kept alive<br />up to 30 minutes</div>
+              <div class="sess">
+                <div class="sess-track"></div>
+                <div id="b-sess-fill"></div>
+                <div class="mark first" style="left: 2%"></div>
+                <div class="mark-l" id="b-ml1" style="left: 0%">bounce</div>
+                <div class="mark m2" style="left: 22%"></div>
+                <div class="mark m2" style="left: 41%"></div>
+                <div class="mark m2" style="left: 58%"></div>
+                <div class="mark m2" style="left: 77%"></div>
+                <div class="mark m2" style="left: 95%"></div>
+                <div class="mark-l" id="b-ml2" style="left: 22%">no bounce: tap the mic and talk</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4 · compute -->
+        <section id="s-compute" class="scene">
+          <div id="compute-ghost" class="ghost" data-layout-ignore aria-hidden="true">GPU</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="c-eyebrow">Price 2 · Background compute</div>
+              <div class="title"><span class="ml"><span id="c-title">No GPU once the app leaves the screen</span></span></div>
+            </div>
+            <div id="c-units">
+              <div class="card unit" id="c-gpu">
+                <div class="unit-top">
+                  <div class="chipico"><svg viewBox="0 0 74 74"><path class="pin" d="M24 4v10M37 4v10M50 4v10M24 60v10M37 60v10M50 60v10M4 24h10M4 37h10M4 50h10M60 24h10M60 37h10M60 50h10"/><rect class="body" x="14" y="14" width="46" height="46" rx="8"/><path class="x" id="c-x" d="M26 26 L48 48 M48 26 L26 48" stroke-dasharray="64" stroke-dashoffset="64"/></svg></div>
+                  <h3>GPU</h3>
+                </div>
+                <div class="st" id="c-gpu-st">Blocked in the background</div>
+              </div>
+              <div class="card unit" id="c-cpu">
+                <div class="unit-top">
+                  <div class="chipico"><svg viewBox="0 0 74 74"><path class="pin" d="M24 4v10M37 4v10M50 4v10M24 60v10M37 60v10M50 60v10M4 24h10M4 37h10M4 50h10M60 24h10M60 37h10M60 50h10"/><rect class="body" x="14" y="14" width="46" height="46" rx="8"/></svg></div>
+                  <h3>CPU</h3>
+                </div>
+                <div class="st" id="c-cpu-st">Always allowed, slower</div>
+              </div>
+              <div class="card unit hi" id="c-ane">
+                <div class="unit-top">
+                  <div class="chipico"><svg viewBox="0 0 74 74"><path class="pin" d="M24 4v10M37 4v10M50 4v10M24 60v10M37 60v10M50 60v10M4 24h10M4 37h10M4 50h10M60 24h10M60 37h10M60 50h10"/><rect class="body" x="14" y="14" width="46" height="46" rx="8"/></svg></div>
+                  <h3>Neural Engine</h3>
+                </div>
+                <div class="st" id="c-ane-st">Works today · iOS 27 rules unclear</div>
+              </div>
+            </div>
+            <div class="card" id="c-code">
+              <span class="codeline cm" id="c-l1">// Sayboard · LLMInferenceService.swift</span>
+              <span class="codeline kw" id="c-l2">modelParams.n_gpu_layers = <span class="num">0</span></span>
+              <span class="codeline ok" id="c-l3">// CPU-only: Metal GPU blocked when app is backgrounded</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 · memory -->
+        <section id="s-memory" class="scene">
+          <div id="memory-ghost" class="ghost" data-layout-ignore aria-hidden="true">1.3</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="m-eyebrow">Price 3 · Memory and time</div>
+              <div class="title"><span class="ml"><span id="m-title">A heavy app, waiting in the background</span></span></div>
+            </div>
+            <div class="card" id="m-mem">
+              <div class="mem-head"><span class="label">Resident memory</span><span id="m-gb">0.0 GB</span></div>
+              <div class="mem-bar">
+                <div class="mseg" id="m-asr">Pianissimo · ~650 MB</div>
+                <div class="mseg" id="m-llm">Gemma 4 E2B · ~610 MB</div>
+                <div id="m-kb"><span id="m-kb-l" data-layout-allow-overflow>keyboard limit ~70 MB</span></div>
+              </div>
+              <div class="mem-scale"></div>
+            </div>
+            <div class="card" id="m-lat">
+              <div class="label">A 30-second Swedish note, cleaned on the CPU</div>
+              <div class="race-row"><div class="n">Polish after you stop</div><div class="lane"><div class="fill" id="m-f-slow"></div></div><div class="t" id="m-t-slow">0.0 s</div></div>
+              <div class="race-row"><div class="n">Clean as you talk</div><div class="lane"><div class="fill hi" id="m-f-fast"></div></div><div class="t" id="m-t-fast">0.0 s</div></div>
+              <div class="src">Estimate from Google's iPhone 17 Pro CPU figures: 532 tokens/s in, 25 tokens/s out</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 · rivals -->
+        <section id="s-rivals" class="scene">
+          <div id="rivals-ghost" class="ghost" data-layout-ignore aria-hidden="true">vs</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="r-eyebrow">How rivals do it locally</div>
+              <div class="title"><span class="ml"><span id="r-title">Same split, different engines</span></span></div>
+            </div>
+            <div class="tbl">
+              <div class="tr th" id="r-head"><span class="label">App</span><span class="label">Speech to text</span><span class="label">Cleanup</span></div>
+              <div class="card tr" id="r-1"><div class="who">KeySay</div><div class="cell"><span class="eng">Whisper</span></div><div class="cell"><span class="eng">Apple Foundation Models</span></div></div>
+              <div class="card tr" id="r-2"><div class="who">Yaps</div><div class="cell"><span class="eng pk"><i></i>Parakeet</span><span class="eng">sherpa-onnx</span></div><div class="cell"><span class="eng">own on-device model</span></div></div>
+              <div class="card tr" id="r-3"><div class="who">Sayboard</div><div class="cell"><span class="eng">Whisper</span><span class="eng pk"><i></i>Parakeet</span><span class="eng">Moonshine</span></div><div class="cell"><span class="eng">Qwen 3</span><span class="eng">Gemma 3</span><span class="eng">llama.cpp · CPU</span></div></div>
+              <div class="card tr" id="r-4"><div class="who">Outspoken</div><div class="cell"><span class="eng">Apple Speech</span><span class="eng pk"><i></i>Parakeet</span><span class="eng">Whisper</span></div><div class="cell"><span class="eng">Apple Intelligence</span><span class="eng">Qwen 3</span></div></div>
+            </div>
+            <div class="src" id="r-src">Diction, Muesli, Wave and Vozzy follow the same split</div>
+          </div>
+        </section>
+
+        <!-- 7 · swedish -->
+        <section id="s-swedish" class="scene">
+          <div id="swedish-ghost" class="ghost" data-layout-ignore aria-hidden="true">åäö</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="sw-eyebrow">The gap</div>
+              <div class="title"><span class="ml"><span id="sw-title">None of them is built for Swedish</span></span></div>
+            </div>
+            <div class="card" id="sw-bars">
+              <div class="label">Swedish word error rate · lower is better</div>
+              <div class="wrow" id="sw-r1"><div class="n"><b>Parakeet v3</b><span>FLEURS Swedish, model card</span></div><div class="wlane"><div class="wfill" id="sw-f-pk"></div></div><div class="wv" id="sw-v-pk">0.0%</div></div>
+              <div class="wrow" id="sw-r2"><div class="n"><b>Pianissimo</b><span>Klang's Swedish test sets</span></div><div class="wlane"><div class="wfill" id="sw-f-pi"></div></div><div class="wv" id="sw-v-pi">0.0%</div></div>
+              <div class="src">Different test sets, so read it as a direction, not a final score</div>
+            </div>
+            <div id="sw-gaps">
+              <div class="card gap" id="sw-g1"><span>Apple SpeechTranscriber</span><span class="st" id="sw-g1s">no Swedish</span></div>
+              <div class="card gap" id="sw-g2"><span>iOS 27 Advanced Dictation</span><span class="st" id="sw-g2s">English only</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8 · plan -->
+        <section id="s-plan" class="scene">
+          <div id="plan-ghost" class="ghost" data-layout-ignore aria-hidden="true">4/4</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="p-eyebrow">Before you build the product</div>
+              <div class="title"><span class="ml"><span id="p-title">Prove four things first</span></span></div>
+            </div>
+            <div id="p-gates">
+              <div class="card gate" id="g-1"><svg viewBox="0 0 50 50"><rect class="box" x="3" y="3" width="44" height="44" rx="10"/><path class="tick" d="M13 26 L22 35 L38 16" stroke-dasharray="44" stroke-dashoffset="44"/></svg>The session survives heavy apps</div>
+              <div class="card gate" id="g-2"><svg viewBox="0 0 50 50"><rect class="box" x="3" y="3" width="44" height="44" rx="10"/><path class="tick" d="M13 26 L22 35 L38 16" stroke-dasharray="44" stroke-dashoffset="44"/></svg>Pianissimo runs with the screen locked</div>
+              <div class="card gate" id="g-3"><svg viewBox="0 0 50 50"><rect class="box" x="3" y="3" width="44" height="44" rx="10"/><path class="tick" d="M13 26 L22 35 L38 16" stroke-dasharray="44" stroke-dashoffset="44"/></svg>Cleanup lands within 2 seconds</div>
+              <div class="card gate" id="g-4"><svg viewBox="0 0 50 50"><rect class="box" x="3" y="3" width="44" height="44" rx="10"/><path class="tick" d="M13 26 L22 35 L38 16" stroke-dasharray="44" stroke-dashoffset="44"/></svg>Memory stays under 1.5 GB</div>
+            </div>
+            <div id="p-final">
+              <div class="final-title" id="final-title" data-layout-allow-overflow><span class="ch">P</span><span class="ch">r</span><span class="ch">i</span><span class="ch">v</span><span class="ch">a</span><span class="ch">t</span><span class="ch">e</span><span class="ch">,</span><span class="ch">&nbsp;</span><span class="ch">e</span><span class="ch">d</span><span class="ch">i</span><span class="ch">t</span><span class="ch">-</span><span class="ch">f</span><span class="ch">r</span><span class="ch">e</span><span class="ch">e</span><span class="ch">&nbsp;</span><span class="ch acc">S</span><span class="ch acc">w</span><span class="ch acc">e</span><span class="ch acc">d</span><span class="ch acc">i</span><span class="ch acc">s</span><span class="ch acc">h</span><span class="ch acc">.</span></div>
+              <div id="p-sub">Pianissimo and Gemma, with nothing leaving the phone.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- captions, timed to the narration by script/build.py -->
+{{CAPTIONS}}
+      </div>
+    </div>
+
+    <script>
+      const DATA = {{DATA}};
+      const DUR = {{DURATION}};
+      const scene = (id) => DATA.scenes.find((s) => s.id === id);
+      const sent = (id, i) => scene(id).sentences[i].start;
+      const sentEnd = (id, i) => scene(id).sentences[i].end;
+      // When a word is spoken: found in this scene's caption chunks, interpolated by character position.
+      function wordAt(id, word) {
+        const sc = scene(id);
+        const needle = word.toLowerCase();
+        for (const c of DATA.captions) {
+          if (c.start < sc.start - 0.001 || c.start >= sc.end) continue;
+          const idx = c.text.toLowerCase().indexOf(needle);
+          if (idx >= 0) return c.start + (idx / Math.max(1, c.text.length)) * (c.end - c.start);
+        }
+        throw new Error('"' + word + '" not found in scene ' + id);
+      }
+      const $ = (s) => document.querySelector(s);
+      const tl = gsap.timeline({ paused: true });
+
+      // ---------- shared moves ----------
+      const maskRise = (sel, at, stagger = 0.1) =>
+        tl.fromTo(sel, { yPercent: 108 }, { yPercent: 0, duration: 1.05, ease: "expo.out", stagger }, at);
+      const trackIn = (sel, at) =>
+        tl.fromTo(sel, { opacity: 0, x: -18, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, x: 0, clipPath: "inset(0 0% 0 0)", duration: 1.0, ease: "power3.out" }, at);
+      const focusIn = (sel, at, dur = 0.8) =>
+        tl.fromTo(sel, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: dur, ease: "power2.out" }, at);
+      const slideIn = (sel, at, x, dur = 0.9) =>
+        tl.fromTo(sel, { opacity: 0, x }, { opacity: 1, x: 0, duration: dur, ease: "expo.out" }, at);
+      const riseIn = (sel, at, dur = 0.85, stagger = 0) =>
+        tl.fromTo(sel, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: dur, ease: "power4.out", stagger }, at);
+      const popIn = (sel, at, stagger = 0) =>
+        tl.fromTo(sel, { opacity: 0, scale: 0.82 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.8)", stagger }, at);
+      const wipeIn = (sel, at, dur = 0.8) =>
+        tl.fromTo(sel, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: dur, ease: "power3.inOut" }, at);
+      const grow = (sel, at, dur, ease = "power3.out") =>
+        tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: dur, ease }, at);
+      const draw = (sel, from, at, dur, ease = "power2.inOut") =>
+        tl.fromTo(sel, { attr: { "stroke-dashoffset": from } }, { attr: { "stroke-dashoffset": 0 }, duration: dur, ease }, at);
+      const count = (sel, from, to, at, dur, dec, suffix = "", ease = "power3.out") => {
+        const el = $(sel);
+        const st = { v: from };
+        tl.fromTo(st, { v: from }, { v: to, duration: dur, ease, onUpdate: () => { el.textContent = st.v.toFixed(dec) + suffix; } }, at);
+      };
+      const drift = (sel, from, to, at, dur) =>
+        tl.fromTo(sel, from, { ...to, duration: dur, ease: "sine.inOut" }, at);
+      const sceneDrift = (id, sel, from, to) => drift(sel, from, to, scene(id).start, scene(id).end - scene(id).start);
+
+      // ---------- ambient ----------
+      drift("#blob-a", { x: -80, y: -40 }, { x: 260, y: 140 }, 0, DUR);
+      drift("#blob-b", { x: 120, y: 60 }, { x: -220, y: -120 }, 0, DUR);
+
+      // ---------- chapter progress ----------
+      for (const s of DATA.scenes) {
+        tl.fromTo("#p-" + s.id, { scaleX: 0 }, { scaleX: 1, duration: s.end - s.start, ease: "none" }, s.start);
+      }
+
+      // ---------- the mic badge breathes with the voice ----------
+      const halo = $("#mic-halo");
+      const vp = { t: 0 };
+      tl.fromTo(vp, { t: 0 }, {
+        t: DUR, duration: DUR, ease: "none",
+        onUpdate: () => {
+          const v = DATA.envelope[Math.min(DATA.envelope.length - 1, Math.floor(vp.t * 30))] || 0;
+          halo.style.transform = "scale(" + (1 + v * 0.9).toFixed(3) + ")";
+          halo.style.opacity = (0.12 + v * 0.7).toFixed(3);
+        },
+      }, 0);
+
+      // ---------- captions ----------
+      DATA.captions.forEach((c, i) => {
+        tl.fromTo("#cap-" + i + " .cl", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.28, ease: "power2.out" }, c.start);
+        const words = document.getElementById("cap-" + i).getElementsByClassName("cw");
+        c.words.forEach((w, j) => {
+          tl.fromTo(words[j], { color: "rgba(255,255,255,0.42)" }, { color: "rgba(255,255,255,1)", duration: 0.14, ease: "none" }, w.t);
+        });
+      });
+
+      // ---------- transitions ----------
+      const blurCross = (from, to, T) => {
+        tl.fromTo(from, { opacity: 1, scale: 1, filter: "blur(0px)" }, { opacity: 0, scale: 1.05, filter: "blur(16px)", duration: 0.55, ease: "power2.in", immediateRender: false }, T);
+        tl.fromTo(to, { opacity: 0, scale: 0.965, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.85, ease: "power2.out" }, T + 0.2);
+      };
+      // the three prices slide past like pages
+      const sidePush = (from, to, T) => {
+        tl.fromTo(from, { xPercent: 0, opacity: 1 }, { xPercent: -42, opacity: 0, duration: 0.8, ease: "power3.inOut", immediateRender: false }, T);
+        tl.fromTo(to, { xPercent: 42, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.8, ease: "power3.inOut" }, T + 0.06);
+      };
+      const verticalPush = (from, to, T) => {
+        tl.fromTo(from, { yPercent: 0 }, { yPercent: -100, duration: 0.85, ease: "power3.inOut", immediateRender: false }, T);
+        tl.fromTo(to, { yPercent: 100, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.85, ease: "power3.inOut" }, T);
+      };
+      const zoomThrough = (from, to, T) => {
+        tl.fromTo(from, { opacity: 1, scale: 1, filter: "blur(0px)" }, { opacity: 0, scale: 1.4, filter: "blur(12px)", duration: 0.6, ease: "power3.in", immediateRender: false }, T);
+        tl.fromTo(to, { opacity: 0, scale: 0.84, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.0, ease: "expo.out" }, T + 0.32);
+      };
+      const T = (id) => scene(id).start - 0.4;
+      blurCross("#s-verdict", "#s-split", T("split"));
+      sidePush("#s-split", "#s-bounce", T("bounce"));
+      sidePush("#s-bounce", "#s-compute", T("compute"));
+      sidePush("#s-compute", "#s-memory", T("memory"));
+      verticalPush("#s-memory", "#s-rivals", T("rivals") - 0.1);
+      tl.set("#s-memory", { opacity: 0 }, T("rivals") + 0.8);
+      blurCross("#s-rivals", "#s-swedish", T("swedish"));
+      zoomThrough("#s-swedish", "#s-plan", T("plan"));
+
+      // ---------- 1 · verdict ----------
+      sceneDrift("verdict", "#verdict-ghost", { x: 0 }, { x: -110 });
+      trackIn("#v-eyebrow", 0.25);
+      maskRise("#v-q", 0.4);
+      const yesAt = wordAt("verdict", "Yes");
+      tl.fromTo("#v-yes", { opacity: 0, scale: 0.72, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.9, ease: "back.out(1.6)" }, yesAt - 0.12);
+      grow("#v-yes-line", yesAt + 0.3, 0.9, "power3.inOut");
+      const eightAt = wordAt("verdict", "eight");
+      focusIn("#v-yes-sub", eightAt - 0.25, 0.6);
+      count("#v-count", 0, 8, eightAt - 0.2, 1.2, 0, "", "power2.out");
+      riseIn("#v-apps .app", eightAt - 0.15, 0.7, 0.09);
+      const pricesAt = wordAt("verdict", "three");
+      riseIn(["#pr-1", "#pr-2", "#pr-3"], pricesAt - 0.2, 0.8, 0.16);
+      tl.fromTo("#v-apps .app", { borderColor: "#283643" }, { borderColor: "rgba(240, 180, 41, 0.6)", duration: 0.3, stagger: 0.06, yoyo: true, repeat: 1 }, eightAt + 1.0);
+
+      // ---------- 2 · split ----------
+      const SP = scene("split").start;
+      sceneDrift("split", "#split-ghost", { x: 40 }, { x: -60 });
+      trackIn("#sp-eyebrow", SP);
+      maskRise("#sp-title", SP + 0.12);
+      slideIn("#sp-kb", wordAt("split", "microphone") - 0.6, -70, 0.9);
+      draw("#sp-slash", 26, wordAt("split", "microphone") + 0.1, 0.45);
+      const killAt = wordAt("split", "seventy");
+      tl.fromTo("#sp-meter-fill", { scaleX: 0.05 }, { scaleX: 1, duration: 1.1, ease: "power2.in" }, killAt - 0.4);
+      tl.fromTo("#sp-limit", { opacity: 0.4, scaleY: 1 }, { opacity: 1, scaleY: 1.5, duration: 0.18, yoyo: true, repeat: 3, ease: "power1.inOut" }, killAt + 0.7);
+      const splitAt = wordAt("split", "split");
+      focusIn("#sp-link", splitAt - 0.1, 0.7);
+      slideIn("#sp-app", wordAt("split", "main app") - 0.35, 70, 0.9);
+      riseIn("#sp-a1", wordAt("split", "records") - 0.2, 0.6);
+      riseIn("#sp-a2", wordAt("split", "models") - 0.25, 0.6);
+      riseIn("#sp-a3", wordAt("split", "models") + 0.15, 0.6);
+      popIn("#sp-chip", wordAt("split", "background") - 0.1);
+      tl.fromTo("#sp-dot-a", { x: 0, opacity: 0 }, { x: 228, opacity: 1, duration: 1.0, ease: "power1.inOut", repeat: 3, repeatDelay: 0.4 }, splitAt + 0.4);
+      tl.fromTo("#sp-dot-b", { x: 0, opacity: 0 }, { x: -228, opacity: 1, duration: 1.0, ease: "power1.inOut", repeat: 3, repeatDelay: 0.4 }, splitAt + 1.1);
+      focusIn("#sp-types", wordAt("split", "thin") - 0.1, 0.7);
+      focusIn("#sp-src", wordAt("split", "records") + 0.5, 0.8);
+
+      // ---------- 3 · bounce ----------
+      const B = scene("bounce").start;
+      sceneDrift("bounce", "#bounce-ghost", { x: 50 }, { x: -60 });
+      trackIn("#b-eyebrow", B + 0.1);
+      maskRise("#b-title", B + 0.2);
+      riseIn("#b-ph1", sent("bounce", 1) - 0.3, 0.8);
+      const openAt = wordAt("bounce", "open");
+      tl.fromTo("#b-mk", { scale: 1 }, { scale: 0.8, duration: 0.1, ease: "power2.in" }, openAt - 0.45);
+      tl.fromTo("#b-mk", { scale: 0.8 }, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.45)", immediateRender: false }, openAt - 0.35);
+      draw("#b-path1", 230, openAt - 0.25, 0.7);
+      tl.fromTo("#b-ar1 .bl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, openAt);
+      riseIn("#b-ph2", openAt + 0.1, 0.8);
+      tl.fromTo(["#b-ring1", "#b-ring2"], { scale: 1, opacity: 0.8 }, { scale: 1.7, opacity: 0, duration: 1.4, ease: "power2.out", stagger: 0.7, repeat: 3 }, openAt + 0.5);
+      tl.fromTo("#b-odot", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(3)" }, openAt + 0.6);
+      const noWayAt = wordAt("bounce", "public");
+      focusIn("#b-auto", wordAt("bounce", "Since") - 0.1, 0.5);
+      grow("#b-auto-strike", noWayAt - 0.2, 0.5, "power2.inOut");
+      tl.fromTo("#b-auto", { color: "#8c9bab" }, { color: "#e8795a", duration: 0.4 }, noWayAt + 0.1);
+      const swipeAt = wordAt("bounce", "swipe");
+      draw("#b-path2", 230, swipeAt - 0.2, 0.7);
+      tl.fromTo("#b-swipe", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, swipeAt);
+      riseIn("#b-ph3", swipeAt + 0.15, 0.8);
+      tl.fromTo("#b-back", { boxShadow: "0 0 0 rgba(240,180,41,0)" }, { boxShadow: "0 0 18px rgba(240,180,41,0.7)", duration: 0.5, yoyo: true, repeat: 3 }, swipeAt + 0.6);
+      wipeIn("#b-reply", swipeAt + 1.0, 0.9);
+      const sessAt = wordAt("bounce", "alive");
+      riseIn("#b-session", sessAt - 0.4, 0.8);
+      grow("#b-sess-fill", sessAt + 0.2, 2.6, "power1.inOut");
+      popIn("#b-session .mark.first", sessAt + 0.2);
+      tl.fromTo("#b-ml1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, sessAt + 0.3);
+      const manyAt = wordAt("bounce", "many");
+      popIn("#b-session .m2", manyAt - 0.6, 0.16);
+      tl.fromTo("#b-ml2", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, manyAt - 0.3);
+
+      // ---------- 4 · compute ----------
+      const C = scene("compute").start;
+      sceneDrift("compute", "#compute-ghost", { x: 40 }, { x: -60 });
+      trackIn("#c-eyebrow", C + 0.1);
+      maskRise("#c-title", C + 0.2);
+      const gpuAt = wordAt("compute", "GPU");
+      riseIn("#c-gpu", gpuAt - 0.5, 0.8);
+      draw("#c-x", 64, gpuAt + 0.4, 0.5);
+      wipeIn("#c-gpu-st", gpuAt + 0.6, 0.7);
+      const cpuAt = wordAt("compute", "CPU");
+      riseIn("#c-cpu", wordAt("compute", "Sayboard") - 0.3, 0.8);
+      wipeIn("#c-cpu-st", cpuAt - 0.1, 0.7);
+      riseIn("#c-code", wordAt("compute", "hard-codes") - 0.3, 0.7);
+      wipeIn("#c-l1", wordAt("compute", "hard-codes") - 0.1, 0.6);
+      tl.fromTo("#c-l2", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.1, ease: "steps(28)" }, wordAt("compute", "language") - 0.1);
+      tl.fromTo("#c-l3", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.6, ease: "steps(54)" }, cpuAt + 0.1);
+      tl.fromTo("#c-l2 .num", { textShadow: "0 0 0 rgba(240,180,41,0)" }, { textShadow: "0 0 18px rgba(240,180,41,0.95)", duration: 0.5, yoyo: true, repeat: 1 }, cpuAt + 0.2);
+      const aneAt = wordAt("compute", "Neural");
+      riseIn("#c-ane", aneAt - 0.3, 0.8);
+      wipeIn("#c-ane-st", wordAt("compute", "unclear") - 0.5, 0.8);
+      tl.fromTo("#c-ane", { boxShadow: "0 0 0 rgba(240,180,41,0)" }, { boxShadow: "0 0 34px rgba(240,180,41,0.35)", duration: 0.7, yoyo: true, repeat: 1 }, wordAt("compute", "Neural") + 0.5);
+
+      // ---------- 5 · memory ----------
+      const M = scene("memory").start;
+      sceneDrift("memory", "#memory-ghost", { x: 40 }, { x: -60 });
+      trackIn("#m-eyebrow", M + 0.1);
+      maskRise("#m-title", M + 0.2);
+      const gbAt = wordAt("memory", "1.3");
+      riseIn("#m-mem", wordAt("memory", "Pianissimo") - 0.4, 0.8);
+      grow("#m-asr", wordAt("memory", "Pianissimo") - 0.05, 0.9);
+      grow("#m-llm", wordAt("memory", "Gemma") - 0.05, 0.9);
+      count("#m-gb", 0, 1.3, wordAt("memory", "Pianissimo") - 0.05, (gbAt - wordAt("memory", "Pianissimo")) + 0.9, 1, " GB", "power2.out");
+      tl.fromTo("#m-kb", { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.5, ease: "back.out(2)" }, wordAt("memory", "background") - 0.1);
+      riseIn("#m-lat", wordAt("memory", "CPU") - 0.3, 0.8);
+      // real time: the slow bar takes the full five seconds, the pipelined one about one
+      const slowAt = wordAt("memory", "polishing");
+      grow("#m-f-slow", slowAt, 5.2, "none");
+      count("#m-t-slow", 0, 5.2, slowAt, 5.2, 1, " s", "none");
+      const fastAt = wordAt("memory", "clean");
+      grow("#m-f-fast", fastAt, 1.0, "none");
+      count("#m-t-fast", 0, 1.0, fastAt, 1.0, 1, " s", "none");
+      tl.fromTo("#m-t-fast", { color: "#e6ecf2" }, { color: "#f0b429", duration: 0.3 }, fastAt + 1.0);
+
+      // ---------- 6 · rivals ----------
+      const R = scene("rivals").start;
+      sceneDrift("rivals", "#rivals-ghost", { x: 40 }, { x: -70 });
+      trackIn("#r-eyebrow", R + 0.05);
+      maskRise("#r-title", R + 0.15);
+      focusIn("#r-head", R + 0.7, 0.6);
+      [["#r-1", "KeySay"], ["#r-2", "Yaps"], ["#r-3", "Sayboard"], ["#r-4", "Outspoken"]].forEach(([sel, cue]) => {
+        const at = wordAt("rivals", cue);
+        slideIn(sel, at - 0.3, -60, 0.9);
+        tl.fromTo(sel + " .eng", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out", stagger: 0.12 }, at + 0.25);
+      });
+      // every rival leans on the same multilingual model
+      const pkAt = wordAt("rivals", "Outspoken") + 1.4;
+      tl.fromTo("#s-rivals .eng.pk i", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out", stagger: 0.12 }, pkAt);
+      focusIn("#r-src", pkAt + 0.2, 0.7);
+
+      // ---------- 7 · swedish ----------
+      const SW = scene("swedish").start;
+      sceneDrift("swedish", "#swedish-ghost", { x: 50 }, { x: -70 });
+      trackIn("#sw-eyebrow", SW - 0.05);
+      maskRise("#sw-title", SW + 0.05);
+      const pkW = wordAt("swedish", "fifteen");
+      riseIn("#sw-bars", wordAt("swedish", "Parakeet") - 0.4, 0.8);
+      grow("#sw-f-pk", pkW - 0.2, 1.3);
+      count("#sw-v-pk", 0, 15.1, pkW - 0.2, 1.3, 1, "%");
+      const piW = wordAt("swedish", "four");
+      grow("#sw-f-pi", piW - 0.25, 1.1);
+      count("#sw-v-pi", 0, 4.5, piW - 0.25, 1.1, 1, "%");
+      const toolsAt = wordAt("swedish", "tools");
+      slideIn("#sw-g1", toolsAt - 0.5, 60, 0.8);
+      slideIn("#sw-g2", toolsAt - 0.3, 60, 0.8);
+      wipeIn("#sw-g1s", toolsAt + 0.3, 0.6);
+      wipeIn("#sw-g2s", toolsAt + 0.5, 0.6);
+
+      // ---------- 8 · plan ----------
+      const P = scene("plan").start;
+      sceneDrift("plan", "#plan-ghost", { x: 40 }, { x: -50 });
+      trackIn("#p-eyebrow", P + 0.05);
+      maskRise("#p-title", P + 0.15);
+      riseIn(["#g-1", "#g-2", "#g-3", "#g-4"], wordAt("plan", "four") - 0.2, 0.8, 0.1);
+      [["#g-1", "survives"], ["#g-2", "locked"], ["#g-3", "within"], ["#g-4", "memory"]].forEach(([sel, cue]) => {
+        const at = wordAt("plan", cue);
+        draw(sel + " .tick", 44, at, 0.45, "power2.out");
+        tl.fromTo(sel, { borderColor: "#283643" }, { borderColor: "rgba(240, 180, 41, 0.85)", duration: 0.4 }, at + 0.1);
+      });
+      const passAt = sent("plan", 3);
+      tl.fromTo("#final-title .ch", { yPercent: 105, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.9, ease: "expo.out", stagger: 0.026 }, wordAt("plan", "private") - 0.35);
+      focusIn("#p-sub", passAt + 1.6, 1.0);
+      // settle to the dark ground
+      tl.to("#stage", { opacity: 0, duration: 0.9, ease: "power1.in" }, DUR - 1.0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

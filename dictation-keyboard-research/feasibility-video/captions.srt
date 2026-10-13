@@ -1,0 +1,207 @@
+1
+00:00:00,700 --> 00:00:01,990
+Can a fully local Swedish
+
+2
+00:00:01,990 --> 00:00:03,509
+voice keyboard work on iPhone?
+
+3
+00:00:03,729 --> 00:00:05,659
+Yes. At least eight apps already
+
+4
+00:00:05,659 --> 00:00:06,506
+transcribe on the phone.
+
+5
+00:00:06,726 --> 00:00:09,211
+But iOS makes them all pay three prices.
+
+6
+00:00:09,711 --> 00:00:11,681
+The keyboard can't use the microphone,
+
+7
+00:00:11,681 --> 00:00:14,630
+and iOS kills it at around seventy megabytes.
+
+8
+00:00:14,850 --> 00:00:17,530
+So they all split in two: a thin keyboard,
+
+9
+00:00:17,530 --> 00:00:18,420
+and the main app,
+
+10
+00:00:18,420 --> 00:00:21,014
+which records and runs the models in the background.
+
+11
+00:00:21,514 --> 00:00:22,653
+Price one: the bounce.
+
+12
+00:00:22,873 --> 00:00:23,893
+To start listening,
+
+13
+00:00:23,893 --> 00:00:26,123
+the keyboard has to open its app for a moment.
+
+14
+00:00:26,343 --> 00:00:29,343
+Since iOS 26.4, there's no public way back,
+
+15
+00:00:29,343 --> 00:00:31,857
+so people swipe back by hand.
+
+16
+00:00:32,077 --> 00:00:34,797
+So apps keep the session alive for up to thirty minutes.
+
+17
+00:00:34,797 --> 00:00:36,773
+One bounce, many dictations.
+
+18
+00:00:37,273 --> 00:00:38,777
+Price two: no graphics chip.
+
+19
+00:00:38,997 --> 00:00:40,947
+iOS blocks the GPU as soon as
+
+20
+00:00:40,947 --> 00:00:42,586
+the app leaves the screen.
+
+21
+00:00:42,806 --> 00:00:44,981
+Open-source Sayboard hard-codes its
+
+22
+00:00:44,981 --> 00:00:47,360
+language model to the CPU for that reason.
+
+23
+00:00:47,580 --> 00:00:49,770
+The Neural Engine is the way out,
+
+24
+00:00:49,770 --> 00:00:52,660
+though Apple's iOS 27 rules for it are unclear.
+
+25
+00:00:53,160 --> 00:00:54,864
+Price three: memory and time.
+
+26
+00:00:55,084 --> 00:00:58,294
+Pianissimo plus Gemma needs about 1.3 gigabytes,
+
+27
+00:00:58,294 --> 00:01:00,307
+held by an app in the background.
+
+28
+00:01:00,527 --> 00:01:04,047
+On the CPU, Gemma writes about 25 tokens a second,
+
+29
+00:01:04,047 --> 00:01:05,377
+so polishing a 30-second
+
+30
+00:01:05,377 --> 00:01:07,725
+note takes around five seconds.
+
+31
+00:01:07,945 --> 00:01:09,795
+The fix: stream the words, and clean each
+
+32
+00:01:09,795 --> 00:01:12,224
+sentence while the user is still talking.
+
+33
+00:01:12,724 --> 00:01:14,299
+How do rivals do it locally?
+
+34
+00:01:14,519 --> 00:01:15,569
+KeySay runs Whisper,
+
+35
+00:01:15,569 --> 00:01:18,322
+then Apple's own on-device model for cleanup.
+
+36
+00:01:18,542 --> 00:01:20,171
+Yaps runs NVIDIA's Parakeet.
+
+37
+00:01:20,391 --> 00:01:22,481
+Sayboard pairs Whisper or Parakeet
+
+38
+00:01:22,481 --> 00:01:24,316
+with small Qwen and Gemma models.
+
+39
+00:01:24,536 --> 00:01:27,466
+Outspoken offers Apple Speech, Parakeet or Whisper,
+
+40
+00:01:27,466 --> 00:01:30,285
+and rewrites with Apple Intelligence or Qwen.
+
+41
+00:01:30,785 --> 00:01:32,413
+None of them is built for Swedish.
+
+42
+00:01:32,633 --> 00:01:34,623
+Parakeet's own model card shows fifteen
+
+43
+00:01:34,623 --> 00:01:36,506
+percent word errors in Swedish.
+
+44
+00:01:36,726 --> 00:01:39,346
+Pianissimo reports four and a half on its own test,
+
+45
+00:01:39,346 --> 00:01:41,978
+and Apple's newest speech tools skip Swedish.
+
+46
+00:01:42,478 --> 00:01:44,879
+So build the split, and prove four things first.
+
+47
+00:01:45,099 --> 00:01:46,909
+The session survives heavy apps,
+
+48
+00:01:46,909 --> 00:01:49,203
+and Pianissimo runs with the screen locked.
+
+49
+00:01:49,423 --> 00:01:51,213
+Cleanup lands within two seconds,
+
+50
+00:01:51,213 --> 00:01:53,646
+and memory stays under one and a half gigabytes.
+
+51
+00:01:53,866 --> 00:01:55,666
+Pass those, and you own private,
+
+52
+00:01:55,666 --> 00:01:57,261
+edit-free Swedish dictation.

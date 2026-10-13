@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Can It Run on iPhone?</title>
+    <!-- GENERATED from script/index.template.html by script/build.py. Edit the template, not this file. -->
+    <script src="assets/vendor/gsap-3.14.2.min.js"></script>
+    <style>
+      @font-face { font-family: "Bricolage Grotesque"; font-weight: 600; src: url("assets/fonts/bricolage-grotesque-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Bricolage Grotesque"; font-weight: 700; src: url("assets/fonts/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Sans"; font-weight: 400; src: url("assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Sans"; font-weight: 400; font-style: italic; src: url("assets/fonts/ibm-plex-sans-latin-400-italic.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Sans"; font-weight: 500; src: url("assets/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Sans"; font-weight: 600; src: url("assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Mono"; font-weight: 400; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "IBM Plex Mono"; font-weight: 500; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+
+      /* Same identity as the brief and the earlier cuts: fjord-dark ground, saffron accent, signal blue. */
+      :root {
+        --bg: #0e151c;
+        --panel: #151f29;
+        --panel-2: #1b2733;
+        --line: #283643;
+        --ink: #e6ecf2;
+        --ink-2: #b3c0cc;
+        --muted: #8c9bab;
+        --accent: #f0b429;
+        --blue: #3987e5;
+        --removed: #e8795a;
+        --ok: #9fd8b0;
+        --ok-bg: #17301f;
+        --cloud-bg: #1d2b3b;
+        --cloud-ink: #a9c8ec;
+        --display: "Bricolage Grotesque", sans-serif;
+        --sans: "IBM Plex Sans", sans-serif;
+        --mono: "IBM Plex Mono", monospace;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink); font-family: var(--sans); }
+
+      /* ambient layer */
+      #bg { position: absolute; inset: 0; background: radial-gradient(1400px 900px at 50% 40%, #121c26 0%, var(--bg) 70%); }
+      .blob { position: absolute; width: 1300px; height: 1300px; border-radius: 50%; }
+      #blob-a { left: -420px; top: -560px; background: radial-gradient(closest-side, rgba(57, 135, 229, 0.16), rgba(57, 135, 229, 0)); }
+      #blob-b { right: -460px; bottom: -640px; background: radial-gradient(closest-side, rgba(240, 180, 41, 0.10), rgba(240, 180, 41, 0)); }
+      #vignette { position: absolute; inset: 0; background: radial-gradient(1500px 1000px at 50% 50%, rgba(14, 21, 28, 0) 55%, rgba(6, 10, 14, 0.55) 100%); }
+      #stage { position: absolute; inset: 0; }
+
+      /* chrome */
+      #progress { position: absolute; top: 44px; left: 120px; width: 1420px; height: 4px; display: flex; gap: 8px; z-index: 6; }
+      .seg { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+      .seg i { display: block; width: 100%; height: 100%; background: var(--accent); transform-origin: left center; }
+      #mic-badge { position: absolute; top: 24px; right: 120px; height: 46px; display: flex; align-items: center; gap: 12px; padding: 0 18px 0 8px; border-radius: 999px; background: rgba(21, 31, 41, 0.9); border: 1px solid var(--line); z-index: 6; }
+      #mic-dot { position: relative; width: 32px; height: 32px; display: grid; place-items: center; }
+      #mic-halo { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(240, 180, 41, 0.75), rgba(240, 180, 41, 0)); opacity: 0.15; }
+      #mic-dot svg { position: relative; width: 20px; height: 20px; color: var(--accent); }
+      #mic-badge span { font-family: var(--mono); font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+
+      /* scenes: GSAP owns their visibility and the transitions between them */
+      .scene { position: absolute; inset: 0; padding: 120px 120px 214px; overflow: hidden; }
+      #s-split, #s-bounce, #s-compute, #s-memory, #s-rivals, #s-swedish, #s-plan { opacity: 0; }
+      .content { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; gap: 34px; }
+      .ghost { position: absolute; font-family: var(--display); font-weight: 700; font-size: 520px; line-height: 1; letter-spacing: -0.04em; color: rgba(230, 236, 242, 0.035); white-space: nowrap; }
+      .eyebrow { font-family: var(--mono); font-size: 24px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+      .title { font-family: var(--display); font-weight: 700; font-size: 80px; line-height: 1.06; letter-spacing: -0.015em; }
+      .ml { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+      .ml > span { display: block; }
+      .head { display: flex; flex-direction: column; gap: 14px; }
+      .card { position: relative; background: var(--panel); border: 2px solid var(--line); border-radius: 22px; padding: 26px 32px; overflow: hidden; }
+      .card.hi { border-color: rgba(240, 180, 41, 0.85); }
+      .label { font-family: var(--mono); font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+      .src { font-family: var(--mono); font-size: 21px; color: var(--muted); }
+      .eng { display: inline-block; font-family: var(--mono); font-size: 23px; font-weight: 500; padding: 5px 14px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); white-space: nowrap; }
+      .bad, .good, .warn { display: flex; align-items: center; gap: 12px; font-size: 30px; font-weight: 600; }
+      .bad { color: var(--removed); }
+      .good { color: var(--ok); }
+      .warn { color: var(--accent); }
+      .bad svg, .good svg, .warn svg { width: 38px; height: 38px; flex: none; }
+      .it { font-size: 29px; color: var(--ink-2); }
+
+      /* 1 · verdict */
+      #verdict-ghost { right: -60px; top: 110px; }
+      #s-verdict .content { justify-content: center; }
+      #v-mid { display: flex; align-items: center; gap: 64px; }
+      #v-yes-box { width: 520px; flex: none; display: flex; flex-direction: column; gap: 10px; }
+      #v-yes { font-family: var(--display); font-weight: 700; font-size: 210px; line-height: 0.95; letter-spacing: -0.03em; color: var(--accent); transform-origin: left center; }
+      #v-yes-line { height: 6px; width: 420px; border-radius: 3px; background: var(--accent); transform-origin: left center; }
+      #v-yes-sub { font-size: 32px; line-height: 1.3; color: var(--ink-2); }
+      #v-count { font-family: var(--display); font-weight: 700; color: var(--ink); }
+      #v-apps { display: grid; grid-template-columns: repeat(4, 250px); gap: 18px; }
+      .app { display: flex; flex-direction: column; gap: 6px; padding: 20px 22px; border-radius: 18px; background: var(--panel); border: 2px solid var(--line); }
+      .app b { font-family: var(--display); font-weight: 600; font-size: 34px; }
+      .app span { font-family: var(--mono); font-size: 19px; color: var(--muted); }
+      #v-prices { display: flex; gap: 22px; }
+      .price { flex: 1; display: flex; align-items: center; gap: 20px; padding: 20px 26px; font-size: 32px; font-weight: 600; }
+      .pn { width: 52px; height: 52px; flex: none; border-radius: 50%; border: 2px solid var(--accent); display: grid; place-items: center; font-family: var(--mono); font-size: 26px; color: var(--accent); }
+
+      /* 2 · split */
+      #split-ghost { right: -30px; bottom: 20px; }
+      .diagram { display: grid; grid-template-columns: 1fr 300px 1.25fr; align-items: stretch; }
+      .node { display: flex; flex-direction: column; gap: 16px; }
+      .node h3 { font-family: var(--display); font-weight: 600; font-size: 42px; line-height: 1.1; }
+      #sp-slash { stroke: var(--removed); stroke-width: 2.4; stroke-linecap: round; }
+      .meter { display: flex; flex-direction: column; gap: 8px; }
+      .meter-track { position: relative; height: 22px; border-radius: 11px; background: #22303c; }
+      #sp-meter-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 11px; background: linear-gradient(90deg, #3987e5, #e8795a); transform-origin: left center; }
+      #sp-limit { position: absolute; right: -2px; top: -8px; bottom: -8px; width: 4px; border-radius: 2px; background: var(--removed); }
+      .meter-cap { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 21px; color: var(--muted); }
+      #sp-link { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 30px; padding: 0 22px; }
+      .lane2 { position: relative; display: flex; flex-direction: column; gap: 6px; }
+      .lane2 svg { width: 256px; height: 26px; }
+      .lane2 path { fill: none; stroke: var(--ink-2); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .lane2 .lk { font-family: var(--mono); font-size: 21px; color: var(--ink-2); }
+      .lane2.back .lk { text-align: right; color: var(--ok); }
+      .lane2.back path { stroke: var(--ok); }
+      .dot { position: absolute; top: 6px; width: 14px; height: 14px; border-radius: 50%; }
+      #sp-dot-a { left: 6px; background: var(--ink-2); box-shadow: 0 0 14px rgba(230, 236, 242, 0.7); }
+      #sp-dot-b { right: 6px; background: var(--ok); box-shadow: 0 0 16px rgba(159, 216, 176, 0.9); }
+      #sp-bridge { font-family: var(--mono); font-size: 19px; color: var(--muted); text-align: center; }
+      #sp-chip { align-self: flex-start; font-family: var(--mono); font-size: 22px; padding: 6px 14px; border-radius: 10px; background: var(--ok-bg); color: var(--ok); }
+
+      /* 3 · bounce */
+      #bounce-ghost { right: -40px; top: 120px; }
+      #b-row { display: flex; align-items: center; justify-content: center; gap: 18px; }
+      .phone { position: relative; width: 250px; height: 360px; flex: none; border-radius: 34px; border: 3px solid #33424f; background: #111a22; padding: 16px 14px; display: flex; flex-direction: column; gap: 12px; }
+      .ph-top { display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 19px; color: var(--muted); height: 28px; }
+      .bub { align-self: flex-start; max-width: 200px; padding: 9px 14px; border-radius: 16px; background: #26323e; font-size: 21px; line-height: 1.25; }
+      .bub.me { align-self: flex-end; background: var(--blue); color: #fff; }
+      .ph-kb { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+      .kr { display: flex; gap: 5px; justify-content: center; }
+      .kr i { display: block; width: 17px; height: 24px; border-radius: 4px; background: #2a3743; }
+      .kr .sp { width: 96px; }
+      .kr .mk { width: 40px; display: grid; place-items: center; background: #33281a; }
+      .kr .mk svg { width: 18px; height: 18px; color: var(--accent); }
+      #b-mic { position: relative; margin: 30px auto 0; width: 132px; height: 132px; border-radius: 50%; display: grid; place-items: center; background: rgba(240, 180, 41, 0.12); border: 2px solid rgba(240, 180, 41, 0.6); }
+      #b-mic svg { width: 58px; height: 58px; color: var(--accent); }
+      .ring { position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--accent); opacity: 0; }
+      #b-listen { text-align: center; font-size: 25px; color: var(--ink-2); }
+      #b-odot { width: 12px; height: 12px; border-radius: 50%; background: #ff9f0a; box-shadow: 0 0 10px rgba(255, 159, 10, 0.8); }
+      #b-back { font-family: var(--mono); font-size: 18px; color: var(--accent); padding: 2px 8px; border-radius: 8px; border: 1px solid rgba(240, 180, 41, 0.7); }
+      .barrow { position: relative; width: 190px; flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      .barrow svg { width: 180px; height: 70px; }
+      .barrow path { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .barrow .bl { font-family: var(--mono); font-size: 20px; color: var(--ink-2); text-align: center; line-height: 1.3; }
+      #b-auto { position: relative; font-family: var(--mono); font-size: 20px; color: var(--muted); }
+      #b-auto-strike { position: absolute; left: -4px; right: -4px; top: 52%; height: 3px; border-radius: 2px; background: var(--removed); transform-origin: left center; }
+      #b-session { display: flex; align-items: center; gap: 34px; padding: 20px 32px; }
+      #b-session .label { width: 300px; flex: none; line-height: 1.3; }
+      .sess { position: relative; flex: 1; height: 56px; }
+      .sess-track { position: absolute; left: 0; right: 0; top: 25px; height: 6px; border-radius: 3px; background: #22303c; }
+      #b-sess-fill { position: absolute; left: 0; right: 0; top: 25px; height: 6px; border-radius: 3px; background: rgba(240, 180, 41, 0.55); transform-origin: left center; }
+      .mark { position: absolute; top: 16px; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: var(--blue); border: 3px solid var(--panel); }
+      .mark.first { background: var(--accent); }
+      .mark-l { position: absolute; top: -14px; font-family: var(--mono); font-size: 19px; color: var(--muted); white-space: nowrap; }
+
+      /* 4 · compute */
+      #compute-ghost { right: -60px; bottom: 30px; }
+      #c-units { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+      .unit { display: flex; flex-direction: column; gap: 14px; }
+      .unit-top { display: flex; align-items: center; gap: 20px; }
+      .chipico { position: relative; width: 74px; height: 74px; flex: none; }
+      .chipico svg { width: 74px; height: 74px; }
+      .chipico .body { fill: #1f2b37; stroke: var(--ink-2); stroke-width: 2; }
+      .chipico .pin { stroke: var(--ink-2); stroke-width: 2; stroke-linecap: round; }
+      .chipico .x { stroke: var(--removed); stroke-width: 4; stroke-linecap: round; fill: none; }
+      .unit h3 { font-family: var(--display); font-weight: 600; font-size: 46px; }
+      .unit .st { font-size: 28px; font-weight: 600; line-height: 1.25; }
+      #c-gpu-st { color: var(--removed); }
+      #c-cpu-st { color: var(--ok); }
+      #c-ane-st { color: var(--accent); }
+      #c-code { padding: 26px 34px; font-family: var(--mono); font-size: 30px; line-height: 1.55; background: #0b1117; }
+      #c-code .cm { color: var(--muted); }
+      #c-code .kw { color: var(--ink); }
+      #c-code .num { color: var(--accent); }
+      #c-code .ok { color: var(--ok); }
+      .codeline { display: block; white-space: nowrap; }
+
+      /* 5 · memory */
+      #memory-ghost { right: -40px; top: 120px; }
+      #m-mem { display: flex; flex-direction: column; gap: 18px; }
+      .mem-head { display: flex; justify-content: space-between; align-items: baseline; }
+      #m-gb { font-family: var(--display); font-weight: 700; font-size: 64px; line-height: 1; color: var(--accent); }
+      .mem-bar { position: relative; height: 64px; border-radius: 14px; background: #1c2833; display: flex; overflow: visible; }
+      .mseg { height: 100%; display: flex; align-items: center; padding-left: 20px; font-size: 25px; font-weight: 600; white-space: nowrap; transform-origin: left center; }
+      #m-asr { width: 607px; padding-left: 96px; background: var(--blue); border-radius: 14px 0 0 14px; color: #fff; }
+      #m-llm { width: 566px; background: var(--accent); border-radius: 0 14px 14px 0; color: #1a1406; }
+      #m-kb { position: absolute; left: 65px; top: -12px; bottom: -12px; width: 4px; border-radius: 2px; background: var(--removed); }
+      #m-kb-l { position: absolute; left: 0; top: 74px; font-family: var(--mono); font-size: 20px; color: var(--removed); white-space: nowrap; }
+      .mem-scale { position: relative; height: 26px; margin-top: 14px; }
+      #m-lat { display: flex; flex-direction: column; gap: 16px; }
+      .race-row { display: grid; grid-template-columns: 400px 1fr 120px; align-items: center; gap: 24px; }
+      .race-row .n { font-size: 29px; color: var(--ink-2); }
+      .race-row .t { font-family: var(--mono); font-size: 28px; color: var(--ink); text-align: right; }
+      .lane { position: relative; height: 38px; border-radius: 0 8px 8px 0; }
+      .fill { position: absolute; left: 0; top: 2px; height: 34px; border-radius: 0 8px 8px 0; background: var(--blue); transform-origin: left center; }
+      .fill.hi { background: var(--accent); }
+      #m-f-slow { width: 945px; }
+      #m-f-fast { width: 182px; }
+
+      /* 6 · rivals */
+      #rivals-ghost { right: -30px; bottom: 10px; }
+      .tbl { display: flex; flex-direction: column; gap: 14px; }
+      .tr { display: grid; grid-template-columns: 260px 1fr 1fr; align-items: center; gap: 26px; padding: 18px 28px; }
+      .th { padding: 0 30px; }
+      .tr .who { font-family: var(--display); font-weight: 600; font-size: 40px; }
+      .cell { display: flex; flex-wrap: wrap; gap: 10px; }
+      .eng.pk { position: relative; overflow: hidden; }
+      .eng.pk i { position: absolute; inset: 0; background: rgba(240, 180, 41, 0.22); border-radius: 10px; transform-origin: left center; transform: scaleX(0); }
+
+      /* 7 · swedish */
+      #swedish-ghost { right: -40px; top: 110px; }
+      #sw-bars { display: flex; flex-direction: column; gap: 22px; }
+      .wrow { display: grid; grid-template-columns: 360px 1fr 160px; align-items: center; gap: 24px; }
+      .wrow .n { display: flex; flex-direction: column; gap: 2px; }
+      .wrow .n b { font-family: var(--display); font-weight: 600; font-size: 38px; }
+      .wrow .n span { font-family: var(--mono); font-size: 20px; color: var(--muted); }
+      .wlane { position: relative; height: 52px; }
+      .wfill { position: absolute; left: 0; top: 0; height: 52px; border-radius: 0 10px 10px 0; transform-origin: left center; }
+      #sw-f-pk { width: 848px; background: #5b7a99; }
+      #sw-f-pi { width: 253px; background: var(--accent); }
+      .wv { font-family: var(--display); font-weight: 700; font-size: 58px; text-align: right; }
+      #sw-v-pi { color: var(--accent); }
+      #sw-gaps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+      .gap { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 30px; font-size: 32px; }
+      .gap .st { color: var(--removed); font-weight: 600; white-space: nowrap; }
+
+      /* 8 · plan */
+      #plan-ghost { right: -40px; top: 90px; }
+      #p-gates { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+      .gate { display: flex; align-items: center; gap: 24px; padding: 22px 30px; font-size: 33px; font-weight: 500; }
+      .gate svg { width: 50px; height: 50px; flex: none; }
+      .gate .box { fill: none; stroke: #4a5a69; stroke-width: 2.5; }
+      .gate .tick { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      #p-final { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+      .final-title { font-family: var(--display); font-weight: 700; font-size: 104px; letter-spacing: -0.02em; line-height: 1.02; display: flex; overflow: hidden; padding-bottom: 0.06em; }
+      .ch { display: inline-block; }
+      .final-title .acc { color: var(--accent); }
+      #p-sub { font-size: 36px; color: var(--ink-2); }
+
+      /* captions: the spoken word lights up */
+      .cap { position: absolute; left: 0; right: 0; bottom: 56px; display: flex; justify-content: center; z-index: 5; }
+      .cl { display: block; max-width: 1480px; padding: 14px 30px; border-radius: 16px; background: rgba(6, 10, 14, 0.86); border: 1px solid var(--line); font-weight: 500; font-size: 46px; line-height: 1.28; text-align: center; }
+      .cw { color: rgba(255, 255, 255, 0.42); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="120" data-width="1920" data-height="1080">
+      <div id="bg"></div>
+      <div id="blob-a" class="blob"></div>
+      <div id="blob-b" class="blob"></div>
+      <div id="vignette"></div>
+
+      <audio id="narration" src="assets/narration.wav" data-start="0" data-duration="120" data-track-index="8" data-volume="1"></audio>
+
+      <div id="stage">
+        <div id="progress">
+          <div class="seg" style="flex: 9.711"><i id="p-verdict"></i></div>
+          <div class="seg" style="flex: 11.803"><i id="p-split"></i></div>
+          <div class="seg" style="flex: 15.759"><i id="p-bounce"></i></div>
+          <div class="seg" style="flex: 15.887"><i id="p-compute"></i></div>
+          <div class="seg" style="flex: 19.564"><i id="p-memory"></i></div>
+          <div class="seg" style="flex: 18.061"><i id="p-rivals"></i></div>
+          <div class="seg" style="flex: 11.693"><i id="p-swedish"></i></div>
+          <div class="seg" style="flex: 17.522"><i id="p-plan"></i></div>
+        </div>
+        <div id="mic-badge">
+          <div id="mic-dot">
+            <div id="mic-halo"></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+          </div>
+          <span>Listening</span>
+        </div>
+
+        <!-- 1 · verdict -->
+        <section id="s-verdict" class="scene">
+          <div id="verdict-ghost" class="ghost" data-layout-ignore aria-hidden="true">Ja.</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="v-eyebrow">Follow-up · Is it possible?</div>
+              <div class="title"><span class="ml"><span id="v-q">Fully local, in Swedish, on iPhone?</span></span></div>
+            </div>
+            <div id="v-mid">
+              <div id="v-yes-box">
+                <div id="v-yes">Yes.</div>
+                <div id="v-yes-line"></div>
+                <div id="v-yes-sub"><b id="v-count">0</b> keyboards already transcribe on the phone</div>
+              </div>
+              <div id="v-apps">
+                <div class="app"><b>Sayboard</b><span>open source</span></div>
+                <div class="app"><b>KeySay</b><span>Whisper</span></div>
+                <div class="app"><b>Yaps</b><span>Parakeet</span></div>
+                <div class="app"><b>Diction</b><span>Whisper · Parakeet</span></div>
+                <div class="app"><b>Muesli</b><span>open source</span></div>
+                <div class="app"><b>Wave</b><span>WhisperKit</span></div>
+                <div class="app"><b>Outspoken</b><span>Parakeet · Whisper</span></div>
+                <div class="app"><b>Vozzy</b><span>Apple Speech</span></div>
+              </div>
+            </div>
+            <div id="v-prices">
+              <div class="card price" id="pr-1"><span class="pn">1</span>The bounce</div>
+              <div class="card price" id="pr-2"><span class="pn">2</span>No GPU in the background</div>
+              <div class="card price" id="pr-3"><span class="pn">3</span>Memory and time</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 · split -->
+        <section id="s-split" class="scene">
+          <div id="split-ghost" class="ghost" data-layout-ignore aria-hidden="true">÷2</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="sp-eyebrow">How every local app is built</div>
+              <div class="title"><span class="ml"><span id="sp-title">The keyboard is only a remote</span></span></div>
+            </div>
+            <div class="diagram">
+              <div class="card node" id="sp-kb">
+                <h3>Keyboard extension</h3>
+                <div class="bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path id="sp-slash" d="M3 3l18 18" stroke-dasharray="26" stroke-dashoffset="26"/></svg>No microphone</div>
+                <div class="meter" id="sp-meter">
+                  <div class="meter-track"><div id="sp-meter-fill"></div><div id="sp-limit"></div></div>
+                  <div class="meter-cap"><span>memory</span><span>killed at ~70 MB</span></div>
+                </div>
+                <div class="it" id="sp-types">Types the text it gets back</div>
+              </div>
+              <div id="sp-link">
+                <div class="lane2"><span class="lk">start ▸</span><svg viewBox="0 0 256 26"><path d="M4 13 H246 M236 5 L248 13 L236 21"/></svg><div class="dot" id="sp-dot-a"></div></div>
+                <div class="lane2 back"><svg viewBox="0 0 256 26"><path d="M252 13 H10 M20 5 L8 13 L20 21"/></svg><div class="dot" id="sp-dot-b"></div><span class="lk">◂ clean text</span></div>
+                <div id="sp-bridge">App Group + Darwin notifications</div>
+              </div>
+              <div class="card node hi" id="sp-app">
+                <h3>Main app, in the background</h3>
+                <div class="good" id="sp-a1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>Records the audio</div>
+                <div class="it" id="sp-a2">Pianissimo → Swedish text</div>
+                <div class="it" id="sp-a3">Gemma 4 E2B → clean, ready to send</div>
+                <div id="sp-chip">UIBackgroundModes: audio</div>
+              </div>
+            </div>
+            <div class="src" id="sp-src">Same split in Sayboard, KeySay, Yaps, Muesli, Wave and the KeyboardKit SDK</div>
+          </div>
+        </section>
+
+        <!-- 3 · bounce -->
+        <section id="s-bounce" class="scene">
+          <div id="bounce-ghost" class="ghost" data-layout-ignore aria-hidden="true">26.4</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="b-eyebrow">Price 1 · The bounce</div>
+              <div class="title"><span class="ml"><span id="b-title">One bounce per session</span></span></div>
+            </div>
+            <div id="b-row">
+              <div class="phone" id="b-ph1">
+                <div class="ph-top"><span>Messages</span></div>
+                <div class="bub">Ses vi kl. 16?</div>
+                <div class="ph-kb">
+                  <div class="kr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="kr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="kr"><i class="sp"></i><i class="mk" id="b-mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></i></div>
+                </div>
+              </div>
+              <div class="barrow" id="b-ar1">
+                <svg viewBox="0 0 180 70"><path id="b-path1" d="M8 56 C 50 6, 130 6, 168 50 M154 46 L168 50 L166 36" stroke-dasharray="230" stroke-dashoffset="230"/></svg>
+                <div class="bl">opens its app</div>
+              </div>
+              <div class="phone" id="b-ph2">
+                <div class="ph-top"><span>Your app</span><span id="b-odot"></span></div>
+                <div id="b-mic"><div class="ring" id="b-ring1"></div><div class="ring" id="b-ring2"></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></div>
+                <div id="b-listen">Lyssnar…</div>
+              </div>
+              <div class="barrow" id="b-ar2">
+                <div id="b-auto">auto-return<i id="b-auto-strike"></i></div>
+                <svg viewBox="0 0 180 70"><path id="b-path2" d="M8 56 C 50 6, 130 6, 168 50 M154 46 L168 50 L166 36" stroke-dasharray="230" stroke-dashoffset="230"/></svg>
+                <div class="bl" id="b-swipe">swipe back by hand</div>
+              </div>
+              <div class="phone" id="b-ph3">
+                <div class="ph-top"><span id="b-back">◀ Messages</span></div>
+                <div class="bub">Ses vi kl. 16?</div>
+                <div class="bub me" id="b-reply">Ja, vi ses kl. 16!</div>
+                <div class="ph-kb">
+                  <div class="kr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="kr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="kr"><i class="sp"></i><i class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="card" id="b-session">
+              <div class="label">Session kept alive<br />up to 30 minutes</div>
+              <div class="sess">
+                <div class="sess-track"></div>
+                <div id="b-sess-fill"></div>
+                <div class="mark first" style="left: 2%"></div>
+                <div class="mark-l" id="b-ml1" style="left: 0%">bounce</div>
+                <div class="mark m2" style="left: 22%"></div>
+                <div class="mark m2" style="left: 41%"></div>
+                <div class="mark m2" style="left: 58%"></div>
+                <div class="mark m2" style="left: 77%"></div>
+                <div class="mark m2" style="left: 95%"></div>
+                <div class="mark-l" id="b-ml2" style="left: 22%">no bounce: tap the mic and talk</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4 · compute -->
+        <section id="s-compute" class="scene">
+          <div id="compute-ghost" class="ghost" data-layout-ignore aria-hidden="true">GPU</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="c-eyebrow">Price 2 · Background compute</div>
+              <div class="title"><span class="ml"><span id="c-title">No GPU once the app leaves the screen</span></span></div>
+            </div>
+            <div id="c-units">
+              <div class="card unit" id="c-gpu">
+                <div class="unit-top">
+                  <div class="chipico"><svg viewBox="0 0 74 74"><path class="pin" d="M24 4v10M37 4v10M50 4v10M24 60v10M37 60v10M50 60v10M4 24h10M4 37h10M4 50h10M60 24h10M60 37h10M60 50h10"/><rect class="body" x="14" y="14" width="46" height="46" rx="8"/><path class="x" id="c-x" d="M26 26 L48 48 M48 26 L26 48" stroke-dasharray="64" stroke-dashoffset="64"/></svg></div>
+                  <h3>GPU</h3>
+                </div>
+                <div class="st" id="c-gpu-st">Blocked in the background</div>
+              </div>
+              <div class="card unit" id="c-cpu">
+                <div class="unit-top">
+                  <div class="chipico"><svg viewBox="0 0 74 74"><path class="pin" d="M24 4v10M37 4v10M50 4v10M24 60v10M37 60v10M50 60v10M4 24h10M4 37h10M4 50h10M60 24h10M60 37h10M60 50h10"/><rect class="body" x="14" y="14" width="46" height="46" rx="8"/></svg></div>
+                  <h3>CPU</h3>
+                </div>
+                <div class="st" id="c-cpu-st">Always allowed, slower</div>
+              </div>
+              <div class="card unit hi" id="c-ane">
+                <div class="unit-top">
+                  <div class="chipico"><svg viewBox="0 0 74 74"><path class="pin" d="M24 4v10M37 4v10M50 4v10M24 60v10M37 60v10M50 60v10M4 24h10M4 37h10M4 50h10M60 24h10M60 37h10M60 50h10"/><rect class="body" x="14" y="14" width="46" height="46" rx="8"/></svg></div>
+                  <h3>Neural Engine</h3>
+                </div>
+                <div class="st" id="c-ane-st">Works today · iOS 27 rules unclear</div>
+              </div>
+            </div>
+            <div class="card" id="c-code">
+              <span class="codeline cm" id="c-l1">// Sayboard · LLMInferenceService.swift</span>
+              <span class="codeline kw" id="c-l2">modelParams.n_gpu_layers = <span class="num">0</span></span>
+              <span class="codeline ok" id="c-l3">// CPU-only: Metal GPU blocked when app is backgrounded</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 · memory -->
+        <section id="s-memory" class="scene">
+          <div id="memory-ghost" class="ghost" data-layout-ignore aria-hidden="true">1.3</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="m-eyebrow">Price 3 · Memory and time</div>
+              <div class="title"><span class="ml"><span id="m-title">A heavy app, waiting in the background</span></span></div>
+            </div>
+            <div class="card" id="m-mem">
+              <div class="mem-head"><span class="label">Resident memory</span><span id="m-gb">0.0 GB</span></div>
+              <div class="mem-bar">
+                <div class="mseg" id="m-asr">Pianissimo · ~650 MB</div>
+                <div class="mseg" id="m-llm">Gemma 4 E2B · ~610 MB</div>
+                <div id="m-kb"><span id="m-kb-l" data-layout-allow-overflow>keyboard limit ~70 MB</span></div>
+              </div>
+              <div class="mem-scale"></div>
+            </div>
+            <div class="card" id="m-lat">
+              <div class="label">A 30-second Swedish note, cleaned on the CPU</div>
+              <div class="race-row"><div class="n">Polish after you stop</div><div class="lane"><div class="fill" id="m-f-slow"></div></div><div class="t" id="m-t-slow">0.0 s</div></div>
+              <div class="race-row"><div class="n">Clean as you talk</div><div class="lane"><div class="fill hi" id="m-f-fast"></div></div><div class="t" id="m-t-fast">0.0 s</div></div>
+              <div class="src">Estimate from Google's iPhone 17 Pro CPU figures: 532 tokens/s in, 25 tokens/s out</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 · rivals -->
+        <section id="s-rivals" class="scene">
+          <div id="rivals-ghost" class="ghost" data-layout-ignore aria-hidden="true">vs</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="r-eyebrow">How rivals do it locally</div>
+              <div class="title"><span class="ml"><span id="r-title">Same split, different engines</span></span></div>
+            </div>
+            <div class="tbl">
+              <div class="tr th" id="r-head"><span class="label">App</span><span class="label">Speech to text</span><span class="label">Cleanup</span></div>
+              <div class="card tr" id="r-1"><div class="who">KeySay</div><div class="cell"><span class="eng">Whisper</span></div><div class="cell"><span class="eng">Apple Foundation Models</span></div></div>
+              <div class="card tr" id="r-2"><div class="who">Yaps</div><div class="cell"><span class="eng pk"><i></i>Parakeet</span><span class="eng">sherpa-onnx</span></div><div class="cell"><span class="eng">own on-device model</span></div></div>
+              <div class="card tr" id="r-3"><div class="who">Sayboard</div><div class="cell"><span class="eng">Whisper</span><span class="eng pk"><i></i>Parakeet</span><span class="eng">Moonshine</span></div><div class="cell"><span class="eng">Qwen 3</span><span class="eng">Gemma 3</span><span class="eng">llama.cpp · CPU</span></div></div>
+              <div class="card tr" id="r-4"><div class="who">Outspoken</div><div class="cell"><span class="eng">Apple Speech</span><span class="eng pk"><i></i>Parakeet</span><span class="eng">Whisper</span></div><div class="cell"><span class="eng">Apple Intelligence</span><span class="eng">Qwen 3</span></div></div>
+            </div>
+            <div class="src" id="r-src">Diction, Muesli, Wave and Vozzy follow the same split</div>
+          </div>
+        </section>
+
+        <!-- 7 · swedish -->
+        <section id="s-swedish" class="scene">
+          <div id="swedish-ghost" class="ghost" data-layout-ignore aria-hidden="true">åäö</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="sw-eyebrow">The gap</div>
+              <div class="title"><span class="ml"><span id="sw-title">None of them is built for Swedish</span></span></div>
+            </div>
+            <div class="card" id="sw-bars">
+              <div class="label">Swedish word error rate · lower is better</div>
+              <div class="wrow" id="sw-r1"><div class="n"><b>Parakeet v3</b><span>FLEURS Swedish, model card</span></div><div class="wlane"><div class="wfill" id="sw-f-pk"></div></div><div class="wv" id="sw-v-pk">0.0%</div></div>
+              <div class="wrow" id="sw-r2"><div class="n"><b>Pianissimo</b><span>Klang's Swedish test sets</span></div><div class="wlane"><div class="wfill" id="sw-f-pi"></div></div><div class="wv" id="sw-v-pi">0.0%</div></div>
+              <div class="src">Different test sets, so read it as a direction, not a final score</div>
+            </div>
+            <div id="sw-gaps">
+              <div class="card gap" id="sw-g1"><span>Apple SpeechTranscriber</span><span class="st" id="sw-g1s">no Swedish</span></div>
+              <div class="card gap" id="sw-g2"><span>iOS 27 Advanced Dictation</span><span class="st" id="sw-g2s">English only</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8 · plan -->
+        <section id="s-plan" class="scene">
+          <div id="plan-ghost" class="ghost" data-layout-ignore aria-hidden="true">4/4</div>
+          <div class="content">
+            <div class="head">
+              <div class="eyebrow" id="p-eyebrow">Before you build the product</div>
+              <div class="title"><span class="ml"><span id="p-title">Prove four things first</span></span></div>
+            </div>
+            <div id="p-gates">
+              <div class="card gate" id="g-1"><svg viewBox="0 0 50 50"><rect class="box" x="3" y="3" width="44" height="44" rx="10"/><path class="tick" d="M13 26 L22 35 L38 16" stroke-dasharray="44" stroke-dashoffset="44"/></svg>The session survives heavy apps</div>
+              <div class="card gate" id="g-2"><svg viewBox="0 0 50 50"><rect class="box" x="3" y="3" width="44" height="44" rx="10"/><path class="tick" d="M13 26 L22 35 L38 16" stroke-dasharray="44" stroke-dashoffset="44"/></svg>Pianissimo runs with the screen locked</div>
+              <div class="card gate" id="g-3"><svg viewBox="0 0 50 50"><rect class="box" x="3" y="3" width="44" height="44" rx="10"/><path class="tick" d="M13 26 L22 35 L38 16" stroke-dasharray="44" stroke-dashoffset="44"/></svg>Cleanup lands within 2 seconds</div>
+              <div class="card gate" id="g-4"><svg viewBox="0 0 50 50"><rect class="box" x="3" y="3" width="44" height="44" rx="10"/><path class="tick" d="M13 26 L22 35 L38 16" stroke-dasharray="44" stroke-dashoffset="44"/></svg>Memory stays under 1.5 GB</div>
+            </div>
+            <div id="p-final">
+              <div class="final-title" id="final-title" data-layout-allow-overflow><span class="ch">P</span><span class="ch">r</span><span class="ch">i</span><span class="ch">v</span><span class="ch">a</span><span class="ch">t</span><span class="ch">e</span><span class="ch">,</span><span class="ch">&nbsp;</span><span class="ch">e</span><span class="ch">d</span><span class="ch">i</span><span class="ch">t</span><span class="ch">-</span><span class="ch">f</span><span class="ch">r</span><span class="ch">e</span><span class="ch">e</span><span class="ch">&nbsp;</span><span class="ch acc">S</span><span class="ch acc">w</span><span class="ch acc">e</span><span class="ch acc">d</span><span class="ch acc">i</span><span class="ch acc">s</span><span class="ch acc">h</span><span class="ch acc">.</span></div>
+              <div id="p-sub">Pianissimo and Gemma, with nothing leaving the phone.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- captions, timed to the narration by script/build.py -->
+      <div id="cap-0" class="clip cap" data-start="0.700" data-duration="1.290" data-track-index="9"><span class="cl"><span class="cw">Can</span> <span class="cw">a</span> <span class="cw">fully</span> <span class="cw">local</span> <span class="cw">Swedish</span></span></div>
+      <div id="cap-1" class="clip cap" data-start="1.990" data-duration="1.599" data-track-index="9"><span class="cl"><span class="cw">voice</span> <span class="cw">keyboard</span> <span class="cw">work</span> <span class="cw">on</span> <span class="cw">iPhone?</span></span></div>
+      <div id="cap-2" class="clip cap" data-start="3.729" data-duration="1.930" data-track-index="9"><span class="cl"><span class="cw">Yes.</span> <span class="cw">At</span> <span class="cw">least</span> <span class="cw">eight</span> <span class="cw">apps</span> <span class="cw">already</span></span></div>
+      <div id="cap-3" class="clip cap" data-start="5.659" data-duration="0.927" data-track-index="9"><span class="cl"><span class="cw">transcribe</span> <span class="cw">on</span> <span class="cw">the</span> <span class="cw">phone.</span></span></div>
+      <div id="cap-4" class="clip cap" data-start="6.726" data-duration="2.565" data-track-index="9"><span class="cl"><span class="cw">But</span> <span class="cw">iOS</span> <span class="cw">makes</span> <span class="cw">them</span> <span class="cw">all</span> <span class="cw">pay</span> <span class="cw">three</span> <span class="cw">prices.</span></span></div>
+      <div id="cap-5" class="clip cap" data-start="9.711" data-duration="1.970" data-track-index="9"><span class="cl"><span class="cw">The</span> <span class="cw">keyboard</span> <span class="cw">can&#x27;t</span> <span class="cw">use</span> <span class="cw">the</span> <span class="cw">microphone,</span></span></div>
+      <div id="cap-6" class="clip cap" data-start="11.681" data-duration="3.029" data-track-index="9"><span class="cl"><span class="cw">and</span> <span class="cw">iOS</span> <span class="cw">kills</span> <span class="cw">it</span> <span class="cw">at</span> <span class="cw">around</span> <span class="cw">seventy</span> <span class="cw">megabytes.</span></span></div>
+      <div id="cap-7" class="clip cap" data-start="14.850" data-duration="2.680" data-track-index="9"><span class="cl"><span class="cw">So</span> <span class="cw">they</span> <span class="cw">all</span> <span class="cw">split</span> <span class="cw">in</span> <span class="cw">two:</span> <span class="cw">a</span> <span class="cw">thin</span> <span class="cw">keyboard,</span></span></div>
+      <div id="cap-8" class="clip cap" data-start="17.530" data-duration="0.890" data-track-index="9"><span class="cl"><span class="cw">and</span> <span class="cw">the</span> <span class="cw">main</span> <span class="cw">app,</span></span></div>
+      <div id="cap-9" class="clip cap" data-start="18.420" data-duration="2.674" data-track-index="9"><span class="cl"><span class="cw">which</span> <span class="cw">records</span> <span class="cw">and</span> <span class="cw">runs</span> <span class="cw">the</span> <span class="cw">models</span> <span class="cw">in</span> <span class="cw">the</span> <span class="cw">background.</span></span></div>
+      <div id="cap-10" class="clip cap" data-start="21.514" data-duration="1.219" data-track-index="9"><span class="cl"><span class="cw">Price</span> <span class="cw">one:</span> <span class="cw">the</span> <span class="cw">bounce.</span></span></div>
+      <div id="cap-11" class="clip cap" data-start="22.873" data-duration="1.020" data-track-index="9"><span class="cl"><span class="cw">To</span> <span class="cw">start</span> <span class="cw">listening,</span></span></div>
+      <div id="cap-12" class="clip cap" data-start="23.893" data-duration="2.310" data-track-index="9"><span class="cl"><span class="cw">the</span> <span class="cw">keyboard</span> <span class="cw">has</span> <span class="cw">to</span> <span class="cw">open</span> <span class="cw">its</span> <span class="cw">app</span> <span class="cw">for</span> <span class="cw">a</span> <span class="cw">moment.</span></span></div>
+      <div id="cap-13" class="clip cap" data-start="26.343" data-duration="3.000" data-track-index="9"><span class="cl"><span class="cw">Since</span> <span class="cw">iOS</span> <span class="cw">26.4,</span> <span class="cw">there&#x27;s</span> <span class="cw">no</span> <span class="cw">public</span> <span class="cw">way</span> <span class="cw">back,</span></span></div>
+      <div id="cap-14" class="clip cap" data-start="29.343" data-duration="2.594" data-track-index="9"><span class="cl"><span class="cw">so</span> <span class="cw">people</span> <span class="cw">swipe</span> <span class="cw">back</span> <span class="cw">by</span> <span class="cw">hand.</span></span></div>
+      <div id="cap-15" class="clip cap" data-start="32.077" data-duration="2.720" data-track-index="9"><span class="cl"><span class="cw">So</span> <span class="cw">apps</span> <span class="cw">keep</span> <span class="cw">the</span> <span class="cw">session</span> <span class="cw">alive</span> <span class="cw">for</span> <span class="cw">up</span> <span class="cw">to</span> <span class="cw">thirty</span> <span class="cw">minutes.</span></span></div>
+      <div id="cap-16" class="clip cap" data-start="34.797" data-duration="2.056" data-track-index="9"><span class="cl"><span class="cw">One</span> <span class="cw">bounce,</span> <span class="cw">many</span> <span class="cw">dictations.</span></span></div>
+      <div id="cap-17" class="clip cap" data-start="37.273" data-duration="1.584" data-track-index="9"><span class="cl"><span class="cw">Price</span> <span class="cw">two:</span> <span class="cw">no</span> <span class="cw">graphics</span> <span class="cw">chip.</span></span></div>
+      <div id="cap-18" class="clip cap" data-start="38.997" data-duration="1.950" data-track-index="9"><span class="cl"><span class="cw">iOS</span> <span class="cw">blocks</span> <span class="cw">the</span> <span class="cw">GPU</span> <span class="cw">as</span> <span class="cw">soon</span> <span class="cw">as</span></span></div>
+      <div id="cap-19" class="clip cap" data-start="40.947" data-duration="1.719" data-track-index="9"><span class="cl"><span class="cw">the</span> <span class="cw">app</span> <span class="cw">leaves</span> <span class="cw">the</span> <span class="cw">screen.</span></span></div>
+      <div id="cap-20" class="clip cap" data-start="42.806" data-duration="2.175" data-track-index="9"><span class="cl"><span class="cw">Open-source</span> <span class="cw">Sayboard</span> <span class="cw">hard-codes</span> <span class="cw">its</span></span></div>
+      <div id="cap-21" class="clip cap" data-start="44.981" data-duration="2.459" data-track-index="9"><span class="cl"><span class="cw">language</span> <span class="cw">model</span> <span class="cw">to</span> <span class="cw">the</span> <span class="cw">CPU</span> <span class="cw">for</span> <span class="cw">that</span> <span class="cw">reason.</span></span></div>
+      <div id="cap-22" class="clip cap" data-start="47.580" data-duration="2.190" data-track-index="9"><span class="cl"><span class="cw">The</span> <span class="cw">Neural</span> <span class="cw">Engine</span> <span class="cw">is</span> <span class="cw">the</span> <span class="cw">way</span> <span class="cw">out,</span></span></div>
+      <div id="cap-23" class="clip cap" data-start="49.770" data-duration="2.970" data-track-index="9"><span class="cl"><span class="cw">though</span> <span class="cw">Apple&#x27;s</span> <span class="cw">iOS</span> <span class="cw">27</span> <span class="cw">rules</span> <span class="cw">for</span> <span class="cw">it</span> <span class="cw">are</span> <span class="cw">unclear.</span></span></div>
+      <div id="cap-24" class="clip cap" data-start="53.160" data-duration="1.784" data-track-index="9"><span class="cl"><span class="cw">Price</span> <span class="cw">three:</span> <span class="cw">memory</span> <span class="cw">and</span> <span class="cw">time.</span></span></div>
+      <div id="cap-25" class="clip cap" data-start="55.084" data-duration="3.210" data-track-index="9"><span class="cl"><span class="cw">Pianissimo</span> <span class="cw">plus</span> <span class="cw">Gemma</span> <span class="cw">needs</span> <span class="cw">about</span> <span class="cw">1.3</span> <span class="cw">gigabytes,</span></span></div>
+      <div id="cap-26" class="clip cap" data-start="58.294" data-duration="2.093" data-track-index="9"><span class="cl"><span class="cw">held</span> <span class="cw">by</span> <span class="cw">an</span> <span class="cw">app</span> <span class="cw">in</span> <span class="cw">the</span> <span class="cw">background.</span></span></div>
+      <div id="cap-27" class="clip cap" data-start="60.527" data-duration="3.520" data-track-index="9"><span class="cl"><span class="cw">On</span> <span class="cw">the</span> <span class="cw">CPU,</span> <span class="cw">Gemma</span> <span class="cw">writes</span> <span class="cw">about</span> <span class="cw">25</span> <span class="cw">tokens</span> <span class="cw">a</span> <span class="cw">second,</span></span></div>
+      <div id="cap-28" class="clip cap" data-start="64.047" data-duration="1.330" data-track-index="9"><span class="cl"><span class="cw">so</span> <span class="cw">polishing</span> <span class="cw">a</span> <span class="cw">30-second</span></span></div>
+      <div id="cap-29" class="clip cap" data-start="65.377" data-duration="2.428" data-track-index="9"><span class="cl"><span class="cw">note</span> <span class="cw">takes</span> <span class="cw">around</span> <span class="cw">five</span> <span class="cw">seconds.</span></span></div>
+      <div id="cap-30" class="clip cap" data-start="67.945" data-duration="1.850" data-track-index="9"><span class="cl"><span class="cw">The</span> <span class="cw">fix:</span> <span class="cw">stream</span> <span class="cw">the</span> <span class="cw">words,</span> <span class="cw">and</span> <span class="cw">clean</span> <span class="cw">each</span></span></div>
+      <div id="cap-31" class="clip cap" data-start="69.795" data-duration="2.509" data-track-index="9"><span class="cl"><span class="cw">sentence</span> <span class="cw">while</span> <span class="cw">the</span> <span class="cw">user</span> <span class="cw">is</span> <span class="cw">still</span> <span class="cw">talking.</span></span></div>
+      <div id="cap-32" class="clip cap" data-start="72.724" data-duration="1.655" data-track-index="9"><span class="cl"><span class="cw">How</span> <span class="cw">do</span> <span class="cw">rivals</span> <span class="cw">do</span> <span class="cw">it</span> <span class="cw">locally?</span></span></div>
+      <div id="cap-33" class="clip cap" data-start="74.519" data-duration="1.050" data-track-index="9"><span class="cl"><span class="cw">KeySay</span> <span class="cw">runs</span> <span class="cw">Whisper,</span></span></div>
+      <div id="cap-34" class="clip cap" data-start="75.569" data-duration="2.833" data-track-index="9"><span class="cl"><span class="cw">then</span> <span class="cw">Apple&#x27;s</span> <span class="cw">own</span> <span class="cw">on-device</span> <span class="cw">model</span> <span class="cw">for</span> <span class="cw">cleanup.</span></span></div>
+      <div id="cap-35" class="clip cap" data-start="78.542" data-duration="1.709" data-track-index="9"><span class="cl"><span class="cw">Yaps</span> <span class="cw">runs</span> <span class="cw">NVIDIA&#x27;s</span> <span class="cw">Parakeet.</span></span></div>
+      <div id="cap-36" class="clip cap" data-start="80.391" data-duration="2.090" data-track-index="9"><span class="cl"><span class="cw">Sayboard</span> <span class="cw">pairs</span> <span class="cw">Whisper</span> <span class="cw">or</span> <span class="cw">Parakeet</span></span></div>
+      <div id="cap-37" class="clip cap" data-start="82.481" data-duration="1.915" data-track-index="9"><span class="cl"><span class="cw">with</span> <span class="cw">small</span> <span class="cw">Qwen</span> <span class="cw">and</span> <span class="cw">Gemma</span> <span class="cw">models.</span></span></div>
+      <div id="cap-38" class="clip cap" data-start="84.536" data-duration="2.930" data-track-index="9"><span class="cl"><span class="cw">Outspoken</span> <span class="cw">offers</span> <span class="cw">Apple</span> <span class="cw">Speech,</span> <span class="cw">Parakeet</span> <span class="cw">or</span> <span class="cw">Whisper,</span></span></div>
+      <div id="cap-39" class="clip cap" data-start="87.466" data-duration="2.899" data-track-index="9"><span class="cl"><span class="cw">and</span> <span class="cw">rewrites</span> <span class="cw">with</span> <span class="cw">Apple</span> <span class="cw">Intelligence</span> <span class="cw">or</span> <span class="cw">Qwen.</span></span></div>
+      <div id="cap-40" class="clip cap" data-start="90.785" data-duration="1.708" data-track-index="9"><span class="cl"><span class="cw">None</span> <span class="cw">of</span> <span class="cw">them</span> <span class="cw">is</span> <span class="cw">built</span> <span class="cw">for</span> <span class="cw">Swedish.</span></span></div>
+      <div id="cap-41" class="clip cap" data-start="92.633" data-duration="1.990" data-track-index="9"><span class="cl"><span class="cw">Parakeet&#x27;s</span> <span class="cw">own</span> <span class="cw">model</span> <span class="cw">card</span> <span class="cw">shows</span> <span class="cw">fifteen</span></span></div>
+      <div id="cap-42" class="clip cap" data-start="94.623" data-duration="1.963" data-track-index="9"><span class="cl"><span class="cw">percent</span> <span class="cw">word</span> <span class="cw">errors</span> <span class="cw">in</span> <span class="cw">Swedish.</span></span></div>
+      <div id="cap-43" class="clip cap" data-start="96.726" data-duration="2.620" data-track-index="9"><span class="cl"><span class="cw">Pianissimo</span> <span class="cw">reports</span> <span class="cw">four</span> <span class="cw">and</span> <span class="cw">a</span> <span class="cw">half</span> <span class="cw">on</span> <span class="cw">its</span> <span class="cw">own</span> <span class="cw">test,</span></span></div>
+      <div id="cap-44" class="clip cap" data-start="99.346" data-duration="2.712" data-track-index="9"><span class="cl"><span class="cw">and</span> <span class="cw">Apple&#x27;s</span> <span class="cw">newest</span> <span class="cw">speech</span> <span class="cw">tools</span> <span class="cw">skip</span> <span class="cw">Swedish.</span></span></div>
+      <div id="cap-45" class="clip cap" data-start="102.478" data-duration="2.481" data-track-index="9"><span class="cl"><span class="cw">So</span> <span class="cw">build</span> <span class="cw">the</span> <span class="cw">split,</span> <span class="cw">and</span> <span class="cw">prove</span> <span class="cw">four</span> <span class="cw">things</span> <span class="cw">first.</span></span></div>
+      <div id="cap-46" class="clip cap" data-start="105.099" data-duration="1.810" data-track-index="9"><span class="cl"><span class="cw">The</span> <span class="cw">session</span> <span class="cw">survives</span> <span class="cw">heavy</span> <span class="cw">apps,</span></span></div>
+      <div id="cap-47" class="clip cap" data-start="106.909" data-duration="2.374" data-track-index="9"><span class="cl"><span class="cw">and</span> <span class="cw">Pianissimo</span> <span class="cw">runs</span> <span class="cw">with</span> <span class="cw">the</span> <span class="cw">screen</span> <span class="cw">locked.</span></span></div>
+      <div id="cap-48" class="clip cap" data-start="109.423" data-duration="1.790" data-track-index="9"><span class="cl"><span class="cw">Cleanup</span> <span class="cw">lands</span> <span class="cw">within</span> <span class="cw">two</span> <span class="cw">seconds,</span></span></div>
+      <div id="cap-49" class="clip cap" data-start="111.213" data-duration="2.513" data-track-index="9"><span class="cl"><span class="cw">and</span> <span class="cw">memory</span> <span class="cw">stays</span> <span class="cw">under</span> <span class="cw">one</span> <span class="cw">and</span> <span class="cw">a</span> <span class="cw">half</span> <span class="cw">gigabytes.</span></span></div>
+      <div id="cap-50" class="clip cap" data-start="113.866" data-duration="1.800" data-track-index="9"><span class="cl"><span class="cw">Pass</span> <span class="cw">those,</span> <span class="cw">and</span> <span class="cw">you</span> <span class="cw">own</span> <span class="cw">private,</span></span></div>
+      <div id="cap-51" class="clip cap" data-start="115.666" data-duration="1.675" data-track-index="9"><span class="cl"><span class="cw">edit-free</span> <span class="cw">Swedish</span> <span class="cw">dictation.</span></span></div>
+      </div>
+    </div>
+
+    <script>
+      const DATA = {"scenes":[{"id":"verdict","start":0.0,"sentences":[{"start":0.7,"end":3.509,"text":"Can a fully local Swedish voice keyboard work on iPhone?"},{"start":3.729,"end":6.506,"text":"Yes. At least eight apps already transcribe on the phone."},{"start":6.726,"end":9.211,"text":"But iOS makes them all pay three prices."}],"end":9.711},{"id":"split","start":9.711,"sentences":[{"start":9.711,"end":14.63,"text":"The keyboard can't use the microphone, and iOS kills it at around seventy megabytes."},{"start":14.85,"end":21.014,"text":"So they all split in two: a thin keyboard, and the main app, which records and runs the models in the background."}],"end":21.514},{"id":"bounce","start":21.514,"sentences":[{"start":21.514,"end":22.653,"text":"Price one: the bounce."},{"start":22.873,"end":26.123,"text":"To start listening, the keyboard has to open its app for a moment."},{"start":26.343,"end":31.857,"text":"Since iOS 26.4, there's no public way back, so people swipe back by hand."},{"start":32.077,"end":36.773,"text":"So apps keep the session alive for up to thirty minutes. One bounce, many dictations."}],"end":37.273},{"id":"compute","start":37.273,"sentences":[{"start":37.273,"end":38.777,"text":"Price two: no graphics chip."},{"start":38.997,"end":42.586,"text":"iOS blocks the GPU as soon as the app leaves the screen."},{"start":42.806,"end":47.36,"text":"Open-source Sayboard hard-codes its language model to the CPU for that reason."},{"start":47.58,"end":52.66,"text":"The Neural Engine is the way out, though Apple's iOS 27 rules for it are unclear."}],"end":53.16},{"id":"memory","start":53.16,"sentences":[{"start":53.16,"end":54.864,"text":"Price three: memory and time."},{"start":55.084,"end":60.307,"text":"Pianissimo plus Gemma needs about 1.3 gigabytes, held by an app in the background."},{"start":60.527,"end":67.725,"text":"On the CPU, Gemma writes about 25 tokens a second, so polishing a 30-second note takes around five seconds."},{"start":67.945,"end":72.224,"text":"The fix: stream the words, and clean each sentence while the user is still talking."}],"end":72.724},{"id":"rivals","start":72.724,"sentences":[{"start":72.724,"end":74.299,"text":"How do rivals do it locally?"},{"start":74.519,"end":78.322,"text":"KeySay runs Whisper, then Apple's own on-device model for cleanup."},{"start":78.542,"end":80.171,"text":"Yaps runs NVIDIA's Parakeet."},{"start":80.391,"end":84.316,"text":"Sayboard pairs Whisper or Parakeet with small Qwen and Gemma models."},{"start":84.536,"end":90.285,"text":"Outspoken offers Apple Speech, Parakeet or Whisper, and rewrites with Apple Intelligence or Qwen."}],"end":90.785},{"id":"swedish","start":90.785,"sentences":[{"start":90.785,"end":92.413,"text":"None of them is built for Swedish."},{"start":92.633,"end":96.506,"text":"Parakeet's own model card shows fifteen percent word errors in Swedish."},{"start":96.726,"end":101.978,"text":"Pianissimo reports four and a half on its own test, and Apple's newest speech tools skip Swedish."}],"end":102.478},{"id":"plan","start":102.478,"sentences":[{"start":102.478,"end":104.879,"text":"So build the split, and prove four things first."},{"start":105.099,"end":109.203,"text":"The session survives heavy apps, and Pianissimo runs with the screen locked."},{"start":109.423,"end":113.646,"text":"Cleanup lands within two seconds, and memory stays under one and a half gigabytes."},{"start":113.866,"end":117.261,"text":"Pass those, and you own private, edit-free Swedish dictation."}],"end":120.0}],"captions":[{"start":0.7,"end":1.99,"text":"Can a fully local Swedish","words":[{"w":"Can","t":0.7},{"w":"a","t":0.898},{"w":"fully","t":0.998},{"w":"local","t":1.295},{"w":"Swedish","t":1.593}]},{"start":1.99,"end":3.509,"text":"voice keyboard work on iPhone?","words":[{"w":"voice","t":1.99},{"w":"keyboard","t":2.284},{"w":"work","t":2.725},{"w":"on","t":2.97},{"w":"iPhone?","t":3.117}]},{"start":3.729,"end":5.659,"text":"Yes. At least eight apps already","words":[{"w":"Yes.","t":3.729},{"w":"At","t":4.021},{"w":"least","t":4.197},{"w":"eight","t":4.548},{"w":"apps","t":4.899},{"w":"already","t":5.191}]},{"start":5.659,"end":6.506,"text":"transcribe on the phone.","words":[{"w":"transcribe","t":5.659},{"w":"on","t":6.032},{"w":"the","t":6.133},{"w":"phone.","t":6.269}]},{"start":6.726,"end":9.211,"text":"But iOS makes them all pay three prices.","words":[{"w":"But","t":6.726},{"w":"iOS","t":6.968},{"w":"makes","t":7.211},{"w":"them","t":7.574},{"w":"all","t":7.877},{"w":"pay","t":8.12},{"w":"three","t":8.362},{"w":"prices.","t":8.726}]},{"start":9.711,"end":11.681,"text":"The keyboard can't use the microphone,","words":[{"w":"The","t":9.711},{"w":"keyboard","t":9.913},{"w":"can't","t":10.367},{"w":"use","t":10.67},{"w":"the","t":10.872},{"w":"microphone,","t":11.074}]},{"start":11.681,"end":14.63,"text":"and iOS kills it at around seventy megabytes.","words":[{"w":"and","t":11.681},{"w":"iOS","t":11.937},{"w":"kills","t":12.193},{"w":"it","t":12.578},{"w":"at","t":12.771},{"w":"around","t":12.963},{"w":"seventy","t":13.412},{"w":"megabytes.","t":13.925}]},{"start":14.85,"end":17.53,"text":"So they all split in two: a thin keyboard,","words":[{"w":"So","t":14.85},{"w":"they","t":15.037},{"w":"all","t":15.348},{"w":"split","t":15.598},{"w":"in","t":15.972},{"w":"two:","t":16.159},{"w":"a","t":16.47},{"w":"thin","t":16.595},{"w":"keyboard,","t":16.907}]},{"start":17.53,"end":18.42,"text":"and the main app,","words":[{"w":"and","t":17.53},{"w":"the","t":17.728},{"w":"main","t":17.925},{"w":"app,","t":18.173}]},{"start":18.42,"end":21.014,"text":"which records and runs the models in the background.","words":[{"w":"which","t":18.42},{"w":"records","t":18.714},{"w":"and","t":19.105},{"w":"runs","t":19.301},{"w":"the","t":19.546},{"w":"models","t":19.741},{"w":"in","t":20.084},{"w":"the","t":20.231},{"w":"background.","t":20.427}]},{"start":21.514,"end":22.653,"text":"Price one: the bounce.","words":[{"w":"Price","t":21.514},{"w":"one:","t":21.811},{"w":"the","t":22.059},{"w":"bounce.","t":22.257}]},{"start":22.873,"end":23.893,"text":"To start listening,","words":[{"w":"To","t":22.873},{"w":"start","t":23.026},{"w":"listening,","t":23.332}]},{"start":23.893,"end":26.123,"text":"the keyboard has to open its app for a moment.","words":[{"w":"the","t":23.893},{"w":"keyboard","t":24.083},{"w":"has","t":24.51},{"w":"to","t":24.7},{"w":"open","t":24.842},{"w":"its","t":25.079},{"w":"app","t":25.269},{"w":"for","t":25.459},{"w":"a","t":25.649},{"w":"moment.","t":25.744}]},{"start":26.343,"end":29.343,"text":"Since iOS 26.4, there's no public way back,","words":[{"w":"Since","t":26.343},{"w":"iOS","t":26.752},{"w":"26.4,","t":27.025},{"w":"there's","t":27.434},{"w":"no","t":27.98},{"w":"public","t":28.184},{"w":"way","t":28.661},{"w":"back,","t":28.934}]},{"start":29.343,"end":31.857,"text":"so people swipe back by hand.","words":[{"w":"so","t":29.343},{"w":"people","t":29.595},{"w":"swipe","t":30.181},{"w":"back","t":30.684},{"w":"by","t":31.103},{"w":"hand.","t":31.354}]},{"start":32.077,"end":34.797,"text":"So apps keep the session alive for up to thirty minutes.","words":[{"w":"So","t":32.077},{"w":"apps","t":32.22},{"w":"keep","t":32.459},{"w":"the","t":32.697},{"w":"session","t":32.888},{"w":"alive","t":33.27},{"w":"for","t":33.556},{"w":"up","t":33.747},{"w":"to","t":33.89},{"w":"thirty","t":34.033},{"w":"minutes.","t":34.368}]},{"start":34.797,"end":36.773,"text":"One bounce, many dictations.","words":[{"w":"One","t":34.797},{"w":"bounce,","t":35.069},{"w":"many","t":35.614},{"w":"dictations.","t":35.955}]},{"start":37.273,"end":38.777,"text":"Price two: no graphics chip.","words":[{"w":"Price","t":37.273},{"w":"two:","t":37.584},{"w":"no","t":37.843},{"w":"graphics","t":37.999},{"w":"chip.","t":38.466}]},{"start":38.997,"end":40.947,"text":"iOS blocks the GPU as soon as","words":[{"w":"iOS","t":38.997},{"w":"blocks","t":39.257},{"w":"the","t":39.712},{"w":"GPU","t":39.972},{"w":"as","t":40.232},{"w":"soon","t":40.427},{"w":"as","t":40.752}]},{"start":40.947,"end":42.586,"text":"the app leaves the screen.","words":[{"w":"the","t":40.947},{"w":"app","t":41.19},{"w":"leaves","t":41.433},{"w":"the","t":41.858},{"w":"screen.","t":42.101}]},{"start":42.806,"end":44.981,"text":"Open-source Sayboard hard-codes its","words":[{"w":"Open-source","t":42.806},{"w":"Sayboard","t":43.531},{"w":"hard-codes","t":44.075},{"w":"its","t":44.74}]},{"start":44.981,"end":47.36,"text":"language model to the CPU for that reason.","words":[{"w":"language","t":44.981},{"w":"model","t":45.479},{"w":"to","t":45.811},{"w":"the","t":45.977},{"w":"CPU","t":46.198},{"w":"for","t":46.419},{"w":"that","t":46.641},{"w":"reason.","t":46.917}]},{"start":47.58,"end":49.77,"text":"The Neural Engine is the way out,","words":[{"w":"The","t":47.58},{"w":"Neural","t":47.837},{"w":"Engine","t":48.288},{"w":"is","t":48.739},{"w":"the","t":48.932},{"w":"way","t":49.19},{"w":"out,","t":49.448}]},{"start":49.77,"end":52.66,"text":"though Apple's iOS 27 rules for it are unclear.","words":[{"w":"though","t":49.77},{"w":"Apple's","t":50.191},{"w":"iOS","t":50.673},{"w":"27","t":50.914},{"w":"rules","t":51.094},{"w":"for","t":51.456},{"w":"it","t":51.696},{"w":"are","t":51.877},{"w":"unclear.","t":52.118}]},{"start":53.16,"end":54.864,"text":"Price three: memory and time.","words":[{"w":"Price","t":53.16},{"w":"three:","t":53.501},{"w":"memory","t":53.898},{"w":"and","t":54.296},{"w":"time.","t":54.523}]},{"start":55.084,"end":58.294,"text":"Pianissimo plus Gemma needs about 1.3 gigabytes,","words":[{"w":"Pianissimo","t":55.084},{"w":"plus","t":55.805},{"w":"Gemma","t":56.132},{"w":"needs","t":56.525},{"w":"about","t":56.918},{"w":"1.3","t":57.312},{"w":"gigabytes,","t":57.574}]},{"start":58.294,"end":60.307,"text":"held by an app in the background.","words":[{"w":"held","t":58.294},{"w":"by","t":58.59},{"w":"an","t":58.768},{"w":"app","t":58.946},{"w":"in","t":59.182},{"w":"the","t":59.36},{"w":"background.","t":59.597}]},{"start":60.527,"end":64.047,"text":"On the CPU, Gemma writes about 25 tokens a second,","words":[{"w":"On","t":60.527},{"w":"the","t":60.735},{"w":"CPU,","t":61.011},{"w":"Gemma","t":61.356},{"w":"writes","t":61.77},{"w":"about","t":62.253},{"w":"25","t":62.667},{"w":"tokens","t":62.874},{"w":"a","t":63.357},{"w":"second,","t":63.495}]},{"start":64.047,"end":65.377,"text":"so polishing a 30-second","words":[{"w":"so","t":64.047},{"w":"polishing","t":64.207},{"w":"a","t":64.739},{"w":"30-second","t":64.846}]},{"start":65.377,"end":67.725,"text":"note takes around five seconds.","words":[{"w":"note","t":65.377},{"w":"takes","t":65.744},{"w":"around","t":66.184},{"w":"five","t":66.698},{"w":"seconds.","t":67.065}]},{"start":67.945,"end":69.795,"text":"The fix: stream the words, and clean each","words":[{"w":"The","t":67.945},{"w":"fix:","t":68.121},{"w":"stream","t":68.341},{"w":"the","t":68.649},{"w":"words,","t":68.826},{"w":"and","t":69.134},{"w":"clean","t":69.31},{"w":"each","t":69.574}]},{"start":69.795,"end":72.224,"text":"sentence while the user is still talking.","words":[{"w":"sentence","t":69.795},{"w":"while","t":70.315},{"w":"the","t":70.662},{"w":"user","t":70.894},{"w":"is","t":71.183},{"w":"still","t":71.357},{"w":"talking.","t":71.704}]},{"start":72.724,"end":74.299,"text":"How do rivals do it locally?","words":[{"w":"How","t":72.724},{"w":"do","t":72.941},{"w":"rivals","t":73.104},{"w":"do","t":73.485},{"w":"it","t":73.648},{"w":"locally?","t":73.81}]},{"start":74.519,"end":75.569,"text":"KeySay runs Whisper,","words":[{"w":"KeySay","t":74.519},{"w":"runs","t":74.869},{"w":"Whisper,","t":75.119}]},{"start":75.569,"end":78.322,"text":"then Apple's own on-device model for cleanup.","words":[{"w":"then","t":75.569},{"w":"Apple's","t":75.868},{"w":"own","t":76.347},{"w":"on-device","t":76.586},{"w":"model","t":77.185},{"w":"for","t":77.544},{"w":"cleanup.","t":77.783}]},{"start":78.542,"end":80.171,"text":"Yaps runs NVIDIA's Parakeet.","words":[{"w":"Yaps","t":78.542},{"w":"runs","t":78.822},{"w":"NVIDIA's","t":79.103},{"w":"Parakeet.","t":79.609}]},{"start":80.391,"end":82.481,"text":"Sayboard pairs Whisper or Parakeet","words":[{"w":"Sayboard","t":80.391},{"w":"pairs","t":80.928},{"w":"Whisper","t":81.286},{"w":"or","t":81.764},{"w":"Parakeet","t":81.943}]},{"start":82.481,"end":84.316,"text":"with small Qwen and Gemma models.","words":[{"w":"with","t":82.481},{"w":"small","t":82.751},{"w":"Qwen","t":83.075},{"w":"and","t":83.344},{"w":"Gemma","t":83.56},{"w":"models.","t":83.884}]},{"start":84.536,"end":87.466,"text":"Outspoken offers Apple Speech, Parakeet or Whisper,","words":[{"w":"Outspoken","t":84.536},{"w":"offers","t":85.1},{"w":"Apple","t":85.494},{"w":"Speech,","t":85.832},{"w":"Parakeet","t":86.283},{"w":"or","t":86.79},{"w":"Whisper,","t":86.959}]},{"start":87.466,"end":90.285,"text":"and rewrites with Apple Intelligence or Qwen.","words":[{"w":"and","t":87.466},{"w":"rewrites","t":87.711},{"w":"with","t":88.263},{"w":"Apple","t":88.569},{"w":"Intelligence","t":88.937},{"w":"or","t":89.733},{"w":"Qwen.","t":89.917}]},{"start":90.785,"end":92.413,"text":"None of them is built for Swedish.","words":[{"w":"None","t":90.785},{"w":"of","t":91.017},{"w":"them","t":91.157},{"w":"is","t":91.39},{"w":"built","t":91.529},{"w":"for","t":91.808},{"w":"Swedish.","t":91.994}]},{"start":92.633,"end":94.623,"text":"Parakeet's own model card shows fifteen","words":[{"w":"Parakeet's","t":92.633},{"w":"own","t":93.18},{"w":"model","t":93.379},{"w":"card","t":93.678},{"w":"shows","t":93.927},{"w":"fifteen","t":94.225}]},{"start":94.623,"end":96.506,"text":"percent word errors in Swedish.","words":[{"w":"percent","t":94.623},{"w":"word","t":95.094},{"w":"errors","t":95.388},{"w":"in","t":95.8},{"w":"Swedish.","t":95.976}]},{"start":96.726,"end":99.346,"text":"Pianissimo reports four and a half on its own test,","words":[{"w":"Pianissimo","t":96.726},{"w":"reports","t":97.28},{"w":"four","t":97.683},{"w":"and","t":97.935},{"w":"a","t":98.136},{"w":"half","t":98.237},{"w":"on","t":98.489},{"w":"its","t":98.64},{"w":"own","t":98.842},{"w":"test,","t":99.043}]},{"start":99.346,"end":101.978,"text":"and Apple's newest speech tools skip Swedish.","words":[{"w":"and","t":99.346},{"w":"Apple's","t":99.575},{"w":"newest","t":100.032},{"w":"speech","t":100.433},{"w":"tools","t":100.834},{"w":"skip","t":101.177},{"w":"Swedish.","t":101.463}]},{"start":102.478,"end":104.879,"text":"So build the split, and prove four things first.","words":[{"w":"So","t":102.478},{"w":"build","t":102.625},{"w":"the","t":102.919},{"w":"split,","t":103.115},{"w":"and","t":103.458},{"w":"prove","t":103.654},{"w":"four","t":103.948},{"w":"things","t":104.193},{"w":"first.","t":104.536}]},{"start":105.099,"end":106.909,"text":"The session survives heavy apps,","words":[{"w":"The","t":105.099},{"w":"session","t":105.318},{"w":"survives","t":105.757},{"w":"heavy","t":106.251},{"w":"apps,","t":106.58}]},{"start":106.909,"end":109.203,"text":"and Pianissimo runs with the screen locked.","words":[{"w":"and","t":106.909},{"w":"Pianissimo","t":107.117},{"w":"runs","t":107.691},{"w":"with","t":107.952},{"w":"the","t":108.212},{"w":"screen","t":108.421},{"w":"locked.","t":108.786}]},{"start":109.423,"end":111.213,"text":"Cleanup lands within two seconds,","words":[{"w":"Cleanup","t":109.423},{"w":"lands","t":109.844},{"w":"within","t":110.16},{"w":"two","t":110.529},{"w":"seconds,","t":110.739}]},{"start":111.213,"end":113.646,"text":"and memory stays under one and a half gigabytes.","words":[{"w":"and","t":111.213},{"w":"memory","t":111.412},{"w":"stays","t":111.759},{"w":"under","t":112.057},{"w":"one","t":112.355},{"w":"and","t":112.554},{"w":"a","t":112.753},{"w":"half","t":112.852},{"w":"gigabytes.","t":113.1}]},{"start":113.866,"end":115.666,"text":"Pass those, and you own private,","words":[{"w":"Pass","t":113.866},{"w":"those,","t":114.139},{"w":"and","t":114.521},{"w":"you","t":114.739},{"w":"own","t":114.957},{"w":"private,","t":115.176}]},{"start":115.666,"end":117.261,"text":"edit-free Swedish dictation.","words":[{"w":"edit-free","t":115.666},{"w":"Swedish","t":116.216},{"w":"dictation.","t":116.656}]}],"envelope":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.01,0.04,0.28,0.62,0.94,0.78,0.47,0.15,0.07,0.11,0.4,0.6,0.72,0.65,0.69,0.79,0.77,0.71,0.68,0.75,0.84,0.7,0.42,0.19,0.25,0.41,0.46,0.44,0.46,0.39,0.39,0.43,0.58,0.55,0.52,0.46,0.47,0.33,0.21,0.18,0.36,0.59,0.69,0.63,0.53,0.44,0.29,0.19,0.22,0.39,0.39,0.27,0.21,0.32,0.43,0.45,0.34,0.26,0.16,0.26,0.45,0.57,0.43,0.22,0.26,0.45,0.55,0.5,0.44,0.49,0.58,0.67,0.7,0.49,0.26,0.06,0.18,0.25,0.29,0.17,0.12,0.09,0.09,0.07,0.04,0.01,0.0,0.0,0.0,0.0,0.0,0.05,0.36,0.7,0.97,0.88,0.7,0.45,0.3,0.25,0.3,0.31,0.23,0.12,0.04,0.0,0.0,0.24,0.48,0.64,0.72,0.8,0.79,0.59,0.3,0.2,0.08,0.33,0.55,0.77,0.62,0.46,0.46,0.51,0.57,0.51,0.4,0.26,0.2,0.25,0.25,0.33,0.44,0.61,0.67,0.64,0.63,0.6,0.53,0.37,0.24,0.17,0.34,0.44,0.58,0.55,0.48,0.44,0.28,0.18,0.25,0.43,0.62,0.65,0.72,0.59,0.5,0.44,0.54,0.56,0.53,0.46,0.3,0.15,0.09,0.29,0.42,0.47,0.31,0.19,0.11,0.1,0.1,0.08,0.04,0.01,0.0,0.0,0.0,0.0,0.0,0.03,0.3,0.43,0.61,0.56,0.64,0.73,0.81,0.83,0.64,0.47,0.53,0.76,0.99,0.97,0.74,0.45,0.38,0.44,0.54,0.42,0.36,0.32,0.32,0.31,0.44,0.54,0.54,0.33,0.26,0.23,0.28,0.4,0.57,0.62,0.38,0.27,0.37,0.61,0.74,0.76,0.56,0.3,0.09,0.08,0.24,0.37,0.49,0.46,0.33,0.18,0.08,0.06,0.21,0.38,0.54,0.47,0.28,0.13,0.05,0.21,0.35,0.47,0.42,0.32,0.26,0.23,0.22,0.18,0.12,0.12,0.16,0.19,0.15,0.07,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.11,0.19,0.23,0.2,0.24,0.55,0.84,0.85,0.56,0.46,0.69,0.94,0.94,0.65,0.36,0.09,0.08,0.1,0.2,0.43,0.65,0.76,0.56,0.31,0.12,0.11,0.28,0.51,0.64,0.6,0.51,0.32,0.32,0.38,0.56,0.61,0.57,0.56,0.51,0.34,0.17,0.14,0.22,0.22,0.12,0.13,0.21,0.27,0.24,0.2,0.17,0.2,0.19,0.15,0.06,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.26,0.59,0.75,0.77,0.72,0.81,0.83,0.84,0.8,0.64,0.48,0.54,0.75,0.99,1.0,0.8,0.63,0.58,0.63,0.54,0.42,0.35,0.25,0.17,0.1,0.12,0.23,0.42,0.61,0.67,0.65,0.54,0.44,0.36,0.43,0.45,0.35,0.18,0.05,0.19,0.36,0.47,0.47,0.43,0.47,0.45,0.47,0.47,0.45,0.42,0.38,0.38,0.4,0.43,0.37,0.47,0.57,0.56,0.45,0.48,0.65,0.75,0.72,0.71,0.68,0.65,0.6,0.56,0.4,0.37,0.34,0.3,0.25,0.19,0.2,0.13,0.08,0.05,0.05,0.15,0.24,0.25,0.14,0.04,0.0,0.0,0.0,0.0,0.0,0.0,0.04,0.14,0.29,0.57,0.58,0.8,0.82,0.94,0.69,0.66,0.68,0.78,0.74,0.69,0.61,0.55,0.56,0.57,0.38,0.17,0.18,0.39,0.56,0.54,0.5,0.48,0.5,0.37,0.39,0.37,0.35,0.38,0.38,0.42,0.27,0.18,0.14,0.11,0.07,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.14,0.34,0.38,0.25,0.06,0.03,0.27,0.61,0.89,0.93,0.89,0.87,0.62,0.38,0.17,0.34,0.52,0.61,0.42,0.28,0.31,0.46,0.49,0.46,0.45,0.42,0.3,0.16,0.04,0.02,0.0,0.13,0.4,0.72,0.89,0.89,0.85,0.83,0.86,0.85,0.86,0.82,0.82,0.83,0.78,0.66,0.54,0.45,0.38,0.29,0.2,0.1,0.04,0.02,0.02,0.01,0.01,0.01,0.01,0.0,0.08,0.39,0.51,0.58,0.39,0.33,0.44,0.39,0.33,0.13,0.09,0.21,0.45,0.7,0.83,0.77,0.71,0.72,0.7,0.57,0.43,0.38,0.35,0.4,0.51,0.68,0.69,0.52,0.54,0.63,0.78,0.82,0.93,0.94,0.89,0.64,0.4,0.44,0.66,0.91,0.82,0.66,0.57,0.53,0.48,0.45,0.44,0.44,0.4,0.37,0.41,0.49,0.56,0.54,0.37,0.34,0.44,0.61,0.58,0.42,0.22,0.08,0.04,0.14,0.26,0.3,0.25,0.16,0.13,0.11,0.1,0.12,0.09,0.06,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.02,0.11,0.42,0.73,0.93,0.78,0.57,0.43,0.28,0.34,0.52,0.78,0.84,0.81,0.79,0.74,0.5,0.54,0.49,0.5,0.51,0.55,0.65,0.44,0.34,0.29,0.25,0.2,0.17,0.22,0.26,0.28,0.18,0.09,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.08,0.3,0.49,0.58,0.5,0.39,0.56,0.8,1.0,0.98,0.73,0.44,0.31,0.44,0.64,0.63,0.5,0.34,0.39,0.41,0.44,0.36,0.29,0.27,0.28,0.21,0.12,0.02,0.01,0.01,0.01,0.0,0.0,0.0,0.01,0.29,0.34,0.39,0.2,0.31,0.61,0.87,0.87,0.63,0.63,0.82,1.0,0.95,0.83,0.59,0.39,0.28,0.4,0.49,0.48,0.37,0.2,0.24,0.3,0.3,0.21,0.28,0.58,0.79,0.58,0.39,0.41,0.7,0.85,0.63,0.43,0.38,0.59,0.67,0.63,0.47,0.27,0.1,0.04,0.05,0.23,0.41,0.58,0.62,0.64,0.62,0.55,0.43,0.36,0.28,0.22,0.16,0.11,0.06,0.09,0.08,0.08,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.05,0.13,0.46,0.87,1.0,0.93,0.63,0.53,0.63,0.74,0.85,0.79,0.79,0.72,0.62,0.6,0.73,0.89,0.95,0.87,0.66,0.61,0.59,0.58,0.46,0.37,0.28,0.24,0.13,0.32,0.47,0.74,0.82,0.85,0.69,0.53,0.36,0.4,0.42,0.34,0.2,0.15,0.22,0.18,0.1,0.19,0.4,0.52,0.41,0.24,0.11,0.07,0.2,0.33,0.46,0.43,0.4,0.38,0.39,0.33,0.2,0.06,0.01,0.01,0.01,0.01,0.01,0.01,0.23,0.58,0.89,0.85,0.65,0.72,0.95,1.0,1.0,0.93,0.61,0.32,0.11,0.15,0.44,0.61,0.61,0.51,0.57,0.68,0.47,0.21,0.07,0.2,0.42,0.59,0.69,0.7,0.73,0.54,0.44,0.35,0.41,0.34,0.22,0.13,0.07,0.03,0.03,0.02,0.02,0.0,0.0,0.0,0.0,0.0,0.02,0.1,0.22,0.56,0.68,0.57,0.26,0.11,0.32,0.56,0.66,0.44,0.27,0.37,0.59,0.61,0.54,0.47,0.38,0.43,0.54,0.72,0.69,0.49,0.27,0.07,0.12,0.4,0.62,0.7,0.53,0.34,0.16,0.06,0.03,0.23,0.4,0.55,0.47,0.37,0.29,0.32,0.35,0.35,0.24,0.17,0.13,0.12,0.11,0.09,0.05,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.04,0.14,0.42,0.74,0.79,0.53,0.55,0.65,0.87,0.78,0.55,0.35,0.17,0.24,0.23,0.16,0.3,0.45,0.41,0.21,0.23,0.35,0.45,0.34,0.5,0.6,0.65,0.48,0.37,0.46,0.57,0.65,0.59,0.54,0.54,0.6,0.64,0.63,0.6,0.59,0.56,0.41,0.23,0.07,0.11,0.3,0.5,0.65,0.5,0.29,0.11,0.13,0.29,0.29,0.21,0.05,0.21,0.44,0.65,0.62,0.59,0.62,0.73,0.78,0.75,0.62,0.47,0.35,0.24,0.13,0.05,0.12,0.21,0.28,0.2,0.09,0.02,0.0,0.0,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.01,0.16,0.41,0.78,1.0,1.0,1.0,1.0,0.98,0.94,0.89,0.9,0.79,0.68,0.67,0.62,0.6,0.47,0.4,0.3,0.28,0.19,0.08,0.02,0.0,0.13,0.42,0.74,0.93,1.0,1.0,0.93,0.7,0.63,0.45,0.32,0.11,0.11,0.29,0.42,0.57,0.51,0.43,0.34,0.3,0.24,0.18,0.14,0.15,0.16,0.2,0.19,0.13,0.05,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.01,0.03,0.21,0.51,0.81,0.93,0.81,0.62,0.45,0.28,0.3,0.39,0.63,0.7,0.73,0.7,0.63,0.54,0.52,0.61,0.71,0.77,0.61,0.46,0.5,0.76,0.95,0.88,0.6,0.32,0.27,0.29,0.3,0.2,0.21,0.2,0.19,0.17,0.26,0.28,0.26,0.17,0.08,0.04,0.02,0.02,0.01,0.0,0.0,0.0,0.0,0.0,0.1,0.33,0.59,0.81,0.84,0.71,0.51,0.55,0.8,1.0,1.0,0.92,0.71,0.67,0.66,0.68,0.52,0.4,0.3,0.2,0.09,0.17,0.41,0.67,0.75,0.64,0.38,0.21,0.18,0.22,0.21,0.35,0.39,0.38,0.27,0.33,0.48,0.52,0.54,0.36,0.21,0.09,0.1,0.28,0.43,0.58,0.49,0.43,0.48,0.56,0.56,0.44,0.34,0.27,0.17,0.08,0.01,0.01,0.01,0.01,0.0,0.0,0.01,0.31,0.54,0.71,0.59,0.49,0.74,0.93,1.0,1.0,0.86,0.52,0.42,0.47,0.61,0.66,0.68,0.75,0.64,0.4,0.19,0.12,0.23,0.43,0.55,0.66,0.72,0.59,0.45,0.28,0.26,0.22,0.23,0.29,0.38,0.31,0.22,0.17,0.2,0.23,0.18,0.12,0.11,0.1,0.09,0.05,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.32,0.71,1.0,0.83,0.44,0.24,0.47,0.76,0.92,0.75,0.59,0.42,0.51,0.6,0.7,0.7,0.68,0.59,0.47,0.37,0.32,0.31,0.3,0.27,0.33,0.46,0.6,0.64,0.47,0.28,0.26,0.4,0.59,0.62,0.65,0.54,0.41,0.23,0.17,0.14,0.41,0.68,0.89,0.73,0.44,0.19,0.09,0.09,0.29,0.46,0.65,0.63,0.45,0.32,0.26,0.27,0.27,0.24,0.28,0.39,0.52,0.67,0.75,0.67,0.64,0.58,0.46,0.35,0.19,0.36,0.43,0.53,0.45,0.38,0.27,0.24,0.21,0.21,0.17,0.09,0.06,0.01,0.01,0.01,0.01,0.0,0.0,0.0,0.07,0.26,0.41,0.58,0.69,0.68,0.6,0.41,0.39,0.46,0.56,0.62,0.4,0.22,0.09,0.2,0.39,0.55,0.6,0.49,0.47,0.57,0.72,0.81,0.79,0.64,0.4,0.18,0.08,0.22,0.32,0.45,0.54,0.63,0.65,0.45,0.28,0.21,0.22,0.22,0.18,0.19,0.18,0.16,0.11,0.1,0.08,0.05,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.17,0.46,0.82,1.0,1.0,0.99,0.9,0.89,0.88,0.82,0.6,0.49,0.57,0.78,1.0,0.98,0.82,0.58,0.5,0.52,0.52,0.44,0.33,0.26,0.28,0.4,0.46,0.35,0.37,0.34,0.42,0.4,0.45,0.47,0.4,0.33,0.28,0.24,0.21,0.17,0.14,0.09,0.05,0.03,0.02,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06,0.37,0.66,0.68,0.37,0.33,0.58,0.79,0.75,0.45,0.23,0.16,0.39,0.6,0.61,0.51,0.37,0.39,0.49,0.59,0.6,0.55,0.58,0.57,0.42,0.22,0.12,0.27,0.52,0.69,0.73,0.7,0.61,0.43,0.22,0.12,0.29,0.44,0.44,0.35,0.33,0.3,0.25,0.16,0.14,0.25,0.42,0.66,0.63,0.6,0.47,0.42,0.34,0.47,0.57,0.53,0.41,0.43,0.63,0.71,0.62,0.47,0.46,0.54,0.64,0.64,0.57,0.5,0.41,0.4,0.42,0.34,0.21,0.18,0.28,0.42,0.41,0.37,0.38,0.4,0.39,0.28,0.26,0.33,0.43,0.44,0.32,0.18,0.07,0.13,0.18,0.22,0.16,0.12,0.08,0.06,0.03,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.02,0.05,0.33,0.72,0.97,0.86,0.62,0.59,0.58,0.41,0.25,0.19,0.34,0.48,0.59,0.56,0.42,0.24,0.1,0.02,0.0,0.0,0.15,0.41,0.71,0.89,0.9,0.89,0.89,0.89,0.84,0.77,0.71,0.64,0.55,0.5,0.51,0.45,0.43,0.3,0.3,0.3,0.36,0.34,0.25,0.19,0.14,0.11,0.1,0.09,0.06,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.03,0.08,0.26,0.58,0.85,1.0,0.99,0.96,0.83,0.73,0.61,0.63,0.76,0.94,0.96,0.82,0.71,0.7,0.56,0.32,0.11,0.05,0.23,0.44,0.56,0.5,0.41,0.31,0.21,0.22,0.4,0.64,0.73,0.79,0.85,0.89,0.85,0.73,0.61,0.51,0.45,0.41,0.4,0.41,0.34,0.29,0.32,0.28,0.33,0.23,0.29,0.39,0.5,0.62,0.58,0.46,0.29,0.18,0.19,0.26,0.4,0.57,0.73,0.78,0.78,0.66,0.42,0.2,0.06,0.33,0.58,0.81,0.66,0.43,0.19,0.05,0.01,0.04,0.08,0.25,0.43,0.6,0.51,0.32,0.3,0.44,0.5,0.36,0.34,0.29,0.3,0.21,0.23,0.22,0.16,0.11,0.07,0.17,0.32,0.4,0.26,0.1,0.01,0.01,0.01,0.0,0.0,0.0,0.0,0.0,0.04,0.23,0.61,0.92,1.0,0.83,0.55,0.18,0.41,0.68,0.94,0.87,0.83,0.78,0.63,0.53,0.54,0.64,0.64,0.54,0.33,0.15,0.15,0.28,0.45,0.51,0.47,0.3,0.28,0.37,0.5,0.45,0.31,0.17,0.06,0.03,0.11,0.21,0.24,0.19,0.12,0.1,0.09,0.08,0.09,0.06,0.04,0.01,0.0,0.0,0.0,0.0,0.0,0.06,0.38,0.74,1.0,1.0,1.0,0.93,0.72,0.51,0.48,0.45,0.55,0.65,0.75,0.64,0.39,0.19,0.09,0.25,0.42,0.58,0.58,0.48,0.44,0.51,0.57,0.58,0.48,0.43,0.41,0.38,0.26,0.11,0.01,0.0,0.0,0.0,0.0,0.0,0.01,0.07,0.15,0.32,0.6,0.95,1.0,1.0,1.0,1.0,1.0,1.0,0.99,0.76,0.69,0.69,0.8,0.74,0.68,0.47,0.3,0.21,0.34,0.35,0.51,0.56,0.65,0.39,0.18,0.09,0.09,0.24,0.42,0.68,0.79,0.76,0.61,0.36,0.16,0.25,0.49,0.64,0.61,0.52,0.53,0.51,0.43,0.27,0.11,0.1,0.21,0.39,0.42,0.29,0.19,0.26,0.41,0.43,0.36,0.31,0.33,0.35,0.32,0.34,0.31,0.26,0.11,0.08,0.1,0.14,0.12,0.07,0.05,0.01,0.01,0.0,0.01,0.01,0.01,0.0,0.0,0.0,0.0,0.04,0.15,0.46,0.76,0.71,0.43,0.17,0.31,0.66,0.9,0.96,0.85,0.79,0.68,0.55,0.41,0.51,0.61,0.79,0.82,0.82,0.63,0.37,0.12,0.03,0.31,0.58,0.83,0.71,0.65,0.62,0.59,0.48,0.33,0.43,0.49,0.44,0.23,0.23,0.35,0.45,0.41,0.43,0.46,0.51,0.52,0.51,0.38,0.21,0.06,0.01,0.0,0.0,0.05,0.14,0.39,0.47,0.41,0.27,0.27,0.44,0.51,0.6,0.58,0.59,0.55,0.5,0.33,0.18,0.06,0.26,0.45,0.61,0.57,0.57,0.58,0.44,0.32,0.23,0.29,0.37,0.37,0.33,0.17,0.09,0.1,0.13,0.13,0.09,0.09,0.16,0.21,0.21,0.11,0.03,0.0,0.0,0.0,0.0,0.0,0.0,0.16,0.27,0.3,0.16,0.07,0.45,0.86,1.0,0.78,0.36,0.11,0.07,0.16,0.23,0.22,0.14,0.06,0.01,0.0,0.0,0.0,0.04,0.14,0.25,0.26,0.29,0.51,0.82,1.0,1.0,1.0,1.0,1.0,1.0,0.78,0.68,0.61,0.65,0.53,0.5,0.5,0.45,0.33,0.26,0.19,0.14,0.03,0.0,0.0,0.09,0.38,0.67,0.69,0.47,0.21,0.22,0.51,0.83,1.0,1.0,0.85,0.52,0.32,0.42,0.65,0.63,0.38,0.29,0.33,0.38,0.47,0.53,0.59,0.41,0.27,0.25,0.31,0.37,0.37,0.3,0.29,0.2,0.14,0.03,0.01,0.01,0.01,0.14,0.49,0.86,0.84,0.71,0.61,0.65,0.56,0.56,0.69,0.82,0.76,0.62,0.55,0.61,0.69,0.7,0.63,0.51,0.4,0.32,0.26,0.25,0.36,0.46,0.49,0.31,0.2,0.11,0.21,0.48,0.61,0.53,0.22,0.1,0.12,0.16,0.14,0.11,0.09,0.06,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.01,0.06,0.2,0.5,0.77,0.91,0.75,0.55,0.45,0.58,0.68,0.59,0.52,0.6,0.71,0.75,0.77,0.84,0.63,0.44,0.36,0.5,0.51,0.46,0.37,0.33,0.42,0.54,0.65,0.56,0.39,0.27,0.25,0.45,0.64,0.78,0.64,0.4,0.16,0.13,0.19,0.22,0.18,0.17,0.13,0.12,0.07,0.04,0.0,0.0,0.0,0.0,0.0,0.0,0.03,0.09,0.27,0.54,0.75,0.78,0.64,0.53,0.45,0.57,0.68,0.81,0.76,0.71,0.56,0.49,0.56,0.66,0.71,0.63,0.66,0.71,0.68,0.6,0.35,0.24,0.3,0.45,0.52,0.43,0.3,0.17,0.14,0.17,0.22,0.17,0.14,0.09,0.04,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.01,0.31,0.65,0.91,0.71,0.6,0.63,0.81,0.81,0.52,0.26,0.25,0.52,0.68,0.6,0.43,0.29,0.36,0.57,0.84,0.94,0.92,0.79,0.55,0.37,0.39,0.57,0.7,0.6,0.57,0.41,0.33,0.37,0.51,0.7,0.66,0.59,0.49,0.39,0.31,0.45,0.48,0.52,0.4,0.31,0.31,0.28,0.31,0.21,0.13,0.07,0.17,0.2,0.18,0.08,0.04,0.18,0.36,0.52,0.48,0.35,0.22,0.17,0.09,0.05,0.02,0.01,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.13,0.44,0.74,0.88,0.84,0.55,0.37,0.28,0.36,0.33,0.43,0.66,0.9,0.95,1.0,0.91,0.75,0.47,0.48,0.66,0.83,0.72,0.67,0.52,0.61,0.52,0.59,0.61,0.55,0.47,0.27,0.18,0.09,0.18,0.33,0.47,0.57,0.51,0.35,0.19,0.08,0.14,0.17,0.19,0.12,0.08,0.06,0.06,0.04,0.0,0.0,0.0,0.0,0.0,0.0,0.01,0.08,0.18,0.44,0.68,0.87,0.9,0.75,0.51,0.43,0.54,0.79,0.87,0.88,0.78,0.56,0.27,0.11,0.09,0.2,0.34,0.47,0.54,0.54,0.48,0.41,0.28,0.22,0.3,0.53,0.65,0.62,0.44,0.27,0.14,0.22,0.42,0.57,0.51,0.38,0.37,0.43,0.4,0.23,0.09,0.11,0.26,0.39,0.51,0.49,0.38,0.22,0.12,0.11,0.24,0.29,0.3,0.19,0.09,0.02,0.0,0.0,0.01,0.01,0.0,0.0,0.0,0.05,0.33,0.47,0.47,0.36,0.4,0.49,0.59,0.78,0.93,0.92,0.85,0.82,0.62,0.32,0.09,0.05,0.31,0.56,0.76,0.73,0.66,0.59,0.43,0.37,0.45,0.56,0.5,0.41,0.45,0.67,0.79,0.91,0.94,0.89,0.75,0.57,0.46,0.34,0.27,0.23,0.2,0.17,0.13,0.11,0.09,0.12,0.17,0.22,0.18,0.1,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.23,0.5,0.61,0.44,0.38,0.35,0.29,0.32,0.62,0.99,0.99,0.63,0.31,0.33,0.65,0.9,0.85,0.63,0.51,0.53,0.63,0.57,0.37,0.18,0.27,0.43,0.54,0.47,0.36,0.23,0.36,0.47,0.66,0.54,0.35,0.22,0.24,0.41,0.45,0.43,0.4,0.34,0.2,0.2,0.29,0.4,0.35,0.25,0.15,0.17,0.25,0.34,0.26,0.13,0.03,0.0,0.0,0.0,0.0,0.01,0.05,0.23,0.5,0.73,0.8,0.79,0.66,0.41,0.19,0.09,0.3,0.46,0.61,0.51,0.32,0.14,0.09,0.24,0.4,0.49,0.42,0.41,0.54,0.66,0.65,0.52,0.33,0.19,0.17,0.24,0.27,0.19,0.15,0.11,0.06,0.01,0.01,0.01,0.01,0.01,0.0,0.0,0.0,0.0,0.17,0.56,1.0,1.0,1.0,1.0,1.0,1.0,0.86,0.83,0.89,0.95,0.86,0.78,0.5,0.32,0.28,0.27,0.37,0.46,0.45,0.36,0.12,0.29,0.45,0.67,0.7,0.48,0.27,0.22,0.39,0.63,0.73,0.81,0.68,0.52,0.29,0.31,0.4,0.53,0.59,0.64,0.57,0.43,0.32,0.44,0.56,0.64,0.59,0.51,0.44,0.33,0.28,0.28,0.36,0.32,0.18,0.07,0.05,0.25,0.37,0.43,0.28,0.16,0.14,0.11,0.09,0.04,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.15,0.42,0.76,0.99,1.0,1.0,1.0,0.89,0.67,0.43,0.57,0.79,0.92,0.87,0.72,0.5,0.37,0.43,0.51,0.41,0.2,0.13,0.33,0.57,0.7,0.58,0.36,0.18,0.06,0.06,0.18,0.32,0.39,0.42,0.39,0.3,0.34,0.36,0.47,0.3,0.23,0.16,0.17,0.14,0.19,0.23,0.21,0.14,0.06,0.01,0.0,0.0,0.0,0.0,0.0,0.01,0.04,0.24,0.51,0.76,0.86,0.73,0.45,0.2,0.24,0.51,0.58,0.41,0.31,0.24,0.22,0.3,0.61,0.95,1.0,1.0,0.99,1.0,0.96,0.86,0.79,0.66,0.6,0.48,0.36,0.22,0.11,0.16,0.27,0.36,0.33,0.25,0.19,0.15,0.09,0.03,0.01,0.0,0.0,0.0,0.0,0.03,0.12,0.31,0.64,0.87,0.88,0.67,0.47,0.28,0.14,0.25,0.51,0.53,0.32,0.06,0.07,0.15,0.4,0.68,0.88,0.9,0.72,0.46,0.32,0.39,0.46,0.42,0.32,0.49,0.58,0.56,0.33,0.22,0.28,0.44,0.57,0.68,0.72,0.62,0.51,0.37,0.43,0.45,0.45,0.41,0.4,0.42,0.44,0.41,0.38,0.29,0.26,0.32,0.45,0.48,0.46,0.4,0.31,0.29,0.32,0.46,0.34,0.27,0.15,0.14,0.11,0.17,0.23,0.23,0.14,0.06,0.01,0.0,0.0,0.0,0.0,0.0,0.02,0.05,0.27,0.62,0.91,1.0,1.0,1.0,0.85,0.64,0.43,0.52,0.76,1.0,1.0,0.89,0.73,0.68,0.62,0.49,0.43,0.48,0.46,0.31,0.1,0.05,0.21,0.47,0.68,0.63,0.36,0.23,0.21,0.23,0.15,0.14,0.32,0.56,0.71,0.78,0.81,0.82,0.84,0.76,0.6,0.4,0.43,0.65,0.75,0.6,0.29,0.27,0.38,0.54,0.51,0.37,0.29,0.31,0.45,0.5,0.46,0.43,0.34,0.24,0.2,0.31,0.38,0.33,0.2,0.13,0.13,0.15,0.11,0.08,0.03,0.03,0.0,0.01,0.01,0.01,0.0,0.0,0.0,0.0,0.03,0.36,0.66,0.92,0.97,1.0,1.0,0.76,0.42,0.29,0.52,0.7,0.59,0.43,0.61,0.85,1.0,1.0,1.0,0.96,0.88,0.82,0.66,0.5,0.33,0.33,0.25,0.17,0.23,0.35,0.45,0.3,0.24,0.19,0.18,0.14,0.14,0.31,0.36,0.4,0.35,0.36,0.39,0.35,0.27,0.14,0.07,0.02,0.0,0.03,0.11,0.17,0.14,0.29,0.48,0.6,0.38,0.17,0.15,0.26,0.26,0.31,0.35,0.44,0.36,0.28,0.21,0.17,0.12,0.15,0.18,0.22,0.14,0.08,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04,0.14,0.41,0.74,0.86,0.71,0.53,0.76,0.98,1.0,0.91,0.66,0.44,0.44,0.51,0.61,0.46,0.31,0.16,0.18,0.33,0.47,0.45,0.33,0.18,0.06,0.01,0.01,0.0,0.0,0.0,0.01,0.23,0.55,0.83,0.69,0.43,0.19,0.42,0.71,0.98,0.78,0.47,0.18,0.08,0.22,0.5,0.78,0.84,0.74,0.45,0.22,0.26,0.43,0.59,0.54,0.48,0.43,0.3,0.18,0.31,0.49,0.57,0.38,0.21,0.17,0.19,0.23,0.21,0.16,0.08,0.05,0.01,0.0,0.0,0.0,0.0,0.0,0.01,0.16,0.27,0.38,0.33,0.34,0.65,0.8,0.8,0.52,0.38,0.41,0.51,0.66,0.78,0.65,0.52,0.4,0.54,0.55,0.44,0.43,0.5,0.63,0.58,0.58,0.59,0.45,0.31,0.19,0.16,0.15,0.28,0.52,0.53,0.48,0.44,0.51,0.5,0.38,0.34,0.26,0.21,0.17,0.12,0.06,0.06,0.11,0.18,0.16,0.09,0.03,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.22,0.53,0.8,0.6,0.36,0.13,0.4,0.67,0.93,0.94,0.9,0.78,0.6,0.43,0.45,0.62,0.83,0.89,0.78,0.65,0.6,0.55,0.45,0.3,0.27,0.46,0.65,0.79,0.81,0.83,0.86,0.89,0.82,0.63,0.32,0.26,0.28,0.27,0.16,0.14,0.23,0.31,0.3,0.22,0.13,0.19,0.38,0.56,0.59,0.58,0.54,0.47,0.4,0.34,0.33,0.34,0.3,0.21,0.12,0.06,0.02,0.01,0.03,0.03,0.03,0.01,0.0,0.0,0.0,0.0,0.0,0.01,0.03,0.22,0.54,0.89,0.99,0.95,0.91,0.66,0.37,0.11,0.26,0.51,0.68,0.75,0.75,0.78,0.78,0.8,0.67,0.44,0.29,0.31,0.29,0.32,0.33,0.5,0.49,0.35,0.31,0.27,0.27,0.35,0.41,0.48,0.39,0.32,0.4,0.36,0.3,0.11,0.07,0.09,0.14,0.16,0.17,0.2,0.23,0.19,0.11,0.02,0.0,0.01,0.01,0.0,0.0,0.0,0.0,0.18,0.5,0.89,1.0,1.0,1.0,1.0,1.0,0.96,0.86,0.85,0.8,0.7,0.57,0.52,0.44,0.38,0.34,0.26,0.32,0.4,0.54,0.55,0.55,0.57,0.52,0.45,0.48,0.53,0.49,0.45,0.45,0.46,0.37,0.4,0.48,0.6,0.63,0.64,0.63,0.58,0.46,0.33,0.22,0.29,0.5,0.63,0.54,0.28,0.09,0.03,0.11,0.31,0.4,0.34,0.39,0.34,0.41,0.26,0.28,0.21,0.14,0.08,0.05,0.1,0.19,0.26,0.18,0.08,0.02,0.0,0.0,0.0,0.0,0.0,0.01,0.06,0.26,0.62,0.85,0.79,0.62,0.44,0.3,0.37,0.61,0.89,0.88,0.76,0.67,0.59,0.55,0.45,0.37,0.26,0.16,0.06,0.01,0.01,0.01,0.03,0.31,0.71,1.0,1.0,1.0,0.81,0.51,0.54,0.85,1.0,1.0,0.97,0.84,0.56,0.33,0.11,0.27,0.44,0.61,0.59,0.48,0.32,0.31,0.35,0.42,0.28,0.13,0.02,0.0,0.0,0.0,0.21,0.53,0.81,0.85,0.76,0.54,0.32,0.11,0.08,0.17,0.34,0.49,0.56,0.53,0.45,0.43,0.41,0.33,0.34,0.38,0.58,0.5,0.5,0.42,0.46,0.36,0.21,0.2,0.25,0.25,0.15,0.08,0.09,0.26,0.35,0.45,0.35,0.31,0.29,0.28,0.21,0.14,0.11,0.1,0.07,0.03,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]};
+      const DUR = 120;
+      const scene = (id) => DATA.scenes.find((s) => s.id === id);
+      const sent = (id, i) => scene(id).sentences[i].start;
+      const sentEnd = (id, i) => scene(id).sentences[i].end;
+      // When a word is spoken: found in this scene's caption chunks, interpolated by character position.
+      function wordAt(id, word) {
+        const sc = scene(id);
+        const needle = word.toLowerCase();
+        for (const c of DATA.captions) {
+          if (c.start < sc.start - 0.001 || c.start >= sc.end) continue;
+          const idx = c.text.toLowerCase().indexOf(needle);
+          if (idx >= 0) return c.start + (idx / Math.max(1, c.text.length)) * (c.end - c.start);
+        }
+        throw new Error('"' + word + '" not found in scene ' + id);
+      }
+      const $ = (s) => document.querySelector(s);
+      const tl = gsap.timeline({ paused: true });
+
+      // ---------- shared moves ----------
+      const maskRise = (sel, at, stagger = 0.1) =>
+        tl.fromTo(sel, { yPercent: 108 }, { yPercent: 0, duration: 1.05, ease: "expo.out", stagger }, at);
+      const trackIn = (sel, at) =>
+        tl.fromTo(sel, { opacity: 0, x: -18, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, x: 0, clipPath: "inset(0 0% 0 0)", duration: 1.0, ease: "power3.out" }, at);
+      const focusIn = (sel, at, dur = 0.8) =>
+        tl.fromTo(sel, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: dur, ease: "power2.out" }, at);
+      const slideIn = (sel, at, x, dur = 0.9) =>
+        tl.fromTo(sel, { opacity: 0, x }, { opacity: 1, x: 0, duration: dur, ease: "expo.out" }, at);
+      const riseIn = (sel, at, dur = 0.85, stagger = 0) =>
+        tl.fromTo(sel, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: dur, ease: "power4.out", stagger }, at);
+      const popIn = (sel, at, stagger = 0) =>
+        tl.fromTo(sel, { opacity: 0, scale: 0.82 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.8)", stagger }, at);
+      const wipeIn = (sel, at, dur = 0.8) =>
+        tl.fromTo(sel, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: dur, ease: "power3.inOut" }, at);
+      const grow = (sel, at, dur, ease = "power3.out") =>
+        tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: dur, ease }, at);
+      const draw = (sel, from, at, dur, ease = "power2.inOut") =>
+        tl.fromTo(sel, { attr: { "stroke-dashoffset": from } }, { attr: { "stroke-dashoffset": 0 }, duration: dur, ease }, at);
+      const count = (sel, from, to, at, dur, dec, suffix = "", ease = "power3.out") => {
+        const el = $(sel);
+        const st = { v: from };
+        tl.fromTo(st, { v: from }, { v: to, duration: dur, ease, onUpdate: () => { el.textContent = st.v.toFixed(dec) + suffix; } }, at);
+      };
+      const drift = (sel, from, to, at, dur) =>
+        tl.fromTo(sel, from, { ...to, duration: dur, ease: "sine.inOut" }, at);
+      const sceneDrift = (id, sel, from, to) => drift(sel, from, to, scene(id).start, scene(id).end - scene(id).start);
+
+      // ---------- ambient ----------
+      drift("#blob-a", { x: -80, y: -40 }, { x: 260, y: 140 }, 0, DUR);
+      drift("#blob-b", { x: 120, y: 60 }, { x: -220, y: -120 }, 0, DUR);
+
+      // ---------- chapter progress ----------
+      for (const s of DATA.scenes) {
+        tl.fromTo("#p-" + s.id, { scaleX: 0 }, { scaleX: 1, duration: s.end - s.start, ease: "none" }, s.start);
+      }
+
+      // ---------- the mic badge breathes with the voice ----------
+      const halo = $("#mic-halo");
+      const vp = { t: 0 };
+      tl.fromTo(vp, { t: 0 }, {
+        t: DUR, duration: DUR, ease: "none",
+        onUpdate: () => {
+          const v = DATA.envelope[Math.min(DATA.envelope.length - 1, Math.floor(vp.t * 30))] || 0;
+          halo.style.transform = "scale(" + (1 + v * 0.9).toFixed(3) + ")";
+          halo.style.opacity = (0.12 + v * 0.7).toFixed(3);
+        },
+      }, 0);
+
+      // ---------- captions ----------
+      DATA.captions.forEach((c, i) => {
+        tl.fromTo("#cap-" + i + " .cl", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.28, ease: "power2.out" }, c.start);
+        const words = document.getElementById("cap-" + i).getElementsByClassName("cw");
+        c.words.forEach((w, j) => {
+          tl.fromTo(words[j], { color: "rgba(255,255,255,0.42)" }, { color: "rgba(255,255,255,1)", duration: 0.14, ease: "none" }, w.t);
+        });
+      });
+
+      // ---------- transitions ----------
+      const blurCross = (from, to, T) => {
+        tl.fromTo(from, { opacity: 1, scale: 1, filter: "blur(0px)" }, { opacity: 0, scale: 1.05, filter: "blur(16px)", duration: 0.55, ease: "power2.in", immediateRender: false }, T);
+        tl.fromTo(to, { opacity: 0, scale: 0.965, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.85, ease: "power2.out" }, T + 0.2);
+      };
+      // the three prices slide past like pages
+      const sidePush = (from, to, T) => {
+        tl.fromTo(from, { xPercent: 0, opacity: 1 }, { xPercent: -42, opacity: 0, duration: 0.8, ease: "power3.inOut", immediateRender: false }, T);
+        tl.fromTo(to, { xPercent: 42, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.8, ease: "power3.inOut" }, T + 0.06);
+      };
+      const verticalPush = (from, to, T) => {
+        tl.fromTo(from, { yPercent: 0 }, { yPercent: -100, duration: 0.85, ease: "power3.inOut", immediateRender: false }, T);
+        tl.fromTo(to, { yPercent: 100, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 0.85, ease: "power3.inOut" }, T);
+      };
+      const zoomThrough = (from, to, T) => {
+        tl.fromTo(from, { opacity: 1, scale: 1, filter: "blur(0px)" }, { opacity: 0, scale: 1.4, filter: "blur(12px)", duration: 0.6, ease: "power3.in", immediateRender: false }, T);
+        tl.fromTo(to, { opacity: 0, scale: 0.84, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.0, ease: "expo.out" }, T + 0.32);
+      };
+      const T = (id) => scene(id).start - 0.4;
+      blurCross("#s-verdict", "#s-split", T("split"));
+      sidePush("#s-split", "#s-bounce", T("bounce"));
+      sidePush("#s-bounce", "#s-compute", T("compute"));
+      sidePush("#s-compute", "#s-memory", T("memory"));
+      verticalPush("#s-memory", "#s-rivals", T("rivals") - 0.1);
+      tl.set("#s-memory", { opacity: 0 }, T("rivals") + 0.8);
+      blurCross("#s-rivals", "#s-swedish", T("swedish"));
+      zoomThrough("#s-swedish", "#s-plan", T("plan"));
+
+      // ---------- 1 · verdict ----------
+      sceneDrift("verdict", "#verdict-ghost", { x: 0 }, { x: -110 });
+      trackIn("#v-eyebrow", 0.25);
+      maskRise("#v-q", 0.4);
+      const yesAt = wordAt("verdict", "Yes");
+      tl.fromTo("#v-yes", { opacity: 0, scale: 0.72, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.9, ease: "back.out(1.6)" }, yesAt - 0.12);
+      grow("#v-yes-line", yesAt + 0.3, 0.9, "power3.inOut");
+      const eightAt = wordAt("verdict", "eight");
+      focusIn("#v-yes-sub", eightAt - 0.25, 0.6);
+      count("#v-count", 0, 8, eightAt - 0.2, 1.2, 0, "", "power2.out");
+      riseIn("#v-apps .app", eightAt - 0.15, 0.7, 0.09);
+      const pricesAt = wordAt("verdict", "three");
+      riseIn(["#pr-1", "#pr-2", "#pr-3"], pricesAt - 0.2, 0.8, 0.16);
+      tl.fromTo("#v-apps .app", { borderColor: "#283643" }, { borderColor: "rgba(240, 180, 41, 0.6)", duration: 0.3, stagger: 0.06, yoyo: true, repeat: 1 }, eightAt + 1.0);
+
+      // ---------- 2 · split ----------
+      const SP = scene("split").start;
+      sceneDrift("split", "#split-ghost", { x: 40 }, { x: -60 });
+      trackIn("#sp-eyebrow", SP);
+      maskRise("#sp-title", SP + 0.12);
+      slideIn("#sp-kb", wordAt("split", "microphone") - 0.6, -70, 0.9);
+      draw("#sp-slash", 26, wordAt("split", "microphone") + 0.1, 0.45);
+      const killAt = wordAt("split", "seventy");
+      tl.fromTo("#sp-meter-fill", { scaleX: 0.05 }, { scaleX: 1, duration: 1.1, ease: "power2.in" }, killAt - 0.4);
+      tl.fromTo("#sp-limit", { opacity: 0.4, scaleY: 1 }, { opacity: 1, scaleY: 1.5, duration: 0.18, yoyo: true, repeat: 3, ease: "power1.inOut" }, killAt + 0.7);
+      const splitAt = wordAt("split", "split");
+      focusIn("#sp-link", splitAt - 0.1, 0.7);
+      slideIn("#sp-app", wordAt("split", "main app") - 0.35, 70, 0.9);
+      riseIn("#sp-a1", wordAt("split", "records") - 0.2, 0.6);
+      riseIn("#sp-a2", wordAt("split", "models") - 0.25, 0.6);
+      riseIn("#sp-a3", wordAt("split", "models") + 0.15, 0.6);
+      popIn("#sp-chip", wordAt("split", "background") - 0.1);
+      tl.fromTo("#sp-dot-a", { x: 0, opacity: 0 }, { x: 228, opacity: 1, duration: 1.0, ease: "power1.inOut", repeat: 3, repeatDelay: 0.4 }, splitAt + 0.4);
+      tl.fromTo("#sp-dot-b", { x: 0, opacity: 0 }, { x: -228, opacity: 1, duration: 1.0, ease: "power1.inOut", repeat: 3, repeatDelay: 0.4 }, splitAt + 1.1);
+      focusIn("#sp-types", wordAt("split", "thin") - 0.1, 0.7);
+      focusIn("#sp-src", wordAt("split", "records") + 0.5, 0.8);
+
+      // ---------- 3 · bounce ----------
+      const B = scene("bounce").start;
+      sceneDrift("bounce", "#bounce-ghost", { x: 50 }, { x: -60 });
+      trackIn("#b-eyebrow", B + 0.1);
+      maskRise("#b-title", B + 0.2);
+      riseIn("#b-ph1", sent("bounce", 1) - 0.3, 0.8);
+      const openAt = wordAt("bounce", "open");
+      tl.fromTo("#b-mk", { scale: 1 }, { scale: 0.8, duration: 0.1, ease: "power2.in" }, openAt - 0.45);
+      tl.fromTo("#b-mk", { scale: 0.8 }, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.45)", immediateRender: false }, openAt - 0.35);
+      draw("#b-path1", 230, openAt - 0.25, 0.7);
+      tl.fromTo("#b-ar1 .bl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, openAt);
+      riseIn("#b-ph2", openAt + 0.1, 0.8);
+      tl.fromTo(["#b-ring1", "#b-ring2"], { scale: 1, opacity: 0.8 }, { scale: 1.7, opacity: 0, duration: 1.4, ease: "power2.out", stagger: 0.7, repeat: 3 }, openAt + 0.5);
+      tl.fromTo("#b-odot", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(3)" }, openAt + 0.6);
+      const noWayAt = wordAt("bounce", "public");
+      focusIn("#b-auto", wordAt("bounce", "Since") - 0.1, 0.5);
+      grow("#b-auto-strike", noWayAt - 0.2, 0.5, "power2.inOut");
+      tl.fromTo("#b-auto", { color: "#8c9bab" }, { color: "#e8795a", duration: 0.4 }, noWayAt + 0.1);
+      const swipeAt = wordAt("bounce", "swipe");
+      draw("#b-path2", 230, swipeAt - 0.2, 0.7);
+      tl.fromTo("#b-swipe", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, swipeAt);
+      riseIn("#b-ph3", swipeAt + 0.15, 0.8);
+      tl.fromTo("#b-back", { boxShadow: "0 0 0 rgba(240,180,41,0)" }, { boxShadow: "0 0 18px rgba(240,180,41,0.7)", duration: 0.5, yoyo: true, repeat: 3 }, swipeAt + 0.6);
+      wipeIn("#b-reply", swipeAt + 1.0, 0.9);
+      const sessAt = wordAt("bounce", "alive");
+      riseIn("#b-session", sessAt - 0.4, 0.8);
+      grow("#b-sess-fill", sessAt + 0.2, 2.6, "power1.inOut");
+      popIn("#b-session .mark.first", sessAt + 0.2);
+      tl.fromTo("#b-ml1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, sessAt + 0.3);
+      const manyAt = wordAt("bounce", "many");
+      popIn("#b-session .m2", manyAt - 0.6, 0.16);
+      tl.fromTo("#b-ml2", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, manyAt - 0.3);
+
+      // ---------- 4 · compute ----------
+      const C = scene("compute").start;
+      sceneDrift("compute", "#compute-ghost", { x: 40 }, { x: -60 });
+      trackIn("#c-eyebrow", C + 0.1);
+      maskRise("#c-title", C + 0.2);
+      const gpuAt = wordAt("compute", "GPU");
+      riseIn("#c-gpu", gpuAt - 0.5, 0.8);
+      draw("#c-x", 64, gpuAt + 0.4, 0.5);
+      wipeIn("#c-gpu-st", gpuAt + 0.6, 0.7);
+      const cpuAt = wordAt("compute", "CPU");
+      riseIn("#c-cpu", wordAt("compute", "Sayboard") - 0.3, 0.8);
+      wipeIn("#c-cpu-st", cpuAt - 0.1, 0.7);
+      riseIn("#c-code", wordAt("compute", "hard-codes") - 0.3, 0.7);
+      wipeIn("#c-l1", wordAt("compute", "hard-codes") - 0.1, 0.6);
+      tl.fromTo("#c-l2", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.1, ease: "steps(28)" }, wordAt("compute", "language") - 0.1);
+      tl.fromTo("#c-l3", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.6, ease: "steps(54)" }, cpuAt + 0.1);
+      tl.fromTo("#c-l2 .num", { textShadow: "0 0 0 rgba(240,180,41,0)" }, { textShadow: "0 0 18px rgba(240,180,41,0.95)", duration: 0.5, yoyo: true, repeat: 1 }, cpuAt + 0.2);
+      const aneAt = wordAt("compute", "Neural");
+      riseIn("#c-ane", aneAt - 0.3, 0.8);
+      wipeIn("#c-ane-st", wordAt("compute", "unclear") - 0.5, 0.8);
+      tl.fromTo("#c-ane", { boxShadow: "0 0 0 rgba(240,180,41,0)" }, { boxShadow: "0 0 34px rgba(240,180,41,0.35)", duration: 0.7, yoyo: true, repeat: 1 }, wordAt("compute", "Neural") + 0.5);
+
+      // ---------- 5 · memory ----------
+      const M = scene("memory").start;
+      sceneDrift("memory", "#memory-ghost", { x: 40 }, { x: -60 });
+      trackIn("#m-eyebrow", M + 0.1);
+      maskRise("#m-title", M + 0.2);
+      const gbAt = wordAt("memory", "1.3");
+      riseIn("#m-mem", wordAt("memory", "Pianissimo") - 0.4, 0.8);
+      grow("#m-asr", wordAt("memory", "Pianissimo") - 0.05, 0.9);
+      grow("#m-llm", wordAt("memory", "Gemma") - 0.05, 0.9);
+      count("#m-gb", 0, 1.3, wordAt("memory", "Pianissimo") - 0.05, (gbAt - wordAt("memory", "Pianissimo")) + 0.9, 1, " GB", "power2.out");
+      tl.fromTo("#m-kb", { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.5, ease: "back.out(2)" }, wordAt("memory", "background") - 0.1);
+      riseIn("#m-lat", wordAt("memory", "CPU") - 0.3, 0.8);
+      // real time: the slow bar takes the full five seconds, the pipelined one about one
+      const slowAt = wordAt("memory", "polishing");
+      grow("#m-f-slow", slowAt, 5.2, "none");
+      count("#m-t-slow", 0, 5.2, slowAt, 5.2, 1, " s", "none");
+      const fastAt = wordAt("memory", "clean");
+      grow("#m-f-fast", fastAt, 1.0, "none");
+      count("#m-t-fast", 0, 1.0, fastAt, 1.0, 1, " s", "none");
+      tl.fromTo("#m-t-fast", { color: "#e6ecf2" }, { color: "#f0b429", duration: 0.3 }, fastAt + 1.0);
+
+      // ---------- 6 · rivals ----------
+      const R = scene("rivals").start;
+      sceneDrift("rivals", "#rivals-ghost", { x: 40 }, { x: -70 });
+      trackIn("#r-eyebrow", R + 0.05);
+      maskRise("#r-title", R + 0.15);
+      focusIn("#r-head", R + 0.7, 0.6);
+      [["#r-1", "KeySay"], ["#r-2", "Yaps"], ["#r-3", "Sayboard"], ["#r-4", "Outspoken"]].forEach(([sel, cue]) => {
+        const at = wordAt("rivals", cue);
+        slideIn(sel, at - 0.3, -60, 0.9);
+        tl.fromTo(sel + " .eng", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out", stagger: 0.12 }, at + 0.25);
+      });
+      // every rival leans on the same multilingual model
+      const pkAt = wordAt("rivals", "Outspoken") + 1.4;
+      tl.fromTo("#s-rivals .eng.pk i", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out", stagger: 0.12 }, pkAt);
+      focusIn("#r-src", pkAt + 0.2, 0.7);
+
+      // ---------- 7 · swedish ----------
+      const SW = scene("swedish").start;
+      sceneDrift("swedish", "#swedish-ghost", { x: 50 }, { x: -70 });
+      trackIn("#sw-eyebrow", SW - 0.05);
+      maskRise("#sw-title", SW + 0.05);
+      const pkW = wordAt("swedish", "fifteen");
+      riseIn("#sw-bars", wordAt("swedish", "Parakeet") - 0.4, 0.8);
+      grow("#sw-f-pk", pkW - 0.2, 1.3);
+      count("#sw-v-pk", 0, 15.1, pkW - 0.2, 1.3, 1, "%");
+      const piW = wordAt("swedish", "four");
+      grow("#sw-f-pi", piW - 0.25, 1.1);
+      count("#sw-v-pi", 0, 4.5, piW - 0.25, 1.1, 1, "%");
+      const toolsAt = wordAt("swedish", "tools");
+      slideIn("#sw-g1", toolsAt - 0.5, 60, 0.8);
+      slideIn("#sw-g2", toolsAt - 0.3, 60, 0.8);
+      wipeIn("#sw-g1s", toolsAt + 0.3, 0.6);
+      wipeIn("#sw-g2s", toolsAt + 0.5, 0.6);
+
+      // ---------- 8 · plan ----------
+      const P = scene("plan").start;
+      sceneDrift("plan", "#plan-ghost", { x: 40 }, { x: -50 });
+      trackIn("#p-eyebrow", P + 0.05);
+      maskRise("#p-title", P + 0.15);
+      riseIn(["#g-1", "#g-2", "#g-3", "#g-4"], wordAt("plan", "four") - 0.2, 0.8, 0.1);
+      [["#g-1", "survives"], ["#g-2", "locked"], ["#g-3", "within"], ["#g-4", "memory"]].forEach(([sel, cue]) => {
+        const at = wordAt("plan", cue);
+        draw(sel + " .tick", 44, at, 0.45, "power2.out");
+        tl.fromTo(sel, { borderColor: "#283643" }, { borderColor: "rgba(240, 180, 41, 0.85)", duration: 0.4 }, at + 0.1);
+      });
+      const passAt = sent("plan", 3);
+      tl.fromTo("#final-title .ch", { yPercent: 105, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.9, ease: "expo.out", stagger: 0.026 }, wordAt("plan", "private") - 0.35);
+      focusIn("#p-sub", passAt + 1.6, 1.0);
+      // settle to the dark ground
+      tl.to("#stage", { opacity: 0, duration: 0.9, ease: "power1.in" }, DUR - 1.0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

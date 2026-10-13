@@ -1,0 +1,145 @@
+{
+  "voice": "af_heart",
+  "lang": "en-us",
+  "scenes": [
+    {
+      "id": "verdict",
+      "sentences": [
+        {
+          "show": "Can a fully local Swedish voice keyboard work on iPhone?"
+        },
+        {
+          "show": "Yes. At least eight apps already transcribe on the phone."
+        },
+        {
+          "show": "But iOS makes them all pay three prices.",
+          "say": "But i O S makes them all pay three prices."
+        }
+      ]
+    },
+    {
+      "id": "split",
+      "sentences": [
+        {
+          "show": "The keyboard can't use the microphone, and iOS kills it at around seventy megabytes.",
+          "say": "The keyboard can't use the microphone, and i O S kills it at around seventy megabytes."
+        },
+        {
+          "show": "So they all split in two: a thin keyboard, and the main app, which records and runs the models in the background."
+        }
+      ]
+    },
+    {
+      "id": "bounce",
+      "sentences": [
+        {
+          "show": "Price one: the bounce."
+        },
+        {
+          "show": "To start listening, the keyboard has to open its app for a moment."
+        },
+        {
+          "show": "Since iOS 26.4, there's no public way back, so people swipe back by hand.",
+          "say": "Since i O S twenty-six point four, there's no public way back, so people swipe back by hand."
+        },
+        {
+          "show": "So apps keep the session alive for up to thirty minutes. One bounce, many dictations."
+        }
+      ]
+    },
+    {
+      "id": "compute",
+      "sentences": [
+        {
+          "show": "Price two: no graphics chip."
+        },
+        {
+          "show": "iOS blocks the GPU as soon as the app leaves the screen.",
+          "say": "i O S blocks the G P U as soon as the app leaves the screen."
+        },
+        {
+          "show": "Open-source Sayboard hard-codes its language model to the CPU for that reason.",
+          "say": "Open-source Say board hard-codes its language model to the C P U for that reason."
+        },
+        {
+          "show": "The Neural Engine is the way out, though Apple's iOS 27 rules for it are unclear.",
+          "say": "The Neural Engine is the way out, though Apple's i O S twenty-seven rules for it are unclear."
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "sentences": [
+        {
+          "show": "Price three: memory and time."
+        },
+        {
+          "show": "Pianissimo plus Gemma needs about 1.3 gigabytes, held by an app in the background.",
+          "say": "Pianissimo plus Gemma needs about one point three gigabytes, held by an app in the background."
+        },
+        {
+          "show": "On the CPU, Gemma writes about 25 tokens a second, so polishing a 30-second note takes around five seconds.",
+          "say": "On the C P U, Gemma writes about twenty-five tokens a second, so polishing a thirty-second note takes around five seconds."
+        },
+        {
+          "show": "The fix: stream the words, and clean each sentence while the user is still talking."
+        }
+      ]
+    },
+    {
+      "id": "rivals",
+      "sentences": [
+        {
+          "show": "How do rivals do it locally?"
+        },
+        {
+          "show": "KeySay runs Whisper, then Apple's own on-device model for cleanup.",
+          "say": "Key Say runs Whisper, then Apple's own on-device model for cleanup."
+        },
+        {
+          "show": "Yaps runs NVIDIA's Parakeet.",
+          "say": "Yaps runs En-vidia's Parakeet."
+        },
+        {
+          "show": "Sayboard pairs Whisper or Parakeet with small Qwen and Gemma models.",
+          "say": "Say board pairs Whisper or Parakeet with small Kwen and Gemma models."
+        },
+        {
+          "show": "Outspoken offers Apple Speech, Parakeet or Whisper, and rewrites with Apple Intelligence or Qwen.",
+          "say": "Outspoken offers Apple Speech, Parakeet or Whisper, and rewrites with Apple Intelligence or Kwen."
+        }
+      ]
+    },
+    {
+      "id": "swedish",
+      "sentences": [
+        {
+          "show": "None of them is built for Swedish."
+        },
+        {
+          "show": "Parakeet's own model card shows fifteen percent word errors in Swedish."
+        },
+        {
+          "show": "Pianissimo reports four and a half on its own test, and Apple's newest speech tools skip Swedish."
+        }
+      ]
+    },
+    {
+      "id": "plan",
+      "sentences": [
+        {
+          "show": "So build the split, and prove four things first."
+        },
+        {
+          "show": "The session survives heavy apps, and Pianissimo runs with the screen locked."
+        },
+        {
+          "show": "Cleanup lands within two seconds, and memory stays under one and a half gigabytes."
+        },
+        {
+          "show": "Pass those, and you own private, edit-free Swedish dictation."
+        }
+      ]
+    }
+  ]
+}
