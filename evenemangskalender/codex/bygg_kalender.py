@@ -76,23 +76,30 @@ ANMALAN = ("kravs", "ingen", "okand")
 REGLER = ("R1", "R2", "R3", "R4", "R5", "R6", "R9")
 KATEGORIER = ("Arbetsmarknad", "Kompetensutveckling", "Företagande")
 KALLTYPER = ("kommun", "komvux", "region", "lansstyrelse", "af", "naringsliv",
-             "innovation", "larosate", "massor", "sociala", "aggregator", "sokning")
+             "innovation", "larosate", "yh", "omstallning", "massor", "sociala", "aggregator", "sokning")
 REGIONALA_KALLTYPER = {
     "region": "regionen", "lansstyrelse": "länsstyrelsen", "af": "Arbetsförmedlingen",
     "naringsliv": "Almi/NyföretagarCentrum", "larosate": "universitet/högskolor",
-    "massor": "mässlistor (allamassor.se, syvarna.com/jobbmassor)",
+    "yh": "yrkeshögskolor och folkhögskolor",
+    "omstallning": "omställningsorganisationer (TRR, TSL, Omställningsfonden) och CSN",
+    "massor": "mässlistor och mässarrangörer (allamassor.se, syvarna.com/jobbmassor, länets mässhallar)",
     "sociala": "arrangörers inlägg (LinkedIn, Facebook)",
 }
 RESULTAT = ("kandidater", "inga", "ej_lasbar")
+# Praktiska taggar, bara när arrangören skriver det.
+PRAKTISKT = ("Ta med cv", "Intervjuer på plats")
 
 # Sökord, ett per sökfråga, kombinerade med regionen och periodens månad(er). Orden för
 # jobbmässor bygger på en webbsökning i oktober 2026 av vad arrangörerna faktiskt skriver.
+# Omställning, yrkesbyte och branschmässor är tillagda för målgruppen arbetssökande 20–65 år.
 SOKORD = ["jobbmässa", "jobb- och utbildningsmässa", "rekryteringsmässa",
           "rekryteringsträff", "rekryteringsdag", "rekryteringsevent",
           "framtidsmässa", "kompetensmässa", "jobbdag", "informationsträff",
           "\"träffa arbetsgivare\"", "\"ta med ditt CV\"", "snabbintervjuer",
+          "omställningsstudiestöd", "byta yrke", "validering", "arbetsmarknadsutbildning",
+          "yrkeshögskola öppet hus", "folkhögskola öppet hus",
           "utbildningsmässa", "studentmässa", "komvuxmässa", "komvux öppet hus", "yrkesutbildning",
-          "kostnadsfri kompetensutveckling", "starta eget", "företagarmässa"]
+          "branschmässa", "fackmässa", "kostnadsfri kompetensutveckling", "starta eget"]
 # Digitala jobbmässor och rekryteringsträffar tas med även utan regional koppling (R6).
 SOKORD_NATIONELLT = ["digital jobbmässa", "digital rekryteringsträff"]
 DIGITALT_UTAN_KOPPLING = ("Mässa", "Rekryteringsträff")
@@ -121,13 +128,14 @@ MALL_EVENEMANG = {
     "digital_plattform": "t.ex. Teams eller Zoom, eller null",
     "regional_koppling": "krävs om digitalt (utom jobbmässor och rekryteringsträffar): arrangör, målgrupp eller finansiering i regionen",
     "dropin": "HH:MM–HH:MM eller null",
-    "malgrupp": "målgrupp eller null",
+    "malgrupp": "målgrupp enligt arrangören, t.ex. 'arbetssökande 18–29 år', eller null",
     "deltagarkrav": "deltagarkrav eller null",
     "pris": "prisuppgiften som källan anger, eller null",
     "pris_tagg": "Gratis | Fri entré | 150 kr | 150 kr medlem / 250 kr övriga ex moms | null",
     "villkor": "lista med taggar ur villkorsvokabulären, t.ex. [\"Begränsat antal platser\"]",
+    "praktiskt": "[] eller lista ur: Ta med cv, Intervjuer på plats (bara om arrangören skriver det)",
     "ovrigt": "högst en kort tagg, eller null",
-    "anmalan": "kravs | ingen | okand",
+    "anmalan": "kravs | ingen (bara om arrangören skriver att anmälan inte behövs) | okand",
     "anmalan_text": "källans uppgift om anmälan, eller null",
     "tidsfrist": "ÅÅÅÅ-MM-DD eller null",
     "lank": "https://… direktlänk till evenemangssidan",
@@ -480,6 +488,17 @@ def kontrollera_beskrivning(b: str, titel: str) -> tuple[list, list]:
     return fel, varn
 
 
+def alder_utanfor(text: str):
+    """Ålder som helt ligger utanför målgruppen 20–65 år, t.ex. '15–19 år' eller '65+', annars None."""
+    for a, b in re.findall(r"\b(\d{1,2})\s*(?:–|-|till)\s*(\d{1,2})\s*(?:år\b|-?åring)", text):
+        if 10 <= int(a) <= int(b) and (int(b) < 20 or int(a) > 65):   # inte längder som "1–2 år"
+            return f"{a}–{b} år"
+    for m in re.finditer(r"\b(\d{2})\s*\+|\b(?:från|över)\s+(\d{2})\s*år\b", text):
+        if int(m.group(1) or m.group(2)) >= 65:
+            return m.group(0)
+    return None
+
+
 def hitta_kommun(namn: str, kommuner: list):
     idx = {k.casefold(): k for k in kommuner}
     n = re.sub(r"\s+(kommun|stad|municipality)$", "", namn.casefold().strip())
@@ -741,8 +760,8 @@ def validera_evenemang(e, i, reg, m, c):
     if status in ("obekraftad", "installt") and not ev["skal"]:
         F(f"{status} kräver skal")
     if not A:
-        ev.update(typ=None, villkor=[], pris_tagg=txt(e.get("pris_tagg")), dropin=None, ovrigt=None,
-                  kategori=txt(e.get("kategori")))
+        ev.update(typ=None, villkor=[], praktiskt=[], pris_tagg=txt(e.get("pris_tagg")), dropin=None,
+                  ovrigt=None, kategori=txt(e.get("kategori")))
         return ev
 
     # ---- endast kalenderevenemang (verifierad / vantelista)
@@ -847,6 +866,20 @@ def validera_evenemang(e, i, reg, m, c):
         villkor.append((4, "Väntelista"))
     ev["villkor"] = [v for _, v in sorted(villkor, key=lambda x: x[0])]
 
+    pk = e.get("praktiskt") or []
+    if isinstance(pk, str):
+        pk = [pk]
+    kanon_p = {p.casefold(): p for p in PRAKTISKT}
+    praktiskt = []
+    for p in map(txt, pk):
+        if not p:
+            continue
+        if p.casefold() not in kanon_p:
+            F(f"praktiskt '{p}' följer inte vokabulären ({', '.join(PRAKTISKT)})")
+        elif kanon_p[p.casefold()] not in praktiskt:
+            praktiskt.append(kanon_p[p.casefold()])
+    ev["praktiskt"] = sorted(praktiskt, key=PRAKTISKT.index)
+
     ov = e.get("ovrigt")
     if isinstance(ov, list):
         if len(ov) > 1:
@@ -855,7 +888,28 @@ def validera_evenemang(e, i, reg, m, c):
     ov = txt(ov)
     if ov and len(ov) > 40:
         F("ovrigt får vara högst 40 tecken")
+    if ov and (ov.casefold().rstrip(".") in kanon_p
+               or re.fullmatch(r"ingen anmälan|anmälan krävs|anmäl senast.*", ov.casefold().rstrip("."))):
+        F("ovrigt: Ta med cv och Intervjuer på plats anges i praktiskt, anmälan i anmalan")
     ev["ovrigt"] = ov.rstrip(".") if ov else None
+
+    # Målgrupp och kategori (R3): arbetssökande 20–65 år, Företagande bara starta eget,
+    # mässor bara om andra än yrkesverksamma släpps in.
+    mal = " ".join([text, (ev["malgrupp"] or "").casefold(), " ".join(ev["villkor"]).casefold()])
+    x = alder_utanfor(mal)
+    if x:
+        W(f"målgruppen ({x}) ligger helt utanför 20–65 år – utesluts enligt R3")
+    if "pensionär" in mal:
+        W("evenemang för pensionärer utesluts (R3) – kontrollera målgruppen")
+    if kat == "Företagande" and not re.search(
+            r"start|blivande|eget företag|egen firma|egenföretag|affärsidé|nyföretag", mal):
+        W("Företagande gäller bara starta eget – evenemang för den som redan driver företag utesluts (R3)")
+    kallt = " ".join(filter(None, (ev["malgrupp"], ev["deltagarkrav"], ev["belagg"]))).casefold()
+    if re.search(r"\b(?:endast|bara|enbart)\s+(?:öpp(?:en|et)\s+)?(?:för\s+)?(?:yrkesverksamma|fackbesökare|branschfolk)"
+                 r"|\b(?:inte|ej)\s+öpp(?:en|et)\s+för\s+allmänheten", kallt):
+        W("källan anger att bara yrkesverksamma släpps in – utesluts enligt R3")
+    if kat == "Arbetsmarknad" and re.search(r"branschmäss|fackmäss", text):
+        W("branschmässor räknas som Kompetensutveckling (inom 40 %-kvoten), om de inte uttryckligen är jobbmässor")
 
     dropin = las_intervall(e.get("dropin"))
     if dropin is False:
@@ -901,12 +955,15 @@ def harled_kort(ev: dict, per: dict):
     if ev["pris_tagg"]:
         taggar.append((ev["pris_tagg"], False))
     taggar += [(v, False) for v in ev["villkor"]]
+    taggar += [(p, False) for p in ev["praktiskt"]]
     if ev["ovrigt"]:
         taggar.append((ev["ovrigt"], False))
     if ev["anmalan"] == "kravs":
         tf = ev["tidsfrist"]
         taggar.append((f"Anmäl senast {datum_text(tf)}" if tf and tf >= ev["kd"]
                        else "Anmälan krävs", True))
+    elif ev["anmalan"] == "ingen":
+        taggar.append(("Ingen anmälan", True))
     ev["taggar"] = taggar
 
 
@@ -1776,10 +1833,10 @@ def exempeldata(idag: dt.date) -> dict:
         e["belagg"] = e["belagg"] or f"{dagrubrik(d)} {d.year}, kl. {e['tid_start']}"
         return e
     data["regioner"][0]["evenemang"] = [
-        ev(titel="Frukostmöte: Så hittar du rätt kompetens", kategori="Företagande", typ="Frukostmöte", datum=D(0), tid_start="07:30",
+        ev(titel="Frukostmöte: Från idé till eget företag", kategori="Företagande", typ="Frukostmöte", datum=D(0), tid_start="07:30",
            tid_slut="09:00", lokal="Stadshuset", adress="Storgatan 1",
            arrangor="Exempelkommunen, näringslivsenheten i samarbete med Almi Exempel",
-           beskrivning="Frukostmöte om rekrytering och kompetensförsörjning för små och medelstora företag.",
+           beskrivning="Frukostmöte för dig som vill starta företag, om affärsidé, budget och de första kunderna.",
            tidsfrist=D(-1) if s > idag else kd),
         ev(titel="Jobbcafé: CV-hjälp på biblioteket", typ="Öppet hus", datum=D(0), tid_start="13:00",
            tid_slut="15:00", dropin="13:00-15:00", lokal="Stadsbiblioteket", anmalan="ingen", fler_datum=[D(2), D(4)],
@@ -1787,7 +1844,7 @@ def exempeldata(idag: dt.date) -> dict:
            beskrivning="Öppet hus för arbetssökande som vill ha hjälp med cv, personligt brev och jobbansökningar."),
         ev(titel="Rekryteringsträff lager och logistik", typ="Rekryteringsträff", datum=D(0), tid_start="10:00",
            tid_slut="12:00", kommun="Nybro", ort="Nybro", lokal="Arbetsförmedlingen", anmalan="ingen",
-           villkor=["För arbetssökande"], arrangor="Arbetsförmedlingen Exempel",
+           villkor=["För arbetssökande"], praktiskt=["Ta med CV", "Intervjuer på plats"], arrangor="Arbetsförmedlingen Exempel",
            beskrivning="Rekryteringsträff där lokala arbetsgivare inom lager och logistik möter arbetssökande."),
         ev(titel="Yrkesmässan Sydost", typ="Mässa", datum=D(1), datum_slut=D(3), tid_start="09:00",
            tid_slut="15:00", lokal="Exempelhallen", adress="Hamngatan 12", pris_tagg="Fri entré", anmalan="ingen",
@@ -1796,38 +1853,43 @@ def exempeldata(idag: dt.date) -> dict:
            tid_slut="13:00", format="digitalt", kommun=None, ort=None, digital_plattform="Teams",
            regional_koppling="Arrangör och målgrupp i Kalmar län", tidsfrist=(idag - dt.timedelta(days=2)).isoformat(),
            beskrivning="Seminarium för blivande företagare om affärsplan, bolagsform och första kunderna."),
+        ev(titel="Informationsträff om omställningsstudiestöd", typ="Seminarium", datum=D(1), tid_start="17:30",
+           tid_slut="18:30", lokal="Vägledningscentrum", adress="Skolgatan 5", arrangor="Exempelkommunen, vägledningscentrum",
+           beskrivning="Informationsträff för dig som vill byta yrke, om omställningsstudiestöd och hur du ansöker."),
         ev(titel="Öppet hus på Vuxenutbildningen", typ="Öppet hus", datum=D(2), tid_start="15:00",
            tid_slut="18:00", dropin="15:00-18:00", kommun="Oskarshamn", ort="Oskarshamn", lokal="Komvux",
            anmalan="ingen", beskrivning="Öppet hus för vuxna som vill läsa in gymnasiet, byta yrke eller lära sig svenska."),
-        ev(titel="Nätverksträff för kvinnliga företagare", typ="Nätverksträff", datum=D(2), tid_start="17:30",
+        ev(titel="Nätverksträff för kvinnor som vill starta eget", kategori="Företagande", typ="Nätverksträff", datum=D(2), tid_start="17:30",
            tid_slut="20:00", kommun="Västervik", ort="Västervik", lokal="Exempelhotellet", preliminar_lokal=True,
            pris_tagg="150 kr medlem / 250 kr övriga ex moms", villkor=["Begränsat antal platser", "Endast kvinnor"],
-           tidsfrist=D(1), beskrivning="Nätverksträff för kvinnor som driver eller vill starta företag i norra länet."),
-        ev(titel="Lunchträff HR-nätverket", typ="Lunchträff", datum=D(2), tid_start="11:30", tid_slut="13:00",
-           status="vantelista", lokal="Exempelhuset", tidsfrist=D(0),
-           beskrivning="Lunchträff för HR-ansvariga om kompetensbaserad rekrytering och introduktion."),
-        ev(titel="Branschdag besöksnäring: framtidens kompetensbehov", typ="Konferens", datum=D(3),
+           tidsfrist=D(1), beskrivning="Nätverksträff för kvinnor som vill starta företag i norra länet, med erfarna företagare som mentorer."),
+        ev(titel="Lunchträff för arbetssökande 50+", typ="Lunchträff", datum=D(2), tid_start="11:30", tid_slut="13:00",
+           status="vantelista", lokal="Exempelhuset", tidsfrist=D(0), villkor=["För arbetssökande över 50 år"],
+           beskrivning="Lunchträff om hur lång erfarenhet lyfts fram i cv, personligt brev och på intervju."),
+        ev(titel="Besöksnäringsmässan Sydost", kategori="Kompetensutveckling", typ="Mässa", datum=D(3),
            tid_start="09:00", tid_slut="16:00", kommun="Borgholm", ort="Borgholm", lokal="Exempelgården",
-           pris_tagg="1200 kr ex moms", villkor=["Uteblivande 500 kr ex moms", "Bindande anmälan"],
-           ovrigt="Lunch ingår", tidsfrist=D(1),
-           beskrivning="Konferens om rekrytering, utbildning och säsongsarbete inom turism och besöksnäring."),
-        ev(titel="Workshop: Digital marknadsföring för småföretag", kategori="Kompetensutveckling", typ="Workshop", datum=D(3), tid_start="13:00",
+           pris_tagg="250 kr", ovrigt="Lunch ingår", anmalan="okand",
+           beskrivning="Branschmässa där hotell, restauranger och turistföretag visar upp sig och berättar om sina jobb."),
+        ev(titel="Workshop: Kom igång med Excel", kategori="Kompetensutveckling", typ="Workshop", datum=D(3), tid_start="13:00",
            tid_slut="16:00", format="hybrid", digital_plattform="Zoom", kommun="Vimmerby", ort="Vimmerby",
-           lokal="Exempelcenter", pris_tagg=None, samlingssida=True,
-           beskrivning="Workshop för småföretagare om annonsering i sociala medier och mätning av resultat."),
+           lokal="Exempelcenter", pris_tagg="Gratis", samlingssida=True, tidsfrist=D(1),
+           villkor=["Uteblivande 1000 kr", "Bindande anmälan"],
+           beskrivning="Workshop för arbetssökande som vill lära sig grunderna i kalkylblad, formler och diagram."),
         ev(titel="Jobbspanarträff", typ="Rekryteringsträff", datum=D(4), tid_start="09:00", kommun="Emmaboda",
            ort="Emmaboda", lokal="Biblioteket", anmalan="okand",
            beskrivning="Rekryteringsträff för arbetssökande som vill hitta lediga jobb och träffa arbetsgivare."),
-        ev(titel="Entreprenörskväll med pitchtävling", kategori="Företagande", typ="Nätverksträff", datum=D(4), tid_start="18:00",
-           tid_slut="21:00", lokal="Exempelscenen", villkor=["Från 18 år"], ovrigt="Del 2: workshop 23 okt",
-           beskrivning="Nätverksträff för entreprenörer och investerare, med pitchar från nystartade bolag."),
+        ev(titel="Jobbkväll med snabbintervjuer", typ="Rekryteringsträff", datum=D(4), tid_start="18:00",
+           tid_slut="21:00", lokal="Exempelscenen", villkor=["Från 18 år"], ovrigt="Fika serveras",
+           beskrivning="Rekryteringsträff där arbetsgivare inom handel och service håller korta intervjuer på plats."),
     ]
     data["regioner"][0]["evenemang"] += [
         ev(titel="Jobbmässa Kalmar", status="obekraftad", datum=D(4), tid_start=None,
            skal="Endast aggregator; arrangörens sida visar förra årets mässa", beskrivning=None),
         ev(titel="Karriärdag för studenter", status="utesluten", regel="R3", datum=D(2), tid_start="10:00",
            skal="Endast studenter vid lärosätet", beskrivning=None),
-        ev(titel="Företagsfrukost Torsås", status="installt", datum=D(1), tid_start="07:30", kommun="Torsås",
+        ev(titel="Elmässan Sydost", status="utesluten", regel="R3", datum=D(2), tid_start="09:00",
+           skal="Fackmässa endast för yrkesverksamma besökare", beskrivning=None),
+        ev(titel="Starta eget-frukost Torsås", status="installt", datum=D(1), tid_start="07:30", kommun="Torsås",
            ort="Torsås", skal="Inställt enligt arrangören", beskrivning=None),
     ]
     data["regioner"][0]["kallor"] = [
