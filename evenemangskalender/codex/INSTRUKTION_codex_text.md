@@ -74,15 +74,15 @@ Uppgiften är lång. Håll planen aktuell och sluta inte förrän kriterierna un
 Underagenter startas bara om du uttryckligen ber om dem, så gör det. Gör i första hand så här, med `spawn_agents_on_csv`:
 
 1. Skapa `arbete/uppdrag.csv` med kolumnerna `id,region,uppgift,kallor`. Varje region får dessa rader, i denna ordning så att jobbmässorna startar först:
-   - **Sökningar, jobbmässor A:** jobbmässa, jobb- och utbildningsmässa, rekryteringsmässa, rekryteringsträff, rekryteringsdag, rekryteringsevent.
-   - **Sökningar, jobbmässor B:** framtidsmässa, kompetensmässa, sommarjobbsmässa, jobbdag, samt fraserna "träffa arbetsgivare", "ta med ditt CV" och snabbintervjuer, som hittar mässor med egna namn. Sök också "digital jobbmässa" och "digital rekryteringsträff" utan regionnamn.
+   - **Sökningar, jobbmässor A:** jobbmässa, jobb- och utbildningsmässa, rekryteringsmässa, rekryteringsträff, rekryteringsdag, rekryteringsevent, informationsträff.
+   - **Sökningar, jobbmässor B:** framtidsmässa, kompetensmässa, jobbdag, samt fraserna "träffa arbetsgivare", "ta med ditt CV" och snabbintervjuer, som hittar mässor med egna namn. Sök också "digital jobbmässa" och "digital rekryteringsträff" utan regionnamn.
    - **Mässlistor:** allamassor.se/jobbmassor och syvarna.com/jobbmassor (länets sida). Arbetsförmedlingen hänvisar själv till allamassor.se.
-   - **Arbetsförmedlingen:** evenemang, jobbmässor och rekryteringsträffar i länet.
+   - **Arbetsförmedlingen:** evenemang, jobbmässor, rekryterings- och informationsträffar i länet. Öppna också sidan "Delta i våra aktiviteter" (arbetsformedlingen.se/for-arbetssokande/sa-hittar-du-jobbet/aktiviteter) med Playwright, eftersom den laddas med JavaScript.
    - **Sociala medier:** arrangörers egna inlägg på LinkedIn och Facebook, till exempel `site:linkedin.com jobbmässa [region]`. Bara inlägg som går att läsa utan inloggning.
    - **En rad per kommun:** kommunens evenemangskalender, arbetsmarknadsenhet, komvux/vuxenutbildning och näringslivssida, `site:[kommun].se jobbmässa`, samt TIDIGARE-källor för kommunen.
    - **Regionen och länsstyrelsen.**
    - **Lärosäten:** bara evenemang som är öppna för allmänheten, till exempel öppet hus och utbildningsmässor.
-   - **Sökningar, utbildning och övrigt:** utbildningsmässa, komvuxmässa, komvux öppet hus, yrkesutbildning, studie- och yrkesvägledning, kostnadsfri kompetensutveckling, starta eget, företagarmässa.
+   - **Sökningar, utbildning och övrigt:** utbildningsmässa, studentmässa, komvuxmässa, komvux öppet hus, yrkesutbildning, studie- och yrkesvägledning, kostnadsfri kompetensutveckling, starta eget, företagarmässa.
    - **Starta eget:** Almi och NyföretagarCentrum.
    - **Aggregatorer och anmälningssidor:** jobbklick.se, simplesignup.se, confetti.events, trippus.net, eventbrite.se. Dessa och mässlistorna ger bara kandidater, och varje kandidat verifieras hos arrangören.
 2. Anropa `spawn_agents_on_csv` med:
@@ -122,43 +122,49 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 |---|---|---|
 | R1 | datum utanför perioden eller plats utanför regionen | `utesluten` |
 | R2 | inte arbetsmarknad, kompetensutveckling eller företagande | `utesluten` |
-| R3 | stängd målgrupp: bara inbjudna, elever, pensionärer, studenter vid ett visst lärosäte, deltagare i en insats eller ett visst företags anställda; evenemang som uttalat riktar sig till yrkesverksamma i sin yrkesroll (till exempel HR, chefer, en viss yrkesgrupp, fackmässor); stängd kurs | `utesluten` |
+| R3 | stängd målgrupp: bara inbjudna, elever, pensionärer, studenter vid ett visst lärosäte, deltagare i en insats eller ett visst företags anställda; evenemang som uttalat riktar sig till yrkesverksamma i sin yrkesroll (till exempel HR, chefer, en viss yrkesgrupp, fackmässor); stängd kurs; gymnasiemässor och andra evenemang inför gymnasievalet, även dagar som är öppna för allmänheten; sommarjobbsmässor för skolungdom | `utesluten` |
 | R4 | slutet medlemsevenemang, eller slutsålt utan väntelista. Öppet för alla men med medlemspris: gå vidare | `utesluten` |
-| R5 | kompetensutveckling som kostar, betald kurs, ren regelinformation | `utesluten` |
+| R5 | kompetensutveckling som kostar, betald kurs, ren regelinformation för företag | `utesluten` |
 | R6 | digitalt utan koppling till regionen. Undantag: digitala jobbmässor och rekryteringsträffar | `utesluten` |
 | R7 | inte VERIFIERAD | `obekraftad` |
 | R8 | inställt | `installt` |
 | – | ingen regel träffar | `verifierad`, eller `vantelista` om fullbokat med väntelista |
 
 **Med i kalendern** när ingen regel träffar:
-- Mässor av alla slag: jobb-, rekryterings-, utbildnings-, komvux-, framtids-, sommarjobbs- och företagarmässor.
-- Evenemang för arbetssökande, unga 16–29 år, nyanlända och utrikes födda eller personer med funktionsnedsättning. Målgruppen visas med villkorstaggen `För [målgrupp]`.
+- Mässor av alla slag: jobb-, rekryterings-, utbildnings-, student-, komvux-, framtids- och företagarmässor. En sommarjobbs- eller säsongsmässa som uttryckligen är öppen för alla vuxna arbetssökande räknas som jobbmässa.
+- Informationsträffar för arbetssökande, till exempel om arbetsmarknadsutbildningar, a-kassa, validering eller jobbsökning.
+- Evenemang för arbetssökande, även när de bara är för den som är inskriven på Arbetsförmedlingen, unga 16–29 år, nyanlända och utrikes födda eller personer med funktionsnedsättning. Målgruppen visas med villkorstaggen `För [målgrupp]`.
 - Blandad publik och väntelista hindrar inte. Har eleverna och allmänheten olika tider gäller allmänhetens tid.
 
 **Kategori:**
-- **Arbetsmarknad** (prioriterad): jobbmässor och rekryteringsträffar, utbildningsmässor, studie- och yrkesvägledning, öppet hus på komvux.
+- **Arbetsmarknad** (prioriterad): jobbmässor, rekryterings- och informationsträffar, utbildnings- och studentmässor, studie- och yrkesvägledning, öppet hus på komvux.
 - **Kompetensutveckling**: bara kostnadsfri.
 - **Företagande**: starta eget, företagarmässor, nätverk för företagare.
 
-**Kvot:** Kompetensutveckling och Företagande får tillsammans vara högst 40 % per region.
-- Taket är golv(2 × antal arbetsmarknadskort / 3).
+**Kvot:** Kompetensutveckling och Företagande får tillsammans vara högst 40 % per region, men minst 2 är alltid tillåtna.
+- Taket är max(2, golv(2 × antal arbetsmarknadskort / 3)).
 - Överskottet får status `utesluten` med regel `R9`. Ta Företagande först, och därefter det som ligger senast i perioden.
 
 **Övrigt:**
 - Arrangörens uppgifter gäller före aggregatorns.
 - Inga dubbletter. Samma titel, datum och tid räknas som dubblett, liksom samma länk, datum och tid.
 - Flerdagarsevenemang: en post med `datum_slut`.
-- Återkommande tillfällen: en post per tillfälle.
+- Återkommande tillfällen, till exempel ett jobbcafé varje tisdag: en post för hela serien, på första tillfället i perioden, med övriga datum i `fler_datum`. Kortet får taggen "Även 17, 24 november".
 - En passerad anmälningsfrist betyder inte att anmälan är stängd.
 
 **Kalibrering:**
-- Gymnasiemässa, och yrkesmässa för högstadiet → R3.
+- Gymnasiemässa, även lördagen när den är öppen för allmänheten → R3.
+- Mässa som är både gymnasiemässa och jobbmässa och uttryckligen bjuder in arbetssökande, till exempel Framtidsmässan i Kristianstad → med.
+- Studentmässa inför högskola och YH, till exempel Saco Studentmässa → med.
+- Sommarjobbsmässa för 16–20-åringar → R3. Sommarjobbsmässa "öppen för alla som vill jobba i sommar" → med.
+- Yrkesmässa för högstadiet → R3.
+- Informationsträff om en arbetsmarknadsutbildning för arbetssökande → med. Informationsträff om nya momsregler för företag → R5.
 - Karriärmässa eller arbetsmarknadsdag för ett lärosätes studenter, till exempel ARKAD → R3.
 - Rekryteringsevent där man bara kan delta efter inbjudan → R3.
 - Jobbmässa för en yrkesgrupp, till exempel vården eller ingenjörer → med, eftersom den riktar sig till jobbsökande.
 - HR-konferens, chefsnätverk eller fackmässa → R3.
 - Träff "för dig som är pensionär" → R3.
-- Mässa för elever på förmiddagen och för alla på eftermiddagen → med, med eftermiddagens tid.
+- Jobbmässa för elever på förmiddagen och för alla på eftermiddagen → med, med eftermiddagens tid.
 - "Endast för medlemmar" → R4.
 - "Torsdag 12 november kl. 16.30" utan år, på en kommunsida uppdaterad 26 augusti 2026 → 2026, eftersom 12 november 2026 är en torsdag.
 - Samma text på en sida som senast uppdaterades 2024, eller utan synligt uppdateringsdatum → `obekraftad`.
@@ -178,6 +184,7 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 | `typ` | `Mässa`, `Seminarium`, `Konferens`, `Nätverksträff`, `Frukostmöte`, `Lunchträff`, `Workshop`, `Rekryteringsträff` eller `Öppet hus`. Jobbmässa räknas som Mässa och webbinarium som Seminarium. |
 | `beskrivning` | se avsnitt 6 |
 | `datum`, `datum_slut` | ÅÅÅÅ-MM-DD |
+| `fler_datum` | lista med fler tillfällen i perioden (ÅÅÅÅ-MM-DD) när evenemanget återkommer, annars `[]` |
 | `tid_start`, `tid_slut` | HH:MM, eller `null` om arrangören inte anger någon tid |
 | `format` | `plats`, `digitalt` eller `hybrid` |
 | `kommun`, `ort`, `lokal`, `adress` | adressen utan postnummer |
@@ -208,7 +215,7 @@ Efter sorteringen får kalenderposterna ID `[prefix]1, [prefix]2 …`, och övri
 
 **Taggar, i denna ordning:**
 1. typ
-2. `Digitalt`, `Även digitalt`, `Drop-in HH:MM–HH:MM` eller `Pågår d–d månad`
+2. `Digitalt`, `Även digitalt`, `Drop-in HH:MM–HH:MM`, `Pågår d–d månad` och, för återkommande evenemang, `Även d, d månad` med övriga datum i perioden
 3. pris
 4. villkor (`Väntelista` vid fullbokat)
 5. övrigt
@@ -243,7 +250,9 @@ Skriv `arbete/kontroll.py` en gång och kör den efter varje bygge. Allt ska var
 - **Data:**
   - Alla kalenderdatum ligger inom perioden.
   - Inga dubbletter, och unika ID.
-  - Kvoten hålls.
+  - Kvoten hålls (minst 2 är alltid tillåtna).
+  - Varje datum i `fler_datum` ligger inom perioden, och ingen serie står som flera kort.
+  - Ingen gymnasiemässa och ingen sommarjobbsmässa för skolungdom finns bland kalenderposterna.
   - Beskrivningarna har 60–115 tecken, utan tid, pris eller titel.
   - Taggarna kommer från vokabulären och står i rätt ordning.
   - Inga tomma fält visas.

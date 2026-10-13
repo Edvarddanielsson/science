@@ -49,13 +49,17 @@ Båda Codex-instruktionerna och skriptet följer Copilot-instruktionens regler f
 - **R3 stänger ute:**
   - evenemang bara för inbjudna, elever, pensionärer, ett lärosätes studenter, deltagare i en insats eller ett visst företags anställda
   - evenemang som uttalat riktar sig till yrkesverksamma, till exempel HR, chefer, en yrkesgrupp eller fackmässor. Jobbmässor för en yrkesgrupp är ändå med.
+  - gymnasiemässor, även dagar då de är öppna för alla, och sommarjobbsmässor för skolungdom. En mässa som både är gymnasiemässa och jobbmässa och uttryckligen bjuder in arbetssökande är ändå med.
 - **Med i kalendern:**
-  - mässor av alla slag
-  - evenemang för arbetssökande, unga 16–29 år, nyanlända och utrikes födda samt personer med funktionsnedsättning.
+  - mässor av alla slag, även studentmässor inför högskola och YH
+  - informationsträffar för arbetssökande (R5 gäller bara regelinformation för företag)
+  - evenemang för arbetssökande (även bara för inskrivna på Arbetsförmedlingen), unga 16–29 år, nyanlända och utrikes födda samt personer med funktionsnedsättning.
 - **Inlägg:** arrangörens egna inlägg på LinkedIn och Facebook räknas som bekräftelse.
   - Året räknas fram enligt regeln under Årtal och tid.
   - Bara inlägg som kan läsas utan inloggning räknas.
 - **Digitalt:** nationella digitala jobbmässor och rekryteringsträffar behöver ingen regional koppling.
+- **Kvot:** högst 40 % kompetensutveckling och företagande, men minst 2 är alltid tillåtna.
+- **Återkommande träffar:** ett kort per serie, med övriga datum i `fler_datum`.
 - **Årtal och tid:** saknas året räcker det att sidan eller inlägget är uppdaterat under periodens år eller halvåret före. Står det en veckodag måste den stämma med datumet. Starttid krävs inte; kortet visar då "Tid ej angiven".
 - **Skriptet:**
   - `sokfragor` har de nya sökorden plus två sökningar utan regionnamn.
@@ -63,3 +67,7 @@ Båda Codex-instruktionerna och skriptet följer Copilot-instruktionens regler f
   - Digitala mässor och rekryteringsträffar godkänns utan `regional_koppling`.
   - Det nya fältet `uppdaterad` krävs när året inte står i `belagg`. Skriptet stoppar för gamla sidor och fel veckodagar.
   - Saknad `tid_start` ger bara en varning.
+  - `fler_datum` ger taggen "Även 17, 24 november". Samma titel på flera kort ger en varning om att det kan vara en serie.
+  - Kvotens tak är max(2, 2 per 3 arbetsmarknadskort).
+  - Ett kalenderkort som nämner gymnasiemässa eller sommarjobbsmässa ger en varning, så att R3 prövas.
+  - Sökorden: "sommarjobbsmässa" är borttaget, och "studentmässa" och "informationsträff" är tillagda.

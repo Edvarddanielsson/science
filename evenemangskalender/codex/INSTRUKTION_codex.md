@@ -43,7 +43,7 @@ Starta underagenter (`worker`). Du måste uttryckligen be om dem, annars startas
 
 | Underagent | Källor |
 |---|---|
-| A, regionala aktörer och mässlistor | Arbetsförmedlingens evenemang, jobbmässor och rekryteringsträffar i länet, regionen, länsstyrelsen, Almi, NyföretagarCentrum och lärosäten (bara öppna evenemang). Mässlistorna allamassor.se/jobbmassor och syvarna.com/jobbmassor (länets sida); Arbetsförmedlingen hänvisar själv till allamassor.se. |
+| A, regionala aktörer och mässlistor | Arbetsförmedlingens evenemang, jobbmässor, rekryterings- och informationsträffar i länet, även sidan "Delta i våra aktiviteter" (arbetsformedlingen.se/for-arbetssokande/sa-hittar-du-jobbet/aktiviteter, laddas med JavaScript), regionen, länsstyrelsen, Almi, NyföretagarCentrum och lärosäten (bara öppna evenemang). Mässlistorna allamassor.se/jobbmassor och syvarna.com/jobbmassor (länets sida); Arbetsförmedlingen hänvisar själv till allamassor.se. |
 | B, kommunerna | Varje kommun i data.json, största först. Evenemangskalender, arbetsmarknadsenhet, komvux/vuxenutbildning och näringslivssida, samt `site:[kommun].se jobbmässa`. Vid fler än 15 kommuner: dela på två agenter. |
 | C, sökningar, sociala medier och aggregatorer | Alla `sokfragor` i data.json, jobbmässorna först, med varianter: `vecka N`, enskilda datum, de största kommunernas namn, `site:arbetsformedlingen.se`, `site:simplesignup.se`, `site:confetti.events`, `site:trippus.net`. Arrangörers egna inlägg via `site:linkedin.com` och Facebook, bara om de går att läsa utan inloggning. Aggregatorer (jobbklick.se, eventbrite.se m.fl.) och mässlistor får bara ge kandidater. |
 
@@ -78,9 +78,9 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 |---|---|---|
 | R1 | datum utanför perioden eller plats utanför regionen | `utesluten` |
 | R2 | inte arbetsmarknad, kompetensutveckling eller företagande | `utesluten` |
-| R3 | stängd målgrupp: bara inbjudna, elever, pensionärer, studenter vid ett visst lärosäte, deltagare i en insats eller ett visst företags anställda; evenemang som uttalat riktar sig till yrkesverksamma i sin yrkesroll (till exempel HR, chefer, en viss yrkesgrupp, fackmässor); stängd kurs | `utesluten` |
+| R3 | stängd målgrupp: bara inbjudna, elever, pensionärer, studenter vid ett visst lärosäte, deltagare i en insats eller ett visst företags anställda; evenemang som uttalat riktar sig till yrkesverksamma i sin yrkesroll (till exempel HR, chefer, en viss yrkesgrupp, fackmässor); stängd kurs; gymnasiemässor och andra evenemang inför gymnasievalet, även dagar som är öppna för allmänheten; sommarjobbsmässor för skolungdom | `utesluten` |
 | R4 | slutet medlemsevenemang, eller slutsålt utan väntelista. Öppet för alla men med medlemspris: gå vidare | `utesluten` |
-| R5 | kompetensutveckling som kostar, betald kurs, ren regelinformation | `utesluten` |
+| R5 | kompetensutveckling som kostar, betald kurs, ren regelinformation för företag | `utesluten` |
 | R6 | digitalt utan koppling till regionen. Undantag: digitala jobbmässor och rekryteringsträffar | `utesluten` |
 | R7 | inte VERIFIERAD | `obekraftad` |
 | R8 | inställt | `installt` |
@@ -88,33 +88,39 @@ Pröva reglerna i ordning. Första regel som träffar avgör.
 
 **Med i kalendern** när ingen regel träffar:
 
-- Mässor av alla slag: jobb-, rekryterings-, utbildnings-, komvux-, framtids-, sommarjobbs- och företagarmässor.
-- Evenemang för arbetssökande, unga 16–29 år, nyanlända och utrikes födda eller personer med funktionsnedsättning. Målgruppen visas med villkorstaggen `För [målgrupp]`.
+- Mässor av alla slag: jobb-, rekryterings-, utbildnings-, student-, komvux-, framtids- och företagarmässor. En sommarjobbs- eller säsongsmässa som uttryckligen är öppen för alla vuxna arbetssökande räknas som jobbmässa.
+- Informationsträffar för arbetssökande, till exempel om arbetsmarknadsutbildningar, a-kassa, validering eller jobbsökning.
+- Evenemang för arbetssökande, även när de bara är för den som är inskriven på Arbetsförmedlingen, unga 16–29 år, nyanlända och utrikes födda eller personer med funktionsnedsättning. Målgruppen visas med villkorstaggen `För [målgrupp]`.
 - Blandad publik och väntelista hindrar inte. Har eleverna och allmänheten olika tider gäller allmänhetens tid.
 
 **Kategori:**
 
-- **Arbetsmarknad** (prioriterad): jobbmässor och rekryteringsträffar, utbildningsmässor, studie- och yrkesvägledning, öppet hus på komvux.
+- **Arbetsmarknad** (prioriterad): jobbmässor, rekryterings- och informationsträffar, utbildnings- och studentmässor, studie- och yrkesvägledning, öppet hus på komvux.
 - **Kompetensutveckling**: bara kostnadsfri.
 - **Företagande**: starta eget, företagarmässor, nätverk för företagare.
 
-**Kvot:** Kompetensutveckling och Företagande får tillsammans vara högst 40 % per region, det vill säga högst 2 per 3 arbetsmarknadskort, avrundat nedåt. Skriptet räknar och anger vilka som ska strykas: Företagande först, därefter det som ligger senast i perioden. Sätt `utesluten` och regel `R9` på dem.
+**Kvot:** Kompetensutveckling och Företagande får tillsammans vara högst 40 % per region, det vill säga högst 2 per 3 arbetsmarknadskort, avrundat nedåt. Minst 2 är alltid tillåtna, så kalendern blir aldrig tom bara på grund av kvoten. Skriptet räknar och anger vilka som ska strykas: Företagande först, därefter det som ligger senast i perioden. Sätt `utesluten` och regel `R9` på dem.
 
 **Övrigt:**
 
 - Flerdagarsevenemang: en post, med `datum` och `datum_slut`.
-- Återkommande tillfällen: en post per tillfälle.
+- Återkommande tillfällen, till exempel ett jobbcafé varje tisdag: en post för hela serien, på första tillfället i perioden, med övriga datum i `fler_datum`. Skriptet ger kortet taggen "Även 17, 24 november" och varnar om samma titel står på flera kort.
 - Passerad anmälningsfrist betyder inte stängd anmälan. Ange `tidsfrist` ändå.
 
 **Kalibrering:**
 
-- Gymnasiemässa, och yrkesmässa för högstadiet → R3.
+- Gymnasiemässa, även lördagen när den är öppen för allmänheten → R3.
+- Mässa som är både gymnasiemässa och jobbmässa och uttryckligen bjuder in arbetssökande, till exempel Framtidsmässan i Kristianstad → med.
+- Studentmässa inför högskola och YH, till exempel Saco Studentmässa → med.
+- Sommarjobbsmässa för 16–20-åringar → R3. Sommarjobbsmässa "öppen för alla som vill jobba i sommar" → med.
+- Yrkesmässa för högstadiet → R3.
+- Informationsträff om en arbetsmarknadsutbildning för arbetssökande → med. Informationsträff om nya momsregler för företag → R5.
 - Karriärmässa eller arbetsmarknadsdag för ett lärosätes studenter, till exempel ARKAD → R3.
 - Rekryteringsevent där man bara kan delta efter inbjudan → R3.
 - Jobbmässa för en yrkesgrupp, till exempel vården eller ingenjörer → med, eftersom den riktar sig till jobbsökande.
 - HR-konferens, chefsnätverk eller fackmässa → R3.
 - Träff "för dig som är pensionär" → R3.
-- Mässa för elever på förmiddagen och för alla på eftermiddagen → med, med eftermiddagens tid.
+- Jobbmässa för elever på förmiddagen och för alla på eftermiddagen → med, med eftermiddagens tid.
 - "Endast för medlemmar" → R4.
 - "Torsdag 12 november kl. 16.30" utan år, på en kommunsida uppdaterad 26 augusti 2026 → 2026, eftersom 12 november 2026 är en torsdag.
 - Samma text på en sida som senast uppdaterades 2024, eller utan synligt uppdateringsdatum → `obekraftad`.
@@ -135,6 +141,7 @@ Använd `_mall_evenemang` i data.json. Ersätt varje platshållare med ett värd
 - **adress:** utan postnummer.
 - **tid_start:** `null` om arrangören inte anger någon tid. Kortet visar då "Tid ej angiven".
 - **uppdaterad:** sidans eller inläggets publicerings- eller uppdateringsdatum. Krävs när året inte står i `belagg`; skriptet kontrollerar datumet och veckodagen.
+- **fler_datum:** övriga tillfällen i perioden för ett återkommande evenemang, annars `[]`.
 - **lank:** direktlänk till arrangörens sida eller inlägg. Finns bara en samlingssida: sätt `samlingssida` till true.
 - **regional_koppling:** krävs för digitala evenemang, utom jobbmässor och rekryteringsträffar.
 

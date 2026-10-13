@@ -1,6 +1,6 @@
 # Evenemangskalender v3 – Microsoft Copilot
 
-`INSTRUKTION_v3_copilot.txt` är hela instruktionen (7 785 tecken, under gränsen på 7 800). `STARTPROMPT.txt` är det enda du fyller i inför varje körning. Instruktionen gör ingenting förrän den får en startprompt som börjar med `KÖR EVENEMANGSKALENDER v3`.
+`INSTRUKTION_v3_copilot.txt` är hela instruktionen (7 794 tecken, under gränsen på 7 800). `STARTPROMPT.txt` är det enda du fyller i inför varje körning. Instruktionen gör ingenting förrän den får en startprompt som börjar med `KÖR EVENEMANGSKALENDER v3`.
 
 ## Användning
 
@@ -33,17 +33,20 @@ Copilot börjar med en rad "Inställningar: …" så att du kan se att den har l
   - Saknas året räcker det att sidan eller inlägget är publicerat eller uppdaterat under periodens år eller halvåret före. Står det en veckodag måste den stämma med datumet.
   - Starttid krävs inte. Saknas den visar kortet "Tid ej angiven".
   - Arrangörens egna inlägg på LinkedIn eller Facebook räknas också, eftersom många mindre rekryteringsträffar bara annonseras där.
-- **Regler R1–R8** prövas i fast ordning. R3 stänger ute evenemang som bara är för inbjudna, elever, pensionärer, ett lärosätes studenter, deltagare i en insats eller ett företags anställda, och evenemang som uttalat är för yrkesverksamma, till exempel HR, chefer eller en viss yrkesgrupp. Kalibreringsexempel avgör vanliga gränsfall:
-  - gymnasie- och yrkesmässor för högstadiet (R3)
+- **Regler R1–R8** prövas i fast ordning. R3 stänger ute evenemang som bara är för inbjudna, elever, pensionärer, ett lärosätes studenter, deltagare i en insats eller ett företags anställda, och evenemang som uttalat är för yrkesverksamma, till exempel HR, chefer eller en viss yrkesgrupp. R3 stänger också ute gymnasiemässor, även dagar då de är öppna för alla, och sommarjobbsmässor för skolungdom. Kalibreringsexempel avgör vanliga gränsfall:
+  - mässor som är både gymnasiemässa och jobbmässa och uttryckligen bjuder in arbetssökande (med)
+  - yrkesmässor för högstadiet (R3)
   - jobbmässor för en viss yrkesgrupp, till exempel vård (med, eftersom de riktar sig till jobbsökande)
   - HR-konferenser och fackmässor (R3)
   - mässor med blandad publik (kortet får allmänhetens tid)
   - datum utan år
   - fjolårets sidor (då söker Copilot efter årets upplaga).
-- **Mässor av alla slag** är med om de klarar reglerna: jobb-, utbildnings-, komvux-, framtids- och företagarmässor. Sökningarna omfattar också utbildnings-, komvux- och företagarmässor.
-- **Målgrupper som är med:** evenemang för arbetssökande, unga 16–29 år, nyanlända och utrikes födda samt personer med funktionsnedsättning. De får en tagg som "För [målgrupp]".
+- **Mässor av alla slag** är med om de klarar reglerna: jobb-, utbildnings-, student-, komvux-, framtids- och företagarmässor. Studentmässor inför högskola och YH, som Saco Studentmässa, är med. Sökningarna omfattar också utbildnings-, student-, komvux- och företagarmässor.
+- **Informationsträffar för arbetssökande** är med, till exempel om arbetsmarknadsutbildning eller a-kassa. R5 stoppar bara ren regelinformation för företag.
+- **Målgrupper som är med:** evenemang för arbetssökande (även när de bara är för inskrivna på Arbetsförmedlingen), unga 16–29 år, nyanlända och utrikes födda samt personer med funktionsnedsättning. De får en tagg som "För [målgrupp]".
 - **Digitalt:** nationella digitala jobbmässor och rekryteringsträffar är med och söks även utan regionnamn. Andra digitala evenemang kräver koppling till regionen.
-- **Prioritering:** arbetsmarknad går först, och utbildningsmässor räknas dit. Kostnadsfri kompetensutveckling och företagande får tillsammans vara högst 40 % av korten.
+- **Prioritering:** arbetsmarknad går först, och utbildningsmässor räknas dit. Kostnadsfri kompetensutveckling och företagande får tillsammans vara högst 40 % av korten, men minst 2 är alltid tillåtna. Då blir kalendern aldrig tom bara på grund av kvoten.
+- **Återkommande träffar,** till exempel ett jobbcafé varje tisdag, blir ett kort per serie. Kortet hamnar på första tillfället och får en tagg som "Även 17, 24 november".
 - **Design:** samma utseende som i v2:s mall, beskrivet i mm, pt och färgkoder, med fasta regler för sidindelning. PDF:en skapas med kod, med riktig text och en klickbar länk per kort.
 
 ## Ord för jobbmässor
@@ -60,19 +63,19 @@ Sökorden i grupp 1–4 bygger på en webbsökning i oktober 2026 om vilka ord a
 | rekryteringsevent | Connecting Jobs i Malmö. Ofta bara för inbjudna, vilket betyder R3 |
 | framtidsmässa | Laholm, Kristianstad, Grästorp |
 | kompetensmässa | Rättvik |
-| sommarjobbsmässa | Uppsala, Västervik, Sollentuna, Hällefors (januari–mars) |
 | jobbdag | Sollefteå (Jobbdagen) |
 | "träffa arbetsgivare", "ta med ditt CV", snabbintervjuer | Fraserna står på sidorna för mässor med egna namn, till exempel Jobbchansen (Örebro, Luleå), Opportunity Day och CareerConnect |
 
 Bortvalda ord:
 - **arbetsgivarträff:** används mest om träffar för deltagare i en insats, eller mellan arbetsgivare.
 - **jobbspår:** är ett program, inget evenemang.
-- **karriärmässa och arbetsmarknadsdag:** gäller oftast studentmässor, som R3 stänger ute.
+- **karriärmässa och arbetsmarknadsdag:** gäller oftast lärosätenas karriärmässor för de egna studenterna, som R3 stänger ute.
+- **sommarjobbsmässa:** används av till exempel Uppsala, Västervik, Sollentuna och Hällefors (januari–mars). Den togs bort som sökord i oktober 2026, eftersom sommarjobbsmässor för skolungdom ska sorteras bort.
 
 Test på Skåne i november 2026:
 - De nya sökorden hittade samma öppna jobbmässa som exempelkörningen, i Osby den 3 november. Syvarnas lista för Skåne har ingen annan.
 - Bland de övriga träffarna fanns:
-  - studentmässor som R3 stänger ute
+  - lärosätenas karriärmässor för de egna studenterna, som R3 stänger ute
   - gamla sidor utan år som reglerna fångar
   - ett spelevent som R2 stänger ute.
 

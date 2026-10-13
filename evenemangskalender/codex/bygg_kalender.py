@@ -89,9 +89,9 @@ RESULTAT = ("kandidater", "inga", "ej_lasbar")
 # jobbmässor bygger på en webbsökning i oktober 2026 av vad arrangörerna faktiskt skriver.
 SOKORD = ["jobbmässa", "jobb- och utbildningsmässa", "rekryteringsmässa",
           "rekryteringsträff", "rekryteringsdag", "rekryteringsevent",
-          "framtidsmässa", "kompetensmässa", "sommarjobbsmässa", "jobbdag",
+          "framtidsmässa", "kompetensmässa", "jobbdag", "informationsträff",
           "\"träffa arbetsgivare\"", "\"ta med ditt CV\"", "snabbintervjuer",
-          "utbildningsmässa", "komvuxmässa", "komvux öppet hus", "yrkesutbildning",
+          "utbildningsmässa", "studentmässa", "komvuxmässa", "komvux öppet hus", "yrkesutbildning",
           "kostnadsfri kompetensutveckling", "starta eget", "företagarmässa"]
 # Digitala jobbmässor och rekryteringsträffar tas med även utan regional koppling (R6).
 SOKORD_NATIONELLT = ["digital jobbmässa", "digital rekryteringsträff"]
@@ -109,6 +109,7 @@ MALL_EVENEMANG = {
     "beskrivning": "en mening, 60–115 tecken",
     "datum": "ÅÅÅÅ-MM-DD (första dagen)",
     "datum_slut": "ÅÅÅÅ-MM-DD om flera dagar, annars null",
+    "fler_datum": "[] eller lista med ÅÅÅÅ-MM-DD för fler tillfällen i perioden om evenemanget återkommer (ett kort per serie)",
     "tid_start": "HH:MM, eller null om arrangören inte anger starttid (kortet visar 'Tid ej angiven')",
     "tid_slut": "HH:MM eller null",
     "format": "plats | digitalt | hybrid",
@@ -304,6 +305,13 @@ def intervall(start: dt.date, slut: dt.date, med_ar: bool = True) -> str:
     if start.month != slut.month:
         return f"{datum_text(start)}–{datum_text(slut)}{ar}"
     return f"{start.day}–{slut.day} {MANADER[slut.month - 1]}{ar}"
+
+
+def aven_text(datum: list) -> str:
+    """17, 24 november · 28 oktober, 4, 11 november"""
+    manader = sorted({(d.year, d.month) for d in datum})
+    return ", ".join(", ".join(str(d.day) for d in sorted(datum) if (d.year, d.month) == m) + f" {MANADER[m[1] - 1]}"
+                     for m in manader)
 
 
 def dagrubrik(d: dt.date) -> str:
@@ -559,6 +567,7 @@ def validera_region(r, m, c):
     sortera_och_numrera(reg)
     kontrollera_kvot(reg, c)
     kontrollera_dubbletter(reg, c)
+    kontrollera_serier(reg, c)
     berakna_tackning(reg, c)
     return reg
 
@@ -666,6 +675,20 @@ def validera_evenemang(e, i, reg, m, c):
     if ts and te and not d1 and te <= ts:
         F("tid_slut måste vara senare än tid_start")
     ev.update(datum=d0, datum_slut=d1, tid_start=ts, tid_slut=te)
+    fler, rad = [], e.get("fler_datum") or []
+    for x in ([rad] if isinstance(rad, str) else rad):
+        dx = las_datum(x)
+        if not dx:
+            F(f"fler_datum: '{x}' ska vara ÅÅÅÅ-MM-DD")
+        elif d0 and dx <= d0:
+            F(f"fler_datum: {dx} ska ligga efter datum {d0}")
+        elif dx < per["start"] or dx > per["slut"]:
+            F(f"fler_datum: {dx} ligger utanför perioden (R1)")
+        elif dx not in fler:
+            fler.append(dx)
+    if fler and d1:
+        F("fler_datum och datum_slut går inte att kombinera – återkommande tillfällen anges i fler_datum")
+    ev["fler_datum"] = sorted(fler)
 
     lank = txt(e.get("lank"))
     if lank:
@@ -742,6 +765,13 @@ def validera_evenemang(e, i, reg, m, c):
             F(s)
         for s in bv:
             W(s)
+    text = f"{ev['titel']} {ev['beskrivning'] or ''}".casefold()
+    if "gymnasiemäss" in text:
+        W("gymnasiemässor utesluts (R3) – ta bara med mässan om den också är en jobbmässa som uttryckligen "
+          "bjuder in arbetssökande")
+    if "sommarjobbsmäss" in text:
+        W("sommarjobbsmässor för skolungdom utesluts (R3) – ta bara med mässan om den uttryckligen är öppen "
+          "för alla vuxna arbetssökande")
     if not d0:
         F("datum saknas")
     elif d0 > per["slut"] or (d1 or d0) < per["start"]:
@@ -866,6 +896,8 @@ def harled_kort(ev: dict, per: dict):
         taggar.append((f"Drop-in {ev['dropin']}", False))
     if d0 and d1:
         taggar.append((f"Pågår {intervall(d0, d1, med_ar=False)}", False))
+    if ev["fler_datum"]:
+        taggar.append((f"Även {aven_text(ev['fler_datum'])}", False))
     if ev["pris_tagg"]:
         taggar.append((ev["pris_tagg"], False))
     taggar += [(v, False) for v in ev["villkor"]]
@@ -916,16 +948,27 @@ def kontrollera_dubbletter(reg: dict, c: Ctx):
                               f"#{b['nr']} «{b['titel']}» samma dag")
 
 
+def kontrollera_serier(reg: dict, c: Ctx):
+    """Samma titel på flera kalenderkort är troligen en återkommande serie (ett kort per serie)."""
+    titlar = {}
+    for e in reg["A"]:
+        titlar.setdefault(norm_jmf(e["titel"]), []).append(e)
+    for es in titlar.values():
+        if len(es) > 1:
+            c.varn.append(f"{reg['kort']}: «{es[0]['titel']}» finns på {len(es)} kort – om det är samma återkommande "
+                          "evenemang: behåll det första och lägg övriga datum i fler_datum")
+
+
 def kontrollera_kvot(reg: dict, c: Ctx):
-    """Kompetensutveckling + Företagande får vara högst 40 % (högst 2 per 3 arbetsmarknadskort)."""
+    """Kompetensutveckling + Företagande: högst 40 % (2 per 3 arbetsmarknadskort), men minst 2 är alltid tillåtna."""
     arb = [e for e in reg["A"] if e.get("kategori") == "Arbetsmarknad"]
     ovr = [e for e in reg["A"] if e.get("kategori") in ("Kompetensutveckling", "Företagande")]
-    tak = 2 * len(arb) // 3
+    tak = max(2, 2 * len(arb) // 3)
     if len(ovr) > tak:
         ordning = sorted(ovr, key=lambda e: (e["kategori"] != "Företagande", -(e["visning"] or dt.date.min).toordinal(),
                                               e["tid_start"] or ""), reverse=False)
         stryk = ordning[:len(ovr) - tak]
-        c.fel.append(f"{reg['kort']}: 40 %-kvoten överskrids ({len(ovr)} kompetensutveckling/företagande, tak {tak} "
+        c.fel.append(f"{reg['kort']}: 40 %-kvoten överskrids ({len(ovr)} kompetensutveckling/företagande, tak {tak} (minst 2) "
                      f"med {len(arb)} arbetsmarknadskort). Sätt status utesluten, regel R9 på: "
                      + "; ".join(f"#{e['nr']} «{e['titel']}»" for e in stryk))
 
@@ -1022,6 +1065,8 @@ def excel_rad(e: dict) -> list:
             tider += f" ({intervall(e['datum'], e['datum_slut'], med_ar=False)})"
     else:
         tider = EJ
+    if e.get("fler_datum"):
+        tider += f" (även {aven_text(e['fler_datum'])})"
     if e["format"] == "digitalt":
         ort = lokal = "Digitalt"
         adress = f"Digitalt ({e['digital_plattform']})" if e["digital_plattform"] else "Digitalt"
@@ -1736,6 +1781,10 @@ def exempeldata(idag: dt.date) -> dict:
            arrangor="Exempelkommunen, näringslivsenheten i samarbete med Almi Exempel",
            beskrivning="Frukostmöte om rekrytering och kompetensförsörjning för små och medelstora företag.",
            tidsfrist=D(-1) if s > idag else kd),
+        ev(titel="Jobbcafé: CV-hjälp på biblioteket", typ="Öppet hus", datum=D(0), tid_start="13:00",
+           tid_slut="15:00", dropin="13:00-15:00", lokal="Stadsbiblioteket", anmalan="ingen", fler_datum=[D(2), D(4)],
+           villkor=["För arbetssökande"], arrangor="Exempelkommunen, arbetsmarknadsenheten",
+           beskrivning="Öppet hus för arbetssökande som vill ha hjälp med cv, personligt brev och jobbansökningar."),
         ev(titel="Rekryteringsträff lager och logistik", typ="Rekryteringsträff", datum=D(0), tid_start="10:00",
            tid_slut="12:00", kommun="Nybro", ort="Nybro", lokal="Arbetsförmedlingen", anmalan="ingen",
            villkor=["För arbetssökande"], arrangor="Arbetsförmedlingen Exempel",
