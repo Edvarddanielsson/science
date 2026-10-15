@@ -1,0 +1,223 @@
+{
+  "voice": "bf_emma",
+  "lang": "en-gb",
+  "speed": 0.88,
+  "lead_in": 3.5,
+  "tail": 6.0,
+  "pronunciations": {
+    "dˈɛbʌsi": "dəbjˈuːsi",
+    "lˈaɪvz ɐ dˈiːpli": "lˈɪvz ɐ dˈiːpli"
+  },
+  "scenes": [
+    {
+      "id": "overture",
+      "lines": [
+        {
+          "id": "L01",
+          "text": "Imagine a sky where five planets have gathered in a single sign, like five musicians crowding onto one small stage.",
+          "pause": 0.6
+        },
+        {
+          "id": "L02",
+          "text": "The Sun. The Moon. Mercury. Venus. And Mars.",
+          "pause": 0.5
+        },
+        {
+          "id": "L03",
+          "text": "All of them in Cancer. All of them in the eleventh house.",
+          "pause": 0.4
+        },
+        {
+          "id": "L04",
+          "text": "Astrologers call this a stellium, and yours is extraordinarily concentrated.",
+          "pause": 1.35
+        }
+      ]
+    },
+    {
+      "id": "conductor",
+      "lines": [
+        {
+          "id": "L05",
+          "text": "Cancer is ruled by the Moon, and your Moon is at home here, at full strength.",
+          "pause": 0.35
+        },
+        {
+          "id": "L06",
+          "text": "So every planet in this group plays in the Moon's key.",
+          "pause": 0.35
+        },
+        {
+          "id": "L07",
+          "text": "For you, feeling isn't one part of the music. It is the whole score.",
+          "pause": 0.5
+        },
+        {
+          "id": "L08",
+          "text": "With the Sun and Moon in one sign, you were born near a New Moon: a soul of first notes, and fresh beginnings.",
+          "pause": 0.4
+        },
+        {
+          "id": "L09",
+          "text": "Like the tides, your creativity moves in cycles. Trust the ebb as much as the flow.",
+          "pause": 1.35
+        }
+      ]
+    },
+    {
+      "id": "triad",
+      "lines": [
+        {
+          "id": "L10",
+          "text": "Listen closely: these planets don't just share a sign. They form two chords.",
+          "pause": 0.4
+        },
+        {
+          "id": "L11",
+          "text": "The first is the Moon, Mercury and Venus, fused within one degree. A triad.",
+          "pause": 0.5
+        },
+        {
+          "id": "L12",
+          "text": "The Moon is the root: pure emotion.",
+          "pause": 0.4
+        },
+        {
+          "id": "L13",
+          "text": "Venus is the third, the note that gives a chord its colour, and its sweetness.",
+          "pause": 0.4
+        },
+        {
+          "id": "L14",
+          "text": "Mercury is the fifth: words, clarity, the lyric.",
+          "pause": 0.6
+        },
+        {
+          "id": "L15",
+          "text": "Feeling, melody and language, struck as one. That is the signature of a songwriter.",
+          "pause": 0.4
+        },
+        {
+          "id": "L16",
+          "text": "Like Debussy's Clair de Lune, you can turn moonlight into melody.",
+          "pause": 1.35
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "lines": [
+        {
+          "id": "L17",
+          "text": "The second chord is the Sun and Mars. And that one is a power chord.",
+          "pause": 0.5
+        },
+        {
+          "id": "L18",
+          "text": "Root and fifth. No third. No hesitation. Identity and drive, fused into a single sound.",
+          "pause": 0.4
+        },
+        {
+          "id": "L19",
+          "text": "Mars in Cancer doesn't attack head-on. It builds like a wave, and fights fiercely for what it loves.",
+          "pause": 0.4
+        },
+        {
+          "id": "L20",
+          "text": "Think of Carlos Santana, a Cancer Sun, whose guitar doesn't shout. It sings, and it cries.",
+          "pause": 1.35
+        }
+      ]
+    },
+    {
+      "id": "unison",
+      "lines": [
+        {
+          "id": "L21",
+          "text": "Within one degree, these planets are perfectly in tune.",
+          "pause": 0.4
+        },
+        {
+          "id": "L22",
+          "text": "Two strings tuned that closely stop beating against each other. They ring as one.",
+          "pause": 0.5
+        },
+        {
+          "id": "L23",
+          "text": "There's no half-measure in you. When you feel it, you play it.",
+          "pause": 1.35
+        }
+      ]
+    },
+    {
+      "id": "eleventh",
+      "lines": [
+        {
+          "id": "L24",
+          "text": "All of this lives in the eleventh house: friends, audiences, community, and dreams for the future.",
+          "pause": 0.4
+        },
+        {
+          "id": "L25",
+          "text": "Your music was never meant to stay private. It's meant for the crowd.",
+          "pause": 0.35
+        },
+        {
+          "id": "L26",
+          "text": "Bandmates become family. An audience becomes a kind of home.",
+          "pause": 0.4
+        },
+        {
+          "id": "L27",
+          "text": "Ringo Starr, another Cancer Sun, sang it best: With a Little Help from My Friends.",
+          "pause": 0.5
+        },
+        {
+          "id": "L28",
+          "text": "Just don't let the applause set your tides. Write from your inner world, then share it with the many.",
+          "pause": 1.35
+        }
+      ]
+    },
+    {
+      "id": "leo",
+      "lines": [
+        {
+          "id": "L29",
+          "text": "And finally, the curtain rises. Leo ascendant.",
+          "pause": 0.5
+        },
+        {
+          "id": "L30",
+          "text": "Leo is ruled by the Sun, and your Sun, the ruler of your chart, sits in the eleventh house with Mars.",
+          "pause": 0.35
+        },
+        {
+          "id": "L31",
+          "text": "So your path to the stage runs straight through your audience.",
+          "pause": 0.4
+        },
+        {
+          "id": "L32",
+          "text": "Cancer writes the song by moonlight. Leo walks it into the spotlight.",
+          "pause": 0.4
+        },
+        {
+          "id": "L33",
+          "text": "Beneath that golden stage presence lives a deeply tender soul.",
+          "pause": 0.7
+        },
+        {
+          "id": "L34",
+          "text": "Five planets. One sign. One song.",
+          "pause": 0.6
+        },
+        {
+          "id": "L35",
+          "text": "Play it loud, and play it from the heart.",
+          "pause": 0.0
+        }
+      ]
+    }
+  ]
+}

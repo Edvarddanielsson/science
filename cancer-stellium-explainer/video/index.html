@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>The Moon's Orchestra</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-garamond-latin-300-normal.woff2") format("woff2"); font-weight: 300; font-style: normal; }
+      @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-garamond-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+      @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-garamond-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-style: normal; }
+      @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; }
+      @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-garamond-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+      @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-garamond-latin-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+      @font-face { font-family: "Jost"; src: url("assets/fonts/jost-latin-300-normal.woff2") format("woff2"); font-weight: 300; font-style: normal; }
+      @font-face { font-family: "Jost"; src: url("assets/fonts/jost-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+      @font-face { font-family: "Jost"; src: url("assets/fonts/jost-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-style: normal; }
+      @font-face { font-family: "Noto Music"; src: url("assets/fonts/noto-music-music-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+
+      :root {
+        --night: #05070f;
+        --silver: #eeeaf6;
+        --pearl: #c9d2ee;
+        --lunar: #93abee;
+        --sea: #74c7cc;
+        --gold: #f3c670;
+        --gold-soft: #f6dca6;
+        --ember: #ee7e62;
+        --rose: #eba9c6;
+        --quick: #9fe0da;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--night); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--silver); font-family: "Jost", sans-serif; }
+      .clip { position: absolute; inset: 0; }
+      .inner { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+      .center-x { left: 0; right: 0; text-align: center; }
+      .kicker { font-family: "Jost", sans-serif; font-weight: 500; font-size: 22px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--lunar); }
+      .label { font-family: "Jost", sans-serif; font-weight: 400; font-size: 20px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--pearl); }
+      .display { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 132px; line-height: 1.02; letter-spacing: -0.005em; }
+      .italic { font-style: italic; }
+      .line-xl { font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 400; font-size: 84px; line-height: 1.1; }
+      .line-lg { font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 400; font-size: 64px; line-height: 1.15; }
+      .line-md { font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 400; font-size: 48px; line-height: 1.2; color: var(--pearl); }
+      .music { font-family: "Noto Music", serif; }
+      .gold { color: var(--gold); }
+      .gold-soft { color: var(--gold-soft); }
+      .glyph { display: block; overflow: visible; }
+      .glyph .fill { fill: currentColor; stroke: none; }
+      .glyph .fill-soft { fill: currentColor; fill-opacity: 0.92; }
+      .glow { filter: drop-shadow(0 0 14px currentColor); }
+      .card { border: 1px solid rgba(201, 210, 238, 0.2); background: rgba(16, 22, 56, 0.55); border-radius: 28px; }
+      .chip { display: inline-flex; align-items: center; gap: 14px; padding: 14px 30px; margin: 0 14px; border: 1px solid rgba(147, 171, 238, 0.45); border-radius: 999px; background: rgba(16, 22, 56, 0.6); font-family: "Jost", sans-serif; font-weight: 500; font-size: 24px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--silver); }
+      .row { display: flex; align-items: center; justify-content: center; }
+
+      /* background */
+      .bg-grad { position: absolute; inset: 0; background: radial-gradient(ellipse 120% 90% at 50% 28%, #131c45 0%, #0a1029 46%, #05070f 100%); }
+      .nebula { position: absolute; border-radius: 50%; filter: blur(60px); }
+      .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 85% 75% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%); }
+
+      /* overture */
+      .note { position: absolute; width: 80px; height: 80px; }
+      .note .ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid currentColor; background: radial-gradient(circle, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 70%); box-shadow: 0 0 26px rgba(255, 255, 255, 0.08); }
+      .note .g { position: absolute; left: 19px; top: 19px; width: 42px; height: 42px; }
+      .note .stem { position: absolute; left: 79px; top: -112px; width: 2px; height: 152px; background: linear-gradient(to top, currentColor, rgba(255, 255, 255, 0)); opacity: 0.7; }
+      .note .nlabel { position: absolute; left: -60px; width: 200px; text-align: center; font-family: "Jost", sans-serif; font-weight: 500; font-size: 19px; letter-spacing: 0.28em; text-transform: uppercase; }
+
+      /* conductor */
+      .moon-big {
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 30% 60%, rgba(84, 96, 150, 0.34) 0, rgba(84, 96, 150, 0.34) 6%, rgba(84, 96, 150, 0) 9%),
+          radial-gradient(circle at 63% 36%, rgba(84, 96, 150, 0.26) 0, rgba(84, 96, 150, 0.26) 9%, rgba(84, 96, 150, 0) 12%),
+          radial-gradient(circle at 56% 74%, rgba(84, 96, 150, 0.24) 0, rgba(84, 96, 150, 0.24) 5%, rgba(84, 96, 150, 0) 8%),
+          radial-gradient(circle at 44% 22%, rgba(84, 96, 150, 0.2) 0, rgba(84, 96, 150, 0.2) 4%, rgba(84, 96, 150, 0) 7%),
+          radial-gradient(circle at 76% 58%, rgba(84, 96, 150, 0.22) 0, rgba(84, 96, 150, 0.22) 6%, rgba(84, 96, 150, 0) 9%),
+          radial-gradient(circle at 38% 34%, #ffffff 0%, #eeeaf6 24%, #c4cae4 56%, #8e98c0 82%, #5d6898 100%);
+        box-shadow: 0 0 90px rgba(220, 226, 255, 0.35), 0 0 240px rgba(147, 171, 238, 0.28);
+      }
+
+      /* piano */
+      .wkey { fill: #e9e7f1; stroke: #0a0f26; stroke-width: 2; }
+      .bkey { fill: #0d1230; stroke: #0a0f26; stroke-width: 1.5; }
+
+      /* leo */
+      .curtain { position: absolute; top: 0; width: 1000px; height: 1080px; background: repeating-linear-gradient(90deg, #2a0818 0px, #5a1631 46px, #7a2141 70px, #4a1129 104px, #2a0818 140px); box-shadow: inset 0 -60px 120px rgba(0, 0, 0, 0.55); }
+      .curtain::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 12px; background: linear-gradient(90deg, #8a6420, #f3c670, #8a6420); opacity: 0.7; }
+      .sun-disc { position: absolute; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #fff6dc 0%, #ffe3a0 30%, #f3c670 58%, #e09a45 82%, #c46d2e 100%); box-shadow: 0 0 120px rgba(243, 198, 112, 0.55), 0 0 320px rgba(238, 126, 98, 0.35); }
+      .node { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; width: 300px; height: 210px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="181.731" data-width="1920" data-height="1080">
+      <!-- ============================================================ BACKGROUND -->
+      <div id="bg" class="clip" data-start="0" data-duration="181.731" data-track-index="0">
+        <div class="bg-grad"></div>
+        <div id="neb1" class="nebula" style="left: 180px; top: 120px; width: 900px; height: 600px; background: radial-gradient(circle, rgba(80, 104, 200, 0.28), rgba(80, 104, 200, 0) 70%)"></div>
+        <div id="neb2" class="nebula" style="left: 980px; top: 420px; width: 820px; height: 560px; background: radial-gradient(circle, rgba(70, 170, 180, 0.16), rgba(70, 170, 180, 0) 70%)"></div>
+        <svg id="stars" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+        <div class="vignette"></div>
+      </div>
+
+      <!-- ============================================================ 1. OVERTURE -->
+      <section id="s-overture" class="clip" data-start="0.000" data-duration="25.367" data-track-index="1" style="z-index: 1">
+        <div class="inner" id="ov">
+          <div id="ov-bigcancer" class="abs" style="left: 680px; top: 330px; width: 560px; height: 560px"><span data-glyph="cancer" data-color="#93abee" data-size="560" data-sw="2.4"></span></div>
+          <svg id="ov-staff" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080">
+            <g fill="none" stroke="#c9d2ee" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round">
+              <path class="ov-line" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" />
+              <path class="ov-line" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" />
+              <path class="ov-line" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" />
+              <path class="ov-line" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" />
+              <path class="ov-line" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" />
+            </g>
+          </svg>
+          <div id="ov-halo" class="abs" style="left: 760px; top: 400px; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(238, 234, 246, 0.22), rgba(147, 171, 238, 0.08) 45%, rgba(147, 171, 238, 0) 70%)"></div>
+          <div id="ov-notes"></div>
+          <div id="ov-title" class="abs center-x" style="top: 170px">
+            <div class="kicker" id="ov-kicker">A chart reading in five voices</div>
+            <div class="display italic" id="ov-h1" style="margin-top: 26px">The Moon's Orchestra</div>
+            <div class="label" id="ov-sub" style="margin-top: 30px">Sun · Moon · Mercury · Venus · Mars in Cancer</div>
+          </div>
+          <div id="ov-chips" class="abs center-x" style="top: 300px">
+            <span class="chip" id="ov-chip1"><span data-glyph="cancer" data-color="#93abee" data-size="34" data-sw="7"></span>Cancer</span>
+            <span class="chip" id="ov-chip2">11th House</span>
+          </div>
+          <div id="ov-stellium" class="abs center-x" style="top: 196px">
+            <div id="ov-st-word" class="display" style="font-size: 138px; letter-spacing: 0.14em; font-weight: 500">STELLIUM</div>
+            <div id="ov-st-def" class="line-md" style="margin-top: 6px">five planets gathered in one sign</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 2. CONDUCTOR -->
+      <section id="s-conductor" class="clip" data-start="24.367" data-duration="26.500" data-track-index="1" style="z-index: 2">
+        <div class="inner" id="co">
+          <svg id="co-tides" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080">
+            <g fill="none" stroke-linecap="round">
+              <path class="co-tide" stroke="#74c7cc" stroke-opacity="0.75" stroke-width="2.5" />
+              <path class="co-tide" stroke="#93abee" stroke-opacity="0.6" stroke-width="2" />
+              <path class="co-tide" stroke="#74c7cc" stroke-opacity="0.5" stroke-width="2" />
+              <path class="co-tide" stroke="#93abee" stroke-opacity="0.4" stroke-width="1.6" />
+              <path class="co-tide" stroke="#74c7cc" stroke-opacity="0.3" stroke-width="1.4" />
+            </g>
+          </svg>
+          <div id="co-moon-wrap" class="abs" style="left: 320px; top: 210px; width: 460px; height: 460px">
+            <div id="co-moon" class="abs moon-big" style="left: 0; top: 0; width: 460px; height: 460px"></div>
+          </div>
+          <div id="co-cap" class="abs" style="left: 250px; top: 720px; width: 600px; text-align: center">
+            <div class="kicker" id="co-cap-k">Moon in Cancer</div>
+            <div class="line-md" id="co-cap-l" style="margin-top: 14px">at home · at full strength</div>
+          </div>
+          <svg id="co-baton" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080">
+            <path id="co-baton-path" d="M 700 236 C 790 120, 900 120, 945 205" fill="none" stroke="#f6dca6" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.8" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" />
+          </svg>
+          <div id="co-key" class="abs" style="left: 960px; top: 230px; width: 840px; height: 380px">
+            <div class="kicker" id="co-key-k">Everything plays in the Moon's key</div>
+            <svg id="co-staff" class="abs" data-layout-allow-overflow style="left: 0; top: 70px" width="840" height="300" viewBox="0 0 840 300"></svg>
+          </div>
+          <div id="co-l1" class="abs line-md" style="left: 960px; top: 640px; width: 860px">Feeling isn't one part of the music.</div>
+          <div id="co-l2" class="abs line-lg gold-soft" style="left: 960px; top: 712px; width: 860px">It is the whole score.</div>
+          <div id="co-phase-block" class="abs" style="left: 960px; top: 290px; width: 840px; height: 400px">
+            <div class="kicker">Sun and Moon in one sign</div>
+            <svg id="co-phases" class="abs" style="left: 0; top: 70px" width="840" height="150" viewBox="0 0 840 150"></svg>
+            <div id="co-nm-label" class="abs label" style="left: -35px; top: 232px; width: 220px; text-align: center; color: var(--gold-soft)">New Moon</div>
+          </div>
+          <div id="co-nm1" class="abs line-lg" style="left: 960px; top: 590px; width: 860px">Born near a New Moon</div>
+          <div id="co-nm2" class="abs line-md" style="left: 960px; top: 670px; width: 860px">a soul of first notes, and fresh beginnings</div>
+          <div id="co-tide-k" class="abs kicker" style="left: 960px; top: 300px">Creativity in cycles</div>
+          <div id="co-tide-l" class="abs line-lg" style="left: 960px; top: 352px; width: 860px">Trust the ebb as much as the flow.</div>
+          <div id="co-ebb" class="abs label" style="left: 150px; top: 806px">Ebb</div>
+          <div id="co-flow" class="abs label" style="left: 1690px; top: 806px">Flow</div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 3. TRIAD -->
+      <section id="s-triad" class="clip" data-start="49.867" data-duration="33.124" data-track-index="1" style="z-index: 3">
+        <div class="inner" id="tr">
+          <div id="tr-cards" class="abs center-x" style="top: 250px">
+            <div class="kicker" id="tr-cards-k">Two chords</div>
+            <div class="row" style="gap: 80px; margin-top: 46px">
+              <div class="card" id="tr-card1" style="width: 470px; height: 330px; padding-top: 52px">
+                <div class="row" style="gap: 26px">
+                  <span data-glyph="moon" data-color="#eeeaf6" data-size="86"></span>
+                  <span data-glyph="mercury" data-color="#9fe0da" data-size="86"></span>
+                  <span data-glyph="venus" data-color="#eba9c6" data-size="86"></span>
+                </div>
+                <div class="label" style="margin-top: 44px; color: var(--silver)">Chord I</div>
+                <div class="line-md" style="margin-top: 10px; font-size: 40px">Moon · Mercury · Venus</div>
+              </div>
+              <div class="card" id="tr-card2" style="width: 470px; height: 330px; padding-top: 52px">
+                <div class="row" style="gap: 26px">
+                  <span data-glyph="sun" data-color="#f3c670" data-size="86"></span>
+                  <span data-glyph="mars" data-color="#ee7e62" data-size="86"></span>
+                </div>
+                <div class="label" style="margin-top: 44px; color: var(--silver)">Chord II</div>
+                <div class="line-md" style="margin-top: 10px; font-size: 40px">Sun · Mars</div>
+              </div>
+            </div>
+          </div>
+          <div id="tr-head" class="abs center-x" style="top: 96px">
+            <div class="kicker" id="tr-head-k">Chord I · Moon, Mercury, Venus · within 1°</div>
+            <div class="display italic" id="tr-title" style="font-size: 100px; margin-top: 14px">A triad</div>
+          </div>
+          <div id="tr-sig" class="abs center-x" style="top: 112px">
+            <div class="kicker">Feeling · melody · language</div>
+            <div class="line-xl gold-soft" style="margin-top: 14px">the signature of a songwriter</div>
+          </div>
+          <svg id="tr-staff" class="abs" style="left: 330px; top: 270px" width="1300" height="400" viewBox="0 0 1300 400">
+            <g id="tr-lines" fill="none" stroke="#c9d2ee" stroke-opacity="0.6" stroke-width="2"></g>
+            <text id="tr-clef" class="music" x="40" y="252" font-size="236" fill="#c9d2ee" fill-opacity="0.85">𝄞</text>
+            <g id="tr-notes"></g>
+            <g id="tr-leads" fill="none" stroke-width="1.5" stroke-opacity="0.6"></g>
+          </svg>
+          <div id="tr-lab-g" class="abs" style="left: 960px; top: 286px; width: 760px">
+            <div class="label" style="color: var(--quick)">The fifth · Mercury</div>
+            <div class="line-md" style="margin-top: 6px">words, clarity, the lyric</div>
+          </div>
+          <div id="tr-lab-e" class="abs" style="left: 960px; top: 410px; width: 760px">
+            <div class="label" style="color: var(--rose)">The third · Venus</div>
+            <div class="line-md" style="margin-top: 6px">the colour, the sweetness</div>
+          </div>
+          <div id="tr-lab-c" class="abs" style="left: 960px; top: 534px; width: 760px">
+            <div class="label" style="color: var(--silver)">The root · Moon</div>
+            <div class="line-md" style="margin-top: 6px">pure emotion</div>
+          </div>
+          <div id="tr-struck" class="abs center-x line-md" style="top: 676px; color: var(--silver)">feeling, melody and language, struck as one</div>
+          <svg id="tr-keys" class="abs" style="left: 480px; top: 764px" width="960" height="236" viewBox="0 0 960 236"></svg>
+          <div id="tr-clair" class="abs" style="left: 0; top: 0; width: 1920px; height: 1080px">
+            <div id="tr-cl-moon" class="abs glow" style="left: 1180px; top: 190px; width: 340px; height: 340px"><span data-glyph="moon" data-color="#eeeaf6" data-size="340"></span></div>
+            <div id="tr-cl-notes" class="abs" data-layout-allow-overlap style="left: 0; top: 0; width: 1920px; height: 1080px"></div>
+            <div id="tr-cl-text" class="abs" style="left: 240px; top: 380px; width: 900px">
+              <div class="kicker">Moonlight into melody</div>
+              <div class="display italic" style="margin-top: 20px; font-size: 128px">Clair de lune</div>
+              <div class="label" style="margin-top: 26px">Claude Debussy</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 4. POWER CHORD -->
+      <section id="s-power" class="clip" data-start="81.991" data-duration="25.304" data-track-index="1" style="z-index: 4">
+        <div class="inner" id="pw">
+          <div id="pw-warm" class="abs" style="left: 0; top: 0; width: 1920px; height: 1080px; background: radial-gradient(ellipse 80% 60% at 50% 85%, rgba(238, 126, 98, 0.26), rgba(238, 126, 98, 0) 70%)"></div>
+          <div id="pw-k" class="abs center-x kicker" style="top: 210px; color: var(--gold-soft)">Chord II · Sun and Mars · within 1°</div>
+          <div id="pw-sun" class="abs glow" style="left: 760px; top: 300px; width: 160px; height: 160px"><span data-glyph="sun" data-color="#f3c670" data-size="160" data-sw="4"></span></div>
+          <div id="pw-mars" class="abs glow" style="left: 1000px; top: 300px; width: 160px; height: 160px"><span data-glyph="mars" data-color="#ee7e62" data-size="160" data-sw="4"></span></div>
+          <div id="pw-flash" class="abs" style="left: 760px; top: 180px; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 230, 170, 0.5), rgba(238, 126, 98, 0.15) 40%, rgba(238, 126, 98, 0) 70%)"></div>
+          <div id="pw-title" class="abs center-x" style="top: 560px">
+            <div style="font-family: 'Jost', sans-serif; font-weight: 500; font-size: 118px; letter-spacing: 0.22em; color: var(--silver)">POWER CHORD</div>
+            <div class="label" style="margin-top: 22px; color: var(--gold-soft)">identity and drive in one sound</div>
+          </div>
+          <svg id="pw-fret" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+          <div id="pw-lab-root" class="abs" style="left: 640px; top: 760px; width: 420px">
+            <div class="label gold">Root · Sun</div>
+            <div class="line-md" style="margin-top: 4px">identity</div>
+          </div>
+          <div id="pw-lab-fifth" class="abs" style="left: 1566px; top: 594px; width: 330px">
+            <div class="label" style="color: var(--ember)">Fifth · Mars</div>
+            <div class="line-md" style="margin-top: 4px">drive</div>
+          </div>
+          <div id="pw-nothird" class="abs" style="left: 1240px; top: 300px; width: 420px">
+            <div style="font-family: 'Jost', sans-serif; font-weight: 500; font-size: 40px; letter-spacing: 0.24em; color: var(--pearl)">NO THIRD</div>
+            <div id="pw-strike" class="abs" style="left: -8px; top: 26px; width: 310px; height: 3px; background: var(--ember)"></div>
+            <div class="line-md" style="margin-top: 8px">no hesitation</div>
+          </div>
+          <div id="pw-fret-k" class="abs kicker" style="left: 360px; top: 300px; color: var(--gold-soft)">A5 · root and fifth</div>
+          <div id="pw-one" class="abs center-x line-lg gold-soft" style="top: 860px">identity and drive, fused into a single sound</div>
+          <svg id="pw-wave" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080">
+            <g id="pw-hairpin" fill="none" stroke="#f6dca6" stroke-width="3" stroke-linecap="round" stroke-opacity="0.85">
+              <path id="pw-hp1" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" d="M 300 700 L 1620 580" />
+              <path id="pw-hp2" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" d="M 300 700 L 1620 820" />
+            </g>
+            <path id="pw-sea" fill="none" stroke="#ee7e62" stroke-width="3" stroke-opacity="0.8" />
+            <path id="pw-sea2" fill="none" stroke="#f3c670" stroke-width="1.8" stroke-opacity="0.5" />
+            <text id="pw-cresc" x="300" y="890" font-family="Cormorant Garamond" font-style="italic" font-size="54" fill="#f6dca6" fill-opacity="0.9">cresc.</text>
+          </svg>
+          <div id="pw-mic-k" class="abs kicker" style="left: 300px; top: 200px; color: var(--ember)">Mars in Cancer</div>
+          <div id="pw-mic1" class="abs line-lg" style="left: 300px; top: 252px; width: 1400px">doesn't attack head-on.</div>
+          <div id="pw-mic2" class="abs line-lg gold-soft" style="left: 300px; top: 336px; width: 1400px">It builds like a wave,</div>
+          <div id="pw-mic3" class="abs line-md" style="left: 300px; top: 420px; width: 1400px">and fights fiercely for what it loves.</div>
+          <svg id="pw-sustain" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080">
+            <path id="pw-sus" fill="none" stroke="#ee7e62" stroke-width="3" stroke-linecap="round" stroke-opacity="0.9" />
+            <path id="pw-sus2" fill="none" stroke="#f3c670" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.45" />
+          </svg>
+          <div id="pw-san" class="abs center-x" style="top: 220px">
+            <div class="kicker" style="color: var(--gold-soft)">Sun in Cancer · born 20 July 1947</div>
+            <div class="display" style="margin-top: 22px; font-size: 120px">Carlos Santana</div>
+          </div>
+          <div id="pw-san1" class="abs center-x line-lg" style="top: 760px">a guitar that doesn't shout.</div>
+          <div id="pw-san2" class="abs center-x line-lg gold-soft" style="top: 846px">It sings, and it cries.</div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 5. UNISON -->
+      <section id="s-unison" class="clip" data-start="106.295" data-duration="14.492" data-track-index="1" style="z-index: 5">
+        <div class="inner" id="un">
+          <div id="un-k" class="abs center-x kicker" style="top: 150px">Within one degree</div>
+          <svg id="un-gauge" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+          <div id="un-deg" class="abs center-x" style="top: 700px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 96px; color: var(--silver)">1°</div>
+          <div id="un-intune" class="abs center-x label" style="top: 836px; color: var(--gold); font-size: 26px">Perfectly in tune</div>
+          <svg id="un-waves" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080">
+            <path id="un-wa" fill="none" stroke="#eeeaf6" stroke-width="2.5" stroke-opacity="0.85" />
+            <path id="un-wb" fill="none" stroke="#eba9c6" stroke-width="2.5" stroke-opacity="0.85" />
+            <path id="un-env" fill="none" stroke="#f3c670" stroke-width="1.5" stroke-opacity="0.5" stroke-dasharray="6 10" />
+            <path id="un-sum" fill="none" stroke="#f3c670" stroke-width="3.5" stroke-opacity="0.95" />
+          </svg>
+          <div id="un-lab-two" class="abs label" style="left: 260px; top: 330px">Two strings</div>
+          <div id="un-lab-beat" class="abs label" style="left: 260px; top: 612px; color: var(--gold-soft)">Beating</div>
+          <div id="un-lab-one" class="abs label" style="left: 260px; top: 612px; color: var(--gold)">Ringing as one</div>
+          <div id="un-ring" class="abs center-x line-lg gold-soft" style="top: 850px">they ring as one</div>
+          <div id="un-hm" class="abs center-x line-md" style="top: 230px">There's no half-measure in you.</div>
+          <div id="un-feel" class="abs center-x line-xl" style="top: 400px">When you feel it, you play it.</div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 6. ELEVENTH HOUSE -->
+      <section id="s-eleventh" class="clip" data-start="119.787" data-duration="28.214" data-track-index="1" style="z-index: 6">
+        <div class="inner" id="el">
+          <svg id="el-crowd" class="abs" data-layout-allow-overflow style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+          <svg id="el-rays" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+          <svg id="el-wheel" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+          <div id="el-list" class="abs" style="left: 1180px; top: 250px; width: 640px">
+            <div class="kicker" id="el-list-k">The 11th house</div>
+            <div class="line-lg el-item" style="margin-top: 26px">friends</div>
+            <div class="line-lg el-item">audiences</div>
+            <div class="line-lg el-item">community</div>
+            <div class="line-lg el-item gold-soft">dreams for the future</div>
+          </div>
+          <div id="el-p1" class="abs center-x line-lg" style="top: 250px">Your music was never meant to stay private.</div>
+          <div id="el-p2" class="abs center-x line-xl gold-soft" style="top: 350px">It's meant for the crowd.</div>
+          <div id="el-f1" class="abs center-x line-lg" data-layout-allow-overlap style="top: 250px">Bandmates become family.</div>
+          <div id="el-f2" class="abs center-x line-xl gold-soft" data-layout-allow-overlap style="top: 350px">An audience becomes a kind of home.</div>
+          <div id="el-ringo" class="abs center-x" data-layout-allow-overlap style="top: 170px">
+            <div class="kicker" style="color: var(--gold-soft)">Sun in Cancer · born 7 July 1940</div>
+            <div class="display" style="margin-top: 20px; font-size: 120px">Ringo Starr</div>
+            <div id="el-song" class="line-lg gold-soft" style="margin-top: 30px"><span class="music" style="font-style: normal; font-size: 52px; margin-right: 22px">♫</span>With a Little Help from My Friends</div>
+          </div>
+          <div id="el-l1" class="abs center-x line-lg" style="top: 300px">Don't let the applause set your tides.</div>
+          <div id="el-l2" class="abs center-x line-md" style="top: 390px; color: var(--gold-soft)">Write from your inner world, then share it with the many.</div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 7. LEO RISING -->
+      <section id="s-leo" class="clip" data-start="147.001" data-duration="34.730" data-track-index="1" style="z-index: 7">
+        <div class="inner" id="le">
+          <div id="le-dawn" class="abs" style="left: 0; top: 0; width: 1920px; height: 1080px; background: radial-gradient(ellipse 90% 70% at 50% 92%, rgba(243, 198, 112, 0.38), rgba(238, 126, 98, 0.12) 45%, rgba(238, 126, 98, 0) 75%)"></div>
+          <div id="le-horizon" class="abs" data-layout-allow-overflow style="left: 0; top: 0; width: 1920px; height: 880px; overflow: hidden">
+            <div id="le-rays" class="abs" data-layout-allow-overflow style="left: 160px; top: 80px; width: 1600px; height: 1600px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(243, 198, 112, 0.13) 0deg 4deg, rgba(243, 198, 112, 0) 4deg 15deg); -webkit-mask-image: radial-gradient(circle, #000 18%, rgba(0, 0, 0, 0) 62%); mask-image: radial-gradient(circle, #000 18%, rgba(0, 0, 0, 0) 62%)"></div>
+            <div id="le-sun" class="sun-disc" data-layout-allow-overflow style="left: 700px; top: 620px; width: 520px; height: 520px"></div>
+          </div>
+          <div id="le-horizon-line" class="abs" style="left: 0; top: 879px; width: 1920px; height: 2px; background: linear-gradient(90deg, rgba(243, 198, 112, 0), rgba(243, 198, 112, 0.8), rgba(243, 198, 112, 0))"></div>
+          <div id="le-leo" class="abs glow" style="left: 810px; top: 300px; width: 300px; height: 300px"><span data-glyph="leo" data-color="#f3c670" data-size="300" data-sw="4"></span></div>
+          <div id="le-leo-k" class="abs center-x" style="top: 140px">
+            <div class="kicker" style="color: var(--gold-soft)">The curtain rises</div>
+            <div class="display italic" style="margin-top: 14px; font-size: 104px">Leo ascendant</div>
+          </div>
+          <div id="le-chain" class="abs center-x" style="top: 230px">
+            <div class="row" style="gap: 0">
+              <div class="node card" id="le-n1"><span data-glyph="leo" data-color="#f3c670" data-size="84" data-sw="5"></span><div class="label">Leo rising</div></div>
+              <div class="le-arrow" id="le-a1" style="width: 170px; text-align: center"><div class="label" style="font-size: 16px; color: var(--gold-soft)">ruled by</div><div style="height: 2px; margin: 14px 18px 0; background: linear-gradient(90deg, rgba(243, 198, 112, 0.2), #f3c670)"></div></div>
+              <div class="node card" id="le-n2"><span data-glyph="sun" data-color="#f3c670" data-size="84" data-sw="5"></span><div class="label">the Sun</div><div class="line-md" style="font-size: 30px; margin-top: -6px">your chart ruler</div></div>
+              <div class="le-arrow" id="le-a2" style="width: 170px; text-align: center"><div class="label" style="font-size: 16px; color: var(--gold-soft)">sits in</div><div style="height: 2px; margin: 14px 18px 0; background: linear-gradient(90deg, rgba(243, 198, 112, 0.2), #f3c670)"></div></div>
+              <div class="node card" id="le-n3"><div class="row" style="gap: 14px"><span style="font-family: 'Cormorant Garamond', serif; font-size: 70px; line-height: 1; font-weight: 500">11</span><span data-glyph="mars" data-color="#ee7e62" data-size="60" data-sw="6"></span></div><div class="label">11th house</div><div class="line-md" style="font-size: 30px; margin-top: -6px">with Mars</div></div>
+            </div>
+          </div>
+          <svg id="le-path" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+          <div id="le-path-t1" class="abs line-lg" style="left: 240px; top: 200px; width: 1300px">Your path to the stage</div>
+          <div id="le-path-t2" class="abs line-lg gold-soft" style="left: 240px; top: 284px; width: 1300px">runs straight through your audience.</div>
+          <div id="le-split" class="abs" style="left: 0; top: 0; width: 1920px; height: 1080px">
+            <div id="le-sp-l" class="abs" style="left: 0; top: 0; width: 960px; height: 1080px; background: linear-gradient(90deg, rgba(10, 16, 41, 0.92), rgba(10, 16, 41, 0.75))">
+              <div class="abs glow" style="left: 350px; top: 200px; width: 260px; height: 260px"><span data-glyph="moon" data-color="#eeeaf6" data-size="260"></span></div>
+              <div class="abs center-x" style="top: 560px">
+                <div class="row" style="gap: 16px"><span data-glyph="cancer" data-color="#93abee" data-size="40" data-sw="7"></span><span class="kicker">Cancer</span></div>
+                <div class="line-lg" style="margin-top: 22px">writes the song by moonlight</div>
+              </div>
+            </div>
+            <div id="le-sp-r" class="abs" style="left: 960px; top: 0; width: 960px; height: 1080px">
+              <div id="le-spot" class="abs" style="left: 180px; top: 0; width: 600px; height: 1080px; background: linear-gradient(180deg, rgba(255, 236, 190, 0.5), rgba(243, 198, 112, 0.12) 75%, rgba(243, 198, 112, 0)); clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%)"></div>
+              <div class="abs glow" style="left: 350px; top: 200px; width: 260px; height: 260px"><span data-glyph="leo" data-color="#f3c670" data-size="260" data-sw="4"></span></div>
+              <div class="abs center-x" style="top: 560px">
+                <div class="row" style="gap: 16px"><span data-glyph="leo" data-color="#f3c670" data-size="40" data-sw="7"></span><span class="kicker" style="color: var(--gold-soft)">Leo</span></div>
+                <div class="line-lg gold-soft" style="margin-top: 22px">walks it into the spotlight</div>
+              </div>
+            </div>
+          </div>
+          <div id="le-ring-wrap" class="abs" style="left: 0; top: 0; width: 1920px; height: 1080px">
+            <svg id="le-ring" class="abs" style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080">
+              <circle id="le-ring-c" cx="960" cy="460" r="190" fill="none" stroke="#f3c670" stroke-width="5" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" transform="rotate(-90 960 460)" />
+            </svg>
+            <div id="le-ring-moon" class="abs glow" style="left: 870px; top: 370px; width: 180px; height: 180px"><span data-glyph="moon" data-color="#eeeaf6" data-size="180"></span></div>
+            <div id="le-ring-t1" class="abs center-x label" style="top: 196px; color: var(--gold); font-size: 24px">Golden stage presence</div>
+            <div id="le-ring-t2" class="abs center-x line-lg" style="top: 690px">a deeply tender soul</div>
+          </div>
+          <svg id="le-final-staff" class="abs" data-layout-allow-overflow style="left: 0; top: 0" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+          <div id="le-final" class="abs center-x" style="top: 200px">
+            <div class="row" style="gap: 44px">
+              <span id="le-w1" class="display" style="font-size: 112px">Five planets.</span>
+              <span id="le-w2" class="display" style="font-size: 112px">One sign.</span>
+              <span id="le-w3" class="display italic gold" style="font-size: 112px">One song.</span>
+            </div>
+          </div>
+          <div id="le-heart" class="abs center-x line-lg gold-soft" style="top: 840px">Play it loud, and play it from the heart.</div>
+          <div id="le-card" class="abs center-x" style="top: 960px">
+            <div class="label" style="font-size: 18px">The Moon's Orchestra · Sun, Moon, Mercury, Venus, Mars in Cancer · 11th House · Leo Rising</div>
+          </div>
+          <div id="le-curtains" class="abs" style="left: 0; top: 0; width: 1920px; height: 1080px">
+            <div id="le-cur-l" class="curtain" style="left: -40px"></div>
+            <div id="le-cur-r" class="curtain" style="left: 960px"></div>
+          </div>
+          <div id="le-black" class="abs" style="left: 0; top: 0; width: 1920px; height: 1080px; background: #000"></div>
+        </div>
+      </section>
+
+      <audio id="narration" src="assets/audio/narration.flac" data-start="0" data-duration="181.731" data-track-index="10" data-volume="1"></audio>
+      <audio id="score" src="assets/audio/score.flac" data-start="0" data-duration="181.731" data-track-index="11" data-volume="1"></audio>
+    </div>
+
+    <script>
+      // Narration timeline (generated by tools/tts.py, injected by tools/build_index.py)
+      const T = {"scenes":[{"id":"overture","start":0.0,"end":24.867},{"id":"conductor","start":24.867,"end":50.367},{"id":"triad","start":50.367,"end":82.491},{"id":"power","start":82.491,"end":106.795},{"id":"unison","start":106.795,"end":120.287},{"id":"eleventh","start":120.287,"end":147.501},{"id":"leo","start":147.501,"end":181.731}],"lines":[{"id":"L01","scene":"overture","text":"Imagine a sky where five planets have gathered in a single sign, like five musicians crowding onto one small stage.","start":3.5,"end":10.583},{"id":"L02","scene":"overture","text":"The Sun. The Moon. Mercury. Venus. And Mars.","start":11.183,"end":14.041},{"id":"L03","scene":"overture","text":"All of them in Cancer. All of them in the eleventh house.","start":14.541,"end":18.104},{"id":"L04","scene":"overture","text":"Astrologers call this a stellium, and yours is extraordinarily concentrated.","start":18.504,"end":23.517},{"id":"L05","scene":"conductor","text":"Cancer is ruled by the Moon, and your Moon is at home here, at full strength.","start":24.867,"end":29.155},{"id":"L06","scene":"conductor","text":"So every planet in this group plays in the Moon's key.","start":29.505,"end":32.385},{"id":"L07","scene":"conductor","text":"For you, feeling isn't one part of the music. It is the whole score.","start":32.735,"end":36.853},{"id":"L08","scene":"conductor","text":"With the Sun and Moon in one sign, you were born near a New Moon: a soul of first notes, and fresh beginnings.","start":37.353,"end":43.283},{"id":"L09","scene":"conductor","text":"Like the tides, your creativity moves in cycles. Trust the ebb as much as the flow.","start":43.683,"end":49.017},{"id":"L10","scene":"triad","text":"Listen closely: these planets don't just share a sign. They form two chords.","start":50.367,"end":54.868},{"id":"L11","scene":"triad","text":"The first is the Moon, Mercury and Venus, fused within one degree. A triad.","start":55.268,"end":60.132},{"id":"L12","scene":"triad","text":"The Moon is the root: pure emotion.","start":60.632,"end":63.021},{"id":"L13","scene":"triad","text":"Venus is the third, the note that gives a chord its colour, and its sweetness.","start":63.421,"end":67.688},{"id":"L14","scene":"triad","text":"Mercury is the fifth: words, clarity, the lyric.","start":68.088,"end":71.245},{"id":"L15","scene":"triad","text":"Feeling, melody and language, struck as one. That is the signature of a songwriter.","start":71.845,"end":76.965},{"id":"L16","scene":"triad","text":"Like Debussy's Clair de Lune, you can turn moonlight into melody.","start":77.365,"end":81.141},{"id":"L17","scene":"power","text":"The second chord is the Sun and Mars. And that one is a power chord.","start":82.491,"end":86.523},{"id":"L18","scene":"power","text":"Root and fifth. No third. No hesitation. Identity and drive, fused into a single sound.","start":87.023,"end":93.21},{"id":"L19","scene":"power","text":"Mars in Cancer doesn't attack head-on. It builds like a wave, and fights fiercely for what it loves.","start":93.61,"end":99.349},{"id":"L20","scene":"power","text":"Think of Carlos Santana, a Cancer Sun, whose guitar doesn't shout. It sings, and it cries.","start":99.749,"end":105.445},{"id":"L21","scene":"unison","text":"Within one degree, these planets are perfectly in tune.","start":106.795,"end":109.909},{"id":"L22","scene":"unison","text":"Two strings tuned that closely stop beating against each other. They ring as one.","start":110.309,"end":115.045},{"id":"L23","scene":"unison","text":"There's no half-measure in you. When you feel it, you play it.","start":115.545,"end":118.937},{"id":"L24","scene":"eleventh","text":"All of this lives in the eleventh house: friends, audiences, community, and dreams for the future.","start":120.287,"end":126.197},{"id":"L25","scene":"eleventh","text":"Your music was never meant to stay private. It's meant for the crowd.","start":126.597,"end":130.65},{"id":"L26","scene":"eleventh","text":"Bandmates become family. An audience becomes a kind of home.","start":131.0,"end":134.925},{"id":"L27","scene":"eleventh","text":"Ringo Starr, another Cancer Sun, sang it best: With a Little Help from My Friends.","start":135.325,"end":140.381},{"id":"L28","scene":"eleventh","text":"Just don't let the applause set your tides. Write from your inner world, then share it with the many.","start":140.881,"end":146.151},{"id":"L29","scene":"leo","text":"And finally, the curtain rises. Leo ascendant.","start":147.501,"end":150.914},{"id":"L30","scene":"leo","text":"Leo is ruled by the Sun, and your Sun, the ruler of your chart, sits in the eleventh house with Mars.","start":151.414,"end":157.473},{"id":"L31","scene":"leo","text":"So your path to the stage runs straight through your audience.","start":157.823,"end":160.959},{"id":"L32","scene":"leo","text":"Cancer writes the song by moonlight. Leo walks it into the spotlight.","start":161.359,"end":165.647},{"id":"L33","scene":"leo","text":"Beneath that golden stage presence lives a deeply tender soul.","start":166.047,"end":169.759},{"id":"L34","scene":"leo","text":"Five planets. One sign. One song.","start":170.459,"end":172.912},{"id":"L35","scene":"leo","text":"Play it loud, and play it from the heart.","start":173.512,"end":175.731}],"duration":181.731};
+
+      const tl = gsap.timeline({ paused: true });
+      const NS = "http://www.w3.org/2000/svg";
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const DUR = T.duration;
+      const LINE = Object.fromEntries(T.lines.map((l) => [l.id, l]));
+      const SCENE = Object.fromEntries(T.scenes.map((s) => [s.id, s]));
+      const S = (id) => LINE[id].start;
+      const E = (id) => LINE[id].end;
+
+      // Approximate when a word is spoken inside a line: characters weighted, with
+      // extra weight for the pauses Kokoro leaves at punctuation.
+      function wt(id, word) {
+        const l = LINE[id];
+        const idx = l.text.indexOf(word);
+        if (idx < 0) return l.start;
+        const weight = (ch) => (ch === "." ? 9 : ch === ":" ? 7 : ch === "," ? 4.5 : 1);
+        let total = 0, before = 0;
+        for (let i = 0; i < l.text.length; i++) {
+          const w = weight(l.text[i]);
+          if (i < idx) before += w;
+          total += w;
+        }
+        return l.start + (l.end - l.start) * (before / total);
+      }
+
+      function mulberry32(a) {
+        return function () {
+          a |= 0; a = (a + 0x6d2b79f5) | 0;
+          let t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      const rnd = mulberry32(20260715);
+
+      function svgEl(tag, attrs, parent) {
+        const e = document.createElementNS(NS, tag);
+        for (const k in attrs) e.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(e);
+        return e;
+      }
+
+      // ------------------------------------------------------------------ glyphs
+      const GLYPH = {
+        sun: '<circle cx="50" cy="50" r="33"/><circle cx="50" cy="50" r="5.5" class="fill"/>',
+        moon: '<path d="M60 12 A38 38 0 0 0 60 88 A46 46 0 0 1 60 12 Z" class="fill-soft"/>',
+        mercury: '<circle cx="50" cy="53" r="16"/><path d="M50 69 V95 M39 83 H61"/><path d="M33 17 A17 17 0 0 0 67 17"/>',
+        venus: '<circle cx="50" cy="36" r="21"/><path d="M50 57 V94 M36 77 H64"/>',
+        mars: '<circle cx="42" cy="60" r="21"/><path d="M57 45 L82 20 M63 20 H82 V39"/>',
+        cancer: '<circle cx="30" cy="39" r="10"/><path d="M30 29 C 50 14, 74 18, 87 34"/><circle cx="70" cy="61" r="10"/><path d="M70 71 C 50 86, 26 82, 13 66"/>',
+        leo: '<circle cx="28" cy="64" r="12"/><path d="M38 57 C 30 36, 40 16, 60 16 C 80 16, 84 38, 70 56 C 60 70, 62 86, 80 84"/>',
+      };
+      function glyphSVG(name, color, size, sw) {
+        return `<svg class="glyph" viewBox="0 0 100 100" width="${size}" height="${size}" style="color:${color}" fill="none" stroke="currentColor" stroke-width="${sw || 5}" stroke-linecap="round" stroke-linejoin="round">${GLYPH[name]}</svg>`;
+      }
+      $$("[data-glyph]").forEach((n) => {
+        n.outerHTML = glyphSVG(n.dataset.glyph, n.dataset.color, n.dataset.size, n.dataset.sw);
+      });
+      const PLANET = {
+        sun: { c: "#f3c670", n: "Sun" },
+        moon: { c: "#eeeaf6", n: "Moon" },
+        mercury: { c: "#9fe0da", n: "Mercury" },
+        venus: { c: "#eba9c6", n: "Venus" },
+        mars: { c: "#ee7e62", n: "Mars" },
+      };
+
+      // ------------------------------------------------------------------ helpers
+      function show(target, t, o = {}) {
+        tl.fromTo(
+          target,
+          { opacity: 0, y: o.y ?? 26, scale: o.s ?? 1, filter: `blur(${o.blur ?? 10}px)` },
+          { opacity: o.op ?? 1, y: 0, scale: 1, filter: "blur(0px)", duration: o.d ?? 1.0, ease: o.ease ?? "power3.out", stagger: o.stagger ?? 0 },
+          t,
+        );
+      }
+      function hide(target, t, o = {}) {
+        tl.to(target, { opacity: 0, filter: "blur(8px)", duration: o.d ?? 0.6, ease: "power2.in", stagger: o.stagger ?? 0 }, t);
+      }
+      function drawOn(target, t, d = 1.4, ease = "power2.inOut", stagger = 0) {
+        tl.fromTo(target, { attr: { "stroke-dashoffset": 1 } }, { attr: { "stroke-dashoffset": 0 }, duration: d, ease, stagger }, t);
+      }
+      // Run fn(localTime) every frame between t0 and t1 (seek-safe: state is a pure function of time)
+      function drive(t0, t1, fn) {
+        const proxy = { v: 0 };
+        fn(0);
+        tl.to(proxy, { v: 1, duration: Math.max(0.01, t1 - t0), ease: "none", onUpdate() { fn(this.time()); } }, t0);
+      }
+      function wavePath(y0, amp, cycles, phase, x0, x1, n, pin = true) {
+        let d = "";
+        for (let i = 0; i <= n; i++) {
+          const u = i / n;
+          const x = x0 + (x1 - x0) * u;
+          const y = y0 + amp * Math.sin(2 * Math.PI * cycles * u + phase) * (pin ? Math.sin(Math.PI * u) : 1);
+          d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
+        }
+        return d;
+      }
+
+      // ------------------------------------------------------------------ scene crossfades
+      const ORDER = ["overture", "conductor", "triad", "power", "unison", "eleventh", "leo"];
+      ORDER.forEach((id, i) => {
+        const inner = $(`#s-${id} .inner`);
+        const sc = SCENE[id];
+        if (i > 0) tl.fromTo(inner, { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "sine.inOut" }, sc.start - 0.5);
+        if (i < ORDER.length - 1) tl.to(inner, { opacity: 0, duration: 1.0, ease: "sine.inOut" }, sc.end - 0.5);
+      });
+
+      // ------------------------------------------------------------------ background
+      (function background() {
+        const stars = $("#stars");
+        const twinkle = [];
+        for (let i = 0; i < 190; i++) {
+          const r = 0.5 + Math.pow(rnd(), 2.4) * 1.9;
+          const c = svgEl("circle", { cx: (rnd() * 1920).toFixed(1), cy: (rnd() * 1080).toFixed(1), r: r.toFixed(2), fill: rnd() < 0.15 ? "#f6dca6" : "#dfe6ff", opacity: (0.25 + rnd() * 0.65).toFixed(2) }, stars);
+          if (i % 4 === 0) twinkle.push(c);
+        }
+        tl.fromTo("#stars", { opacity: 0 }, { opacity: 1, duration: 3.5, ease: "sine.inOut" }, 0);
+        twinkle.forEach((c, i) => {
+          const d = 1.6 + rnd() * 2.6;
+          tl.to(c, { opacity: 0.08, duration: d, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor((DUR - 2) / d) - 1) }, rnd() * 2);
+        });
+        tl.fromTo("#neb1", { x: -60, y: 0, scale: 1 }, { x: 160, y: 60, scale: 1.15, duration: DUR, ease: "none" }, 0);
+        tl.fromTo("#neb2", { x: 40, y: 0, opacity: 0.6 }, { x: -180, y: -80, opacity: 1, duration: DUR, ease: "none" }, 0);
+      })();
+
+      // ------------------------------------------------------------------ 1. overture
+      (function overture() {
+        const sc = SCENE.overture;
+        const lines = $$(".ov-line");
+        const STAFF = [532, 566, 600, 634, 668];
+        drive(0, sc.end + 0.6, (t) => {
+          const amp = 4 + 3 * Math.sin(0.5 * t);
+          lines.forEach((p, i) => p.setAttribute("d", wavePath(STAFF[i], amp, 2.5, t * 0.9 + i * 0.55, 90, 1830, 120)));
+        });
+        drawOn(lines, 0.4, 2.4, "power2.inOut", 0.16);
+        tl.fromTo("#ov-staff", { opacity: 0 }, { opacity: 1, duration: 1.5 }, 0.3);
+
+        show("#ov-kicker", 0.9, { d: 1.4 });
+        show("#ov-h1", 1.3, { d: 1.8, y: 34 });
+        show("#ov-sub", 2.3, { d: 1.4 });
+        hide("#ov-title", S("L02") - 0.6, { d: 0.6 });
+
+        const notes = [["sun", 560, 617], ["moon", 760, 566], ["mercury", 960, 583], ["venus", 1160, 549], ["mars", 1360, 634]];
+        const host = $("#ov-notes");
+        notes.forEach(([k, x, y], i) => {
+          const p = PLANET[k];
+          const d = document.createElement("div");
+          d.className = "note";
+          d.id = `ov-note-${k}`;
+          d.style.left = x - 40 + "px";
+          d.style.top = y - 40 + "px";
+          d.style.color = p.c;
+          d.innerHTML = `<div class="stem"></div><div class="ring"></div><div class="g">${glyphSVG(k, p.c, 42, 7)}</div><div class="nlabel" style="top:${732 - (y - 40)}px">${p.n}</div>`;
+          host.appendChild(d);
+          show(d, wt("L02", p.n) - 0.12, { s: 0.6, y: -30, d: 0.8, ease: "back.out(1.8)" });
+        });
+        // L03: Cancer + 11th house
+        tl.fromTo("#ov-bigcancer", { opacity: 0, scale: 0.86 }, { opacity: 0.13, scale: 1, duration: 2.6, ease: "power2.out" }, wt("L03", "Cancer") - 0.3);
+        show("#ov-chip1", wt("L03", "Cancer") - 0.15, { d: 0.8 });
+        show("#ov-chip2", wt("L03", "eleventh") - 0.15, { d: 0.8 });
+        hide("#ov-chips", S("L04") - 0.15, { d: 0.5 });
+        // L04: stellium — the notes gather into one tight cluster
+        show("#ov-st-word", wt("L04", "stellium") - 0.3, { d: 1.2, y: 30 });
+        show("#ov-st-def", wt("L04", "stellium") + 0.5, { d: 1.0 });
+        tl.to("#ov-notes .nlabel, #ov-notes .stem", { opacity: 0, duration: 0.6 }, S("L04") + 0.1);
+        notes.forEach(([k, x, y], i) => {
+          tl.to(`#ov-note-${k}`, { x: 960 - x + (i - 2) * 22, y: 600 + (i - 2) * 46 - y, duration: 2.6, ease: "power3.inOut" }, wt("L04", "concentrated") - 1.4);
+        });
+        tl.fromTo("#ov-halo", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1.1, duration: 2.0, ease: "power2.out" }, wt("L04", "concentrated") - 0.2);
+      })();
+
+      // ------------------------------------------------------------------ 2. conductor
+      (function conductor() {
+        const sc = SCENE.conductor;
+        tl.fromTo("#co-moon-wrap", { opacity: 0, y: 70, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 2.6, ease: "power3.out" }, sc.start - 0.4);
+        tl.fromTo("#co-moon", { rotation: -8 }, { rotation: 8, duration: sc.end - sc.start + 1, ease: "none" }, sc.start - 0.4);
+        show("#co-cap-k", S("L05") + 0.4, { d: 1.0 });
+        show("#co-cap-l", wt("L05", "home") - 0.2, { d: 1.0 });
+
+        // L06: the Moon's key — a staff with a clef and the five planets as notes
+        const staff = $("#co-staff");
+        const g = svgEl("g", { fill: "none", stroke: "#c9d2ee", "stroke-opacity": "0.55", "stroke-width": "2" }, staff);
+        for (let i = 0; i < 5; i++) svgEl("line", { x1: 0, x2: 840, y1: 70 + i * 36, y2: 70 + i * 36 }, g);
+        const clef = svgEl("text", { x: 6, y: 226, class: "music", "font-size": "214", fill: "#eeeaf6", "fill-opacity": "0.9" }, staff);
+        clef.textContent = "𝄞";
+        const order = [["moon", 250, 160], ["sun", 380, 124], ["mercury", 500, 142], ["venus", 620, 106], ["mars", 740, 178]];
+        const noteEls = order.map(([k, x, y]) => {
+          const ng = svgEl("g", { class: "co-note" }, staff);
+          svgEl("circle", { cx: x, cy: y, r: 30, fill: "rgba(14,20,52,0.9)", stroke: PLANET[k].c, "stroke-width": 2 }, ng);
+          const inner = svgEl("svg", { x: x - 21, y: y - 21, width: 42, height: 42, viewBox: "0 0 100 100", class: "glyph" }, ng);
+          inner.innerHTML = `<g fill="none" stroke="${PLANET[k].c}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" style="color:${PLANET[k].c}">${GLYPH[k]}</g>`;
+          return ng;
+        });
+        show("#co-key-k", S("L06") - 0.1, { d: 0.9 });
+        tl.fromTo("#co-staff", { opacity: 0 }, { opacity: 1, duration: 0.9 }, S("L06") - 0.1);
+        drawOn("#co-baton-path", S("L06") - 0.2, 1.6);
+        tl.fromTo(noteEls, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(2)", stagger: 0.22 }, S("L06") + 0.3);
+        // L07
+        show("#co-l1", S("L07") - 0.05, { d: 1.0 });
+        show("#co-l2", wt("L07", "It is") - 0.15, { d: 1.2 });
+        hide(["#co-key", "#co-baton", "#co-l1", "#co-l2"], S("L08") - 0.45, { d: 0.6 });
+
+        // L08: New Moon — a row of phases with the new moon lit up
+        const ph = $("#co-phases");
+        const R = 36;
+        for (let i = 0; i < 8; i++) {
+          const cx = 75 + i * 98, cy = 70;
+          const gg = svgEl("g", { class: "co-phase" }, ph);
+          svgEl("circle", { cx, cy, r: R, fill: "#0b1130", stroke: "#c9d2ee", "stroke-opacity": i === 0 ? 0.95 : 0.35, "stroke-width": i === 0 ? 2.5 : 1.5 }, gg);
+          const p = i / 8;
+          const k = Math.cos(2 * Math.PI * p);
+          const rx = Math.abs(k) * R;
+          let d;
+          if (p <= 0.5) d = `M ${cx} ${cy - R} A ${R} ${R} 0 0 1 ${cx} ${cy + R} A ${rx} ${R} 0 0 ${k > 0 ? 0 : 1} ${cx} ${cy - R} Z`;
+          else d = `M ${cx} ${cy - R} A ${R} ${R} 0 0 0 ${cx} ${cy + R} A ${rx} ${R} 0 0 ${k > 0 ? 1 : 0} ${cx} ${cy - R} Z`;
+          if (i > 0) svgEl("path", { d, fill: "#e6e3f2", "fill-opacity": 0.85 }, gg);
+        }
+        const nmRing = svgEl("circle", { cx: 75, cy: 70, r: 52, fill: "none", stroke: "#f6dca6", "stroke-width": 2, "stroke-opacity": 0.9 }, ph);
+        show("#co-phase-block", S("L08") - 0.1, { d: 0.8 });
+        tl.fromTo(".co-phase", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.09, ease: "power2.out" }, S("L08") + 0.1);
+        tl.fromTo(nmRing, { opacity: 0, scale: 1.6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.6)" }, wt("L08", "New Moon") - 0.25);
+        show("#co-nm-label", wt("L08", "New Moon") - 0.1, { d: 0.7 });
+        show("#co-nm1", wt("L08", "New Moon") - 0.2, { d: 1.0 });
+        show("#co-nm2", wt("L08", "first notes") - 0.2, { d: 1.0 });
+        hide(["#co-phase-block", "#co-nm1", "#co-nm2", "#co-cap"], S("L09") - 0.4, { d: 0.6 });
+
+        // L09: tides — the staff becomes the sea, ebbing and flowing
+        const tides = $$(".co-tide");
+        drive(S("L09") - 0.3, sc.end + 0.6, (t) => {
+          const swell = Math.min(1, t / 1.5);
+          const tide = 0.55 + 0.45 * Math.sin(t * 1.1 - 1.2);
+          tides.forEach((p, i) => p.setAttribute("d", wavePath(872 + i * 28, (12 + 26 * tide) * swell * (1 - i * 0.12), 2.2, t * 0.8 + i * 0.7, 60, 1860, 140, false)));
+        });
+        tl.fromTo("#co-tides", { opacity: 0 }, { opacity: 1, duration: 1.4 }, S("L09") - 0.3);
+        show("#co-tide-k", S("L09") + 0.1, { d: 0.9 });
+        show("#co-tide-l", wt("L09", "Trust") - 0.2, { d: 1.1 });
+        show("#co-ebb", wt("L09", "ebb") - 0.15, { d: 0.7 });
+        show("#co-flow", wt("L09", "flow") - 0.15, { d: 0.7 });
+      })();
+
+      // ------------------------------------------------------------------ 3. triad
+      (function triad() {
+        const sc = SCENE.triad;
+        show("#tr-cards-k", S("L10") + 0.2, { d: 0.9 });
+        show(["#tr-card1", "#tr-card2"], wt("L10", "two chords") - 0.3, { d: 0.9, stagger: 0.35, y: 34 });
+        hide("#tr-card2", S("L11") - 0.1, { d: 0.5 });
+        hide(["#tr-card1", "#tr-cards-k"], S("L11") + 0.5, { d: 0.6 });
+        show("#tr-head-k", S("L11") + 0.3, { d: 0.9 });
+        show("#tr-title", wt("L11", "triad") - 0.25, { d: 1.0, s: 0.94 });
+
+        // staff: E4 line at y=260, spacing 40 -> lines 100..260, G4 = 220, C4 ledger = 300
+        const lines = $("#tr-lines");
+        for (let i = 0; i < 5; i++) svgEl("line", { x1: 20, x2: 560, y1: 100 + i * 40, y2: 100 + i * 40, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1, class: "tr-line" }, lines);
+        const NX = 400;
+        const notes = $("#tr-notes");
+        const ledger = svgEl("line", { x1: NX - 44, x2: NX + 44, y1: 300, y2: 300, stroke: "#c9d2ee", "stroke-width": 2, "stroke-opacity": 0.7 }, notes);
+        const mk = (y, c) => {
+          const gg = svgEl("g", {}, notes);
+          svgEl("ellipse", { cx: NX, cy: y, rx: 27, ry: 19, fill: c, transform: `rotate(-20 ${NX} ${y})` }, gg);
+          svgEl("ellipse", { cx: NX, cy: y, rx: 40, ry: 30, fill: "none", stroke: c, "stroke-opacity": 0.35, "stroke-width": 2, transform: `rotate(-20 ${NX} ${y})` }, gg);
+          return gg;
+        };
+        const nC = mk(300, PLANET.moon.c), nE = mk(260, PLANET.venus.c), nG = mk(220, PLANET.mercury.c);
+        const leads = $("#tr-leads");
+        const lead = (y1, y2, c) => svgEl("path", { d: `M ${NX + 48} ${y1} C ${NX + 140} ${y1}, ${NX + 150} ${y2}, 620 ${y2}`, stroke: c, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1 }, leads);
+        const ldG = lead(220, 50, PLANET.mercury.c), ldE = lead(260, 172, PLANET.venus.c), ldC = lead(300, 296, PLANET.moon.c);
+
+        // piano: C3..C5, C4 = index 7, E4 = 9, G4 = 11
+        const keys = $("#tr-keys");
+        const W = 64, H = 236;
+        const white = [];
+        for (let i = 0; i < 15; i++) white.push(svgEl("rect", { x: i * W, y: 0, width: W, height: H, rx: 6, class: "wkey" }, keys));
+        const glow = {};
+        [[7, PLANET.moon.c], [9, PLANET.venus.c], [11, PLANET.mercury.c]].forEach(([i, c]) => {
+          glow[i] = svgEl("rect", { x: i * W + 3, y: 2, width: W - 6, height: H - 6, rx: 6, fill: c, opacity: 0 }, keys);
+        });
+        [0, 1, 3, 4, 5, 7, 8, 10, 11, 12].forEach((i) => svgEl("rect", { x: (i + 1) * W - 19, y: 0, width: 38, height: 146, rx: 4, class: "bkey" }, keys));
+        const labelsOnKeys = [[7, "C"], [9, "E"], [11, "G"]];
+        labelsOnKeys.forEach(([i, n]) => {
+          const tx = svgEl("text", { x: i * W + W / 2, y: H - 22, "text-anchor": "middle", "font-family": "Jost", "font-size": 20, "font-weight": 500, fill: "#0a0f26" }, keys);
+          tx.textContent = n;
+        });
+
+        tl.fromTo(["#tr-staff", "#tr-keys"], { opacity: 0 }, { opacity: 1, duration: 0.8 }, S("L12") - 1.3);
+        drawOn(".tr-line", S("L12") - 1.3, 1.0, "power2.out", 0.08);
+        show("#tr-clef", S("L12") - 1.0, { d: 0.8, y: 10 });
+        const strike = (id, noteEl, leadEl, lab, keyIdx) => {
+          const t = S(id) - 0.32;
+          tl.fromTo(noteEl, { opacity: 0, scale: 0.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(2.2)" }, t);
+          tl.fromTo(glow[keyIdx], { opacity: 0 }, { opacity: 0.95, duration: 0.08 }, t);
+          tl.to(glow[keyIdx], { opacity: 0.45, duration: 1.6, ease: "power2.out" }, t + 0.1);
+          drawOn(leadEl, t + 0.1, 0.7, "power2.out");
+          show(lab, t + 0.2, { d: 0.8, y: 14 });
+        };
+        tl.fromTo(ledger, { opacity: 0 }, { opacity: 1, duration: 0.3 }, S("L12") - 0.4);
+        strike("L12", nC, ldC, "#tr-lab-c", 7);
+        strike("L13", nE, ldE, "#tr-lab-e", 9);
+        strike("L14", nG, ldG, "#tr-lab-g", 11);
+        // L15: struck as one
+        const t15 = S("L15") - 0.34;
+        [7, 9, 11].forEach((i) => {
+          tl.to(glow[i], { opacity: 1, duration: 0.08 }, t15);
+          tl.to(glow[i], { opacity: 0.6, duration: 2.0, ease: "power2.out" }, t15 + 0.1);
+        });
+        tl.fromTo([nC, nE, nG], { filter: "brightness(1)" }, { filter: "brightness(1.6)", duration: 0.12, yoyo: true, repeat: 1 }, t15);
+        show("#tr-struck", wt("L15", "struck") - 0.4, { d: 0.9 });
+        hide(["#tr-head-k", "#tr-title"], wt("L15", "signature") - 0.9, { d: 0.5 });
+        show("#tr-sig", wt("L15", "signature") - 0.4, { d: 1.0 });
+
+        // L16: Clair de lune — notes drifting up through moonlight
+        hide(["#tr-staff", "#tr-keys", "#tr-lab-c", "#tr-lab-e", "#tr-lab-g", "#tr-struck", "#tr-sig"], S("L16") - 0.5, { d: 0.6 });
+        const cl = $("#tr-cl-notes");
+        const glyphs = ["♪", "♩", "♫", "♪", "♬"];
+        const t16 = S("L16") - 0.1;
+        for (let i = 0; i < 16; i++) {
+          const n = document.createElement("div");
+          n.className = "abs music";
+          n.setAttribute("data-layout-allow-overlap", "");
+          const x = 1080 + rnd() * 520, y = 560 + rnd() * 380;
+          n.style.cssText = `left:${x}px;top:${y}px;font-size:${(30 + rnd() * 40).toFixed(0)}px;color:${rnd() < 0.3 ? "#f6dca6" : "#dfe6ff"}`;
+          n.textContent = glyphs[i % glyphs.length];
+          cl.appendChild(n);
+          const st = t16 + rnd() * 2.2;
+          const life = 3.2 + rnd() * 1.6;
+          tl.fromTo(n, { opacity: 0, y: 0, x: 0 }, { opacity: 0.9, y: -120, x: (rnd() - 0.5) * 60, duration: life * 0.4, ease: "sine.out" }, st);
+          tl.to(n, { opacity: 0, y: -330, x: (rnd() - 0.5) * 140, duration: life * 0.6, ease: "sine.in" }, st + life * 0.4);
+        }
+        tl.fromTo("#tr-cl-moon", { opacity: 0, scale: 0.85, rotation: -12 }, { opacity: 1, scale: 1, rotation: 0, duration: 2.0, ease: "power3.out" }, t16 - 0.2);
+        show("#tr-cl-text", t16 + 0.2, { d: 1.4 });
+      })();
+
+      // ------------------------------------------------------------------ 4. power chord
+      (function power() {
+        const sc = SCENE.power;
+        tl.fromTo("#pw-warm", { opacity: 0 }, { opacity: 1, duration: 2.4, ease: "sine.inOut" }, sc.start - 0.5);
+        show("#pw-k", S("L17") + 0.1, { d: 0.9 });
+        show("#pw-sun", wt("L17", "Sun") - 0.15, { d: 0.9, s: 0.7, ease: "back.out(1.6)" });
+        show("#pw-mars", wt("L17", "Mars") - 0.15, { d: 0.9, s: 0.7, ease: "back.out(1.6)" });
+        const fuse = wt("L17", "power chord") - 0.55;
+        tl.to("#pw-sun", { x: 90, duration: 0.7, ease: "power3.in" }, fuse);
+        tl.to("#pw-mars", { x: -90, duration: 0.7, ease: "power3.in" }, fuse);
+        tl.fromTo("#pw-flash", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.3, duration: 0.5, ease: "power2.out" }, fuse + 0.62);
+        tl.to("#pw-flash", { opacity: 0.35, duration: 1.6 }, fuse + 1.15);
+        tl.fromTo("#pw-title", { opacity: 0, scale: 1.12, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.9, ease: "expo.out" }, fuse + 0.6);
+        hide(["#pw-k", "#pw-sun", "#pw-mars", "#pw-flash", "#pw-title"], S("L18") - 0.75, { d: 0.45 });
+
+        // L18: fretboard with an A5 power chord shape
+        const fb = $("#pw-fret");
+        const X0 = 400, FW = 160, NF = 7, Y = [450, 494, 538, 582, 626, 670];
+        const board = svgEl("g", { id: "pw-board" }, fb);
+        svgEl("rect", { x: X0, y: 425, width: FW * NF, height: 270, rx: 10, fill: "rgba(28,16,24,0.85)", stroke: "rgba(246,220,166,0.25)" }, board);
+        for (let k = 0; k <= NF; k++) svgEl("line", { x1: X0 + k * FW, x2: X0 + k * FW, y1: 425, y2: 695, stroke: "#b9b2a2", "stroke-opacity": 0.6, "stroke-width": 4 }, board);
+        [3, 5, 7, 9].forEach((f) => svgEl("circle", { cx: X0 + (f - 3) * FW + FW / 2, cy: 560, r: 9, fill: "#f6dca6", "fill-opacity": 0.22 }, board));
+        [3, 5, 7, 9].forEach((f) => {
+          const tx = svgEl("text", { x: X0 + (f - 3) * FW + FW / 2, y: 735, "text-anchor": "middle", "font-family": "Jost", "font-size": 20, fill: "#c9d2ee", "fill-opacity": 0.6, "letter-spacing": 3 }, board);
+          tx.textContent = f;
+        });
+        const strings = Y.map((y, i) => svgEl("path", { d: `M ${X0 - 30} ${y} L ${X0 + FW * NF + 30} ${y}`, fill: "none", stroke: i < 3 ? "#e6e3f2" : "#d9b77a", "stroke-width": 1.4 + i * 0.55, "stroke-opacity": 0.85 }, board));
+        const fx = (f) => X0 + (f - 3) * FW + FW / 2;
+        const dot = (f, s, c, label) => {
+          const gg = svgEl("g", {}, fb);
+          svgEl("circle", { cx: fx(f), cy: Y[s], r: 30, fill: c }, gg);
+          svgEl("circle", { cx: fx(f), cy: Y[s], r: 44, fill: "none", stroke: c, "stroke-opacity": 0.45, "stroke-width": 2 }, gg);
+          const tx = svgEl("text", { x: fx(f), y: Y[s] + 8, "text-anchor": "middle", "font-family": "Jost", "font-weight": 500, "font-size": 22, fill: "#1a0e14" }, gg);
+          tx.textContent = label;
+          return gg;
+        };
+        const dRoot = dot(5, 5, "#f3c670", "A");
+        const dFifth = dot(7, 4, "#ee7e62", "E");
+        const dOct = dot(7, 3, "#f6dca6", "A");
+        const t18 = S("L18") - 0.36;
+        tl.fromTo(board, { opacity: 0 }, { opacity: 1, duration: 0.6 }, S("L18") - 0.8);
+        show("#pw-fret-k", S("L18") - 0.7, { d: 0.7 });
+        tl.fromTo([dRoot, dFifth, dOct], { opacity: 0, scale: 0.2, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2.4)", stagger: 0.03 }, t18);
+        drive(t18, t18 + 4.5, (t) => {
+          strings.forEach((p, i) => {
+            const amp = (i >= 3 ? 9 : 3) * Math.exp(-t * 1.2) * Math.abs(Math.sin(t * (38 + i * 7)));
+            p.setAttribute("d", wavePath(Y[i], amp, 1, 0, X0 - 30, X0 + FW * NF + 30, 40));
+          });
+        });
+        show("#pw-lab-root", wt("L18", "Root") - 0.05, { d: 0.7 });
+        show("#pw-lab-fifth", wt("L18", "fifth") - 0.1, { d: 0.7 });
+        show("#pw-nothird", wt("L18", "No third") - 0.15, { d: 0.6 });
+        tl.fromTo("#pw-strike", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, wt("L18", "No third") + 0.25);
+        show("#pw-one", wt("L18", "Identity") - 0.2, { d: 1.0 });
+        hide(["#pw-fret", "#pw-fret-k", "#pw-lab-root", "#pw-lab-fifth", "#pw-nothird", "#pw-one"], S("L19") - 0.45, { d: 0.55 });
+
+        // L19: it builds like a wave — a crescendo hairpin and a rising sea
+        const t19 = S("L19"), t19e = E("L19");
+        drawOn(["#pw-hp1", "#pw-hp2"], t19 - 0.1, t19e - t19 + 0.2, "power1.inOut");
+        tl.fromTo("#pw-cresc", { opacity: 0 }, { opacity: 1, duration: 0.8 }, t19 + 0.2);
+        drive(t19 - 0.2, S("L20") + 0.2, (t) => {
+          const grow = Math.min(1, t / (t19e - t19 + 0.4));
+          const sea = $("#pw-sea"), sea2 = $("#pw-sea2");
+          let d = "", d2 = "";
+          for (let i = 0; i <= 160; i++) {
+            const u = i / 160;
+            const x = 300 + 1320 * u;
+            const env = 6 + 112 * Math.pow(u, 1.6) * grow;
+            const y = 700 + (env * Math.sin(2 * Math.PI * 5.5 * u - t * 2.2)) * (u <= grow ? 1 : 0.05);
+            const y2 = 700 + (env * 0.6 * Math.sin(2 * Math.PI * 5.5 * u - t * 2.2 + 1.3)) * (u <= grow ? 1 : 0.05);
+            d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
+            d2 += (i ? "L" : "M") + x.toFixed(1) + " " + y2.toFixed(1);
+          }
+          sea.setAttribute("d", d);
+          sea2.setAttribute("d", d2);
+        });
+        tl.fromTo(["#pw-sea", "#pw-sea2"], { opacity: 0 }, { opacity: 1, duration: 0.8 }, t19 - 0.2);
+        show("#pw-mic-k", t19 - 0.1, { d: 0.8 });
+        show("#pw-mic1", t19 + 0.2, { d: 0.9 });
+        show("#pw-mic2", wt("L19", "builds") - 0.4, { d: 0.9 });
+        show("#pw-mic3", wt("L19", "fights") - 0.25, { d: 0.9 });
+        hide(["#pw-wave", "#pw-mic-k", "#pw-mic1", "#pw-mic2", "#pw-mic3"], S("L20") - 0.45, { d: 0.6 });
+
+        // L20: Santana — one long, singing, sustained note
+        const t20 = S("L20");
+        drive(t20 - 0.3, sc.end + 0.6, (t) => {
+          const reveal = Math.min(1, t / 2.6);
+          let d = "", d2 = "";
+          for (let i = 0; i <= 220; i++) {
+            const u = i / 220;
+            if (u > reveal) break;
+            const x = 160 + 1600 * u;
+            const env = 48 * Math.sin(Math.PI * Math.min(1, u * 1.04)) * (0.85 + 0.15 * Math.sin(t * 1.3));
+            const ph = 2 * Math.PI * 7 * u - t * 3.2 + 0.5 * Math.sin(t * 5.5);
+            const y = 640 + env * Math.sin(ph);
+            const y2 = 640 + env * 0.5 * Math.sin(ph + 1.9);
+            d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
+            d2 += (i ? "L" : "M") + x.toFixed(1) + " " + y2.toFixed(1);
+          }
+          $("#pw-sus").setAttribute("d", d || "M 160 640");
+          $("#pw-sus2").setAttribute("d", d2 || "M 160 640");
+        });
+        tl.fromTo("#pw-sustain", { opacity: 0 }, { opacity: 1, duration: 1.0 }, t20 - 0.3);
+        show("#pw-san", wt("L20", "Carlos") - 0.25, { d: 1.2 });
+        show("#pw-san1", wt("L20", "doesn't shout") - 0.5, { d: 1.0 });
+        show("#pw-san2", wt("L20", "sings") - 0.2, { d: 1.0 });
+      })();
+
+      // ------------------------------------------------------------------ 5. unison
+      (function unison() {
+        const sc = SCENE.unison;
+        const gs = $("#un-gauge");
+        const CX = 960, CY = 660, R = 330;
+        const gg = svgEl("g", { id: "un-gg" }, gs);
+        svgEl("path", { d: `M ${CX - R} ${CY} A ${R} ${R} 0 0 1 ${CX + R} ${CY}`, fill: "none", stroke: "#c9d2ee", "stroke-opacity": 0.35, "stroke-width": 2 }, gg);
+        for (let i = -10; i <= 10; i++) {
+          const a = Math.PI / 2 - (i / 10) * (Math.PI / 2.6);
+          const r1 = i % 5 === 0 ? R - 34 : R - 18;
+          svgEl("line", { x1: CX + R * Math.cos(a), y1: CY - R * Math.sin(a), x2: CX + r1 * Math.cos(a), y2: CY - r1 * Math.sin(a), stroke: i === 0 ? "#f3c670" : "#c9d2ee", "stroke-width": i === 0 ? 4 : 2, "stroke-opacity": i === 0 ? 1 : 0.5 }, gg);
+        }
+        const flat = svgEl("text", { x: CX - R + 10, y: CY + 52, "font-size": 54, class: "music", fill: "#c9d2ee", "fill-opacity": 0.6 }, gg);
+        flat.textContent = "♭";
+        const sharp = svgEl("text", { x: CX + R - 40, y: CY + 52, "font-size": 54, class: "music", fill: "#c9d2ee", "fill-opacity": 0.6 }, gg);
+        sharp.textContent = "♯";
+        const needle = svgEl("line", { x1: CX, y1: CY, x2: CX, y2: CY - R + 50, stroke: "#eeeaf6", "stroke-width": 4, "stroke-linecap": "round" }, gg);
+        svgEl("circle", { cx: CX, cy: CY, r: 10, fill: "#eeeaf6" }, gg);
+        const tIn = wt("L21", "in tune");
+        const t0 = S("L21") - 0.7;
+        tl.fromTo(gg, { opacity: 0 }, { opacity: 1, duration: 0.8 }, t0);
+        show("#un-k", S("L21") - 0.2, { d: 0.8 });
+        drive(t0, tIn + 0.4, (t) => {
+          const span = tIn - t0;
+          const k = Math.max(0, 1 - t / span);
+          const ang = 34 * k * Math.sin(t * 5.2) * (0.6 + 0.4 * k);
+          needle.setAttribute("transform", `rotate(${ang.toFixed(2)} ${CX} ${CY})`);
+        });
+        show("#un-deg", S("L21") + 0.2, { d: 0.9 });
+        show("#un-intune", tIn - 0.1, { d: 0.8 });
+        hide([gg, "#un-deg", "#un-intune", "#un-k"], S("L22") - 0.5, { d: 0.5 });
+
+        // L22: two strings beating, gliding into unison exactly with the score
+        const tLock = S("L22") + 0.62 * (E("L22") - S("L22"));
+        const tStart = S("L22") - 0.4;
+        const wa = $("#un-wa"), wb = $("#un-wb"), env = $("#un-env"), sum = $("#un-sum");
+        drive(tStart, sc.end + 0.6, (t) => {
+          const abs = tStart + t;
+          // same detune curve as tools/score.py, so picture and sound lock together
+          const t0u = S("L21") - 0.6;
+          const hold = S("L22") + 0.4 - t0u;
+          const lockSpan = tLock - t0u;
+          const tt = abs - t0u;
+          const det = tt < hold ? 5 : 5 * Math.pow(Math.max(0, 1 - (tt - hold) / (lockSpan - hold)), 1.5);
+          const delta = 0.34 * (det / 5);
+          const f = 7;
+          let da = "", db = "", ds = "", de = "", de2 = "";
+          for (let i = 0; i <= 260; i++) {
+            const u = i / 260;
+            const x = 260 + 1400 * u;
+            const a = Math.sin(2 * Math.PI * f * u - t * 3);
+            const b = Math.sin(2 * Math.PI * f * (1 + delta) * u - t * 3 * (1 + delta));
+            da += (i ? "L" : "M") + x.toFixed(1) + " " + (420 + 34 * a).toFixed(1);
+            db += (i ? "L" : "M") + x.toFixed(1) + " " + (470 + 34 * b).toFixed(1);
+            const s = (a + b) / 2;
+            ds += (i ? "L" : "M") + x.toFixed(1) + " " + (700 + 60 * s).toFixed(1);
+            const e = Math.abs(Math.cos(Math.PI * f * delta * u - (t * 3 * delta) / 2));
+            de += (i ? "L" : "M") + x.toFixed(1) + " " + (700 - 60 * e).toFixed(1);
+          }
+          wa.setAttribute("d", da);
+          wb.setAttribute("d", db);
+          sum.setAttribute("d", ds);
+          env.setAttribute("d", de);
+        });
+        tl.fromTo([wa, wb], { opacity: 0 }, { opacity: 0.85, duration: 0.8, stagger: 0.2 }, tStart);
+        tl.fromTo([sum, env], { opacity: 0 }, { opacity: 0.9, duration: 0.8 }, tStart + 0.6);
+        tl.to(env, { opacity: 0, duration: 0.8 }, tLock - 0.2);
+        show("#un-lab-two", tStart + 0.2, { d: 0.7 });
+        show("#un-lab-beat", tStart + 0.8, { d: 0.7 });
+        hide("#un-lab-beat", tLock - 0.3, { d: 0.4 });
+        show("#un-lab-one", tLock, { d: 0.7 });
+        show("#un-ring", wt("L22", "They ring") - 0.15, { d: 1.0 });
+        tl.to(sum, { attr: { "stroke-width": 5 }, duration: 0.6 }, tLock);
+        // L23
+        hide(["#un-lab-two", "#un-lab-one", "#un-ring", wa, wb], S("L23") - 0.4, { d: 0.5 });
+        tl.to(sum, { opacity: 0.45, duration: 0.6 }, S("L23") - 0.4);
+        show("#un-hm", S("L23") - 0.05, { d: 0.9 });
+        show("#un-feel", wt("L23", "When") - 0.2, { d: 1.1 });
+      })();
+
+      // ------------------------------------------------------------------ 6. eleventh house
+      (function eleventh() {
+        const sc = SCENE.eleventh;
+        const wh = $("#el-wheel");
+        const CX = 640, CY = 545, R1 = 340, R2 = 240, R3 = 120;
+        const g = svgEl("g", { id: "el-wg" }, wh);
+        const P = (r, deg) => [CX + r * Math.cos((deg * Math.PI) / 180), CY - r * Math.sin((deg * Math.PI) / 180)];
+        // houses: ASC at 180deg, counter-clockwise; house n spans 180 + 30(n-1) .. 180 + 30n
+        const wedge = (n) => {
+          const a0 = 180 + 30 * (n - 1), a1 = a0 + 30;
+          const [x0, y0] = P(R1, a0), [x1, y1] = P(R1, a1), [x2, y2] = P(R2, a1), [x3, y3] = P(R2, a0);
+          return `M ${x0} ${y0} A ${R1} ${R1} 0 0 0 ${x1} ${y1} L ${x2} ${y2} A ${R2} ${R2} 0 0 1 ${x3} ${y3} Z`;
+        };
+        const hl = svgEl("path", { d: wedge(11), fill: "rgba(238,234,246,0.16)", stroke: "#f6dca6", "stroke-width": 2.5 }, g);
+        svgEl("circle", { cx: CX, cy: CY, r: R1, fill: "none", stroke: "#c9d2ee", "stroke-opacity": 0.6, "stroke-width": 2, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1, class: "el-ring" }, g);
+        svgEl("circle", { cx: CX, cy: CY, r: R2, fill: "none", stroke: "#c9d2ee", "stroke-opacity": 0.4, "stroke-width": 1.5, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1, class: "el-ring" }, g);
+        svgEl("circle", { cx: CX, cy: CY, r: R3, fill: "none", stroke: "#c9d2ee", "stroke-opacity": 0.25, "stroke-width": 1.5, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1, class: "el-ring" }, g);
+        const spokes = [];
+        for (let n = 1; n <= 12; n++) {
+          const a = 180 + 30 * (n - 1);
+          const [x0, y0] = P(R3, a), [x1, y1] = P(R1, a);
+          const axis = n === 1 || n === 7 || n === 4 || n === 10;
+          spokes.push(svgEl("line", { x1: x0, y1: y0, x2: x1, y2: y1, stroke: axis ? "#93abee" : "#c9d2ee", "stroke-opacity": axis ? 0.8 : 0.3, "stroke-width": axis ? 2 : 1.2 }, g));
+          const [tx, ty] = P((R2 + R3) / 2, a + 15);
+          const num = svgEl("text", { x: tx, y: ty + 8, "text-anchor": "middle", "font-family": "Jost", "font-size": 22, fill: n === 11 ? "#f6dca6" : "#c9d2ee", "fill-opacity": n === 11 ? 1 : 0.55, class: "el-num" }, g);
+          num.textContent = n;
+        }
+        const [ax, ay] = P(R1 + 40, 180);
+        const asc = svgEl("text", { x: ax - 36, y: ay + 8, "text-anchor": "end", "font-family": "Jost", "font-size": 20, "letter-spacing": 4, fill: "#f3c670", class: "el-asc" }, g);
+        asc.textContent = "ASC";
+        const ascG = svgEl("svg", { x: ax - 28, y: ay - 26, width: 52, height: 52, viewBox: "0 0 100 100", class: "el-asc" }, g);
+        ascG.innerHTML = `<g fill="none" stroke="#f3c670" stroke-width="7" stroke-linecap="round">${GLYPH.leo}</g>`;
+        // the five planets inside the 11th house
+        const cluster = [];
+        const ks = ["sun", "mars", "moon", "mercury", "venus"];
+        ks.forEach((k, i) => {
+          const [px, py] = P(R1 - 36 - (i % 2) * 40, 180 + 300 + 6 + i * 4.5);
+          const s = svgEl("svg", { x: px - 22, y: py - 22, width: 44, height: 44, viewBox: "0 0 100 100", class: "glyph" }, g);
+          s.innerHTML = `<g fill="none" stroke="${PLANET[k].c}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" style="color:${PLANET[k].c}">${GLYPH[k]}</g>`;
+          cluster.push(s);
+        });
+        const t24 = S("L24") - 0.7;
+        tl.fromTo(g, { opacity: 0 }, { opacity: 1, duration: 0.6 }, t24);
+        drawOn(".el-ring", t24, 1.6, "power2.inOut", 0.15);
+        tl.fromTo(spokes, { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: 0.05 }, t24 + 0.5);
+        tl.fromTo(".el-num", { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: 0.04 }, t24 + 0.8);
+        tl.fromTo(".el-asc", { opacity: 0 }, { opacity: 1, duration: 0.6 }, t24 + 1.0);
+        const t11 = wt("L24", "eleventh") - 0.2;
+        tl.fromTo(hl, { opacity: 0 }, { opacity: 1, duration: 0.7 }, t11);
+        tl.fromTo(cluster, { opacity: 0, scale: 0.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(2)", stagger: 0.08 }, t11 + 0.2);
+        show("#el-list-k", t11, { d: 0.8 });
+        const items = $$(".el-item");
+        ["friends", "audiences", "community", "dreams"].forEach((w, i) => show(items[i], wt("L24", w) - 0.15, { d: 0.8, y: 18 }));
+        hide(["#el-wg", "#el-list"], S("L25") - 0.45, { d: 0.6 });
+
+        // crowd: rows of warm lights, swaying
+        const crowd = $("#el-crowd");
+        const rows = [];
+        for (let r = 0; r < 7; r++) {
+          const row = svgEl("g", { class: "el-row" }, crowd);
+          const y = 760 + r * 46 + r * r * 3;
+          const n = 22 + r * 7;
+          for (let i = 0; i < n; i++) {
+            const x = -40 + (2000 * (i + rnd() * 0.6)) / n;
+            const rr = 1.6 + r * 0.9 + rnd() * 1.2;
+            svgEl("circle", { cx: x.toFixed(1), cy: (y + (rnd() - 0.5) * 22).toFixed(1), r: rr.toFixed(2), fill: rnd() < 0.6 ? "#ffe6b0" : "#eeeaf6", opacity: (0.35 + rnd() * 0.6).toFixed(2) }, row);
+          }
+          rows.push(row);
+        }
+        const tc = S("L25") + 0.2;
+        tl.fromTo(rows, { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power2.out", stagger: 0.12 }, tc);
+        drive(tc, sc.end + 0.6, (t) => {
+          rows.forEach((row, r) => {
+            const u = Math.min(1, Math.max(0, (t - r * 0.12) / 1.2));
+            const rise = 30 * Math.pow(1 - u, 2);
+            row.setAttribute("transform", `translate(${(Math.sin(t * 1.15 + r * 0.7) * (6 + r * 2.4)).toFixed(2)} ${(rise + Math.sin(t * 2.3 + r) * 2).toFixed(2)})`);
+          });
+        });
+        show("#el-p1", S("L25") - 0.05, { d: 0.9 });
+        show("#el-p2", wt("L25", "It's meant") - 0.2, { d: 1.0 });
+        hide(["#el-p1", "#el-p2"], S("L26") - 0.4, { d: 0.5 });
+        show("#el-f1", S("L26") - 0.05, { d: 0.9 });
+        show("#el-f2", wt("L26", "An audience") - 0.2, { d: 1.0 });
+        hide(["#el-f1", "#el-f2"], S("L27") - 0.4, { d: 0.5 });
+        show("#el-ringo", S("L27") - 0.1, { d: 1.1 });
+        show("#el-song", wt("L27", "With a Little") - 0.3, { d: 1.0 });
+        hide("#el-ringo", S("L28") - 0.4, { d: 0.5 });
+
+        // L28: one inner light reaching the many
+        const rays = $("#el-rays");
+        const src = [960, 560];
+        const rayEls = [];
+        for (let i = 0; i < 28; i++) {
+          const tx = 60 + (1800 * (i + 0.5)) / 28 + (rnd() - 0.5) * 30;
+          const ty = 800 + rnd() * 200;
+          rayEls.push(svgEl("line", { x1: src[0], y1: src[1], x2: tx.toFixed(1), y2: ty.toFixed(1), stroke: "#f6dca6", "stroke-opacity": 0.35, "stroke-width": 1.2, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1 }, rays));
+        }
+        const core = svgEl("circle", { cx: src[0], cy: src[1], r: 14, fill: "#fff3d6" }, rays);
+        const halo = svgEl("circle", { cx: src[0], cy: src[1], r: 50, fill: "none", stroke: "#f6dca6", "stroke-opacity": 0.5, "stroke-width": 2 }, rays);
+        const t28 = S("L28");
+        tl.fromTo([core, halo], { opacity: 0, scale: 0.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(2)" }, t28 - 0.1);
+        show("#el-l1", t28 - 0.05, { d: 0.9 });
+        show("#el-l2", wt("L28", "Write") - 0.25, { d: 1.0 });
+        drawOn(rayEls, wt("L28", "share") - 0.3, 1.2, "power2.out", 0.03);
+      })();
+
+      // ------------------------------------------------------------------ 7. leo rising
+      (function leo() {
+        const sc = SCENE.leo;
+        const t29 = S("L29");
+        tl.fromTo("#le-dawn", { opacity: 0 }, { opacity: 1, duration: 3.5, ease: "sine.inOut" }, t29);
+        tl.to("#le-cur-l", { x: -1020, duration: 3.2, ease: "power3.inOut" }, t29 + 0.2);
+        tl.to("#le-cur-r", { x: 1020, duration: 3.2, ease: "power3.inOut" }, t29 + 0.2);
+        tl.fromTo("#le-sun", { y: 460 }, { y: 0, duration: 5.0, ease: "power2.out" }, t29 + 0.4);
+        tl.fromTo("#le-rays", { y: 300, opacity: 0, rotation: 0 }, { y: 0, opacity: 1, rotation: 0, duration: 5.0, ease: "power2.out" }, t29 + 0.4);
+        tl.to("#le-rays", { rotation: 24, duration: sc.end - t29 - 5.2, ease: "none" }, t29 + 5.4);
+        tl.fromTo("#le-horizon-line", { opacity: 0, scaleX: 0.2 }, { opacity: 1, scaleX: 1, duration: 2.0 }, t29 + 0.8);
+        show("#le-leo-k", wt("L29", "curtain") - 0.3, { d: 1.2 });
+        tl.fromTo("#le-leo", { opacity: 0, scale: 0.6, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.4, ease: "back.out(1.4)" }, wt("L29", "Leo") - 0.25);
+        hide(["#le-leo", "#le-leo-k"], S("L30") - 0.4, { d: 0.5 });
+        tl.to(["#le-sun", "#le-rays"], { opacity: 0.55, duration: 1.0 }, S("L30") - 0.4);
+
+        // L30: Leo -> ruled by the Sun -> in the 11th house with Mars
+        show("#le-n1", S("L30") - 0.05, { d: 0.8 });
+        show("#le-a1", wt("L30", "ruled") - 0.15, { d: 0.6 });
+        show("#le-n2", wt("L30", "Sun") - 0.2, { d: 0.8 });
+        show("#le-a2", wt("L30", "sits") - 0.15, { d: 0.6 });
+        show("#le-n3", wt("L30", "eleventh") - 0.3, { d: 0.8 });
+        hide("#le-chain", S("L31") - 0.4, { d: 0.5 });
+
+        // L31: a path from the crowd to the stage
+        const ps = $("#le-path");
+        const crowd = svgEl("g", {}, ps);
+        for (let i = 0; i < 70; i++) {
+          svgEl("circle", { cx: (120 + rnd() * 760).toFixed(1), cy: (860 + rnd() * 170).toFixed(1), r: (1.6 + rnd() * 3.2).toFixed(2), fill: "#ffe6b0", opacity: (0.35 + rnd() * 0.6).toFixed(2) }, crowd);
+        }
+        const route = svgEl("path", { d: "M 500 900 C 760 760, 1060 860, 1300 640 S 1560 420, 1600 380", fill: "none", stroke: "#f3c670", "stroke-width": 3, "stroke-dasharray": "2 14", "stroke-linecap": "round" }, ps);
+        const routeMask = svgEl("path", { d: "M 500 900 C 760 760, 1060 860, 1300 640 S 1560 420, 1600 380", fill: "none", stroke: "#f6dca6", "stroke-width": 1.5, "stroke-opacity": 0.6, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1 }, ps);
+        const stage = svgEl("g", {}, ps);
+        svgEl("path", { d: "M 1520 380 L 1680 380 L 1760 140 L 1440 140 Z", fill: "rgba(243,198,112,0.16)" }, stage);
+        svgEl("ellipse", { cx: 1600, cy: 384, rx: 110, ry: 18, fill: "rgba(243,198,112,0.45)" }, stage);
+        const traveller = svgEl("circle", { cx: 0, cy: 0, r: 9, fill: "#fff3d6" }, ps);
+        const t31 = S("L31");
+        tl.fromTo(ps, { opacity: 0 }, { opacity: 1, duration: 0.6 }, t31 - 0.3);
+        tl.fromTo(route, { opacity: 0 }, { opacity: 1, duration: 0.8 }, t31);
+        drawOn(routeMask, t31, E("L31") - t31 + 0.3, "power1.inOut");
+        drive(t31, S("L32"), (t) => {
+          const u = Math.min(1, t / (E("L31") - t31 + 0.3));
+          const p = routeMask.getPointAtLength(routeMask.getTotalLength() * u);
+          traveller.setAttribute("cx", p.x.toFixed(1));
+          traveller.setAttribute("cy", p.y.toFixed(1));
+        });
+        show("#le-path-t1", t31 - 0.05, { d: 0.8 });
+        show("#le-path-t2", wt("L31", "runs") - 0.25, { d: 0.9 });
+        hide(["#le-path", "#le-path-t1", "#le-path-t2"], S("L32") - 0.4, { d: 0.5 });
+
+        // L32: moonlight | spotlight
+        tl.fromTo("#le-sp-l", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out" }, S("L32") - 0.15);
+        tl.fromTo("#le-sp-r", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out" }, wt("L32", "Leo") - 0.25);
+        tl.fromTo("#le-spot", { opacity: 0 }, { opacity: 1, duration: 1.4 }, wt("L32", "Leo") + 0.1);
+        hide("#le-split", S("L33") - 0.4, { d: 0.5 });
+
+        // L33: a golden ring holding a tender moon
+        tl.to(["#le-sun", "#le-rays"], { opacity: 0.3, duration: 1.0 }, S("L33") - 0.4);
+        drawOn("#le-ring-c", S("L33") - 0.1, 1.6, "power2.inOut");
+        show("#le-ring-moon", wt("L33", "tender") - 0.6, { d: 1.2, s: 0.7 });
+        show("#le-ring-t1", wt("L33", "golden") - 0.25, { d: 0.9 });
+        show("#le-ring-t2", wt("L33", "tender") - 0.2, { d: 1.0 });
+        hide("#le-ring-wrap", S("L34") - 0.45, { d: 0.5 });
+
+        // L34-35: Five planets. One sign. One song.
+        const fs = $("#le-final-staff");
+        const STAFF = [560, 596, 632, 668, 704];
+        const fl = STAFF.map((y) => svgEl("line", { x1: 360, x2: 1560, y1: y, y2: y, stroke: "#c9d2ee", "stroke-opacity": 0.5, "stroke-width": 2, pathLength: 1, "stroke-dasharray": "1 1", "stroke-dashoffset": 1 }, fs));
+        const clef = svgEl("text", { x: 380, y: 740, "font-size": 214, class: "music", fill: "#eeeaf6", "fill-opacity": 0.85 }, fs);
+        clef.textContent = "𝄞";
+        const chord = [["mars", 668], ["sun", 650], ["venus", 614], ["mercury", 596], ["moon", 578]];
+        const chordEls = chord.map(([k, y], i) => {
+          const gg = svgEl("g", {}, fs);
+          const x = 960 + (i % 2) * 54 - 27;
+          svgEl("circle", { cx: x, cy: y, r: 26, fill: "rgba(14,20,52,0.92)", stroke: PLANET[k].c, "stroke-width": 2.5 }, gg);
+          const s = svgEl("svg", { x: x - 18, y: y - 18, width: 36, height: 36, viewBox: "0 0 100 100", class: "glyph" }, gg);
+          s.innerHTML = `<g fill="none" stroke="${PLANET[k].c}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" style="color:${PLANET[k].c}">${GLYPH[k]}</g>`;
+          return gg;
+        });
+        const t34 = S("L34");
+        drawOn(fl, t34 - 0.4, 1.4, "power2.out", 0.08);
+        tl.fromTo(clef, { opacity: 0 }, { opacity: 1, duration: 1.0 }, t34 - 0.2);
+        show("#le-w1", t34 - 0.1, { d: 0.9 });
+        show("#le-w2", wt("L34", "One sign") - 0.15, { d: 0.9 });
+        show("#le-w3", wt("L34", "One song") - 0.15, { d: 1.0 });
+        tl.fromTo(chordEls, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(2)", stagger: 0.07 }, wt("L34", "One song") + 0.1);
+        show("#le-heart", S("L35") - 0.2, { d: 1.2 });
+        show("#le-card", E("L35") + 0.9, { d: 1.4 });
+        tl.fromTo("#le-black", { opacity: 0 }, { opacity: 1, duration: 1.6, ease: "sine.in" }, DUR - 1.8);
+      })();
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

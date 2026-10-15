@@ -1,0 +1,8 @@
+node_modules/
+build/
+video/.hyperframes/
+video/snapshots/
+video/assets/audio/*.wav
+__pycache__/
+renders/work-*/
+renders/.*

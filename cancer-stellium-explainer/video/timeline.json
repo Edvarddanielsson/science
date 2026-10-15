@@ -1,0 +1,287 @@
+{
+  "scenes": [
+    {
+      "id": "overture",
+      "start": 0.0,
+      "end": 24.867
+    },
+    {
+      "id": "conductor",
+      "start": 24.867,
+      "end": 50.367
+    },
+    {
+      "id": "triad",
+      "start": 50.367,
+      "end": 82.491
+    },
+    {
+      "id": "power",
+      "start": 82.491,
+      "end": 106.795
+    },
+    {
+      "id": "unison",
+      "start": 106.795,
+      "end": 120.287
+    },
+    {
+      "id": "eleventh",
+      "start": 120.287,
+      "end": 147.501
+    },
+    {
+      "id": "leo",
+      "start": 147.501,
+      "end": 181.731
+    }
+  ],
+  "lines": [
+    {
+      "id": "L01",
+      "scene": "overture",
+      "text": "Imagine a sky where five planets have gathered in a single sign, like five musicians crowding onto one small stage.",
+      "start": 3.5,
+      "end": 10.583
+    },
+    {
+      "id": "L02",
+      "scene": "overture",
+      "text": "The Sun. The Moon. Mercury. Venus. And Mars.",
+      "start": 11.183,
+      "end": 14.041
+    },
+    {
+      "id": "L03",
+      "scene": "overture",
+      "text": "All of them in Cancer. All of them in the eleventh house.",
+      "start": 14.541,
+      "end": 18.104
+    },
+    {
+      "id": "L04",
+      "scene": "overture",
+      "text": "Astrologers call this a stellium, and yours is extraordinarily concentrated.",
+      "start": 18.504,
+      "end": 23.517
+    },
+    {
+      "id": "L05",
+      "scene": "conductor",
+      "text": "Cancer is ruled by the Moon, and your Moon is at home here, at full strength.",
+      "start": 24.867,
+      "end": 29.155
+    },
+    {
+      "id": "L06",
+      "scene": "conductor",
+      "text": "So every planet in this group plays in the Moon's key.",
+      "start": 29.505,
+      "end": 32.385
+    },
+    {
+      "id": "L07",
+      "scene": "conductor",
+      "text": "For you, feeling isn't one part of the music. It is the whole score.",
+      "start": 32.735,
+      "end": 36.853
+    },
+    {
+      "id": "L08",
+      "scene": "conductor",
+      "text": "With the Sun and Moon in one sign, you were born near a New Moon: a soul of first notes, and fresh beginnings.",
+      "start": 37.353,
+      "end": 43.283
+    },
+    {
+      "id": "L09",
+      "scene": "conductor",
+      "text": "Like the tides, your creativity moves in cycles. Trust the ebb as much as the flow.",
+      "start": 43.683,
+      "end": 49.017
+    },
+    {
+      "id": "L10",
+      "scene": "triad",
+      "text": "Listen closely: these planets don't just share a sign. They form two chords.",
+      "start": 50.367,
+      "end": 54.868
+    },
+    {
+      "id": "L11",
+      "scene": "triad",
+      "text": "The first is the Moon, Mercury and Venus, fused within one degree. A triad.",
+      "start": 55.268,
+      "end": 60.132
+    },
+    {
+      "id": "L12",
+      "scene": "triad",
+      "text": "The Moon is the root: pure emotion.",
+      "start": 60.632,
+      "end": 63.021
+    },
+    {
+      "id": "L13",
+      "scene": "triad",
+      "text": "Venus is the third, the note that gives a chord its colour, and its sweetness.",
+      "start": 63.421,
+      "end": 67.688
+    },
+    {
+      "id": "L14",
+      "scene": "triad",
+      "text": "Mercury is the fifth: words, clarity, the lyric.",
+      "start": 68.088,
+      "end": 71.245
+    },
+    {
+      "id": "L15",
+      "scene": "triad",
+      "text": "Feeling, melody and language, struck as one. That is the signature of a songwriter.",
+      "start": 71.845,
+      "end": 76.965
+    },
+    {
+      "id": "L16",
+      "scene": "triad",
+      "text": "Like Debussy's Clair de Lune, you can turn moonlight into melody.",
+      "start": 77.365,
+      "end": 81.141
+    },
+    {
+      "id": "L17",
+      "scene": "power",
+      "text": "The second chord is the Sun and Mars. And that one is a power chord.",
+      "start": 82.491,
+      "end": 86.523
+    },
+    {
+      "id": "L18",
+      "scene": "power",
+      "text": "Root and fifth. No third. No hesitation. Identity and drive, fused into a single sound.",
+      "start": 87.023,
+      "end": 93.21
+    },
+    {
+      "id": "L19",
+      "scene": "power",
+      "text": "Mars in Cancer doesn't attack head-on. It builds like a wave, and fights fiercely for what it loves.",
+      "start": 93.61,
+      "end": 99.349
+    },
+    {
+      "id": "L20",
+      "scene": "power",
+      "text": "Think of Carlos Santana, a Cancer Sun, whose guitar doesn't shout. It sings, and it cries.",
+      "start": 99.749,
+      "end": 105.445
+    },
+    {
+      "id": "L21",
+      "scene": "unison",
+      "text": "Within one degree, these planets are perfectly in tune.",
+      "start": 106.795,
+      "end": 109.909
+    },
+    {
+      "id": "L22",
+      "scene": "unison",
+      "text": "Two strings tuned that closely stop beating against each other. They ring as one.",
+      "start": 110.309,
+      "end": 115.045
+    },
+    {
+      "id": "L23",
+      "scene": "unison",
+      "text": "There's no half-measure in you. When you feel it, you play it.",
+      "start": 115.545,
+      "end": 118.937
+    },
+    {
+      "id": "L24",
+      "scene": "eleventh",
+      "text": "All of this lives in the eleventh house: friends, audiences, community, and dreams for the future.",
+      "start": 120.287,
+      "end": 126.197
+    },
+    {
+      "id": "L25",
+      "scene": "eleventh",
+      "text": "Your music was never meant to stay private. It's meant for the crowd.",
+      "start": 126.597,
+      "end": 130.65
+    },
+    {
+      "id": "L26",
+      "scene": "eleventh",
+      "text": "Bandmates become family. An audience becomes a kind of home.",
+      "start": 131.0,
+      "end": 134.925
+    },
+    {
+      "id": "L27",
+      "scene": "eleventh",
+      "text": "Ringo Starr, another Cancer Sun, sang it best: With a Little Help from My Friends.",
+      "start": 135.325,
+      "end": 140.381
+    },
+    {
+      "id": "L28",
+      "scene": "eleventh",
+      "text": "Just don't let the applause set your tides. Write from your inner world, then share it with the many.",
+      "start": 140.881,
+      "end": 146.151
+    },
+    {
+      "id": "L29",
+      "scene": "leo",
+      "text": "And finally, the curtain rises. Leo ascendant.",
+      "start": 147.501,
+      "end": 150.914
+    },
+    {
+      "id": "L30",
+      "scene": "leo",
+      "text": "Leo is ruled by the Sun, and your Sun, the ruler of your chart, sits in the eleventh house with Mars.",
+      "start": 151.414,
+      "end": 157.473
+    },
+    {
+      "id": "L31",
+      "scene": "leo",
+      "text": "So your path to the stage runs straight through your audience.",
+      "start": 157.823,
+      "end": 160.959
+    },
+    {
+      "id": "L32",
+      "scene": "leo",
+      "text": "Cancer writes the song by moonlight. Leo walks it into the spotlight.",
+      "start": 161.359,
+      "end": 165.647
+    },
+    {
+      "id": "L33",
+      "scene": "leo",
+      "text": "Beneath that golden stage presence lives a deeply tender soul.",
+      "start": 166.047,
+      "end": 169.759
+    },
+    {
+      "id": "L34",
+      "scene": "leo",
+      "text": "Five planets. One sign. One song.",
+      "start": 170.459,
+      "end": 172.912
+    },
+    {
+      "id": "L35",
+      "scene": "leo",
+      "text": "Play it loud, and play it from the heart.",
+      "start": 173.512,
+      "end": 175.731
+    }
+  ],
+  "duration": 181.731
+}
