@@ -1,0 +1,23 @@
+rank,id,title,benefit_1_10,effort,regression_risk,confidence,raw,priority_score
+1,delete-confirm,Confirm note deletion from the Notes list,8,XS,Low,High,80.0,80
+2,home-status,Home: say what the sun is doing; stop cue; skip template,8,S,Low,High,68.0,68
+3,template-control,Result: visible template control separate from Edit; protect edits,9,S,Med,High,65.02,65
+4,keep-awake,Keep the screen awake while transcribing/writing,7,XS,Low,Med,59.5,60
+5,one-liners,One-line explanations at decision points,7,S,Med,High,50.57,51
+6,inert-edit,Remove inert or duplicate Edit buttons,5,XS,Low,High,50.0,50
+7,note-identity,"Identifiable note rows (time, title, day groups, tag icon)",8,S,Med,Med,49.13,49
+8,recovery,Stage-specific recovery actions and Transcribe label,6,S,Low,Med,43.35,43
+9,transfer,Hide unconfigured Transfer and admin retention lines,4,XS,Low,High,40.0,40
+10,terms,Terminology pass and exit-dialog labels,6,S,Med,Med,36.85,37
+11,merge-auto,Merge Auto into one After-recording template choice,6,S,Med,Med,36.85,37
+12,editor,Template editor: visible heading source; Save out of content,5,S,Low,Med,36.12,36
+13,readiness,Settings: model readiness at a glance; no API names; cellular warning,5,S,Low,Med,36.12,36
+14,l10n,Localization pass for Swedish-only strings,4,XS,Low,Med,34.0,34
+15,search,Search notes,6,M,Low,Med,33.15,33
+16,nav-labels,Label Home menu glyphs and the Notes Home button,5,S,Med,Med,30.71,31
+17,order,One template order everywhere,3,XS,Low,High,30.0,30
+18,live-level,Live input level instead of static waveform in sheet recording,3,S,Low,High,25.5,26
+19,single-language,Allow single-language templates,5,M,Med,Med,23.48,23
+20,unify-home,Unify Home and recording surface across themes/entry points,7,L,High,Med,18.74,19
+21,language-per-recording,Per-recording dictation language on Home,5,M,Med,Low,19.34,19
+22,background,Background-safe processing (BGContinuedProcessingTask / Live Activity),7,L,High,Low,15.43,15
