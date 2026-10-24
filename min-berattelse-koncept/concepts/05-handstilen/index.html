@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handstilen – Min berättelse</title>
+<link rel="stylesheet" href="/shared/fonts.css">
+<link rel="stylesheet" href="/shared/phone.css">
+<script>window.__ready = false;</script>
+<style>
+  :root {
+    --paper: #f8e8da;
+    --ink: #43608a;
+    --butter: #f4d98b;
+    --rose: #e6b4ad;
+    --peach: #f3c4a4;
+    --sage: #c2d0b5;
+    --gold: #b9831a;
+  }
+  html, body { margin: 0; height: 100%; }
+  body {
+    width: 1920px; height: 1080px; overflow: hidden; position: relative;
+    background-color: var(--paper);
+    background-image: var(--paper-tex);
+    background-size: cover;
+  }
+  .grain { position: absolute; inset: 0; z-index: 40; pointer-events: none; background-image: var(--grain); background-size: 256px; opacity: .6; mix-blend-mode: multiply; }
+  .art { position: absolute; inset: 0; z-index: 2; }
+
+  .mark { position: absolute; left: 96px; top: 76px; width: 54px; height: 54px; z-index: 5; }
+  .gift { position: absolute; right: 104px; top: 70px; z-index: 5; display: flex; align-items: center; gap: 12px;
+    font: 400 34px 'Homemade Apple', cursive; color: var(--ink); }
+  .gift svg { width: 40px; height: 40px; }
+
+  .headline {
+    position: absolute; left: 742px; top: 196px; margin: 0; z-index: 5;
+    font: 400 82px/1.5 'Homemade Apple', cursive; color: var(--ink);
+    letter-spacing: .005em;
+  }
+  .headline span { display: block; }
+  .headline span + span { padding-left: 120px; }
+
+  /* phone standing on the paper, drawn with the same ink as the line */
+  .phone {
+    --pw: 342px;
+    --frame: #fbf3e8; --frame-hi: #fffaf3;
+    --bezel: #2b3446;
+    --ui-ink: #34445e;
+    left: 252px; top: 148px; z-index: 6;
+    box-shadow: 0 0 0 3px var(--ink);
+  }
+  .phone-block { position: absolute; left: 276px; top: 168px; width: 342px; height: 704px; border-radius: 56px; background: var(--butter); z-index: 4; mix-blend-mode: multiply; opacity: .85; }
+
+  .screen .cup { position: absolute; top: 124px; left: 50%; transform: translateX(-50%); width: 132px; height: 112px; }
+  .mic { position: absolute; left: 50%; bottom: 118px; transform: translateX(-50%); width: 214px; height: 214px; display: grid; place-items: center; }
+  .mic svg.rings { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .mic svg.glyph { position: relative; width: 70px; height: 106px; }
+  .cue { position: absolute; left: 0; right: 0; bottom: 62px; text-align: center; font: 700 23px 'Nunito', sans-serif; letter-spacing: .03em; color: var(--ui-ink); }
+</style>
+</head>
+<body>
+  <svg class="mark" viewBox="0 0 64 64" fill="none" stroke="#43608a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M8 46c8-4 16-4 24 0 8-4 16-4 24 0V20c-8-4-16-4-24 0-8-4-16-4-24 0Z"/>
+    <path d="M32 20v26"/>
+    <path d="M24 12c3-3 13-3 16 0" />
+  </svg>
+  <div class="gift">
+    <svg viewBox="0 0 40 40" fill="none" stroke="#43608a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="9" y="12" width="26" height="22" rx="2" fill="#e6b4ad" stroke="none" transform="translate(-3 3)"/>
+      <rect x="6" y="15" width="26" height="20" rx="2"/>
+      <path d="M19 15v20M6 22h26"/>
+      <path d="M19 15c-3-6-9-7-9-3 0 3 6 3 9 3Zm0 0c3-6 9-7 9-3 0 3-6 3-9 3Z"/>
+    </svg>
+    <span>Gåva</span>
+  </div>
+
+  <h1 class="headline"><span>Det du berättar</span><span>blir kvar.</span></h1>
+
+  <svg class="art" viewBox="0 0 1920 1080" aria-hidden="true">
+    <defs>
+      <filter id="riso" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="5" result="n"/>
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.9" result="a"/>
+        <feComposite in="SourceGraphic" in2="a" operator="in"/>
+      </filter>
+      <filter id="pen" x="-2%" y="-2%" width="104%" height="104%">
+        <feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="3" result="w"/>
+        <feDisplacementMap in="SourceGraphic" in2="w" scale="2.2"/>
+      </filter>
+    </defs>
+    <g id="fills" filter="url(#riso)"></g>
+    <g id="lines" filter="url(#pen)" fill="none" stroke="#43608a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></g>
+  </svg>
+
+  <div class="phone-block" aria-hidden="true"></div>
+  <div class="phone">
+    <div class="screen" data-status>
+      <div class="app">
+        <svg class="cup" viewBox="0 0 132 112" fill="none" stroke="#43608a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M30 56h62c0 22-12 36-31 36S30 78 30 56Z" fill="#f3c4a4" stroke="none" transform="translate(6 4)"/>
+          <ellipse cx="66" cy="98" rx="46" ry="7" fill="#c2d0b5" stroke="none" transform="translate(5 3)"/>
+          <path d="M28 54h62c0 22-12 36-31 36S28 76 28 54Z"/>
+          <path d="M90 60c10-2 15 4 13 10-2 7-10 9-16 7"/>
+          <path d="M20 96c10 5 68 5 80 0"/>
+          <path d="M48 42c-6-7 6-11 0-20M62 40c-6-8 6-12 0-22M76 42c-6-7 6-11 0-20"/>
+        </svg>
+        <div class="mic" role="button" aria-label="Spela in">
+          <svg class="rings" viewBox="0 0 214 214" aria-hidden="true">
+            <circle cx="107" cy="107" r="72" fill="#fcf0cc"/>
+            <circle cx="107" cy="107" r="72" fill="none" stroke="#b9831a" stroke-width="2.6"/>
+            <circle cx="107" cy="107" r="86" fill="none" stroke="#d6a640" stroke-width="1.6" opacity=".7"/>
+            <circle cx="107" cy="107" r="99" fill="none" stroke="#e2bd6a" stroke-width="1.2" opacity=".55"/>
+          </svg>
+          <svg class="glyph" viewBox="0 0 64 96" fill="none" stroke="#b9831a" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="19" y="4" width="26" height="50" rx="13"/>
+            <path d="M9 40a23 23 0 0 0 46 0"/>
+            <path d="M32 63v18M20 84h24"/>
+            <path d="M26 20h12M26 30h12" stroke-width="2.4" opacity=".7"/>
+          </svg>
+        </div>
+        <div class="cue">Börja</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grain"></div>
+
+<script type="module">
+  import { paper, grain, url, rng } from '/shared/textures.js';
+  import { decoratePhones } from '/shared/phone.js';
+  decoratePhones();
+  const root = document.documentElement.style;
+  root.setProperty('--paper-tex', url(paper({ w: 1920, h: 1080, base: '#f8e8da', seed: 33, mottle: .05, fibers: 1100, fiber: '150,110,90', fiberAlpha: .05, tooth: 8 })));
+  root.setProperty('--grain', url(grain({ size: 512, alpha: .06, seed: 5 })));
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const lines = document.getElementById('lines'), fills = document.getElementById('fills');
+  const add = (parent, d, attrs = {}) => {
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', d);
+    for (const [k, v] of Object.entries(attrs)) p.setAttribute(k, v);
+    parent.appendChild(p);
+    return p;
+  };
+  const poly = pts => 'M' + pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join('L');
+  const smooth = t => t * t * (3 - 2 * t);
+
+  // ---- the cord: tight telephone coils that loosen into handwriting loops,
+  //      then one calm stroke that becomes the book's gutter.
+  function bezierTable(P, n = 1200) {
+    const pts = [], len = [0];
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, u = 1 - t;
+      pts.push([
+        u ** 3 * P[0][0] + 3 * u * u * t * P[1][0] + 3 * u * t * t * P[2][0] + t ** 3 * P[3][0],
+        u ** 3 * P[0][1] + 3 * u * u * t * P[1][1] + 3 * u * t * t * P[2][1] + t ** 3 * P[3][1]]);
+      if (i) len.push(len[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+    }
+    const at = s => {               // point + unit tangent at arc length s
+      let i = len.findIndex(l => l >= s); if (i < 1) i = 1;
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], d = Math.hypot(x1 - x0, y1 - y0) || 1;
+      const f = (s - len[i - 1]) / ((len[i] - len[i - 1]) || 1);
+      return [x0 + (x1 - x0) * f, y0 + (y1 - y0) * f, (x1 - x0) / d, (y1 - y0) / d];
+    };
+    return { at, total: len[len.length - 1] };
+  }
+  const base = bezierTable([[423, 852], [420, 990], [760, 1000], [1150, 700]]);
+  const pts = [];
+  {
+    // loop schedule: [radius, advance per loop] keyframes along the coil section
+    const lead = 34, coils = 17;
+    for (let s = 0; s <= lead; s += 1) { const [x, y] = base.at(s); pts.push([x, y]); }
+    let s = lead, a = 0;
+    const total = coils * 2 * Math.PI;
+    while (a < total) {
+      const t = a / total;
+      const R = t < .4 ? 24 - 4 * (t / .4) : 20 * (1 - smooth((t - .4) / .6)) + 0.001;
+      const adv = t < .4 ? 13 + 6 * (t / .4) : 19 + 52 * smooth((t - .4) / .6);
+      const [x, y, tx, ty] = base.at(s);
+      const nx = -ty, ny = tx;           // normal pointing "up" from the baseline
+      const ox = -R * Math.sin(a), oy = R * (1 - Math.cos(a));
+      pts.push([x + tx * ox - nx * oy, y + ty * ox - ny * oy]);
+      const da = 0.06;
+      a += da; s += adv * da / (2 * Math.PI);
+    }
+    for (; s <= base.total; s += 1.5) { const [x, y] = base.at(s); pts.push([x, y]); }
+    const tail = bezierTable([[1150, 700], [1210, 646], [1246, 598], [1278, 590]]);
+    for (let q = 0; q <= tail.total; q += 1.5) { const [x, y] = tail.at(q); pts.push([x, y]); }
+  }
+  add(lines, poly(pts));
+
+  // ---- the open book, drawn as if continuing the same line
+  const B = { cx: 1530, top: 590, w: 252, h: 240 };
+  const L = {
+    gutterTop: [B.cx, B.top + 18], gutterBot: [B.cx, B.top + B.h + 22],
+    outerTop: [B.cx - B.w, B.top], outerBot: [B.cx - B.w + 6, B.top + B.h],
+  };
+  const page = (s) => {               // s = -1 left page, +1 right page
+    const gx = B.cx, ox = B.cx + s * B.w;
+    return `M${gx} ${B.top + 18} C ${gx + s * 60} ${B.top - 18}, ${ox - s * 70} ${B.top - 14}, ${ox} ${B.top}
+            L ${ox - s * 4} ${B.top + B.h}
+            C ${ox - s * 70} ${B.top + B.h - 14}, ${gx + s * 60} ${B.top + B.h - 16}, ${gx} ${B.top + B.h + 22} Z`;
+  };
+  // riso fills, slightly off-register
+  add(fills, `M${B.cx - B.w - 18} ${B.top + 24} L ${B.cx - B.w - 14} ${B.top + B.h + 30} C ${B.cx - 120} ${B.top + B.h + 22}, ${B.cx - 40} ${B.top + B.h + 30}, ${B.cx} ${B.top + B.h + 52}
+            C ${B.cx + 40} ${B.top + B.h + 30}, ${B.cx + 120} ${B.top + B.h + 22}, ${B.cx + B.w + 14} ${B.top + B.h + 30} L ${B.cx + B.w + 18} ${B.top + 24} Z`,
+    { fill: '#e6b4ad', transform: 'translate(12 10)' });
+  add(fills, page(-1), { fill: '#f3c4a4', transform: 'translate(13 9)' });
+  add(fills, page(1), { fill: '#f4d98b', transform: 'translate(13 9)' });
+  // lines
+  add(lines, page(-1));
+  add(lines, page(1));
+  // page block thickness under each page
+  for (const s of [-1, 1]) for (const k of [1, 2]) {
+    const ox = B.cx + s * (B.w + 6 * k), gy = B.top + B.h + 22 + 9 * k;
+    add(lines, `M${ox} ${B.top + B.h + 8 * k - 6} C ${ox - s * 70} ${B.top + B.h + 8 * k - 10}, ${B.cx + s * 60} ${gy - 30}, ${B.cx} ${gy}`, { 'stroke-width': 2.4 });
+  }
+  // handwriting scribbles on the pages (no legible words)
+  const r = rng(12);
+  const scribble = (x0, y0, len) => {
+    // cursive-looking words: small loops riding a baseline, separated by gaps
+    let d = '', x = x0;
+    while (x < x0 + len - 14) {
+      const wl = Math.min(18 + r() * 46, x0 + len - x);
+      const p = [];
+      let a = 0, xx = x;
+      while (xx < x + wl) {
+        const R = 3.2 + (r() < .12 ? 6 : 0) * (Math.sin(a) > 0 ? 1 : 0);
+        p.push([xx - R * Math.sin(a) * .55, y0 - R * (1 - Math.cos(a))]);
+        a += .5; xx += .62;
+      }
+      d += poly(p);
+      x += wl + 9 + r() * 6;
+    }
+    return d;
+  };
+  for (const s of [-1, 1]) {
+    for (let i = 0; i < 6; i++) {
+      const y = B.top + 46 + i * 28 + (s > 0 ? 4 : 0);
+      const inset = 40 + r() * 10, len = B.w - 70 - r() * (i === 5 ? 90 : 30);
+      const x0 = s < 0 ? B.cx - B.w + inset : B.cx + 34;
+      add(lines, scribble(x0, y, len), { 'stroke-width': 1.5, opacity: .42 });
+    }
+  }
+  await document.fonts.ready;
+  requestAnimationFrame(() => { window.__ready = true; });
+</script>
+</body>
+</html>

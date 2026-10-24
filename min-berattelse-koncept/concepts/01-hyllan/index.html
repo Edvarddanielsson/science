@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hyllan – Min berättelse</title>
+<link rel="stylesheet" href="/shared/fonts.css">
+<link rel="stylesheet" href="/shared/phone.css">
+<script>window.__ready = false;</script>
+<script type="importmap">{ "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }</script>
+<style>
+  :root { --ink: #5a4030; --butter: #f3d98f; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    width: 1920px; height: 1080px; overflow: hidden; position: relative;
+    background:
+      radial-gradient(900px 620px at 50% 58%, #fff7e0 0%, rgba(255,247,224,0) 70%),
+      linear-gradient(180deg, #fbefcd 0%, #f6e2a6 62%, #f1d78d 100%);
+  }
+  .gl, .css3d { position: absolute !important; inset: 0; }
+  .gl { z-index: 2; }
+  .css3d { z-index: 3; }
+  .grain { position: absolute; inset: 0; z-index: 10; pointer-events: none; background-image: var(--grain); background-size: 256px; opacity: .45; mix-blend-mode: multiply; }
+
+  header { position: absolute; z-index: 6; left: 0; right: 0; top: 92px; text-align: center; }
+  .mark { position: absolute; left: 96px; top: 78px; width: 50px; height: 50px; z-index: 6; }
+  h1 {
+    margin: 0; font: 300 96px/1 'Fraunces', serif; color: var(--ink); letter-spacing: -0.012em;
+    font-variation-settings: 'SOFT' 100, 'WONK' 0;
+  }
+
+  /* CSS3D phone: only the screen is HTML; the body is modelled in WebGL */
+  .phone.css3d-phone { --pw: 351px; --ui-ink: #4a3a2c; background: none; }
+  .phone.css3d-phone::before { display: none; }
+  .phone .screen { background: #fffdf6; }
+  .phone .screen::after { content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+    background: linear-gradient(118deg, rgba(255,255,255,0) 52%, rgba(255,255,255,.22) 58%, rgba(255,255,255,0) 70%); }
+  .shelf-icon { position: absolute; top: 124px; left: 50%; transform: translateX(-50%); display: flex; align-items: flex-end; gap: 4px; height: 58px; }
+  .shelf-icon i { width: 13px; border-radius: 3px 3px 1px 1px; }
+  .mic { position: absolute; left: 50%; bottom: 104px; transform: translateX(-50%); width: 224px; height: 224px; }
+  .mic img { width: 100%; height: 100%; display: block; }
+  .mic::before { content: ''; position: absolute; left: 22px; right: 22px; bottom: -4px; height: 30px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(150,110,30,.28), rgba(150,110,30,0)); }
+  .cue { position: absolute; left: 0; right: 0; bottom: 60px; text-align: center; font: 700 23px 'Nunito', sans-serif; letter-spacing: .03em; color: #6b4f2c; }
+</style>
+</head>
+<body>
+  <svg class="mark" viewBox="0 0 64 64" fill="none" stroke="#5a4030" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M8 46c8-4 16-4 24 0 8-4 16-4 24 0V20c-8-4-16-4-24 0-8-4-16-4-24 0Z"/><path d="M32 20v26"/><path d="M24 12c3-3 13-3 16 0"/>
+  </svg>
+  <header><h1>Din röst blir en bok.</h1></header>
+
+  <div class="phone css3d-phone" id="phone-dom">
+    <div class="screen" data-status>
+      <div class="app">
+        <div class="shelf-icon" aria-hidden="true">
+          <i style="height:30px;background:#a9bdd2"></i><i style="height:42px;background:#deaea6"></i><i style="height:52px;background:#f1c3a1"></i><i style="height:36px;background:#b8c9ab"></i><i style="height:26px;background:#ecca76"></i>
+        </div>
+        <div class="mic" role="button" aria-label="Spela in"><img id="mic-img" alt=""></div>
+        <div class="cue">Berätta</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grain"></div>
+
+<script type="module">
+  import { THREE, createStage, buildPhone, buildStandingBook, canvasTexture, pageEdges, PHONE } from '/shared/three-kit.js';
+  import { linen, grain, url } from '/shared/textures.js';
+  import { decoratePhones } from '/shared/phone.js';
+  decoratePhones();
+  document.documentElement.style.setProperty('--grain', url(grain({ size: 512, alpha: .06 })));
+
+  // ---------- 1. the sculpted cream microphone, rendered once into the app button
+  async function renderMic() {
+    const size = 448;
+    const r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+    r.setPixelRatio(1); r.setSize(size, size);
+    r.toneMapping = THREE.NeutralToneMapping; r.toneMappingExposure = 1.0;
+    r.shadowMap.enabled = true; r.shadowMap.type = THREE.VSMShadowMap;
+    const s = new THREE.Scene();
+    const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+    s.environment = new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), 0.04).texture;
+    s.environmentIntensity = 0.55;
+    const cam = new THREE.PerspectiveCamera(22, 1, 0.1, 50);
+    cam.position.set(0, 0.5, 6.6); cam.lookAt(0, 0.0, 0);
+
+    // golden cushion (domed disc facing the camera)
+    const prof = [];
+    for (let i = 0; i <= 24; i++) { const a = (i / 24) * Math.PI / 2; prof.push(new THREE.Vector2(0.02 + Math.sin(a) * 0.16 + 0.84 * (i / 24) ** 0.6, Math.cos(a) * 0.2)); }
+    prof.unshift(new THREE.Vector2(0, 0.2));
+    prof.push(new THREE.Vector2(1.0, -0.02)); prof.push(new THREE.Vector2(0, -0.02));
+    const disc = new THREE.Mesh(new THREE.LatheGeometry(prof, 96),
+      new THREE.MeshPhysicalMaterial({ color: 0xebbd4c, roughness: 0.42, metalness: 0.05, clearcoat: 0.35, clearcoatRoughness: 0.4, sheen: 0.4, sheenColor: 0xfff0c0 }));
+    disc.rotation.x = Math.PI / 2; disc.receiveShadow = true;
+    s.add(disc);
+
+    const cream = new THREE.MeshPhysicalMaterial({ color: 0xf8efdc, roughness: 0.34, clearcoat: 0.7, clearcoatRoughness: 0.22, sheen: 0.3, sheenColor: 0xffffff });
+    const mic = new THREE.Group();
+    const head = new THREE.Mesh(new THREE.CapsuleGeometry(0.235, 0.4, 16, 48), cream);
+    head.position.y = 0.2;
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.238, 0.018, 16, 64), new THREE.MeshStandardMaterial({ color: 0xe0b24a, roughness: 0.35, metalness: 0.6 }));
+    ring.rotation.x = Math.PI / 2; ring.position.y = 0.2;
+    const yoke = new THREE.Mesh(new THREE.TorusGeometry(0.36, 0.05, 24, 64, Math.PI), cream);
+    yoke.rotation.z = Math.PI; yoke.position.y = 0.12;
+    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.048, 0.26, 24), cream);
+    stem.position.y = -0.36;
+    const baseProf = [new THREE.Vector2(0, 0.05), new THREE.Vector2(0.2, 0.05), new THREE.Vector2(0.235, 0.03), new THREE.Vector2(0.245, 0), new THREE.Vector2(0.235, -0.03), new THREE.Vector2(0.2, -0.045), new THREE.Vector2(0, -0.045)];
+    const base = new THREE.Mesh(new THREE.LatheGeometry(baseProf, 64), cream);
+    base.position.y = -0.5; base.scale.set(1, 1, 0.55);
+    for (const m of [head, yoke, stem, base, ring]) { m.castShadow = true; mic.add(m); }
+    mic.position.set(0, 0.06, 0.42);
+    mic.scale.setScalar(1.22);
+    mic.rotation.y = -0.12;
+    s.add(mic);
+
+    const key = new THREE.DirectionalLight(0xfff4e0, 2.4);
+    key.position.set(-2.5, 3.2, 4); key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024); key.shadow.radius = 9; key.shadow.blurSamples = 20;
+    Object.assign(key.shadow.camera, { left: -1.5, right: 1.5, top: 1.5, bottom: -1.5, near: 0.5, far: 12 });
+    s.add(key);
+    s.add(new THREE.HemisphereLight(0xfff6e6, 0xd9a640, 0.6));
+    r.render(s, cam);
+    const src = r.domElement.toDataURL('image/png');
+    r.dispose();
+    const img = document.getElementById('mic-img');
+    await new Promise(res => { img.onload = res; img.src = src; });
+  }
+  await renderMic();
+
+  // ---------- 2. the main scene: books whose heights trace a spoken phrase
+  const stage = createStage({ fov: 18, exposure: 1.02, envIntensity: 0.55 });
+  const { scene, camera, renderer } = stage;
+  document.body.appendChild(renderer.domElement);
+  document.body.appendChild(stage.css.domElement);
+
+  const pages = new THREE.MeshStandardMaterial({ color: 0xffffff, map: canvasTexture(pageEdges({ base: '#f4ead6' })), roughness: 0.85 });
+  const foil = new THREE.MeshStandardMaterial({ color: 0xf0c977, metalness: 0.45, roughness: 0.3, emissive: 0x3a2604, emissiveIntensity: 0.25 });
+  const clothCache = {};
+  const cloth = (hex, seed) => clothCache[hex] ??= new THREE.MeshPhysicalMaterial({
+    color: 0xffffff,
+    map: canvasTexture(linen({ size: 256, base: hex, seed, contrast: .8, pitch: 2 }), { repeat: [2, 4] }),
+    roughness: 0.92, sheen: 0.6, sheenRoughness: 0.55, sheenColor: new THREE.Color(0xfff6ea),
+  });
+
+  const C = { blue: '#a9bdd2', sage: '#b8c9ab', rose: '#deaea6', peach: '#f1c3a1', cream: '#efe4cd', butter: '#ecca76' };
+  // [height as share of phone height, thickness, colour, foil bands]
+  const left = [[.84, .23, 'rose', 1], [.58, .2, 'sage', 0], [.72, .22, 'blue', 1], [.42, .19, 'peach', 0], [.54, .21, 'cream', 1], [.3, .2, 'sage', 0]];
+  const right = [[.76, .22, 'peach', 1], [.9, .21, 'blue', 0], [.5, .22, 'butter', 1], [.62, .2, 'rose', 0], [.33, .21, 'sage', 1], [.2, .19, 'cream', 0]];
+  const D = 0.98, gap = 0.04;
+  const row = new THREE.Group();
+  scene.add(row);
+  for (const [list, dir] of [[left, -1], [right, 1]]) {
+    let x = dir * (PHONE.w / 2 + 0.07);
+    list.forEach(([hf, T, col, f], i) => {
+      x += dir * T / 2;
+      const b = buildStandingBook({ T, H: PHONE.h * hf, D, cloth: cloth(C[col], i * 7 + (dir > 0 ? 3 : 1)), pages, foil: f ? foil : null });
+      b.position.set(x, 0, 0);
+      b.rotation.y = dir * (0.01 + (i % 3) * 0.008) * (i % 2 ? -1 : 1);
+      row.add(b);
+      x += dir * (T / 2 + gap);
+    });
+  }
+
+  // the phone stands in the row as the loudest moment of the phrase
+  const frame = new THREE.MeshPhysicalMaterial({ color: 0xf3ebdc, roughness: 0.3, metalness: 0.15, clearcoat: 0.6, clearcoatRoughness: 0.2 });
+  const phone = buildPhone({ frame, dom: document.getElementById('phone-dom') });
+  phone.position.set(0, PHONE.h / 2 + 0.002, D / 2 - 0.12);
+  phone.rotation.set(-0.03, -0.16, 0);
+  scene.add(phone);
+
+  // floor that only receives shadows, over the CSS backdrop
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(15, 11), new THREE.ShadowMaterial({ color: 0x7a5418, opacity: 0.38 }));
+  floor.rotation.x = -Math.PI / 2; floor.position.z = -0.5; floor.receiveShadow = true;
+  scene.add(floor);
+
+  const key = new THREE.DirectionalLight(0xfff3df, 2.6);
+  key.position.set(-6, 6, 4.2); key.castShadow = true;
+  key.shadow.mapSize.set(4096, 4096); key.shadow.radius = 18; key.shadow.blurSamples = 25; key.shadow.bias = -0.0004;
+  Object.assign(key.shadow.camera, { left: -10, right: 10, top: 9, bottom: -9, near: 0.5, far: 40 });
+  scene.add(key);
+  const top = new THREE.DirectionalLight(0xffffff, 0.5);
+  top.position.set(0.5, 8, 1.2); top.castShadow = true;
+  top.shadow.mapSize.set(1024, 1024); top.shadow.radius = 24; top.shadow.blurSamples = 25;
+  Object.assign(top.shadow.camera, { left: -10, right: 10, top: 10, bottom: -10, near: 0.5, far: 30 });
+  scene.add(top);
+  const rim = new THREE.DirectionalLight(0xffe6b0, 0.7);
+  rim.position.set(5, 3, -4);
+  scene.add(rim);
+  scene.add(new THREE.HemisphereLight(0xfff8ea, 0xe8c574, 0.45));
+
+  camera.position.set(0, 2.12, 9.72);
+  camera.lookAt(0, 1.06, 0);
+
+  stage.render();
+  await document.fonts.ready;
+  requestAnimationFrame(() => { stage.render(); window.__ready = true; });
+</script>
+</body>
+</html>

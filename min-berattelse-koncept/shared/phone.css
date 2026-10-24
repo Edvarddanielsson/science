@@ -1,0 +1,66 @@
+/* Shared phone frame. Each concept sets the custom properties and fills .app. */
+.phone {
+  --pw: 340px;                       /* phone width */
+  --frame: #efe7da;                  /* metal / ceramic frame */
+  --frame-hi: #fffaf2;
+  --bezel: #1b1714;
+  --screen: #fffdf8;                 /* always white or pale cream */
+  --ui-ink: #3a2e25;
+  position: absolute;
+  width: var(--pw);
+  height: calc(var(--pw) * 2.06);
+  border-radius: calc(var(--pw) * 0.165);
+  background: linear-gradient(140deg, var(--frame-hi), var(--frame) 30%, var(--frame) 70%, var(--frame-hi));
+  box-sizing: border-box;
+}
+.phone::before {                     /* thin black bezel */
+  content: '';
+  position: absolute;
+  inset: calc(var(--pw) * 0.012);
+  border-radius: calc(var(--pw) * 0.155);
+  background: var(--bezel);
+}
+.phone .screen {
+  position: absolute;
+  inset: calc(var(--pw) * 0.03);
+  border-radius: calc(var(--pw) * 0.138);
+  background: var(--screen);
+  overflow: hidden;
+  color: var(--ui-ink);
+  font-family: 'Nunito', system-ui, sans-serif;
+}
+.phone .status {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: calc(var(--pw) * 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(var(--pw) * 0.085) 0 calc(var(--pw) * 0.1);
+  font: 700 calc(var(--pw) * 0.045) 'DM Sans', system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+.phone .status .icons { display: flex; gap: calc(var(--pw) * 0.014); align-items: center; }
+.phone .status svg { height: calc(var(--pw) * 0.034); width: auto; fill: currentColor; }
+.phone .island {
+  position: absolute;
+  top: calc(var(--pw) * 0.03);
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(var(--pw) * 0.3);
+  height: calc(var(--pw) * 0.088);
+  border-radius: 999px;
+  background: #12100e;
+}
+.phone .home {
+  position: absolute;
+  bottom: calc(var(--pw) * 0.025);
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(var(--pw) * 0.36);
+  height: calc(var(--pw) * 0.015);
+  border-radius: 99px;
+  background: var(--ui-ink);
+  opacity: 0.85;
+}
+.phone .app { position: absolute; inset: 0; }

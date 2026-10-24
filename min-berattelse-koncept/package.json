@@ -1,0 +1,19 @@
+{
+  "name": "min-berattelse-koncept",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Five visual concept mockups for Min berättelse (voice to book).",
+  "scripts": {
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "three": "0.169.0",
+    "@fontsource/fraunces": "5.1.0",
+    "@fontsource/cormorant-garamond": "5.1.0",
+    "@fontsource/instrument-serif": "5.1.0",
+    "@fontsource/nunito": "5.1.0",
+    "@fontsource/homemade-apple": "5.1.0",
+    "@fontsource/dm-sans": "5.1.0",
+    "@fontsource/mrs-saint-delafield": "5.1.0"
+  }
+}

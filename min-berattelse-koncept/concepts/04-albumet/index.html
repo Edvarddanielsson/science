@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Albumet – Min berättelse</title>
+<link rel="stylesheet" href="/shared/fonts.css">
+<link rel="stylesheet" href="/shared/phone.css">
+<script>window.__ready = false;</script>
+<style>
+  :root {
+    --page: #46311f;
+    --ink: #f3e8d2;
+    --honey: #c79a5b;
+    --brass: #b89257;
+  }
+  html, body { margin: 0; height: 100%; }
+  body {
+    width: 1920px; height: 1080px; overflow: hidden; position: relative;
+    background-color: var(--page);
+    background-image: var(--paper);
+    background-size: cover;
+  }
+  .glow {          /* lamp light pooling on the page */
+    position: absolute; inset: 0; pointer-events: none; z-index: 30;
+    background:
+      radial-gradient(1300px 950px at 36% 34%, rgba(255,206,140,.17), transparent 64%),
+      radial-gradient(1600px 1100px at 50% 50%, transparent 55%, rgba(20,12,6,.42));
+  }
+  .grain { position: absolute; inset: 0; z-index: 31; pointer-events: none; background-image: var(--grain); background-size: 256px; opacity: .5; mix-blend-mode: overlay; }
+
+  /* binding strip */
+  .binding { position: absolute; left: 0; top: 0; bottom: 0; width: 132px; z-index: 2; }
+  .binding::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,5,2,.42), rgba(10,5,2,.10) 70%, rgba(0,0,0,0)); }
+  .binding::after { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 6px;
+    background: linear-gradient(90deg, rgba(0,0,0,.30), rgba(255,225,180,.10) 60%, transparent); }
+  .posts i { position: absolute; left: 44px; width: 34px; height: 34px; border-radius: 50%; z-index: 3;
+    background: radial-gradient(circle at 38% 32%, #f4dca6, #b48c4f 55%, #6e522c);
+    box-shadow: 0 3px 5px rgba(0,0,0,.5), inset 0 -1px 2px rgba(0,0,0,.3); }
+  .posts i::after { content: ''; position: absolute; left: 7px; right: 7px; top: 15.5px; height: 3px; border-radius: 2px; background: rgba(70,48,22,.75); transform: rotate(-28deg); }
+
+  /* photographs */
+  .photo { position: absolute; margin: 0; z-index: 5; filter: drop-shadow(0 10px 14px rgba(10,5,2,.45)) drop-shadow(0 2px 2px rgba(10,5,2,.35)); }
+  .photo svg { display: block; }
+  .corner { position: absolute; width: 46px; height: 46px; z-index: 6; }
+  .corner::before { content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, #d9bd86, #a98249 55%, #caa66b);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,.4)); }
+  .corner.tr { transform: rotate(90deg); } .corner.br { transform: rotate(180deg); } .corner.bl { transform: rotate(270deg); }
+
+  .caption {
+    position: absolute; left: 236px; top: 772px; z-index: 8; margin: 0;
+    font: 400 124px/1 'Mrs Saint Delafield', cursive; color: var(--ink);
+    transform: rotate(-2.2deg); transform-origin: left center;
+    filter: url(#ink);
+    white-space: nowrap;
+  }
+
+  /* phone mounted like a photograph */
+  .mount { position: absolute; left: 1166px; top: 150px; z-index: 10; transform: rotate(1.2deg); }
+  .mount .phone {
+    position: relative;
+    --pw: 362px;
+    --frame: #dcc29a; --frame-hi: #f8ead0;
+    --ui-ink: #4a3626;
+    box-shadow: 0 22px 40px -8px rgba(10,5,2,.6), 0 4px 6px rgba(10,5,2,.4);
+  }
+  .mount .corner { width: 82px; height: 82px; z-index: 12; }
+  .mount .corner.tl { left: -8px; top: -8px; } .mount .corner.tr { right: -8px; top: -8px; }
+  .mount .corner.br { right: -8px; bottom: -8px; } .mount .corner.bl { left: -8px; bottom: -8px; }
+
+  .screen { --cream: #fffbf2; background: var(--cream) !important; }
+  .slot {
+    position: absolute; left: 50%; top: 140px; transform: translateX(-50%) rotate(-2deg);
+    width: 196px; height: 148px; padding: 9px; box-sizing: border-box;
+    background: #f1e7d5; box-shadow: 0 6px 12px -4px rgba(74,54,38,.25);
+  }
+  .slot .img { width: 100%; height: 100%; overflow: hidden; }
+  .slot .img svg { width: 100%; height: 100%; display: block; }
+  .slot i { position: absolute; width: 22px; height: 22px; background: #c6a46a; clip-path: polygon(0 0, 100% 0, 0 100%); }
+  .slot i:nth-child(2) { left: -4px; top: -4px; } .slot i:nth-child(3) { right: -4px; top: -4px; transform: rotate(90deg); }
+  .slot i:nth-child(4) { right: -4px; bottom: -4px; transform: rotate(180deg); } .slot i:nth-child(5) { left: -4px; bottom: -4px; transform: rotate(270deg); }
+
+  .mic {   /* debossed cream well with a gold-foil microphone */
+    position: absolute; left: 50%; bottom: 120px; transform: translateX(-50%);
+    width: 206px; height: 206px; border-radius: 50%;
+    background: radial-gradient(circle at 50% 42%, #f6ecd9, #efe2c8);
+    box-shadow:
+      inset 0 10px 18px rgba(120,86,46,.30),
+      inset 0 -6px 10px rgba(255,255,255,.85),
+      inset 0 0 0 1.5px rgba(160,120,70,.25),
+      0 1.5px 0 rgba(255,255,255,1);
+    display: grid; place-items: center;
+  }
+  .mic svg { width: 92px; height: 138px; filter: drop-shadow(0 -1px 0 rgba(110,76,30,.45)) drop-shadow(0 1.5px 0 rgba(255,255,255,.9)); }
+  .cue { position: absolute; left: 0; right: 0; bottom: 64px; text-align: center; font: 700 23px 'Nunito', sans-serif; letter-spacing: .03em; color: #6a4c32; }
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="ink" x="-5%" y="-20%" width="110%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" result="d"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="9" result="m"/>
+      <feColorMatrix in="m" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -.7 1.25" result="mask"/>
+      <feComposite in="d" in2="mask" operator="in"/>
+    </filter>
+  </svg>
+
+  <div class="binding"></div>
+  <div class="posts" aria-hidden="true"><i style="top:300px"></i><i style="top:752px"></i></div>
+
+  <figure class="photo" id="p1" style="left:236px; top:150px; transform: rotate(-3.4deg)"></figure>
+  <figure class="photo" id="p2" style="left:656px; top:372px; transform: rotate(4.2deg)"></figure>
+
+  <h1 class="caption">Varje minne får en sida.</h1>
+
+  <div class="mount">
+    <div class="phone">
+      <div class="screen" data-status>
+        <div class="app">
+          <div class="slot" aria-hidden="true"><div class="img"></div><i></i><i></i><i></i><i></i></div>
+          <div class="mic" role="button" aria-label="Spela in">
+            <svg viewBox="0 0 64 96" aria-hidden="true">
+              <defs>
+                <linearGradient id="foil" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#b8862b"/><stop offset=".35" stop-color="#f4d68a"/><stop offset=".55" stop-color="#c7952f"/><stop offset=".8" stop-color="#f1d58f"/><stop offset="1" stop-color="#a87a24"/>
+                </linearGradient>
+              </defs>
+              <rect x="17" y="2" width="30" height="53" rx="15" fill="url(#foil)"/>
+              <path d="M8 40a24 24 0 0 0 48 0" fill="none" stroke="url(#foil)" stroke-width="7.5" stroke-linecap="round"/>
+              <rect x="28.5" y="64" width="7" height="17" fill="url(#foil)"/>
+              <rect x="16" y="80" width="32" height="8.5" rx="4.25" fill="url(#foil)"/>
+            </svg>
+          </div>
+          <div class="cue">Berätta</div>
+        </div>
+      </div>
+    </div>
+    <i class="corner tl"></i><i class="corner tr"></i><i class="corner br"></i><i class="corner bl"></i>
+  </div>
+
+  <div class="glow"></div>
+  <div class="grain"></div>
+
+<script type="module">
+  import { paper, grain, url, rng } from '/shared/textures.js';
+  import { decoratePhones } from '/shared/phone.js';
+  decoratePhones();
+  const root = document.documentElement.style;
+  root.setProperty('--paper', url(paper({ w: 1920, h: 1080, base: '#46311f', seed: 21, mottle: .08, fibers: 1600, fiber: '235,205,165', fiberAlpha: .07, tooth: 8 })));
+  root.setProperty('--grain', url(grain({ size: 512, alpha: .08 })));
+
+  // Deckle-edged print outline (scalloped border of 1950s–60s photographs).
+  function deckle(w, h, step = 7, amp = 2.2, seed = 1) {
+    const r = rng(seed);
+    const pts = [];
+    const edge = (x0, y0, x1, y1, nx, ny) => {
+      const len = Math.hypot(x1 - x0, y1 - y0), n = Math.round(len / step);
+      for (let i = 0; i < n; i++) {
+        const t = i / n, a = (i % 2 ? amp : -amp * 0.2) * (0.7 + r() * 0.6);
+        pts.push([x0 + (x1 - x0) * t + nx * a, y0 + (y1 - y0) * t + ny * a]);
+      }
+    };
+    edge(0, 0, w, 0, 0, -1); edge(w, 0, w, h, 1, 0); edge(w, h, 0, h, 0, 1); edge(0, h, 0, 0, -1, 0);
+    return 'M' + pts.map(p => p.map(v => v.toFixed(1)).join(' ')).join('L') + 'Z';
+  }
+
+  // Shared filters: print look (soft focus, sepia toning, emulsion grain) and surface textures.
+  const defs = (k, warm) => `
+    <filter id="print${k}" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="1.5" result="b"/>
+      <feColorMatrix in="b" type="matrix" values="
+        ${0.40 * warm} ${0.66 * warm} 0.15 0 0.04
+        0.33 0.58 0.13 0 0.035
+        0.25 0.44 0.10 0 0.02
+        0 0 0 1 0" result="s"/>
+      <feComponentTransfer in="s" result="c"><feFuncR type="linear" slope=".86" intercept=".1"/><feFuncG type="linear" slope=".86" intercept=".09"/><feFuncB type="linear" slope=".86" intercept=".07"/></feComponentTransfer>
+      <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="${3 + k}" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0" result="ng"/>
+      <feComposite in="c" in2="ng" operator="arithmetic" k1="0" k2="1" k3=".2" k4="-.1"/>
+    </filter>
+    ${['rock:0.018 0.05:5', 'water:0.004 0.12:2', 'leaf:0.06:4', 'grass:0.01 0.25:3', 'cloud:0.012 0.03:4'].map(t => {
+      const [name, f, o] = t.split(':');
+      return `<filter id="${name}${k}" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="${f}" numOctaves="${o}" seed="${k * 7 + o}" result="t"/>
+        <feColorMatrix in="t" type="matrix" values=".33 .33 .33 0 0  .33 .33 .33 0 0  .33 .33 .33 0 0  0 0 0 0 1" result="g"/>
+        <feComposite in="SourceGraphic" in2="g" operator="arithmetic" k1="1.25" k2=".42" k3="0" k4="0" result="m"/>
+        <feComposite in="m" in2="SourceGraphic" operator="in"/>
+      </filter>`;
+    }).join('')}
+    <filter id="clouds${k}" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".006 .022" numOctaves="4" seed="${k + 2}" result="t"/>
+      <feColorMatrix in="t" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  2.6 0 0 0 -1.25"/>
+    </filter>`;
+
+  // Photo 1: smooth west-coast granite, open sea and a sailing boat.
+  function seascape(k, W = 470, H = 352, b = 20) {
+    const iw = W - 2 * b, ih = H - 2 * b, hz = ih * 0.44;
+    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+      <defs>
+        <clipPath id="dk${k}"><path d="${deckle(W, H, 7, 2.2, 3 + k)}"/></clipPath>
+        ${defs(k, 1.04)}
+        <linearGradient id="sky${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9c4c8"/><stop offset="1" stop-color="#f3efe3"/></linearGradient>
+        <linearGradient id="sea${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a9592"/><stop offset=".5" stop-color="#6c7773"/><stop offset="1" stop-color="#4e5853"/></linearGradient>
+        <linearGradient id="rk${k}" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="#d9c8ad"/><stop offset=".35" stop-color="#a48c70"/><stop offset="1" stop-color="#5e4c3c"/></linearGradient>
+        <linearGradient id="rk2${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b19a7d"/><stop offset="1" stop-color="#4a3c30"/></linearGradient>
+        <radialGradient id="leak${k}" cx="1" cy="0" r="1.1"><stop offset="0" stop-color="#ffae55" stop-opacity=".5"/><stop offset=".45" stop-color="#ffd08a" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+        <radialGradient id="vig${k}" cx=".5" cy=".5" r=".78"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#2a1a0c" stop-opacity=".5"/></radialGradient>
+      </defs>
+      <g clip-path="url(#dk${k})">
+        <rect width="${W}" height="${H}" fill="#efe5cf"/>
+        <svg x="${b}" y="${b}" width="${iw}" height="${ih}" viewBox="0 0 ${iw} ${ih}">
+          <g filter="url(#print${k})">
+            <rect width="${iw}" height="${ih}" fill="url(#sky${k})"/>
+            <rect width="${iw}" height="${hz}" filter="url(#clouds${k})" opacity=".8"/>
+            <path d="M0 ${hz - 6} C 30 ${hz - 12}, 70 ${hz - 13}, 110 ${hz - 4} L 110 ${hz + 1} L 0 ${hz + 1}Z" fill="#83806f"/>
+            <path d="M${iw - 120} ${hz} C ${iw - 90} ${hz - 7}, ${iw - 40} ${hz - 9}, ${iw} ${hz - 5} L ${iw} ${hz + 1}Z" fill="#8d8a79"/>
+            <rect y="${hz}" width="${iw}" height="${ih - hz}" fill="url(#sea${k})" filter="url(#water${k})"/>
+            <g transform="translate(${iw * 0.62} ${hz - 1})"><path d="M0 0 L 7 -30 L 9 0 Z" fill="#f6f1e6"/><path d="M10 0 L 10 -24 L 20 0 Z" fill="#ece5d6"/><path d="M-3 0 L 22 0 L 19 4 L 0 4 Z" fill="#3c3a33"/></g>
+            <path d="M-10 ${ih} L -10 ${ih * 0.66} C 40 ${ih * 0.6}, 120 ${ih * 0.57}, 190 ${ih * 0.66} C 240 ${ih * 0.72}, 300 ${ih * 0.8}, 360 ${ih * 0.84} C 400 ${ih * 0.87}, 430 ${ih * 0.86}, ${iw + 10} ${ih * 0.92} L ${iw + 10} ${ih} Z" fill="url(#rk${k})" filter="url(#rock${k})"/>
+            <path d="M-10 ${ih * 0.69} C 50 ${ih * 0.62}, 120 ${ih * 0.6}, 180 ${ih * 0.67}" stroke="#f1e6d0" stroke-width="4" fill="none" opacity=".45"/>
+            <path d="M150 ${ih} C 170 ${ih * 0.88}, 230 ${ih * 0.86}, 290 ${ih * 0.92} C 330 ${ih * 0.95}, 350 ${ih * 0.97}, 380 ${ih}" fill="url(#rk2${k})" filter="url(#rock${k})"/>
+            <path d="M60 ${ih * 0.8} c 20 6, 40 4, 60 10" stroke="#3f3228" stroke-width="1.6" fill="none" opacity=".5"/>
+          </g>
+          <rect width="${iw}" height="${ih}" fill="url(#leak${k})"/>
+          <rect width="${iw}" height="${ih}" fill="url(#vig${k})"/>
+        </svg>
+      </g>
+    </svg>`;
+  }
+
+  // Photo 2: a summer cottage with a birch in a hay meadow.
+  function cottage(k, W = 316, H = 372, b = 18) {
+    const iw = W - 2 * b, ih = H - 2 * b;
+    const r = rng(40 + k);
+    const blades = Array.from({ length: 90 }, () => {
+      const x = r() * iw, h = 30 + r() * 70, c = (r() - 0.5) * 14;
+      return `<path d="M${x.toFixed(1)} ${ih} q ${c.toFixed(1)} ${(-h / 2).toFixed(1)} ${(c * 1.6).toFixed(1)} ${(-h).toFixed(1)}" stroke="${r() > .5 ? '#f3e4b9' : '#6e5a3c'}" stroke-width="${(0.8 + r()).toFixed(1)}" fill="none" opacity="${(0.25 + r() * 0.35).toFixed(2)}"/>`;
+    }).join('');
+    const marks = Array.from({ length: 11 }, () => { const y = 60 + r() * (ih - 70); return `<path d="M${45 + r() * 3} ${y.toFixed(1)} h ${(5 + r() * 8).toFixed(1)}" stroke="#3b3128" stroke-width="${(1.5 + r() * 2).toFixed(1)}" stroke-linecap="round"/>`; }).join('');
+    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+      <defs>
+        <clipPath id="dk${k}"><path d="${deckle(W, H, 7, 2.2, 8 + k)}"/></clipPath>
+        ${defs(k, 1.1)}
+        <linearGradient id="sky${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfd0c6"/><stop offset="1" stop-color="#f6f1e2"/></linearGradient>
+        <linearGradient id="fld${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cdb684"/><stop offset="1" stop-color="#836d49"/></linearGradient>
+        <radialGradient id="sun${k}" cx=".85" cy=".08" r=".9"><stop offset="0" stop-color="#fff3d2" stop-opacity=".8"/><stop offset=".45" stop-color="#ffe2a8" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+        <radialGradient id="vig${k}" cx=".5" cy=".5" r=".78"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#2a1a0c" stop-opacity=".52"/></radialGradient>
+      </defs>
+      <g clip-path="url(#dk${k})">
+        <rect width="${W}" height="${H}" fill="#efe5cf"/>
+        <svg x="${b}" y="${b}" width="${iw}" height="${ih}" viewBox="0 0 ${iw} ${ih}">
+          <g filter="url(#print${k})">
+            <rect width="${iw}" height="${ih}" fill="url(#sky${k})"/>
+            <path d="M0 178 C 40 150, 70 160, 100 150 C 140 136, 170 150, 200 146 C 240 140, 260 150, ${iw} 144 L ${iw} 200 L 0 200Z" fill="#6f6a52" filter="url(#leaf${k})"/>
+            <rect y="192" width="${iw}" height="${ih - 192}" fill="url(#fld${k})" filter="url(#grass${k})"/>
+            <g transform="translate(140 128)">
+              <path d="M-4 32 L 47 0 L 98 32 Z" fill="#4a382b"/>
+              <rect x="4" y="30" width="86" height="46" fill="#79583f"/>
+              <rect x="4" y="30" width="86" height="46" fill="#000" opacity=".08" filter="url(#rock${k})"/>
+              <rect x="15" y="42" width="18" height="18" fill="#f2ead9"/><rect x="17.5" y="44.5" width="5.5" height="6" fill="#55463a"/><rect x="25" y="44.5" width="5.5" height="6" fill="#55463a"/><rect x="17.5" y="52" width="5.5" height="6" fill="#55463a"/><rect x="25" y="52" width="5.5" height="6" fill="#55463a"/>
+              <rect x="60" y="46" width="16" height="30" fill="#f2ead9"/><rect x="62" y="48" width="12" height="28" fill="#5b4a3c"/>
+              <rect x="70" y="6" width="8" height="16" fill="#4a382b"/>
+            </g>
+            ${blades}
+            <path d="M46 ${ih} C 48 240, 42 160, 52 60 L 59 60 C 54 160, 60 240, 61 ${ih} Z" fill="#efe9dc"/>
+            ${marks}
+            <g filter="url(#leaf${k})">
+              <ellipse cx="56" cy="64" rx="62" ry="62" fill="#8a8463"/>
+              <ellipse cx="94" cy="34" rx="44" ry="36" fill="#8c8462"/>
+              <ellipse cx="18" cy="104" rx="38" ry="30" fill="#7c7556"/>
+              <ellipse cx="96" cy="96" rx="26" ry="22" fill="#77704f"/>
+            </g>
+          </g>
+          <rect width="${iw}" height="${ih}" fill="url(#sun${k})"/>
+          <rect width="${iw}" height="${ih}" fill="url(#vig${k})"/>
+        </svg>
+      </g>
+    </svg>`;
+  }
+
+  const corners = (s = 46) => ['tl', 'tr', 'br', 'bl'].map(c => {
+    const pos = { tl: 'left:-8px;top:-8px', tr: 'right:-8px;top:-8px', br: 'right:-8px;bottom:-8px', bl: 'left:-8px;bottom:-8px' }[c];
+    return `<i class="corner ${c}" style="${pos};width:${s}px;height:${s}px"></i>`;
+  }).join('');
+  document.getElementById('p1').innerHTML = seascape(1) + corners(50);
+  document.getElementById('p2').innerHTML = cottage(2) + corners(44);
+  document.querySelector('.slot .img').innerHTML = seascape(3, 470, 352, 0);
+
+  await document.fonts.ready;
+  requestAnimationFrame(() => { window.__ready = true; });
+</script>
+</body>
+</html>

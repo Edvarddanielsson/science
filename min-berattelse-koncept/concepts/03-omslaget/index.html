@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omslaget – Min berättelse</title>
+<link rel="stylesheet" href="/shared/fonts.css">
+<link rel="stylesheet" href="/shared/phone.css">
+<script>window.__ready = false;</script>
+<style>
+  :root {
+    --table: #f1e2d2;
+    --rose: #cf9e98;
+    --rose-deep: #6e4340;
+    --butter: #f0cf73;
+    --gold: #d49a22;
+  }
+  html, body { margin: 0; height: 100%; }
+  body {
+    width: 1920px; height: 1080px; overflow: hidden; position: relative;
+    background: var(--table);
+    background-image: var(--paper);
+    background-size: cover;
+  }
+  /* soft window light falling from the upper left */
+  .light {
+    position: absolute; inset: 0; pointer-events: none; z-index: 20;
+    background:
+      radial-gradient(1400px 900px at 18% 8%, rgba(255,248,236,.34), transparent 60%),
+      radial-gradient(1200px 700px at 100% 100%, rgba(120,70,50,.16), transparent 70%);
+    mix-blend-mode: soft-light;
+  }
+  .grain { position: absolute; inset: 0; z-index: 21; pointer-events: none; background-image: var(--grain); background-size: 256px; opacity: .55; mix-blend-mode: multiply; }
+
+  /* ---------- the book cover ---------- */
+  .book {
+    position: absolute; left: -34px; top: 92px; width: 1484px; height: 892px;
+    border-radius: 12px 20px 20px 12px;
+    background-color: var(--rose);
+    background-image: var(--linen);
+    background-size: 256px;
+    box-shadow:
+      0 3px 0 -1px #b88882,
+      0 6px 0 -2px #e9d9c6,
+      0 7px 0 -2px #d9c4ae,
+      0 34px 70px -24px rgba(95,50,40,.42),
+      0 10px 22px rgba(95,50,40,.16),
+      inset 0 0 0 1px rgba(255,240,235,.14),
+      inset -3px -4px 6px rgba(90,45,40,.22),
+      inset 3px 3px 5px rgba(255,236,230,.28);
+  }
+  .book::before {   /* raking light across the cloth */
+    content: ''; position: absolute; inset: 0; border-radius: inherit;
+    background: linear-gradient(118deg, rgba(255,242,234,.34), rgba(255,240,232,0) 42%, rgba(80,35,30,0) 58%, rgba(80,35,30,.22));
+  }
+  .hinge {          /* the groove where cover board meets spine */
+    position: absolute; top: 0; bottom: 0; left: 96px; width: 14px;
+    background: linear-gradient(90deg, rgba(255,235,228,.22), rgba(90,45,40,.30) 40%, rgba(90,45,40,.12) 60%, rgba(255,235,228,.30));
+    filter: blur(.8px);
+  }
+  .spine-shade {
+    position: absolute; top: 0; bottom: 0; left: 0; width: 96px; border-radius: 12px 0 0 12px;
+    background: linear-gradient(90deg, rgba(80,40,35,.22), rgba(80,40,35,0) 70%);
+  }
+  .title {
+    position: absolute; left: 236px; top: 318px; margin: 0;
+    font: 400 132px/0.98 'Instrument Serif', serif; letter-spacing: -0.005em;
+    color: var(--rose-deep);
+    text-shadow: 0 1.6px 0 rgba(255,232,226,.55), 0 -1px 1.5px rgba(70,30,28,.45);
+  }
+  .emblem {
+    position: absolute; left: 240px; bottom: 96px; width: 66px; height: 66px;
+    color: rgba(110,60,55,.0);
+    filter: drop-shadow(0 1.4px 0 rgba(255,232,226,.55)) drop-shadow(0 -1px 1px rgba(70,30,28,.45));
+  }
+  .emblem svg { width: 100%; height: 100%; }
+
+  /* bookmark ribbon on the table */
+  .ribbon { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 1; overflow: visible; }
+  .book { z-index: 2; }
+
+  /* ---------- phone resting on the cover ---------- */
+  .phone {
+    --pw: 352px;
+    --frame: #eadfd2; --frame-hi: #fffaf4;
+    --ui-ink: #4b302d;
+    left: 1078px; top: 158px; z-index: 5;
+    transform: rotate(-4.5deg);
+    box-shadow:
+      2px 3px 0 #d6c7b8,
+      22px 34px 48px -8px rgba(80,40,32,.36),
+      6px 10px 14px rgba(80,40,32,.22);
+  }
+  .screen .booklet {
+    position: absolute; top: 132px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .booklet .cover {
+    position: relative; width: 78px; height: 58px; border-radius: 3px 6px 6px 3px; background: var(--rose);
+    box-shadow: inset 9px 0 0 -6px rgba(110,60,55,.30), 0 3px 0 -1px #f4e8da, 0 4px 0 -1px #dcc6b0, 0 6px 0 -2px #f4e8da, 0 7px 0 -2px #d4bca5;
+  }
+  .booklet .cover::after {   /* the ribbon peeking out */
+    content: ''; position: absolute; left: 52px; bottom: -13px; width: 6px; height: 12px;
+    background: var(--butter); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+  }
+  .booklet .dots { display: flex; gap: 8px; }
+  .booklet .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--rose); }
+  .booklet .dots i.empty { background: none; box-shadow: inset 0 0 0 1.5px #dcbcb7; }
+
+  .mic {
+    position: absolute; left: 50%; bottom: 112px; transform: translateX(-50%);
+    width: 204px; height: 204px; border-radius: 50%;
+    background: #fbf1dc;
+    box-shadow: inset 0 0 0 2px #f1dcae, 0 10px 22px -6px rgba(212,154,34,.28);
+    display: grid; place-items: center;
+  }
+  .mic svg { width: 76px; height: 114px; }
+  .cue {
+    position: absolute; left: 0; right: 0; bottom: 62px; text-align: center;
+    font: 700 23px 'Nunito', sans-serif; letter-spacing: .02em; color: var(--rose-deep);
+  }
+</style>
+</head>
+<body>
+  <svg class="ribbon" viewBox="0 0 1920 1080" aria-hidden="true">
+    <defs>
+      <linearGradient id="satin" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#e8c25f"/><stop offset=".45" stop-color="#f7dc8e"/><stop offset=".55" stop-color="#fbe7a8"/><stop offset="1" stop-color="#e2b955"/>
+      </linearGradient>
+      <filter id="ribbonShadow" x="-20%" y="-20%" width="140%" height="160%">
+        <feDropShadow dx="4" dy="8" stdDeviation="6" flood-color="#6b3d2e" flood-opacity=".25"/>
+      </filter>
+    </defs>
+      <mask id="notch" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="#fff"/>
+        <path d="M1326 1030 L1296 1058 L1316 1096 L1400 1096 L1400 1030 Z" fill="#000"/>
+      </mask>
+    </defs>
+    <g filter="url(#ribbonShadow)" mask="url(#notch)">
+      <path d="M1012 950 C 1016 1010, 1040 1040, 1110 1046 S 1250 1040, 1320 1062" fill="none" stroke="url(#satin)" stroke-width="30" stroke-linecap="butt"/>
+      <path d="M1012 950 C 1016 1010, 1040 1040, 1110 1046 S 1250 1040, 1320 1062" fill="none" stroke="#fff6d8" stroke-opacity=".35" stroke-width="4" transform="translate(-6,-5)"/>
+    </g>
+  </svg>
+
+  <div class="book">
+    <div class="spine-shade"></div>
+    <div class="hinge"></div>
+    <h1 class="title">Dina minnen<br>blir en bok.</h1>
+    <div class="emblem" aria-hidden="true">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#a9716b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="32" cy="32" r="30" stroke-width="2"/>
+        <path d="M14 40c6-3 12-3 18 0 6-3 12-3 18 0V22c-6-3-12-3-18 0-6-3-12-3-18 0Z"/>
+        <path d="M32 22v18"/>
+        <path d="M24 14c5-3 11-3 16 0"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="phone">
+    <div class="screen" data-status>
+      <div class="app">
+        <div class="booklet" aria-hidden="true">
+          <div class="cover"></div>
+          <div class="dots"><i></i><i></i><i></i><i class="empty"></i><i class="empty"></i></div>
+        </div>
+        <div class="mic" role="button" aria-label="Spela in">
+          <svg viewBox="0 0 64 96" aria-hidden="true">
+            <rect x="17" y="2" width="30" height="54" rx="15" fill="#d49a22"/>
+            <path d="M7 40a25 25 0 0 0 50 0" fill="none" stroke="#d49a22" stroke-width="8.5" stroke-linecap="round"/>
+            <rect x="27.5" y="64" width="9" height="17" fill="#d49a22"/>
+            <rect x="15" y="80" width="34" height="10" rx="5" fill="#d49a22"/>
+          </svg>
+        </div>
+        <div class="cue">Tryck</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="light"></div>
+  <div class="grain"></div>
+
+<script type="module">
+  import { linen, paper, grain, url } from '/shared/textures.js';
+  import { decoratePhones } from '/shared/phone.js';
+  decoratePhones();
+  const root = document.documentElement.style;
+  root.setProperty('--linen', url(linen({ size: 512, base: '#cf9e98', seed: 4, contrast: .9 })));
+  root.setProperty('--paper', url(paper({ w: 1920, h: 1080, base: '#f1e2d2', seed: 9, mottle: .06, fibers: 900, fiberAlpha: .05 })));
+  root.setProperty('--grain', url(grain({ size: 512, alpha: .07 })));
+  await document.fonts.ready;
+  requestAnimationFrame(() => { window.__ready = true; });
+</script>
+</body>
+</html>
